@@ -5,7 +5,7 @@ export const restaurantContent = {
     familyIsLife: 'Family is life',
     events: 'Bottega events',
     menu: {
-      title: 'Menu.',
+      title: 'Menu',
       action: 'View menu',
     },
   },
