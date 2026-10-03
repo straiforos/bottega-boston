@@ -1,6 +1,6 @@
 # Bottega roadmap
 
-- [ ] Consolidate welcome banners with alternating pasta/lemon icons, add the story ribbon, and merge the menu introduction into the animated cards section.
+- [x] Consolidate welcome banners with alternating pasta/lemon icons, add the story ribbon, and merge the menu introduction into the animated cards section.
 
 - [x] Build the scrolling restaurant page using the supplied original images and copy.
 - [x] Add original video, scrolling banners, menu panels, social gallery, and contact footer.

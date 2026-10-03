@@ -178,6 +178,9 @@
   gap: var(--bt-space-md);
   text-align: center;
 }
+.offerings-heading .eyebrow {
+  color: var(--bt-cream);
+}
 @media (max-width: 900px) {
   .offerings-track {
     height: auto;
