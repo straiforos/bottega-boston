@@ -1,6 +1,5 @@
-import { Display, Serif } from '@/design-system/bottega-f5161c';
+import { Display } from '@/design-system/bottega-f5161c';
 import { MovingRibbon } from '@/components/media/MovingRibbon';
-import { RestaurantSketch } from '@/components/RestaurantSketch';
 import { restaurantContent } from '@/content/en/restaurant';
 
 export function EventsSection() {
@@ -16,13 +15,6 @@ export function EventsSection() {
             <br />
             with us.
           </Display>
-        </div>
-        <div className="event-empty">
-          <RestaurantSketch kind="lemon" />
-          <Serif size="md" tone="forest">
-            No events at the moment.
-          </Serif>
-          <p>More good times are on the way. Ci vediamo presto!</p>
         </div>
       </div>
     </section>
