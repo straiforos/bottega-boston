@@ -1,6 +1,7 @@
 import { createFileRoute, createLink } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from 'react';
-import { Button, Card, Stamp, Display, Serif, Logo, SiteHeader, Marquee, WaveRibbon, LinkAction, TextField, Checkbox, PillLabel } from '@/design-system/bottega-f5161c';
+import { Button, Card, Stamp, Display, Serif, Logo, Marquee, WaveRibbon, LinkAction, TextField, Checkbox, PillLabel } from '@/design-system/bottega-f5161c';
+import { BottegaHeader } from '@/components/BottegaHeader';
 import { RestaurantSketch } from '@/components/RestaurantSketch';
 import hero from '@/assets/hero.asset.json';
 import coffee from '@/assets/coffee.asset.json';
@@ -24,7 +25,6 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-const orderingUrl = 'https://ciao724.wixstudio.com/my-site/online-ordering';
 const MenuLink = createLink(LinkAction);
 
 function MovingRibbon({ text }: { text: string }) {
@@ -88,12 +88,11 @@ function Index() {
   return (
     <>
       <Marquee text="Benvenuti" separator={<RestaurantSketch kind="pasta" small />} variant="cream" />
-      <SiteHeader logo={<a href="#" aria-label="Bottega home"><span className="desktop-logo"><Logo variant="lockup-wordmark" size="md" /></span><span className="mobile-logo"><Logo variant="wordmark" size="sm" /></span></a>} action={<div className="header-actions"><nav aria-label="Main navigation" className="navigation"><a href="#about">Our story</a><MenuLink to="/menu">Menu</MenuLink><a href="#events">Come hang out</a></nav><Button variant="primary" onClick={() => window.location.assign(orderingUrl)}>Order now ↗</Button></div>} />
+      <BottegaHeader />
       <main>
         <section className="hero" aria-label="Welcome to Bottega">
           <img className="hero-photo" src={hero.url} alt="A woman in sunglasses enjoying Bottega fettuccine bolognese" fetchPriority="high" />
-          <div className="hero-shade" />
-          <div className="hero-copy"><p className="hero-tag">#pastaislife</p><div className="hero-headline"><div className="hero-title"><Display as="h1" size="xl" tone="cream">Buonissima.<br />Semplice.<br />Italian.</Display></div><div className="hero-note"><Serif size="sm" tone="cream">A little Italian.<br />A lot of amore.</Serif><MenuLink to="/menu" tone="cream">Menu</MenuLink></div></div></div>
+          <div className="hero-copy bt-surface-light"><div className="hero-headline"><div className="hero-stamp"><span className="desktop-logo"><Stamp size="md" variant="light">Buona<br />Semplice<br />Italian.</Stamp></span><span className="mobile-logo"><Stamp size="sm" variant="light">Buona<br />Semplice<br />Italian.</Stamp></span></div><Display as="h1" size="xl" tone="forest" className="hero-hashtag">#PASTAISLIFE</Display></div></div>
         </section>
         <Marquee text="Benvenuti" separator={<RestaurantSketch kind="lemon" small />} />
         <section id="about" className="section story bt-surface-dark">
