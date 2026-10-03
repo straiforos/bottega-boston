@@ -178,9 +178,13 @@
   justify-content: center;
   gap: var(--bt-space-md);
 }
-.pasta-pot-icon {
+.pasta-pot-icon svg {
   height: var(--bt-text-3xl);
   width: auto;
+  display: block;
+}
+.pasta-pot-icon [data-color="1"] {
+  fill: var(--bt-mustard);
 }
 @media (max-width: 900px) {
   .offerings-track {
