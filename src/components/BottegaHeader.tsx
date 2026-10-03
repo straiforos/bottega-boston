@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { createLink, Link } from '@tanstack/react-router';
-import { Button, Logo, MenuOverlay, MenuToggle, SiteHeader } from '@/design-system/bottega-f5161c';
+import { Button, LinkAction, Logo, MenuOverlay, MenuToggle, SiteHeader } from '@/design-system/bottega-f5161c';
 
-const HeaderLink = createLink('a');
+const HeaderLink = createLink(LinkAction);
 const orderingUrl = 'https://ciao724.wixstudio.com/my-site/online-ordering';
 
 export function BottegaHeader() {
@@ -38,9 +38,9 @@ export function BottegaHeader() {
     <MenuOverlay id="site-navigation" open={menuOpen} label="Main navigation" footer={
       <Button variant={scrolled ? 'cream' : 'primary'} onClick={() => window.location.assign(orderingUrl)}>Order now ↗</Button>
     }>
-      <HeaderLink to="/" hash="about" className="bt-menu-overlay__link" onClick={() => setMenuOpen(false)}>Our story</HeaderLink>
-      <HeaderLink to="/menu" className="bt-menu-overlay__link" onClick={() => setMenuOpen(false)}>Menu</HeaderLink>
-      <HeaderLink to="/" hash="events" className="bt-menu-overlay__link" onClick={() => setMenuOpen(false)}>Come hang out</HeaderLink>
+      <HeaderLink to="/" hash="about" tone={linkTone} className="bt-menu-overlay__link" onClick={() => setMenuOpen(false)}>Our story</HeaderLink>
+      <HeaderLink to="/menu" tone={linkTone} className="bt-menu-overlay__link" onClick={() => setMenuOpen(false)}>Menu</HeaderLink>
+      <HeaderLink to="/" hash="events" tone={linkTone} className="bt-menu-overlay__link" onClick={() => setMenuOpen(false)}>Come hang out</HeaderLink>
     </MenuOverlay>
   </>} />;
 }
