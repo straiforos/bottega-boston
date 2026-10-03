@@ -120,9 +120,9 @@ a:focus-visible { outline: var(--bt-border-width) solid var(--bt-focus); outline
 .menu-dish-item { min-width: 0; }
 .menu-dish-item > img { display: block; width: 100%; height: auto; aspect-ratio: 1; object-fit: cover; }
 .menu-dish-heading { display: grid; gap: var(--bt-space-sm); }
-.menu-item-price { font-family: var(--bt-font-sans); font-size: var(--bt-text-base); color: var(--bt-forest); overflow-wrap: anywhere; }
+.menu-dish-heading { overflow-wrap: anywhere; }
 .menu-dietary-tags { margin-top: var(--bt-space-sm); }
-.menu-item-description { font-size: var(--bt-text-sm); overflow-wrap: anywhere; }
+.menu-item-description { font-family: var(--bt-font-sans); font-size: var(--bt-text-sm); color: var(--bt-body); overflow-wrap: anywhere; }
 .menu-item-description p { margin-top: var(--bt-space-sm); margin-bottom: 0; }
 .menu-no-results { display: grid; justify-items: start; gap: var(--bt-space-lg); padding-block: var(--bt-space-xl); }
 .menu-page-footer { display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--bt-space-xl); }

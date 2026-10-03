@@ -29,7 +29,7 @@ function MenuPage() {
   const count = sections.reduce((total, section) => total + section.items.length, 0);
 
   return <>
-    <SiteHeader variant="forest" logo={<Link to="/" aria-label="Bottega home"><Logo variant="wordmark" size="sm" tone="cream" /></Link>} action={<div className="menu-header-actions"><span className="desktop-logo"><PageLink to="/" tone="cream">Home</PageLink></span><Button variant="accent" onClick={() => window.location.assign('https://ciao724.wixstudio.com/my-site/online-ordering')}>Order now ↗</Button></div>} />
+    <SiteHeader variant="cream" logo={<Link to="/" aria-label="Bottega home"><span className="desktop-logo"><Logo variant="lockup-wordmark" size="md" /></span><span className="mobile-logo"><Logo variant="lockup-wordmark" size="sm" /></span></Link>} action={<div className="menu-header-actions"><span className="desktop-logo"><PageLink to="/">Home</PageLink></span><Button variant="primary" onClick={() => window.location.assign('https://ciao724.wixstudio.com/my-site/online-ordering')}>Order now ↗</Button></div>} />
     <main className="real-menu">
       <header className="menu-page-heading section-inner">
         <p className="eyebrow">Buon appetito</p>
@@ -55,7 +55,7 @@ function MenuPage() {
             <div className="menu-dish-grid">{section.items.map(item => <article key={item.id} className="menu-dish-item">
               <img src={menuImages[item.id]} alt={`Illustrative ${item.name}`} loading="lazy" width={480} height={480} />
               <Card variant="cream" shape="rect">
-                <div className="menu-dish-heading"><Serif as="h3" size="sm" tone="forest">{item.name}</Serif>{item.price && <strong className="menu-item-price">{item.price}</strong>}</div>
+                <div className="menu-dish-heading"><Display as="h3" size="sm" tone="forest">{item.name}</Display>{item.price && <Serif as="p" size="sm" tone="forest">{item.price}</Serif>}</div>
                 {item.tags.length > 0 && <div className="menu-dietary-tags">{item.tags.map(tag => <PillLabel key={tag} variant="chip-forest">{tag}</PillLabel>)}</div>}
                 {item.description && <div className="menu-item-description">{item.description.split('\n').filter(Boolean).map((paragraph, index) => <p key={index}>{paragraph}</p>)}</div>}
               </Card>
