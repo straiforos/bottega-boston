@@ -360,9 +360,7 @@
 .club-ribbon {
   position: absolute;
   inset-inline: 0;
-  /* The wave SVG scales with width; lift it so its dip stays near her head
-     instead of sinking toward her face on wider screens. */
-  top: calc(-21.7% + var(--bt-space-8));
+  top: calc(-1 * var(--bt-space-8));
   pointer-events: none;
 }
 .club-grid {
@@ -462,7 +460,8 @@
   }
   .club-media {
     order: -1;
-    margin-top: 0;
+    /* Lift the photo to the section top so the wave passes behind her head. */
+    margin-top: calc(-1 * var(--bt-space-8));
   }
   .club-photo {
     height: auto;
