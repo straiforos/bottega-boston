@@ -1,16 +1,11 @@
 import { Display, LinkAction, Serif } from '@/design-system/bottega-f5161c';
 import { StoryVideo } from '@/components/media/StoryVideo';
-import { MovingRibbon } from '@/components/media/MovingRibbon';
-import { restaurantContent } from '@/content/en/restaurant';
 import clubVideo from '@/assets/club-video.asset.json';
 import poster from '@/assets/video-poster.asset.json';
 
 export function StorySection() {
   return (
     <section id="about" className="section story bt-surface-dark">
-      <div className="story-ribbon">
-        <MovingRibbon text={restaurantContent.home.pastaIsLife} />
-      </div>
       <div className="section-inner story-grid">
         <StoryVideo src={clubVideo.url} poster={poster.url} />
         <div>

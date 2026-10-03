@@ -15,7 +15,7 @@ export function OfferingsSection() {
   return (
     <div className="offerings-track">
       <div className="offerings-ribbon">
-        <MovingRibbon text="#familyislife · #pastaislife" />
+        <MovingRibbon text={restaurantContent.home.pastaIsLife} />
       </div>
       <section id="menu" className="offerings-section bt-surface-dark" aria-label="Discover Bottega">
         <div className="offerings-layout">
