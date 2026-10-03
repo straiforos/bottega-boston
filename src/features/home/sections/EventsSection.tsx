@@ -1,6 +1,5 @@
-import { Display, Serif } from '@/design-system/bottega-f5161c';
+import { Display } from '@/design-system/bottega-f5161c';
 import { MovingRibbon } from '@/components/media/MovingRibbon';
-import { RestaurantSketch } from '@/components/RestaurantSketch';
 import { restaurantContent } from '@/content/en/restaurant';
 
 export function EventsSection() {
@@ -10,20 +9,12 @@ export function EventsSection() {
         <MovingRibbon text={restaurantContent.home.events} variant="tomato" />
       </div>
       <div className="section-inner">
-        <p className="eyebrow">Good food. Better company.</p>
         <div className="events-heading">
           <Display size="xl" tone="forest">
             Come hang out
             <br />
             with us.
           </Display>
-        </div>
-        <div className="event-empty">
-          <RestaurantSketch kind="lemon" />
-          <Serif size="md" tone="forest">
-            No events at the moment.
-          </Serif>
-          <p>More good times are on the way. Ci vediamo presto!</p>
         </div>
       </div>
     </section>
