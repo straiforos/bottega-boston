@@ -6,7 +6,9 @@ import { restaurantContent } from '@/content/en/restaurant';
 export function MenuHeading() {
   return (
     <div className="menu-heading">
-      <Display size="lg" tone="mustard">{restaurantContent.home.menu.title}</Display>
+      <Display size="lg" tone="mustard">
+        {restaurantContent.home.menu.title}
+      </Display>
       <PastaPotIcon />
     </div>
   );
