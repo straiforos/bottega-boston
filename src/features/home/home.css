@@ -147,17 +147,18 @@
 .offerings-section {
   background: var(--bt-forest);
   padding-top: var(--bt-space-lg);
-  padding-bottom: var(--bt-space-8);
+  padding-bottom: var(--bt-space-lg);
   padding-inline: var(--bt-margin);
 }
 .offerings-track {
   position: relative;
   background: var(--bt-forest);
-  height: calc(100vh * 3);
+  height: calc(100vh * 2.2);
 }
 .offerings-track > .offerings-section {
   position: sticky;
   top: 0;
+  box-sizing: border-box;
   min-height: 100vh;
   display: grid;
   align-content: start;
