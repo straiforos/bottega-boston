@@ -13,3 +13,4 @@
 - [x] Restructure the project into maintainable features, shared components, centralized English content, focused style sheets, and tested pure behavior.
 - [x] Trim the events section: drop the "Good food. Better company." intro line and the "no events" note, leaving the "Come hang out with us." heading under the red ribbon.
 - [x] Close the desktop gap between the menu cards and events: pinned panel now exactly one screen tall, pinned run shortened to 2.2 screens, and the reveal stretched so the last card lands as the section releases.
+- [x] Enlarge the Pasta Club photo and align its top with the gallery edge: componentize the photo, keep the "Follow us" ribbon behind her face.

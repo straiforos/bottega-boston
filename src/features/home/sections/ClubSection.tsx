@@ -1,7 +1,7 @@
 import { Button, Checkbox, Display, Serif, TextField } from '@/design-system/bottega-f5161c';
 import { MovingRibbon } from '@/components/media/MovingRibbon';
+import { ClubPhoto } from '@/components/media/ClubPhoto';
 import { links } from '@/content/links';
-import pasta from '@/assets/pasta-club.asset.json';
 
 export function ClubSection() {
   const submit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -47,7 +47,7 @@ export function ClubSection() {
             </div>
           </form>
         </div>
-        <img className="club-photo" src={pasta.url} alt="Pasta Club is always a good idea" loading="lazy" />
+        <ClubPhoto />
       </div>
     </section>
   );
