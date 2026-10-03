@@ -24,7 +24,6 @@ main {
   gap: var(--bt-space-lg);
 }
 .shared-header {
-  flex-wrap: wrap;
   gap: var(--bt-space-lg);
   position: sticky;
   top: 0;
@@ -43,12 +42,13 @@ main {
 .desktop-logo.header-brand-pair {
   display: inline-flex;
 }
-.header-navigation {
+.header-actions {
   display: flex;
   align-items: center;
-  flex-wrap: wrap;
-  gap: var(--bt-space-lg);
   margin-left: auto;
+}
+.header-menu-toggle {
+  display: none;
 }
 .mobile-logo {
   display: none;
@@ -108,12 +108,8 @@ a:focus-visible {
   .shared-header {
     gap: var(--bt-space-sm);
   }
-  .header-navigation {
-    order: 1;
-    flex-basis: 100%;
-    justify-content: space-between;
-    gap: var(--bt-space-sm);
-    margin-left: 0;
+  .header-menu-toggle {
+    display: inline-flex;
   }
   .footer-grid {
     grid-template-columns: 1fr 1fr;
