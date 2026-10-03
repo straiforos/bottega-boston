@@ -1,3 +1,5 @@
+import pasta from '@/assets/pasta-club.asset.json';
+
 export function ClubPhoto() {
   return (
     <div className="club-media">
