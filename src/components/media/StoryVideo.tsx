@@ -9,6 +9,7 @@ export function StoryVideo({ src, poster }: { src: string; poster: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [muted, setMuted] = useState(true);
   const [playing, setPlaying] = useState(false);
+  const [caption, setCaption] = useState('');
   const reducedMotion = usePrefersReducedMotion();
   const labels = restaurantContent.media;
 
@@ -19,12 +20,20 @@ export function StoryVideo({ src, poster }: { src: string; poster: string }) {
     else video.pause();
   };
 
+  // The VTT track stays attached for screen readers, but the browser's default
+  // caption rendering is hidden; our own styled overlay follows the active cue.
   useEffect(() => {
-    if (reducedMotion) {
-      videoRef.current?.pause();
-      setPlaying(false);
-    }
-  }, [reducedMotion]);
+    const track = videoRef.current?.textTracks[0];
+    if (!track) return;
+    track.mode = 'hidden';
+    const updateCaption = () => {
+      const cues = Array.from(track.activeCues ?? []);
+      setCaption(cues.map((cue) => cue.text ?? '').join(' '));
+    };
+    updateCaption();
+    track.addEventListener('cuechange', updateCaption);
+    return () => track.removeEventListener('cuechange', updateCaption);
+  }, []);
 
   return (
     <div className="story-player">
