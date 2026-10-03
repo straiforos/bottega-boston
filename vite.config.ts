@@ -16,6 +16,14 @@ export default defineConfig(({ command, mode }) => {
     server: {
       host: "::",
       port: 8080,
+      // Local dev only: serve CDN-managed media through the preview host.
+      // Ignored in production builds, where the platform serves /__l5e itself.
+      proxy: {
+        "/__l5e/assets-v1": {
+          target: "https://id-preview--122eb82d-0dcb-4681-bbd6-9e6446b687c2.lovable.app",
+          changeOrigin: true,
+        },
+      },
     },
     resolve: {
       alias: {
