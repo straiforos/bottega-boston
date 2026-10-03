@@ -40,8 +40,42 @@ function MovingRibbon({ text }: { text: string }) {
 
 function Index() {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const offeringsRef = useRef<HTMLDivElement>(null);
   const [muted, setMuted] = useState(true);
   const [playing, setPlaying] = useState(false);
+  useEffect(() => {
+    const container = offeringsRef.current;
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (!container || preference.matches || !('IntersectionObserver' in window)) return;
+    const cards = Array.from(container.querySelectorAll<HTMLElement>('.offering'));
+    cards.forEach((card) => { card.dataset.reveal = 'pending'; });
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (!entry.isIntersecting || !(entry.target instanceof HTMLElement)) return;
+        entry.target.dataset.reveal = 'visible';
+        observer.unobserve(entry.target);
+      });
+    }, { threshold: 0.15 });
+    cards.forEach((card) => observer.observe(card));
+    const showAll = () => {
+      if (!preference.matches) return;
+      cards.forEach((card) => { card.dataset.reveal = 'visible'; });
+      observer.disconnect();
+    };
+    const showFocused = (event: FocusEvent) => {
+      if (!(event.target instanceof Element)) return;
+      const card = event.target.closest<HTMLElement>('.offering');
+      if (card) { card.dataset.reveal = 'visible'; observer.unobserve(card); }
+    };
+    preference.addEventListener('change', showAll);
+    container.addEventListener('focusin', showFocused);
+    return () => {
+      observer.disconnect();
+      preference.removeEventListener('change', showAll);
+      container.removeEventListener('focusin', showFocused);
+      cards.forEach((card) => { delete card.dataset.reveal; });
+    };
+  }, []);
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { videoRef.current?.pause(); setPlaying(false); }
   }, []);
@@ -65,7 +99,7 @@ function Index() {
         <Marquee text="#pastaislife" separator={<RestaurantSketch small />} />
         <section id="menu" className="section menu-intro"><div className="section-inner"><p className="eyebrow">Made with amore. Served with joy.</p><div className="menu-title"><div className="big-sketch"><RestaurantSketch kind="pot" /></div><Display size="xl" tone="forest">Menu</Display></div><Serif size="md" tone="forest">Something delicious for every part of your day.</Serif><MenuLink to="/menu">View menu</MenuLink></div></section>
         <MovingRibbon text="#familyislife · #pastaislife" />
-        <section className="offerings-section bt-surface-dark" aria-label="Discover Bottega"><div className="section-inner offerings">
+        <section className="offerings-section bt-surface-dark" aria-label="Discover Bottega"><div ref={offeringsRef} className="section-inner offerings">
           <article className="offering offering-coffee"><Card variant="cream" shape="rect"><div><Display as="h3" size="sm" tone="forest">Coffee + house drinks</Display><Serif size="lg" tone="forest">& dolci</Serif></div><img className="offering-image" src={coffee.url} alt="A Bottega guest holding a cappuccino and iced coffee" loading="lazy" /><MenuLink to="/menu" hash="category-8">Catering menu</MenuLink></Card><div className="catering-stamp"><Stamp size="sm">Catering<br />menu</Stamp></div></article>
           <article className="offering offering-food"><Card variant="mustard" shape="arch"><img className="offering-image" src={pasta.url} alt="A woman holding a plate of Bottega pesto pasta" loading="lazy" /><Display as="h3" size="md" tone="forest">The food</Display><Serif size="sm" tone="forest">Breakfast, lunch, dinner<br />& everything in between.</Serif><MenuLink to="/menu">Food menu</MenuLink></Card></article>
           <article id="market" className="offering offering-market"><Card variant="cobalt" shape="rect"><Serif as="h3" size="lg" tone="cream">Il Mercatino</Serif><PillLabel variant="mustard">The little market</PillLabel><div className="market-art"><RestaurantSketch kind="market" /></div><Serif size="sm" tone="cream">A little Bottega.<br />To take home.</Serif><LinkAction href="mailto:ciao@eatbottega.com?subject=Il%20Mercatino%20inquiry" tone="mustard">Explore the market</LinkAction></Card></article>
