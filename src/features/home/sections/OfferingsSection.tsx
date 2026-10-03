@@ -2,6 +2,7 @@ import { createLink } from '@tanstack/react-router';
 import { Card, Display, LinkAction, PillLabel, Serif, Stamp } from '@/design-system/bottega-f5161c';
 import { MovingRibbon } from '@/components/media/MovingRibbon';
 import { links } from '@/content/links';
+import { restaurantContent } from '@/content/en/restaurant';
 import { useOfferingsMotion } from '../hooks/useOfferingsMotion';
 import coffee from '@/assets/coffee.asset.json';
 import pasta from '@/assets/pasta-club.asset.json';
@@ -16,12 +17,19 @@ export function OfferingsSection() {
       <div className="offerings-ribbon">
         <MovingRibbon text="#familyislife · #pastaislife" />
       </div>
-      <section className="offerings-section bt-surface-dark" aria-label="Discover Bottega">
+      <section id="menu" className="offerings-section bt-surface-dark" aria-label="Discover Bottega">
         <div className="offerings-layout">
           <div className="offerings-heading">
+            <p className="eyebrow">{restaurantContent.home.menu.eyebrow}</p>
             <Display size="lg" tone="mustard">
-              Menu.
+              {restaurantContent.home.menu.title}
             </Display>
+            <Serif size="md" tone="cream">
+              {restaurantContent.home.menu.subtitle}
+            </Serif>
+            <MenuLink to="/menu" tone="mustard">
+              {restaurantContent.home.menu.action}
+            </MenuLink>
           </div>
           <div ref={offeringsRef} className="section-inner offerings">
             <article className="offering offering-coffee">
