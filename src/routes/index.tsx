@@ -121,7 +121,7 @@ function Index() {
   }, []);
   useEffect(() => {
     const video = videoRef.current;
-    const sync = () => setPlaying(!video.paused);
+    const sync = () => setPlaying(!video?.paused);
     const timer = window.setTimeout(sync, 300);
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { video?.pause(); setPlaying(false); }
     return () => { window.clearTimeout(timer); };
