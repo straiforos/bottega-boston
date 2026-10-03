@@ -9,7 +9,6 @@ export function StorySection() {
       <div className="section-inner story-grid">
         <StoryVideo src={clubVideo.url} poster={poster.url} />
         <div>
-          <p className="eyebrow">A tavola, with love</p>
           <div className="story-heading">
             <Display size="xl" tone="mustard">
               Bottega
