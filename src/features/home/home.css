@@ -251,8 +251,9 @@
   background: var(--bt-cobalt);
   color: var(--bt-cream);
   padding-top: calc(var(--bt-space-8) + var(--bt-space-lg));
-  padding-bottom: var(--bt-space-md);
+  padding-bottom: 0;
 }
+
 
 
 .events-ribbon {
