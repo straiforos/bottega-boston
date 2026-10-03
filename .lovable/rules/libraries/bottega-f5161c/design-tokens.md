@@ -11,80 +11,80 @@ Token reference for **Bottega**. Use utility classes and CSS variables — never
 
 Reference via `var(--name)` in inline styles or CSS.
 
-| CSS variable                  |
-| ----------------------------- |
-| `--bt-forest`                 |
-| `--bt-forest-dark`            |
-| `--bt-forest-deep`            |
-| `--bt-cream`                  |
-| `--bt-parchment`              |
-| `--bt-white`                  |
-| `--bt-mustard`                |
-| `--bt-mustard-deep`           |
-| `--bt-tomato`                 |
-| `--bt-tomato-border`          |
-| `--bt-cobalt`                 |
-| `--bt-ink`                    |
-| `--bt-surface-dim`            |
-| `--bt-surface-container-low`  |
-| `--bt-surface-container`      |
+| CSS variable |
+|---|
+| `--bt-forest` |
+| `--bt-forest-dark` |
+| `--bt-forest-deep` |
+| `--bt-cream` |
+| `--bt-parchment` |
+| `--bt-white` |
+| `--bt-mustard` |
+| `--bt-mustard-deep` |
+| `--bt-tomato` |
+| `--bt-tomato-border` |
+| `--bt-cobalt` |
+| `--bt-ink` |
+| `--bt-surface-dim` |
+| `--bt-surface-container-low` |
+| `--bt-surface-container` |
 | `--bt-surface-container-high` |
-| `--bt-outline`                |
-| `--bt-outline-variant`        |
-| `--bt-danger`                 |
-| `--bt-danger-container`       |
-| `--bt-on-danger-container`    |
-| `--bt-muted`                  |
-| `--bt-border-thin`            |
-| `--bt-ink-accent`             |
-| `--bt-ink-highlight`          |
+| `--bt-outline` |
+| `--bt-outline-variant` |
+| `--bt-danger` |
+| `--bt-danger-container` |
+| `--bt-on-danger-container` |
+| `--bt-muted` |
+| `--bt-border-thin` |
+| `--bt-ink-accent` |
+| `--bt-ink-highlight` |
 
 ## Typography
 
 Reference via `var(--name)` in inline styles or CSS.
 
-| CSS variable         |
-| -------------------- |
-| `--bt-font-display`  |
-| `--bt-font-serif`    |
-| `--bt-font-sans`     |
-| `--bt-text-xs`       |
-| `--bt-text-sm`       |
-| `--bt-text-base`     |
-| `--bt-text-lg`       |
-| `--bt-text-label`    |
+| CSS variable |
+|---|
+| `--bt-font-display` |
+| `--bt-font-serif` |
+| `--bt-font-sans` |
+| `--bt-text-xs` |
+| `--bt-text-sm` |
+| `--bt-text-base` |
+| `--bt-text-lg` |
+| `--bt-text-label` |
 | `--bt-text-subtitle` |
-| `--bt-text-title`    |
-| `--bt-text-xl`       |
-| `--bt-text-2xl`      |
-| `--bt-text-3xl`      |
-| `--bt-text-display`  |
+| `--bt-text-title` |
+| `--bt-text-xl` |
+| `--bt-text-2xl` |
+| `--bt-text-3xl` |
+| `--bt-text-display` |
 
 ## Spacing
 
 Reference via `var(--name)` in inline styles or CSS.
 
-| CSS variable        |
-| ------------------- |
-| `--bt-space-xs`     |
-| `--bt-space-sm`     |
-| `--bt-space-md`     |
-| `--bt-space-lg`     |
-| `--bt-space-xl`     |
-| `--bt-margin`       |
-| `--bt-space-8`      |
+| CSS variable |
+|---|
+| `--bt-space-xs` |
+| `--bt-space-sm` |
+| `--bt-space-md` |
+| `--bt-space-lg` |
+| `--bt-space-xl` |
+| `--bt-margin` |
+| `--bt-space-8` |
 | `--bt-border-width` |
 
 ## Border Radius
 
 Reference via `var(--name)` in inline styles or CSS.
 
-| CSS variable       |
-| ------------------ |
+| CSS variable |
+|---|
 | `--bt-radius-none` |
-| `--bt-radius-sm`   |
-| `--bt-radius-md`   |
-| `--bt-radius-lg`   |
+| `--bt-radius-sm` |
+| `--bt-radius-md` |
+| `--bt-radius-lg` |
 | `--bt-radius-pill` |
 | `--bt-radius-arch` |
 
@@ -92,25 +92,27 @@ Reference via `var(--name)` in inline styles or CSS.
 
 Reference via `var(--name)` in inline styles or CSS.
 
-| CSS variable        |
-| ------------------- |
-| `--bt-shadow-ink`   |
+| CSS variable |
+|---|
+| `--bt-shadow-ink` |
 | `--bt-shadow-stamp` |
-| `--bt-shadow-card`  |
+| `--bt-shadow-card` |
 | `--bt-shadow-hover` |
 
 ## Other
 
 Reference via `var(--name)` in inline styles or CSS.
 
-| CSS variable           |
-| ---------------------- |
-| `--bt-logo-filter`     |
+| CSS variable |
+|---|
+| `--bt-logo-filter` |
 | `--bt-tracking-button` |
 | `--bt-tracking-ticker` |
-| `--bt-tracking-badge`  |
-| `--bt-gutter`          |
-| `--bt-marquee-height`  |
-| `--bt-duration`        |
+| `--bt-tracking-badge` |
+| `--bt-gutter` |
+| `--bt-marquee-height` |
+| `--bt-duration` |
+
+
 
 <!-- END THIRD-PARTY LIBRARY CONTENT: design-system/bottega-f5161c -->

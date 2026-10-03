@@ -2,31 +2,33 @@
   "meta": {
     "name": "Bottega",
     "package": "@ws-cli5ylqvzebyb2b5e4wl/432d9af3-64cc-49a3-92e4-36d8f906a251",
-    "version": "1.1.0",
+    "version": "1.2.0",
     "framework": "react",
     "css_framework": "css-variables",
     "starter_template": "custom_design_system",
-    "theme_files": ["src/bottega/styles/theme.css"],
+    "theme_files": [
+      "src/bottega/styles/theme.css"
+    ],
     "source_type": "local",
     "source_manifest": {
       "#enrichment": "4023e9b56cd3e8e88310f05a83f4672946f33e1e6fc7dca5c9b6fe5454ffe5f2",
       ".dsignore": "9202e1883820df077bdb3435c29315c4",
       ".gitignore": "6059213806e442947666752f3db6bfdc",
       ".lovable/meta.yaml": "731dc53c4191bd35cabf4a0af7095d7f",
-      ".lovable/plan.md": "86f0f22c11c0222d331c29873e8e27fa",
       ".lovable/plan/add-the-hamburger-menu-to-bottega-2026-10-03.md": "e098ed9349bfea17cf054ff65ee3ae67",
       ".lovable/plan/add-the-menu-overlay-to-bottega-2026-10-03.md": "bd97829f1335f8cdd21f4ccda3faf9c6",
+      ".lovable/plan/composite-responsive-siteheader-2026-10-03.md": "86f0f22c11c0222d331c29873e8e27fa",
       ".lovable/sources.yaml": "30ba92fda13f611b48d1157bbc70a97c",
-      ".lovable/system.md": "6d7549c527775d3820f77fdbfeda7d4b",
-      "AGENTS.md": "6a774320b7fa9868c5934a3b0f926395",
+      ".lovable/system.md": "c93c4b072d1e55e6866a8331114f2601",
+      "AGENTS.md": "d63e30ba0672d3dce0d6c89477de3ed4",
       "README.md": "d19675c449605f23c7cfa133c69b398b",
       "bunfig.toml": "25f4c8696b22b0943db7191e0cdf7942",
       "eslint.config.js": "07a67437fb1a45ab36d6de0145ff09de",
       "lovable.toml": "9636c1bf32f9901bfba4eabb92981217",
       "mockupPreviewPlugin.ts": "70d01fe16b7ca25f16ff6bdb97f08b0b",
-      "package.json": "65ab088ba2857493da79eac342b2c7cf",
+      "package.json": "c3e5084e52ab8faa86820d48e652c297",
       "public/favicon.png": "8591d74b97a1a207c1efed1baebaaf3a",
-      "roadmap.md": "92f03490729007bfc58d9b291113e187",
+      "roadmap.md": "a2955b660ccb0484365ae740eaa3f0de",
       "src/bottega/assets/icons/noodle-menu.png": "72ebc45c661ec57224f5f63d45584bda",
       "src/bottega/assets/logos/bottega-logo.png": "2f1ddf64c4925e64c7517ad2c94355f4",
       "src/bottega/assets/logos/bottega-wordmark.png": "4f2f5560d2506735dc1a346346b9d2f9",
@@ -38,16 +40,16 @@
       "src/bottega/components/Marquee.tsx": "e8f10316ceb0abde9806da350cf00746",
       "src/bottega/components/MenuOverlay.tsx": "c45f518511f87a9a39fe1eb812522d27",
       "src/bottega/components/MenuToggle.tsx": "e9917f0089dd9cf486c94697c0637bed",
-      "src/bottega/components/SiteHeader.tsx": "0cdd8a592aa28bba7590228a64e6b0d0",
+      "src/bottega/components/SiteHeader.tsx": "c45d122399e1b0bcaa9b0998a82f1592",
       "src/bottega/components/Stamp.tsx": "fab48ad4d19d6f132413a4035b65035d",
       "src/bottega/components/ThemeToggle.tsx": "229aaa64efc3e1fc3006f95a0e211960",
       "src/bottega/components/Typography.tsx": "afecd6dd65289c2b29b162ae965bdf50",
       "src/bottega/components/WaveRibbon.tsx": "b4be4f7863e6960ff842de12a407fb42",
       "src/bottega/index.ts": "e54fad41b15c7fe3bf6d5f150c3fdbeb",
       "src/bottega/lib/cx.ts": "7ae105dce8319a6dc3263f679bb79dd7",
-      "src/bottega/styles/components.css": "6d8590f1761103d7adb1f5cbd4ab0e47",
+      "src/bottega/styles/components.css": "89f33d142a7a828977324d062d4e1d1d",
       "src/bottega/styles/theme.css": "1e3ef2304287b851b05d2cba21cc1ec0",
-      "src/index.ts": "bf9cbac9ff755b03c2749c3043d4102c",
+      "src/index.ts": "d6db7a37e55fd28ceedfa8fc5272c699",
       "src/mockup-preview.d.ts": "ae9d81e2b8514e13fd59b5b6bece9a64",
       "src/routeTree.gen.ts": "b493492c3c7229d800131062a1facc31",
       "src/router.tsx": "8f905e713b0eba7fa8148b7995a708c9",
@@ -55,11 +57,11 @@
       "src/routes/[__mockup].preview.$.tsx": "5d9f42470848aa60148f20f9580e240e",
       "src/routes/__root.tsx": "32d8c1ee58418654d1dc11b4c488f536",
       "src/routes/colors.tsx": "c7ca79efbc6b97363ee61e3fab301ea2",
-      "src/routes/components.tsx": "1a9c502d1c47f72765cddc2559de4768",
+      "src/routes/components.tsx": "46ea3b29e8a8cb97f46f8404cacebb4b",
       "src/routes/index.tsx": "fce807bc6fac491529cdebfbb37882de",
       "src/routes/typography.tsx": "e2efa3afd45331f883294e97e1ae2684",
-      "src/showcase/Shell.tsx": "df733ee60907e7e1c7cf99541b677e3e",
-      "src/showcase/showcase.css": "0ee79a19eefa1edf73d842d192102846",
+      "src/showcase/Shell.tsx": "8d16bcd92ff8699d8d33b5ffbf96264e",
+      "src/showcase/showcase.css": "5a61e9d679bbf0d3460c78294315dab6",
       "src/styles.css": "fccca7064393320dc09155a76de03886",
       "tsconfig.json": "994abf64c2b9f78b568879f80ed0170e",
       "vite.config.ts": "a99d983076495f848761d0f97f17062a",
@@ -410,19 +412,32 @@
         {
           "name": "variant",
           "type": "enum",
-          "values": ["primary", "accent", "outline", "ghost", "cream"],
+          "values": [
+            "primary",
+            "accent",
+            "outline",
+            "ghost",
+            "cream"
+          ],
           "default": "primary"
         },
         {
           "name": "size",
           "type": "enum",
-          "values": ["sm", "md", "lg"],
+          "values": [
+            "sm",
+            "md",
+            "lg"
+          ],
           "default": "md"
         },
         {
           "name": "width",
           "type": "enum",
-          "values": ["auto", "full"],
+          "values": [
+            "auto",
+            "full"
+          ],
           "default": "auto"
         }
       ]
@@ -435,18 +450,36 @@
         {
           "name": "as",
           "type": "enum",
-          "values": ["h1", "h2", "h3", "p"]
+          "values": [
+            "h1",
+            "h2",
+            "h3",
+            "p"
+          ]
         },
         {
           "name": "size",
           "type": "enum",
-          "values": ["sm", "md", "lg", "xl"],
+          "values": [
+            "sm",
+            "md",
+            "lg",
+            "xl"
+          ],
           "default": "lg"
         },
         {
           "name": "tone",
           "type": "enum",
-          "values": ["forest", "cream", "mustard", "tomato", "cobalt", "ink", "inherit"],
+          "values": [
+            "forest",
+            "cream",
+            "mustard",
+            "tomato",
+            "cobalt",
+            "ink",
+            "inherit"
+          ],
           "default": "inherit"
         }
       ]
@@ -459,18 +492,36 @@
         {
           "name": "as",
           "type": "enum",
-          "values": ["h2", "h3", "h4", "p", "span"]
+          "values": [
+            "h2",
+            "h3",
+            "h4",
+            "p",
+            "span"
+          ]
         },
         {
           "name": "size",
           "type": "enum",
-          "values": ["sm", "md", "lg"],
+          "values": [
+            "sm",
+            "md",
+            "lg"
+          ],
           "default": "lg"
         },
         {
           "name": "tone",
           "type": "enum",
-          "values": ["forest", "cream", "mustard", "tomato", "cobalt", "ink", "inherit"],
+          "values": [
+            "forest",
+            "cream",
+            "mustard",
+            "tomato",
+            "cobalt",
+            "ink",
+            "inherit"
+          ],
           "default": "inherit"
         }
       ]
@@ -483,13 +534,20 @@
         {
           "name": "size",
           "type": "enum",
-          "values": ["sm", "md", "lg"],
+          "values": [
+            "sm",
+            "md",
+            "lg"
+          ],
           "default": "md"
         },
         {
           "name": "variant",
           "type": "enum",
-          "values": ["bold", "light"],
+          "values": [
+            "bold",
+            "light"
+          ],
           "default": "bold"
         }
       ]
@@ -512,7 +570,11 @@
         {
           "name": "variant",
           "type": "enum",
-          "values": ["cream", "forest", "tomato"],
+          "values": [
+            "cream",
+            "forest",
+            "tomato"
+          ],
           "default": "cream"
         },
         {
@@ -530,13 +592,22 @@
         {
           "name": "variant",
           "type": "enum",
-          "values": ["cream", "mustard", "cobalt", "forest", "white"],
+          "values": [
+            "cream",
+            "mustard",
+            "cobalt",
+            "forest",
+            "white"
+          ],
           "default": "cream"
         },
         {
           "name": "shape",
           "type": "enum",
-          "values": ["rect", "arch"],
+          "values": [
+            "rect",
+            "arch"
+          ],
           "default": "rect"
         },
         {
@@ -588,7 +659,10 @@
         {
           "name": "surface",
           "type": "enum",
-          "values": ["default", "inverse"],
+          "values": [
+            "default",
+            "inverse"
+          ],
           "default": "default"
         }
       ]
@@ -606,7 +680,10 @@
         {
           "name": "surface",
           "type": "enum",
-          "values": ["default", "inverse"],
+          "values": [
+            "default",
+            "inverse"
+          ],
           "default": "default"
         }
       ]
@@ -624,7 +701,10 @@
         {
           "name": "surface",
           "type": "enum",
-          "values": ["default", "inverse"],
+          "values": [
+            "default",
+            "inverse"
+          ],
           "default": "default"
         }
       ]
@@ -637,7 +717,14 @@
         {
           "name": "variant",
           "type": "enum",
-          "values": ["forest", "mustard", "tomato", "cobalt", "chip-forest", "chip-tomato"],
+          "values": [
+            "forest",
+            "mustard",
+            "tomato",
+            "cobalt",
+            "chip-forest",
+            "chip-tomato"
+          ],
           "default": "forest"
         }
       ]
@@ -660,7 +747,11 @@
         {
           "name": "variant",
           "type": "enum",
-          "values": ["mustard", "cream", "tomato"],
+          "values": [
+            "mustard",
+            "cream",
+            "tomato"
+          ],
           "default": "mustard"
         }
       ]
@@ -673,7 +764,11 @@
         {
           "name": "tone",
           "type": "enum",
-          "values": ["forest", "cream", "mustard"],
+          "values": [
+            "forest",
+            "cream",
+            "mustard"
+          ],
           "default": "forest"
         }
       ]
@@ -684,18 +779,60 @@
       "import_path": "",
       "props": [
         {
-          "name": "logo",
+          "name": "children",
           "type": "any",
           "required": true
         },
         {
-          "name": "action",
+          "name": "navigationFooter",
           "type": "any"
+        },
+        {
+          "name": "homeHref",
+          "type": "string",
+          "default": "/"
+        },
+        {
+          "name": "homeLabel",
+          "type": "string",
+          "default": "Bottega — home"
+        },
+        {
+          "name": "logoAlt",
+          "type": "string",
+          "default": "Bottega — Cucina \u0026 Mercato Italiano"
+        },
+        {
+          "name": "navigationLabel",
+          "type": "string",
+          "default": "Primary"
+        },
+        {
+          "name": "defaultMenuOpen",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "onMenuOpenChange",
+          "type": "function"
+        },
+        {
+          "name": "menuLabel",
+          "type": "string",
+          "default": "Menu"
+        },
+        {
+          "name": "closeLabel",
+          "type": "string",
+          "default": "Close"
         },
         {
           "name": "variant",
           "type": "enum",
-          "values": ["cream", "forest"],
+          "values": [
+            "cream",
+            "forest"
+          ],
           "default": "cream"
         }
       ]
@@ -708,19 +845,32 @@
         {
           "name": "variant",
           "type": "enum",
-          "values": ["mark", "wordmark", "lockup", "lockup-wordmark"],
+          "values": [
+            "mark",
+            "wordmark",
+            "lockup",
+            "lockup-wordmark"
+          ],
           "default": "mark"
         },
         {
           "name": "size",
           "type": "enum",
-          "values": ["sm", "md", "lg"],
+          "values": [
+            "sm",
+            "md",
+            "lg"
+          ],
           "default": "md"
         },
         {
           "name": "tone",
           "type": "enum",
-          "values": ["auto", "ink", "cream"],
+          "values": [
+            "auto",
+            "ink",
+            "cream"
+          ],
           "default": "auto"
         },
         {
@@ -737,13 +887,19 @@
         {
           "name": "defaultTheme",
           "type": "enum",
-          "values": ["light", "dark"],
+          "values": [
+            "light",
+            "dark"
+          ],
           "default": "dark"
         },
         {
           "name": "size",
           "type": "enum",
-          "values": ["sm", "md"],
+          "values": [
+            "sm",
+            "md"
+          ],
           "default": "md"
         }
       ]
@@ -761,7 +917,10 @@
         {
           "name": "size",
           "type": "enum",
-          "values": ["sm", "md"],
+          "values": [
+            "sm",
+            "md"
+          ],
           "default": "md"
         },
         {
