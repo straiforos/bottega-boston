@@ -70,6 +70,7 @@
 .club-copy { position: relative; padding-top: 0; padding-right: 0; padding-bottom: var(--bt-space-xl); padding-left: var(--bt-margin); }
 .club-copy h2 { margin-block: var(--bt-space-md); }
 .club-form { display: grid; gap: var(--bt-space-md); margin-top: var(--bt-space-lg); }
+@media (max-width: 767px) {
   .hero-copy { bottom: var(--bt-space-lg); }
   .hero-hashtag { font-size: var(--bt-text-display); }
   .hero-stamp { left: 0; top: calc(-1 * var(--bt-space-8)); }
