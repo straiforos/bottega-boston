@@ -34,7 +34,10 @@ main { overflow: clip; }
 .story-player { border-width: var(--bt-border-thin); border-style: solid; border-color: var(--bt-mustard); border-radius: var(--bt-radius-arch); overflow: hidden; }
 .video-caption { position: absolute; bottom: var(--bt-space-md); inset-inline: var(--bt-space-lg); text-align: center; pointer-events: none; }
 .video-play-control { position: absolute; inset: 0; display: grid; place-items: center; pointer-events: none; }
-.video-play-control > button { pointer-events: auto; }
+.video-play-control > button { pointer-events: auto; opacity: 1; transition: opacity var(--bt-duration) ease; }
+.video-play-control[data-playing='true'] > button { opacity: 0; }
+.video-play-control[data-playing='true']:hover > button, .video-play-control[data-playing='true'] > button:focus-visible { opacity: 1; }
+.arch-video:hover .video-play-control[data-playing='true'] > button { opacity: 1; }
 .video-play-icon { display: block; width: var(--bt-space-xl); height: var(--bt-space-xl); }
 .video-sound-control { position: absolute; bottom: var(--bt-space-md); right: var(--bt-space-md); }
 .video-sound-icon { display: block; width: var(--bt-space-lg); height: var(--bt-space-lg); }
