@@ -1,4 +1,4 @@
-import { createFileRoute, createLink } from '@tanstack/react-router';
+import { createFileRoute, createLink, Link } from '@tanstack/react-router';
 import { useState } from 'react';
 import { Button, Card, Display, LinkAction, Logo, Marquee, PillLabel, Serif, SiteHeader, TextField } from '@/design-system/bottega-f5161c';
 import { menuSections } from '@/lib/menu-data';
@@ -29,7 +29,7 @@ function MenuPage() {
   const count = sections.reduce((total, section) => total + section.items.length, 0);
 
   return <>
-    <SiteHeader variant="forest" logo={<PageLink to="/" tone="cream" aria-label="Bottega home"><Logo variant="wordmark" size="sm" tone="cream" /></PageLink>} action={<div className="menu-header-actions"><PageLink to="/" tone="cream">Home</PageLink><Button variant="accent" onClick={() => window.location.assign('https://ciao724.wixstudio.com/my-site/online-ordering')}>Order now ↗</Button></div>} />
+    <SiteHeader variant="forest" logo={<Link to="/" aria-label="Bottega home"><Logo variant="wordmark" size="sm" tone="cream" /></Link>} action={<div className="menu-header-actions"><span className="desktop-logo"><PageLink to="/" tone="cream">Home</PageLink></span><Button variant="accent" onClick={() => window.location.assign('https://ciao724.wixstudio.com/my-site/online-ordering')}>Order now ↗</Button></div>} />
     <main className="real-menu">
       <header className="menu-page-heading section-inner">
         <p className="eyebrow">Buon appetito</p>

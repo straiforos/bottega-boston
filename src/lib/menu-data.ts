@@ -395,8 +395,8 @@ export const menuSections = [
       {
         "id": "dish-44",
         "name": "Cannoli",
-        "price": "Traditional Sicilian shells filled with lush ricotta cream and chocolate chips • Mini $3.50 | Traditional $5.45",
-        "description": "",
+        "price": "Mini $3.50 | Traditional $5.45",
+        "description": "Traditional Sicilian shells filled with lush ricotta cream and chocolate chips.",
         "tags": []
       },
       {
@@ -721,8 +721,8 @@ export const menuSections = [
       {
         "id": "dish-82",
         "name": "House Foccacia",
-        "price": "Rosemary and Salt ($36.00), Pesto Provolone ($60.00), Gorgonzola ($60.00), Sundried Tomato and Olives ($60.00)",
-        "description": "",
+        "price": "$36.00–$60.00",
+        "description": "Rosemary and Salt $36.00 | Pesto Provolone $60.00 | Gorgonzola $60.00 | Sundried Tomato and Olives $60.00",
         "tags": []
       },
       {
