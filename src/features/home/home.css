@@ -252,10 +252,7 @@
   background: var(--bt-cobalt);
   color: var(--bt-cream);
   /* Ribbon height scales with width; % padding tracks width so the heading always clears its dip. */
-  padding-top: max(
-    calc(var(--bt-space-8) + var(--bt-space-lg)),
-    calc(22% - var(--bt-space-8) - var(--bt-space-xl))
-  );
+  padding-top: max(calc(var(--bt-space-8) + var(--bt-space-lg)), calc(22% - var(--bt-space-8) - var(--bt-space-xl)));
   padding-bottom: var(--bt-space-8);
 }
 
