@@ -9,7 +9,6 @@ img, video { max-width: 100%; }
 main { overflow: clip; }
 .social-links { display: flex; align-items: center; gap: var(--bt-space-lg); }
 .shared-header { flex-wrap: wrap; gap: var(--bt-space-lg); position: sticky; top: 0; z-index: 10; transition: background-color var(--bt-duration) ease, color var(--bt-duration) ease, border-color var(--bt-duration) ease; }
-.shared-header--stuck { box-shadow: var(--bt-shadow-card); }
 .header-brand { display: block; }
 .header-brand-pair { align-items: center; gap: var(--bt-space-sm); }
 .desktop-logo.header-brand-pair { display: inline-flex; }
@@ -75,7 +74,7 @@ main { overflow: clip; }
 .club-form { display: grid; gap: var(--bt-space-md); margin-top: var(--bt-space-lg); }
 .footer { background: var(--bt-forest); color: var(--bt-cream); padding: var(--bt-space-xl) var(--bt-margin); }
 .footer-grid { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: var(--bt-space-xl); }
-.footer h3 { font-family: var(--bt-font-display); font-size: var(--bt-text-label); text-transform: uppercase; margin-top: 0; }
+.footer h3 { margin-top: 0; }
 .footer p { font-size: var(--bt-text-sm); }
 .footer-bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--bt-space-lg); margin-top: var(--bt-space-xl); padding-top: var(--bt-space-lg); border-top: var(--bt-border-thin) solid var(--bt-cream); font-size: var(--bt-text-xs); }
 .legal-links { display: flex; flex-wrap: wrap; gap: var(--bt-space-md); }
