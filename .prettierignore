@@ -5,8 +5,7 @@ dist
 .tanstack
 .wrangler
 src/routeTree.gen.ts
-src/routes/[__component].preview.$.tsx
-src/routes/[__mockup].preview.$.tsx
+src/routes/*preview*.tsx
 src/design-system
 src/assets/menu
 src/lib/menu-data.ts
