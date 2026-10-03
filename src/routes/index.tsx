@@ -47,7 +47,7 @@ function Index() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const closeRef = useRef<HTMLButtonElement>(null);
   const [muted, setMuted] = useState(true);
-  const [playing, setPlaying] = useState(true);
+  const [playing, setPlaying] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [category, setCategory] = useState<MenuCategory>('Starters');
   useEffect(() => {
@@ -85,7 +85,7 @@ function Index() {
         <Marquee text="Benvenuti" separator={<RestaurantSketch kind="lemon" small />} />
         <section id="about" className="section story bt-surface-dark">
           <div className="section-inner story-grid">
-            <div className="story-player"><div className="arch-video"><video ref={videoRef} src={clubVideo.url} poster={poster.url} autoPlay muted={muted} loop playsInline preload="metadata" aria-label="Making fresh pasta together at Bottega" onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} /><div className="video-caption"><PillLabel variant="mustard">About us</PillLabel></div></div><div className="video-controls"><span className="video-label">Made together. With amore.</span><div className="video-buttons"><Button variant="cream" size="sm" aria-label={playing ? 'Pause video' : 'Play video'} title={playing ? 'Pause video' : 'Play video'} onClick={() => { if (playing) videoRef.current?.pause(); else void videoRef.current?.play().catch(() => setPlaying(false)); }}>{playing ? 'Ⅱ' : '▶'}</Button><Button variant="cream" size="sm" aria-pressed={!muted} aria-label={muted ? 'Turn sound on' : 'Turn sound off'} title={muted ? 'Turn sound on' : 'Turn sound off'} onClick={() => setMuted(!muted)}>{muted ? '♫ ×' : '♫'}</Button></div></div></div>
+            <div className="story-player"><div className="arch-video"><video ref={videoRef} src={clubVideo.url} poster={poster.url} autoPlay muted={muted} loop playsInline preload="metadata" aria-label="Making fresh pasta together at Bottega" onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} /><div className="video-caption"><PillLabel variant="mustard">About us</PillLabel></div></div><div className="video-controls"><span className="video-label">Made together. With amore.</span><div className="video-buttons"><Button variant="cream" size="sm" aria-label={playing ? 'Pause video' : 'Play video'} title={playing ? 'Pause video' : 'Play video'} onClick={() => { if (playing) { videoRef.current?.pause(); setPlaying(false); } else void videoRef.current?.play().catch(() => setPlaying(false)); }}>{playing ? 'Ⅱ' : '▶'}</Button><Button variant="cream" size="sm" aria-pressed={!muted} aria-label={muted ? 'Turn sound on' : 'Turn sound off'} title={muted ? 'Turn sound on' : 'Turn sound off'} onClick={() => setMuted(!muted)}>{muted ? '♫ ×' : '♫'}</Button></div></div></div>
             <div><p className="eyebrow">A tavola, with love</p><div className="story-heading"><Display size="xl" tone="mustard">Bottega<br />Pasta Club.</Display></div><Serif size="lg" tone="cream">The place to meet, eat,<br />and celebrate life.</Serif><div className="story-copy"><p>Judgment-free and full of carbs. A haven where joy is served on a plate alongside a slice of bread.</p><p>With a cannolo in hand and an espresso in the other, we cin cin for a place that feels like home.</p></div><LinkAction href="#club" tone="mustard">Come join the club</LinkAction></div>
           </div>
         </section>

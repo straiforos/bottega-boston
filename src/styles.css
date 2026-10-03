@@ -46,7 +46,7 @@ main { overflow: clip; }
 .offering { position: relative; }
 .offering-food { margin-top: var(--bt-space-xl); }
 .offering-market { margin-top: calc(var(--bt-space-xl) * 2); }
-.catering-stamp { position: absolute; top: calc(-1 * var(--bt-space-lg)); right: calc(-1 * var(--bt-space-lg)); }
+.catering-stamp { position: absolute; top: calc(-1 * var(--bt-space-xl)); right: calc(-1 * var(--bt-space-lg)); }
 .offering-image { width: 100%; height: calc(var(--bt-space-8) * 3); object-fit: contain; display: block; }
 .market-art { display: grid; place-items: center; height: calc(var(--bt-space-8) * 3); }
 .market-art .sketch { width: calc(var(--bt-space-8) * 2); height: calc(var(--bt-space-8) * 2); }
