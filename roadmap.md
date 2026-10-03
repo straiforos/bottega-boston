@@ -19,3 +19,4 @@
 - [x] On mobile, left-align the "About us" pill so the CC and sound controls stay clear of it.
 - [x] On mobile, tighten the gap between the "Family is life" ribbon and the menu heading.
 - [x] Drop the period from the menu heading and move the pasta-pot sketch in front of the word.
+- [x] Remove the "A tavola, with love" label above the "Bottega Pasta Club." heading.
