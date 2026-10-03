@@ -12,6 +12,7 @@ main { overflow: clip; }
 .header-brand { display: block; }
 .header-brand-pair { align-items: center; gap: var(--bt-space-sm); }
 .desktop-logo.header-brand-pair { display: inline-flex; }
+.header-navigation { display: flex; align-items: center; flex-wrap: wrap; gap: var(--bt-space-lg); margin-left: auto; }
 .mobile-logo { display: none; }
 .hero { position: relative; background: var(--bt-forest); }
 .hero-photo { display: block; width: 100%; height: auto; }
@@ -99,6 +100,7 @@ a:focus-visible { outline: var(--bt-border-width) solid var(--bt-focus); outline
   .desktop-logo.header-brand-pair { display: none; }
   .mobile-logo.header-brand-pair { display: inline-flex; }
   .shared-header { gap: var(--bt-space-sm); }
+  .header-navigation { order: 1; flex-basis: 100%; justify-content: space-between; gap: var(--bt-space-sm); margin-left: 0; }
   .hero-copy { bottom: var(--bt-space-lg); }
   .hero-hashtag { font-size: var(--bt-text-display); }
   .hero-stamp { left: 0; top: calc(-1 * var(--bt-space-8)); }
