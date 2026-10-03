@@ -52,15 +52,8 @@
 }
 .story {
   position: relative;
-  padding-top: calc(var(--bt-space-8) * 2);
   background: var(--bt-forest);
   color: var(--bt-cream);
-}
-.story-ribbon {
-  position: absolute;
-  inset-inline: 0;
-  top: calc(-1 * var(--bt-space-8));
-  pointer-events: none;
 }
 .story-grid {
   display: grid;
@@ -162,9 +155,8 @@
   overflow: hidden;
 }
 .offerings-ribbon {
-  position: absolute;
-  inset-inline: 0;
-  top: calc(-1 * var(--bt-space-8));
+  position: relative;
+  margin-top: calc(-1 * var(--bt-space-8));
   pointer-events: none;
 }
 .offerings-layout {
@@ -404,7 +396,7 @@
     padding-block: var(--bt-space-xl);
   }
   .offerings-ribbon {
-    top: calc(-1 * var(--bt-space-lg));
+    margin-top: calc(-1 * var(--bt-space-lg));
   }
   .offering {
     width: 100%;
@@ -438,9 +430,6 @@
   }
   .club-photo {
     margin-top: 0;
-  }
-  .story-ribbon {
-    top: calc(-1 * var(--bt-space-lg));
   }
 }
 @media (prefers-reduced-motion: reduce) {

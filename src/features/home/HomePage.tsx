@@ -16,10 +16,10 @@ export function HomePage() {
       <BottegaHeader />
       <main>
         <HeroSection />
+        <SketchMarquee text={restaurantContent.home.pastaIsLife} />
         <StorySection />
         <OfferingsSection />
         <EventsSection />
-        <SketchMarquee text={restaurantContent.home.pastaIsLife} />
         <SocialSection />
         <ClubSection />
       </main>
