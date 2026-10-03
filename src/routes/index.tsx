@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, createLink } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from 'react';
 import { Button, Card, Stamp, Display, Serif, Logo, SiteHeader, Marquee, WaveRibbon, LinkAction, TextField, Checkbox, PillLabel } from '@/design-system/bottega-f5161c';
 import { RestaurantSketch } from '@/components/RestaurantSketch';
@@ -25,12 +25,7 @@ export const Route = createFileRoute("/")({
 });
 
 const orderingUrl = 'https://ciao724.wixstudio.com/my-site/online-ordering';
-const dishes = {
-  Starters: [['Pork Shumai', 11], ['Chicken Jiaozi', 11], ['Vegetarian Spring Rolls', 9]],
-  Noodles: [['Beef Chow Fun', 18], ['Dan Dan Noodles', 18], ['Lo Mein', 18], ['Singapore Noodles', 18], ['Chop Suey', 18], ['Mei Fun', 18], ['Kung Po Noodles', 18], ['Chongqing', 18], ['Beijing Noodles', 18]],
-  Drinks: [['Miantiao Ice Tea', 4], ['Peach Black Tea', 4], ['Raspberry Jasmine', 4], ['Strawberry Oolong', 4]],
-} satisfies Record<string, [string, number][]>;
-type MenuCategory = keyof typeof dishes;
+const MenuLink = createLink(LinkAction);
 
 function MovingRibbon({ text }: { text: string }) {
   const ref = useRef<SVGSVGElement>(null);
@@ -45,42 +40,20 @@ function MovingRibbon({ text }: { text: string }) {
 
 function Index() {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const closeRef = useRef<HTMLButtonElement>(null);
   const [muted, setMuted] = useState(true);
   const [playing, setPlaying] = useState(false);
-  const [menuOpen, setMenuOpen] = useState(false);
-  const [category, setCategory] = useState<MenuCategory>('Starters');
-  useEffect(() => {
-    if (!menuOpen) return;
-    const previouslyFocused = document.activeElement;
-    const oldOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-    closeRef.current?.focus();
-    const keydown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setMenuOpen(false);
-      if (event.key === 'Tab') {
-        const controls = Array.from(document.querySelectorAll<HTMLElement>('.modal-panel button, .modal-panel a'));
-        const first = controls[0]; const last = controls[controls.length - 1];
-        if (event.shiftKey && document.activeElement === first) { event.preventDefault(); last?.focus(); }
-        else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
-      }
-    };
-    document.addEventListener('keydown', keydown);
-    return () => { document.body.style.overflow = oldOverflow; document.removeEventListener('keydown', keydown); if (previouslyFocused instanceof HTMLElement) previouslyFocused.focus(); };
-  }, [menuOpen]);
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { videoRef.current?.pause(); setPlaying(false); }
   }, []);
-  const openMenu = (tab: MenuCategory = 'Starters') => { setCategory(tab); setMenuOpen(true); };
   return (
     <>
       <Marquee text="Benvenuti" separator={<RestaurantSketch kind="pasta" small />} variant="cream" />
-      <SiteHeader logo={<a href="#" aria-label="Bottega home"><span className="desktop-logo"><Logo variant="lockup-wordmark" size="md" /></span><span className="mobile-logo"><Logo variant="wordmark" size="sm" /></span></a>} action={<div className="header-actions"><nav aria-label="Main navigation" className="navigation"><a href="#about">Our story</a><a href="#menu">Menu</a><a href="#events">Come hang out</a></nav><Button variant="primary" onClick={() => window.location.assign(orderingUrl)}>Order now ↗</Button></div>} />
+      <SiteHeader logo={<a href="#" aria-label="Bottega home"><span className="desktop-logo"><Logo variant="lockup-wordmark" size="md" /></span><span className="mobile-logo"><Logo variant="wordmark" size="sm" /></span></a>} action={<div className="header-actions"><nav aria-label="Main navigation" className="navigation"><a href="#about">Our story</a><MenuLink to="/menu">Menu</MenuLink><a href="#events">Come hang out</a></nav><Button variant="primary" onClick={() => window.location.assign(orderingUrl)}>Order now ↗</Button></div>} />
       <main>
         <section className="hero" aria-label="Welcome to Bottega">
           <img className="hero-photo" src={hero.url} alt="A woman in sunglasses enjoying Bottega fettuccine bolognese" fetchPriority="high" />
           <div className="hero-shade" />
-          <div className="hero-copy"><p className="hero-tag">#pastaislife</p><div className="hero-headline"><div className="hero-title"><Display as="h1" size="xl" tone="cream">Buonissima.<br />Semplice.<br />Italian.</Display></div><div className="hero-note"><Serif size="sm" tone="cream">A little Italian.<br />A lot of amore.</Serif><LinkAction href="#menu" tone="cream">Menu</LinkAction></div></div></div>
+          <div className="hero-copy"><p className="hero-tag">#pastaislife</p><div className="hero-headline"><div className="hero-title"><Display as="h1" size="xl" tone="cream">Buonissima.<br />Semplice.<br />Italian.</Display></div><div className="hero-note"><Serif size="sm" tone="cream">A little Italian.<br />A lot of amore.</Serif><MenuLink to="/menu" tone="cream">Menu</MenuLink></div></div></div>
         </section>
         <Marquee text="Benvenuti" separator={<RestaurantSketch kind="lemon" small />} />
         <section id="about" className="section story bt-surface-dark">
@@ -90,11 +63,11 @@ function Index() {
           </div>
         </section>
         <Marquee text="#pastaislife" separator={<RestaurantSketch small />} />
-        <section id="menu" className="section menu-intro"><div className="section-inner"><p className="eyebrow">Made with amore. Served with joy.</p><div className="menu-title"><div className="big-sketch"><RestaurantSketch kind="pot" /></div><Display size="xl" tone="forest">Menu</Display></div><Serif size="md" tone="forest">Something delicious for every part of your day.</Serif><Button variant="primary" onClick={() => openMenu()}>View menu ↗</Button></div></section>
+        <section id="menu" className="section menu-intro"><div className="section-inner"><p className="eyebrow">Made with amore. Served with joy.</p><div className="menu-title"><div className="big-sketch"><RestaurantSketch kind="pot" /></div><Display size="xl" tone="forest">Menu</Display></div><Serif size="md" tone="forest">Something delicious for every part of your day.</Serif><MenuLink to="/menu">View menu</MenuLink></div></section>
         <MovingRibbon text="#familyislife · #pastaislife" />
         <section className="offerings-section bt-surface-dark" aria-label="Discover Bottega"><div className="section-inner offerings">
-          <article className="offering offering-coffee"><Card variant="cream" shape="rect"><div><Display as="h3" size="sm" tone="forest">Coffee + house drinks</Display><Serif size="lg" tone="forest">& dolci</Serif></div><img className="offering-image" src={coffee.url} alt="A Bottega guest holding a cappuccino and iced coffee" loading="lazy" /><LinkAction href="mailto:ciao@eatbottega.com?subject=Catering%20menu%20inquiry">Catering menu</LinkAction></Card><div className="catering-stamp"><Stamp size="sm">Catering<br />menu</Stamp></div></article>
-          <article className="offering offering-food"><Card variant="mustard" shape="arch"><img className="offering-image" src={pasta.url} alt="A woman holding a plate of Bottega pesto pasta" loading="lazy" /><Display as="h3" size="md" tone="forest">The food</Display><Serif size="sm" tone="forest">Breakfast, lunch, dinner<br />& everything in between.</Serif><LinkAction href="#menu" onClick={(event) => { event.preventDefault(); openMenu('Noodles'); }}>Food menu</LinkAction></Card></article>
+          <article className="offering offering-coffee"><Card variant="cream" shape="rect"><div><Display as="h3" size="sm" tone="forest">Coffee + house drinks</Display><Serif size="lg" tone="forest">& dolci</Serif></div><img className="offering-image" src={coffee.url} alt="A Bottega guest holding a cappuccino and iced coffee" loading="lazy" /><MenuLink to="/menu" hash="category-8">Catering menu</MenuLink></Card><div className="catering-stamp"><Stamp size="sm">Catering<br />menu</Stamp></div></article>
+          <article className="offering offering-food"><Card variant="mustard" shape="arch"><img className="offering-image" src={pasta.url} alt="A woman holding a plate of Bottega pesto pasta" loading="lazy" /><Display as="h3" size="md" tone="forest">The food</Display><Serif size="sm" tone="forest">Breakfast, lunch, dinner<br />& everything in between.</Serif><MenuLink to="/menu">Food menu</MenuLink></Card></article>
           <article id="market" className="offering offering-market"><Card variant="cobalt" shape="rect"><Serif as="h3" size="lg" tone="cream">Il Mercatino</Serif><PillLabel variant="mustard">The little market</PillLabel><div className="market-art"><RestaurantSketch kind="market" /></div><Serif size="sm" tone="cream">A little Bottega.<br />To take home.</Serif><LinkAction href="mailto:ciao@eatbottega.com?subject=Il%20Mercatino%20inquiry" tone="mustard">Explore the market</LinkAction></Card></article>
         </div>
         </section>
@@ -104,7 +77,7 @@ function Index() {
         <section id="club" className="club bt-surface-dark"><div className="club-ribbon"><MovingRibbon text="Follow us" /></div><div className="club-grid"><div className="club-copy"><p className="eyebrow">Carbs. Community. Cin cin.</p><Display size="lg" tone="mustard">Join the Bottega<br />Pasta Club.</Display><Serif size="sm" tone="cream">Good pasta. Good people. Good news.</Serif><p>Get early access to events, menu launches, special offers, and everything happening at Bottega.</p><form className="club-form" onSubmit={(event) => { event.preventDefault(); const data = new FormData(event.currentTarget); window.location.href = `mailto:ciao@eatbottega.com?subject=Pasta%20Club%20signup&body=${encodeURIComponent(`Please add me to the Pasta Club email list.\nEmail: ${String(data.get('email'))}`)}`; }}><TextField surface="inverse" label="Email address" name="email" type="email" placeholder="Your email address" required /><Checkbox surface="inverse" required>I’d like to receive news from Bottega.</Checkbox><div><Button type="submit" variant="cream">Count me in ↗</Button></div></form></div><img className="club-photo" src={pasta.url} alt="Pasta Club is always a good idea" loading="lazy" /></div></section>
       </main>
       <footer id="contact" className="footer bt-surface-dark"><div className="section-inner"><div className="footer-grid"><div><Logo variant="lockup-wordmark" tone="cream" size="md" /><p>Judgment-free.<br />Full of carbs.</p><div className="social-links"><a href="https://www.instagram.com/eatbottega/" target="_blank" rel="noreferrer">Instagram ↗</a></div></div><div><h3>Find us</h3><p><strong>Bottega Fioretina</strong><br />313B Harvard St.<br />Brookline, MA 02446</p><p><strong>Bottega Del Sud</strong><br />645 E 2nd St.<br />Boston, MA 02127</p></div><div><h3>Come on in</h3><p>Monday to Friday<br />7:30 am – 9:00 pm</p><p>Weekends<br />9:30 am – 9:00 pm</p></div><div><h3>Say ciao</h3><a href="mailto:ciao@eatbottega.com">ciao@eatbottega.com</a><p><LinkAction href="mailto:ciao@eatbottega.com" tone="mustard">Contact us</LinkAction></p></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Bottega. Made with amore.</span><div className="legal-links">{[['Privacy policy', 'privecy-policy'], ['Accessibility', 'accessibility-statement'], ['Terms & conditions', 'terms-and-conditions'], ['Refund policy', 'refund-policy']].map(([text, path]) => <a href={`https://ciao724.wixstudio.com/my-site/${path}`} key={path}>{text}</a>)}</div></div></div></footer>
-      {menuOpen && <div className="modal" onClick={(event) => { if (event.target === event.currentTarget) setMenuOpen(false); }}><section className="modal-panel" role="dialog" aria-modal="true" aria-labelledby="menu-dialog-title"><div className="modal-heading"><Display id="menu-dialog-title" size="md" tone="forest">Bottega Menu</Display><Button ref={closeRef} variant="ghost" size="sm" aria-label="Close menu" onClick={() => setMenuOpen(false)}>✕</Button></div><div className="menu-tabs" role="tablist" aria-label="Menu categories">{(Object.keys(dishes) as MenuCategory[]).map(tab => <Button key={tab} role="tab" aria-selected={category === tab} aria-controls="menu-dishes" variant={category === tab ? 'primary' : 'ghost'} size="sm" onClick={() => setCategory(tab)}>{tab}</Button>)}</div><div id="menu-dishes" role="tabpanel" aria-label={category}>{dishes[category].map(([name, price]) => <div className="dish" key={name}><div><p>{name}</p>{name === 'Mei Fun' && <p className="dish-description">Seared fresh tuna, fresh herbs, and a touch of chili.</p>}</div><strong>${price}</strong></div>)}</div><p><LinkAction href={orderingUrl}>Order online</LinkAction></p></section></div>}
+
     </>
   );
 }

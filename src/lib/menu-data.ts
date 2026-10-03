@@ -190,7 +190,7 @@ export const menuSections = [
   {
     "id": "category-3",
     "name": "Insalate (Salads)",
-    "note": "",
+    "note": "Vinaigrettes & Dressings: Olive Oil | Vinegar | Balsamic Vinegar | Lemon Olive Oil | Caesar | Italian",
     "items": [
       {
         "id": "dish-22",
@@ -223,7 +223,7 @@ export const menuSections = [
         "id": "dish-25",
         "name": "Pear & Parmigiano",
         "price": "$14.00",
-        "description": "Arugula, pear, shaved parmigiano topped with walnuts dressed with lemon olive oil vinaigrette.\nVinaigrettes & Dressings: Olive Oil | Vinegar | Balsamic Vinegar | Lemon Olive Oil | Caesar | Italian",
+        "description": "Arugula, pear, shaved parmigiano topped with walnuts dressed with lemon olive oil vinaigrette.",
         "tags": [
           "GF",
           "V"
@@ -351,14 +351,14 @@ export const menuSections = [
       {
         "id": "dish-39",
         "name": "Build Your Own Pasta Bowl",
-        "price": "$11.75+ (Choose pasta shape, choose a house sauce, lastly add toppings.)",
-        "description": "\nPasta Shapes: Penne, Spaghetti or Fettuccine ($11.75) | Gluten Free (GF) ($13.75) | Gnocchi ($14.75) | Cheese Tortellini ($15.75) | Lobster Ravioli ($19.00)\nTraditional Sauces:\nPomodoro (VG): Fresh tomato and basil | Make It Spicy, Add Pepperoncino\nFedora (V): Pomodoro, rosemary and cream.\nAlfredo: Butter, cheese, cream and black pepper.\nVodka (V): Creamy pink sauce with vodka and a touch of butter.\nCreamy Carbonara (+$2.15): Egg, cheese, cream, pancetta, onion and black pepper.\nBolognese (+$2.15): Ground beef and pork cooked in pomodoro.\nPesto (V) (+$2.15): Fresh basil, parmigiano cheese, E.V.O.O, garlic and pine nuts.\nBottega Sauces (+$3.25 each):\nAndrea: Prosciutto, sweetpeas, mushroom, and cream sprinkled with truffle oil.\nMichelangelo (V): Fresh tomato, basil, and fresh mozzarella.\nPesce: Shrimps, scallops, sundried tomato, white wine and thyme.\nMedici: Prosciutto, mushroom in creamy pomodoro.\nGorgonzola: Creamy gorgonzola with a touch of nutmeg.\nSeasonal Sauces: Fettuccine Primavera (V) (+$3.25) - Mushroom, broccoli, carrots, peppers, celery and onions | Only available during spring and summer.\nToppings: Grilled Chicken +$4.90 | Roasted Sausage +$4.90 | Shrimps +$4.90 | Meatball (One) +$3.00 | Fresh Mozzarella +$3.00 | Broccoli +$2.45 | Mushrooms +$2.45 | Roasted Peppers +$2.45 | Pancetta +$3.95 | Prosciutto +$3.95",
+        "price": "$11.75+",
+        "description": "Choose pasta shape, choose a house sauce, lastly add toppings.\n\nPasta Shapes: Penne, Spaghetti or Fettuccine ($11.75) | Gluten Free (GF) ($13.75) | Gnocchi ($14.75) | Cheese Tortellini ($15.75) | Lobster Ravioli ($19.00)\nTraditional Sauces:\nPomodoro (VG): Fresh tomato and basil | Make It Spicy, Add Pepperoncino\nFedora (V): Pomodoro, rosemary and cream.\nAlfredo: Butter, cheese, cream and black pepper.\nVodka (V): Creamy pink sauce with vodka and a touch of butter.\nCreamy Carbonara (+$2.15): Egg, cheese, cream, pancetta, onion and black pepper.\nBolognese (+$2.15): Ground beef and pork cooked in pomodoro.\nPesto (V) (+$2.15): Fresh basil, parmigiano cheese, E.V.O.O, garlic and pine nuts.\nBottega Sauces (+$3.25 each):\nAndrea: Prosciutto, sweetpeas, mushroom, and cream sprinkled with truffle oil.\nMichelangelo (V): Fresh tomato, basil, and fresh mozzarella.\nPesce: Shrimps, scallops, sundried tomato, white wine and thyme.\nMedici: Prosciutto, mushroom in creamy pomodoro.\nGorgonzola: Creamy gorgonzola with a touch of nutmeg.\nSeasonal Sauces: Fettuccine Primavera (V) (+$3.25) - Mushroom, broccoli, carrots, peppers, celery and onions | Only available during spring and summer.\nToppings: Grilled Chicken +$4.90 | Roasted Sausage +$4.90 | Shrimps +$4.90 | Meatball (One) +$3.00 | Fresh Mozzarella +$3.00 | Broccoli +$2.45 | Mushrooms +$2.45 | Roasted Peppers +$2.45 | Pancetta +$3.95 | Prosciutto +$3.95",
         "tags": []
       },
       {
         "id": "dish-40",
-        "name": "Sauces by The Pint ($11.00+)",
-        "price": "Pomodoro (VG) $11.00 | Bolognese $13.00 | Fedora (V) $11.00 | Pesto (V) $15.00 (1/2 pint)",
+        "name": "Sauces by The Pint",
+        "price": "$11.00+",
         "description": "",
         "tags": []
       },
@@ -706,9 +706,9 @@ export const menuSections = [
     "items": [
       {
         "id": "dish-80",
-        "name": "Grill Chicken",
-        "price": "$4.68",
-        "description": "",
+        "name": "Chicken, sausage & meatballs",
+        "price": "Chicken $4.68 | Sausage $4.68 | Meatballs $2.86 each",
+        "description": "Grill Chicken | Roasted Sausage | Meatballs",
         "tags": []
       },
       {

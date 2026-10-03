@@ -73,13 +73,6 @@ main { overflow: clip; }
 .footer p { font-size: var(--bt-text-sm); }
 .footer-bottom { display: flex; justify-content: space-between; flex-wrap: wrap; gap: var(--bt-space-lg); margin-top: var(--bt-space-xl); padding-top: var(--bt-space-lg); border-top: var(--bt-border-thin) solid var(--bt-cream); font-size: var(--bt-text-xs); }
 .legal-links { display: flex; flex-wrap: wrap; gap: var(--bt-space-md); }
-.modal { position: fixed; inset: 0; z-index: 10; display: grid; place-items: center; padding: var(--bt-gutter); background: var(--bt-shadow-ink); }
-.modal-panel { background: var(--bt-background); color: var(--bt-body); width: 100%; max-width: calc(var(--bt-space-8) * 7); max-height: calc(100vh - var(--bt-space-xl)); overflow-y: auto; padding: var(--bt-space-lg); border: var(--bt-border-width) solid var(--bt-tomato); }
-.modal-heading { display: flex; align-items: center; justify-content: space-between; gap: var(--bt-space-lg); }
-.menu-tabs { display: flex; gap: var(--bt-space-sm); flex-wrap: wrap; margin-block: var(--bt-space-lg); }
-.dish { display: flex; justify-content: space-between; gap: var(--bt-space-lg); padding-block: var(--bt-space-md); border-bottom: var(--bt-border-thin) solid var(--bt-outline-variant); }
-.dish p { margin: 0; }
-.dish-description { font-size: var(--bt-text-sm); color: var(--bt-muted); }
 a:focus-visible { outline: var(--bt-border-width) solid var(--bt-focus); outline-offset: var(--bt-space-xs); }
 @media (max-width: 767px) {
   .desktop-logo { display: none; }
