@@ -454,6 +454,7 @@
     padding-inline: var(--bt-margin);
   }
   .club-media {
+    order: -1;
     margin-top: 0;
   }
   .club-photo {
