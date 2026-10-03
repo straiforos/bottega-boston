@@ -35,6 +35,13 @@ export function StoryVideo({ src, poster }: { src: string; poster: string }) {
     return () => track.removeEventListener('cuechange', updateCaption);
   }, []);
 
+  useEffect(() => {
+    if (reducedMotion) {
+      videoRef.current?.pause();
+      setPlaying(false);
+    }
+  }, [reducedMotion]);
+
   return (
     <div className="story-player">
       <div className="arch-video">
