@@ -366,7 +366,6 @@
 }
 .club-media {
   position: relative;
-  z-index: 1;
   align-self: stretch;
   margin-top: calc(-2 * var(--bt-space-8));
 }
