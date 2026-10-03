@@ -250,8 +250,10 @@
   text-align: center;
   background: var(--bt-cobalt);
   color: var(--bt-cream);
-  padding-block: var(--bt-space-lg);
+  padding-top: calc(var(--bt-space-8) + var(--bt-space-lg));
+  padding-bottom: var(--bt-space-md);
 }
+
 
 .events-ribbon {
   position: absolute;
