@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { createLink, Link } from '@tanstack/react-router';
-import { Button, LinkAction, Logo, MenuOverlay, MenuToggle, SiteHeader } from '@/design-system/bottega-f5161c';
+import { Button, LinkAction, Logo, MenuOverlay, MenuToggle, SiteHeader } from '@/design-system/bottega-f5161c/bottega';
 
 const HeaderLink = createLink(LinkAction);
 const orderingUrl = 'https://ciao724.wixstudio.com/my-site/online-ordering';
