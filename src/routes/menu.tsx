@@ -67,6 +67,6 @@ function MenuPage() {
       </div>
     </main>
     <Marquee text="Made with amore" />
-    <footer className="footer bt-surface-dark"><div className="section-inner menu-page-footer"><div><Logo variant="wordmark" tone="cream" size="sm" /><p>313B Harvard St. · Brookline, MA 02446<br />645 E 2nd St. · South Boston, MA 02127</p></div><div><LinkAction href="tel:+16172322661" tone="mustard">(617) 232-2661</LinkAction><p><LinkAction href="mailto:ciao@eatbottega.com" tone="cream">ciao@eatbottega.com</LinkAction></p><PageLink to="/" tone="cream">Back to Bottega</PageLink></div></div></footer>
+    <footer className="footer bt-surface-dark"><div className="section-inner menu-page-footer"><div><Logo variant="wordmark" tone="cream" size="sm" /><address>313B Harvard St. · Brookline, MA 02446<br />645 E 2nd St. · South Boston, MA 02127</address></div><div><address><LinkAction href="tel:+16172322661" tone="mustard">(617) 232-2661</LinkAction><p><LinkAction href="mailto:ciao@eatbottega.com" tone="cream">ciao@eatbottega.com</LinkAction></p></address><PageLink to="/" tone="cream">Back to Bottega</PageLink></div></div></footer>
   </>;
 }
