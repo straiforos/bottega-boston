@@ -181,7 +181,7 @@
 .offerings-heading {
   text-align: center;
 }
-@media (max-width: 767px) {
+@media (hover: none) {
   .offerings-track {
     height: auto;
   }
@@ -377,7 +377,7 @@
   gap: var(--bt-space-md);
   margin-top: var(--bt-space-lg);
 }
-@media (max-width: 767px) {
+@media (hover: none) {
   .hero-copy {
     bottom: var(--bt-space-lg);
   }
