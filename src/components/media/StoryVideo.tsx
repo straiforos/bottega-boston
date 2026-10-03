@@ -9,6 +9,7 @@ export function StoryVideo({ src, poster }: { src: string; poster: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [muted, setMuted] = useState(true);
   const [playing, setPlaying] = useState(false);
+  const [caption, setCaption] = useState('');
   const reducedMotion = usePrefersReducedMotion();
   const labels = restaurantContent.media;
 
@@ -18,6 +19,21 @@ export function StoryVideo({ src, poster }: { src: string; poster: string }) {
     if (video.paused) void video.play().catch(() => setPlaying(false));
     else video.pause();
   };
+
+  // The VTT track stays attached for screen readers, but the browser's default
+  // caption rendering is hidden; our own styled overlay follows the active cue.
+  useEffect(() => {
+    const track = videoRef.current?.textTracks[0];
+    if (!track) return;
+    track.mode = 'hidden';
+    const updateCaption = () => {
+      const cues = Array.from(track.activeCues ?? []) as VTTCue[];
+      setCaption(cues.map((cue) => cue.text).join(' '));
+    };
+    updateCaption();
+    track.addEventListener('cuechange', updateCaption);
+    return () => track.removeEventListener('cuechange', updateCaption);
+  }, []);
 
   useEffect(() => {
     if (reducedMotion) {
@@ -43,8 +59,13 @@ export function StoryVideo({ src, poster }: { src: string; poster: string }) {
           onPlay={() => setPlaying(true)}
           onPause={() => setPlaying(false)}
         >
-          <track kind="captions" src={storyCaptions} srcLang="en" label="English" default />
+          <track kind="captions" src={storyCaptions} srcLang="en" label="English" />
         </video>
+        {caption && (
+          <div className="video-captions">
+            <PillLabel variant="mustard">{caption}</PillLabel>
+          </div>
+        )}
         <div className="video-play-control" data-playing={playing}>
           <Button
             variant="cream"

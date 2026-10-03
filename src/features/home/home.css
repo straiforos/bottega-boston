@@ -99,6 +99,14 @@
   text-align: center;
   pointer-events: none;
 }
+.video-captions {
+  position: absolute;
+  bottom: var(--bt-space-xl);
+  inset-inline: var(--bt-space-lg);
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+}
 .video-play-control {
   position: absolute;
   inset: 0;
