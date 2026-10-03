@@ -72,33 +72,31 @@ function Index() {
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
     if (!container || preference.matches || !('IntersectionObserver' in window)) return;
     const cards = Array.from(container.querySelectorAll<HTMLElement>('.offering'));
-    cards.forEach((card) => { card.dataset.reveal = 'pending'; });
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (!(entry.target instanceof HTMLElement)) return;
-        if (entry.isIntersecting) entry.target.dataset.reveal = 'visible';
-        else if (!entry.target.contains(document.activeElement)) entry.target.dataset.reveal = 'pending';
+    const travel = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--bt-space-xl')) || 2;
+    let frame = 0;
+    const update = () => {
+      frame = 0;
+      const viewport = window.innerHeight;
+      cards.forEach((card, index) => {
+        const rect = card.getBoundingClientRect();
+        let progress = (viewport - rect.top - index * viewport * 0.08) / (viewport * 0.35);
+        progress = Math.max(0, Math.min(1, progress));
+        card.style.opacity = progress.toFixed(3);
+        card.style.transform = `translateY(${((1 - progress) * travel).toFixed(3)}rem)`;
       });
-    }, { threshold: 0.15 });
-    cards.forEach((card) => observer.observe(card));
-    const showAll = () => {
-      if (!preference.matches) return;
-      cards.forEach((card) => { card.dataset.reveal = 'visible'; });
-      observer.disconnect();
     };
-    const showFocused = (event: FocusEvent) => {
-      if (!(event.target instanceof Element)) return;
-      const card = event.target.closest<HTMLElement>('.offering');
-      if (card) card.dataset.reveal = 'visible';
+    const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    window.addEventListener('scroll', schedule, { passive: true });
+    window.addEventListener('resize', schedule);
+    schedule();
+    const stop = () => {
+      window.removeEventListener('scroll', schedule);
+      window.removeEventListener('resize', schedule);
+      if (frame) cancelAnimationFrame(frame);
+      cards.forEach((card) => { card.style.opacity = ''; card.style.transform = ''; });
     };
-    preference.addEventListener('change', showAll);
-    container.addEventListener('focusin', showFocused);
-    return () => {
-      observer.disconnect();
-      preference.removeEventListener('change', showAll);
-      container.removeEventListener('focusin', showFocused);
-      cards.forEach((card) => { delete card.dataset.reveal; });
-    };
+    preference.addEventListener('change', stop);
+    return () => { preference.removeEventListener('change', stop); stop(); };
   }, []);
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { videoRef.current?.pause(); setPlaying(false); }

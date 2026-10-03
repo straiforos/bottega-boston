@@ -3,7 +3,7 @@
 - Compose the single-page restaurant experience at the index route using the attached Bottega components and canonical CSS; preserve the library-owned appearance.
 - Keep original uploaded and downloaded media in CDN pointer imports; do not embed raw binary copies in app source.
 - This initial restaurant page is presentation-only: ordering links to the original ordering service, and email requests use the restaurant address rather than pretending to save subscriptions.
-- Keep offering cards aligned and animate their wrappers with viewport-triggered sequential reveals that reverse when scrolled out; preserve library component appearance and respect reduced motion so updates remain compatible and content stays accessible.
+- Keep offering cards aligned and animate their wrappers with scroll-linked sequential reveals whose rise and fall track the scroll position (reverse as you scroll back); preserve library component appearance and respect reduced motion so updates remain compatible and content stays accessible.
 - Use a wrapper layout for the overlapping club ribbon; library components retain their own appearance so design-system updates remain compatible.
 - Keep the real menu in a dedicated /menu route with source-derived structured data and individual illustrative image imports; home menu actions use a TanStack createLink wrapper around LinkAction without editing vendor components.
 - Compose both page headers through BottegaHeader using the library's separate mark and wordmark variants and router-aware LinkAction navigation so branding and navigation remain consistent.
