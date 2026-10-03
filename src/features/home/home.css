@@ -237,8 +237,18 @@
   height: calc(var(--bt-space-8) * 2);
 }
 .events {
+  position: relative;
+  isolation: isolate;
   text-align: center;
-  background: var(--bt-background);
+  background: var(--bt-cobalt);
+  color: var(--bt-cream);
+  padding-top: calc(var(--bt-space-8) * 2);
+}
+.events-ribbon {
+  position: absolute;
+  inset-inline: 0;
+  top: calc(-1 * var(--bt-space-8));
+  pointer-events: none;
 }
 .events-heading {
   margin-bottom: var(--bt-space-xl);
@@ -411,6 +421,12 @@
   }
   .offerings-ribbon {
     margin-top: calc(-1 * var(--bt-space-lg));
+  }
+  .events {
+    padding-top: var(--bt-space-8);
+  }
+  .events-ribbon {
+    top: calc(-1 * var(--bt-space-lg));
   }
   .offering {
     width: 100%;

@@ -2,7 +2,13 @@ import { useEffect, useRef } from 'react';
 import { WaveRibbon } from '@/design-system/bottega-f5161c';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 
-export function MovingRibbon({ text }: { text: string }) {
+export function MovingRibbon({
+  text,
+  variant,
+}: {
+  text: string;
+  variant?: 'mustard' | 'cream' | 'tomato';
+}) {
   const ref = useRef<SVGSVGElement>(null);
   const reducedMotion = usePrefersReducedMotion();
 
@@ -11,5 +17,5 @@ export function MovingRibbon({ text }: { text: string }) {
     else ref.current?.unpauseAnimations();
   }, [reducedMotion]);
 
-  return <WaveRibbon ref={ref} text={text} separator="✦" />;
+  return <WaveRibbon ref={ref} text={text} variant={variant} separator="✦" />;
 }

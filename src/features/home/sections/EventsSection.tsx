@@ -1,9 +1,14 @@
 import { Display, Serif } from '@/design-system/bottega-f5161c';
+import { MovingRibbon } from '@/components/media/MovingRibbon';
 import { RestaurantSketch } from '@/components/RestaurantSketch';
+import { restaurantContent } from '@/content/en/restaurant';
 
 export function EventsSection() {
   return (
-    <section id="events" className="section events">
+    <section id="events" className="section events bt-surface-dark">
+      <div className="events-ribbon">
+        <MovingRibbon text={restaurantContent.home.events} variant="tomato" />
+      </div>
       <div className="section-inner">
         <p className="eyebrow">Good food. Better company.</p>
         <div className="events-heading">
