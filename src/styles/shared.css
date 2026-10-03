@@ -44,6 +44,9 @@ main {
 .header-menu-toggle {
   display: none;
 }
+.mobile-logo {
+  display: none;
+}
 .footer {
   background: var(--bt-forest);
   color: var(--bt-cream);
@@ -84,6 +87,12 @@ a:focus-visible {
   outline-offset: var(--bt-space-xs);
 }
 @media (max-width: 900px) {
+  .desktop-logo {
+    display: none;
+  }
+  .mobile-logo {
+    display: inline;
+  }
   .shared-header {
     gap: var(--bt-space-sm);
   }
