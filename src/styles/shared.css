@@ -23,6 +23,9 @@ main {
   align-items: center;
   gap: var(--bt-space-lg);
 }
+.mobile-only {
+  display: none;
+}
 .shared-header {
   gap: var(--bt-space-lg);
   position: sticky;
@@ -73,6 +76,12 @@ a:focus-visible {
   outline-offset: var(--bt-space-xs);
 }
 @media (max-width: 900px) {
+  .desktop-only {
+    display: none;
+  }
+  .mobile-only {
+    display: inline;
+  }
   .shared-header {
     gap: var(--bt-space-sm);
   }
