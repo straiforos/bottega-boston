@@ -57,10 +57,7 @@ export function BottegaHeader() {
             open={menuOpen}
             label={restaurantContent.navigation.menuLabel}
             footer={
-              <Button
-                variant={scrolled ? 'cream' : 'primary'}
-                onClick={() => window.location.assign(links.order)}
-              >
+              <Button variant={scrolled ? 'cream' : 'primary'} onClick={() => window.location.assign(links.order)}>
                 {restaurantContent.navigation.order}
               </Button>
             }
