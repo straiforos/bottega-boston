@@ -383,7 +383,7 @@
   width: 100%;
   align-self: end;
   display: block;
-  margin-top: calc(-1 * var(--bt-space-8));
+  margin-top: calc(-2 * var(--bt-space-8));
 }
 .club-copy {
   position: relative;
