@@ -183,7 +183,7 @@
   width: auto;
   display: block;
 }
-.pasta-pot-icon [data-color="1"] {
+.pasta-pot-icon [data-color='1'] {
   fill: var(--bt-mustard);
 }
 @media (max-width: 900px) {
