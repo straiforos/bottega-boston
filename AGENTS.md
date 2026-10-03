@@ -8,3 +8,4 @@
 - Keep the real menu in a dedicated /menu route with source-derived structured data and individual illustrative image imports; home menu actions use a TanStack createLink wrapper around LinkAction without editing vendor components.
 - Compose both page headers through BottegaHeader using the library's separate mark and wordmark variants and router-aware LinkAction navigation so branding and navigation remain consistent.
 - Mark up footer contact details (locations, email, phone, social link) with HTML5 address elements and reset their UA italic in the footer style layer so contact info stays semantic and legible.
+- Give every gallery media a Bottega tomato hairline with hover zoom and a light overlay mask, and drive the gallery video with the same custom play control pattern as the story video (never native controls); respect reduced motion.
