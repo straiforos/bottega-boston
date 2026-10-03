@@ -79,9 +79,25 @@ function Index() {
     const cards = Array.from(container.querySelectorAll<HTMLElement>('.offering'));
     const travel = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--bt-space-xl')) || 2;
     let frame = 0;
+    const track = container.closest<HTMLElement>('.offerings-track');
+    const desktop = window.matchMedia('(min-width: 768px)');
+    const ease = (t: number) => 1 - Math.pow(1 - t, 3);
     const update = () => {
       frame = 0;
       const viewport = window.innerHeight;
+      if (track && desktop.matches) {
+        // Section is pinned; scroll through the tall track drives each card in turn.
+        const rect = track.getBoundingClientRect();
+        const distance = Math.max(1, rect.height - viewport);
+        const overall = Math.max(0, Math.min(1, -rect.top / distance));
+        cards.forEach((card, index) => {
+          const raw = Math.max(0, Math.min(1, (overall - index * 0.27) / 0.3));
+          const p = ease(raw);
+          card.style.opacity = Math.min(1, raw * 1.6).toFixed(3);
+          card.style.transform = `translateY(${((1 - p) * viewport * 0.75).toFixed(1)}px) rotate(${((1 - p) * (index % 2 ? -6 : 6)).toFixed(2)}deg)`;
+        });
+        return;
+      }
       cards.forEach((card, index) => {
         const rect = card.getBoundingClientRect();
         let progress = (viewport - rect.top - index * viewport * 0.08) / (viewport * 0.35);
@@ -130,7 +146,7 @@ function Index() {
         <Marquee text="#pastaislife" separator={<RestaurantSketch small />} />
         <section id="menu" className="section menu-intro"><div className="section-inner"><p className="eyebrow">Made with amore. Served with joy.</p><div className="menu-title"><div className="big-sketch"><RestaurantSketch kind="pot" /></div><Display size="xl" tone="forest">Menu</Display></div><Serif size="md" tone="forest">Something delicious for every part of your day.</Serif><MenuLink to="/menu">View menu</MenuLink></div></section>
         <MovingRibbon text="#familyislife · #pastaislife" />
-        <section className="offerings-section bt-surface-dark" aria-label="Discover Bottega"><div ref={offeringsRef} className="section-inner offerings">
+        <div className="offerings-track"><section className="offerings-section bt-surface-dark" aria-label="Discover Bottega"><div ref={offeringsRef} className="section-inner offerings">
           <article className="offering offering-coffee"><Card variant="cream" shape="rect"><div><Display as="h3" size="sm" tone="forest">Coffee + house drinks</Display><Serif size="lg" tone="forest">& dolci</Serif></div><img className="offering-image" src={coffee.url} alt="A Bottega guest holding a cappuccino and iced coffee" loading="lazy" /><MenuLink to="/menu" hash="category-8">Catering menu</MenuLink></Card><div className="catering-stamp"><Stamp size="sm">Catering<br />menu</Stamp></div></article>
           <article className="offering offering-food"><Card variant="mustard" shape="arch"><img className="offering-image" src={pasta.url} alt="A woman holding a plate of Bottega pesto pasta" loading="lazy" /><Display as="h3" size="md" tone="forest">The food</Display><Serif size="sm" tone="forest">Breakfast, lunch, dinner<br />& everything in between.</Serif><MenuLink to="/menu">Food menu</MenuLink></Card></article>
           <article id="market" className="offering offering-market"><Card variant="cobalt" shape="rect"><Serif as="h3" size="lg" tone="cream">Il Mercatino</Serif><PillLabel variant="mustard">The little market</PillLabel><img className="offering-image" src={mercatino.url} alt="Inside Il Mercatino at Bottega — shelves of pasta, pantry goods and totes" loading="lazy" /><Serif size="sm" tone="cream">A little Bottega.<br />To take home.</Serif><LinkAction href="mailto:ciao@eatbottega.com?subject=Il%20Mercatino%20inquiry" tone="mustard">Explore the market</LinkAction></Card></article>
