@@ -10,7 +10,7 @@ export function useOfferingsMotion() {
     if (!container || preference.matches) return;
     const cards = Array.from(container.querySelectorAll<HTMLElement>('.offering'));
     const track = container.closest<HTMLElement>('.offerings-track');
-    const desktop = window.matchMedia('(hover: hover) and (pointer: fine)');
+    const desktop = window.matchMedia('(min-width: 901px)');
     const travel = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--bt-space-xl')) || 2;
     let frame = 0;
 

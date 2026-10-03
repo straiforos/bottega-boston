@@ -100,7 +100,7 @@
   flex-wrap: wrap;
   gap: var(--bt-space-xl);
 }
-@media (hover: none) {
+@media (max-width: 900px) {
   .menu-browse {
     grid-template-columns: minmax(0, 1fr);
   }

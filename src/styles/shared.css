@@ -27,6 +27,7 @@ main {
   gap: var(--bt-space-lg);
   position: sticky;
   top: 0;
+  z-index: 10;
   transition:
     background-color var(--bt-duration) ease,
     color var(--bt-duration) ease,
@@ -92,7 +93,7 @@ a:focus-visible {
   outline: var(--bt-border-width) solid var(--bt-focus);
   outline-offset: var(--bt-space-xs);
 }
-@media (hover: none) {
+@media (max-width: 900px) {
   .desktop-logo {
     display: none;
   }
