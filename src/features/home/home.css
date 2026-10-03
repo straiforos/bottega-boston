@@ -167,7 +167,11 @@
   justify-items: center;
   align-content: center;
 }
-.menu-heading {
+.offerings-heading {
+  display: grid;
+  gap: var(--bt-space-md);
+  text-align: center;
+}
   display: flex;
   align-items: center;
   justify-content: center;
