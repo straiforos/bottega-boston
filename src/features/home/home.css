@@ -172,6 +172,7 @@
   gap: var(--bt-space-md);
   text-align: center;
 }
+.menu-heading {
   display: flex;
   align-items: center;
   justify-content: center;
