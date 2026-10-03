@@ -3,6 +3,7 @@ import { Button, PillLabel } from '@/design-system/bottega-f5161c';
 import { restaurantContent } from '@/content/en/restaurant';
 import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { PlayPauseIcon } from './PlayPauseIcon';
+import storyCaptions from '@/content/en/story-captions.vtt?url';
 
 export function StoryVideo({ src, poster }: { src: string; poster: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -28,7 +29,9 @@ export function StoryVideo({ src, poster }: { src: string; poster: string }) {
   return (
     <div className="story-player">
       <div className="arch-video">
-        <video ref={videoRef} src={src} poster={poster} muted={muted} autoPlay={!reducedMotion} loop playsInline preload="metadata" aria-label="Making fresh pasta together at Bottega" onClick={togglePlayback} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} />
+        <video ref={videoRef} src={src} poster={poster} muted={muted} autoPlay={!reducedMotion} loop playsInline preload="metadata" aria-label="Making fresh pasta together at Bottega" onClick={togglePlayback} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)}>
+          <track kind="captions" src={storyCaptions} srcLang="en" label="English" default />
+        </video>
         <div className="video-play-control" data-playing={playing}>
           <Button variant="cream" size="lg" aria-label={playing ? labels.pause : labels.play} title={playing ? labels.pause : labels.play} onClick={togglePlayback}>
             <PlayPauseIcon playing={playing} className="video-play-icon" />

@@ -9,3 +9,5 @@
 - Compose both page headers through BottegaHeader using the library's separate mark and wordmark variants and router-aware LinkAction navigation so branding and navigation remain consistent.
 - Mark up footer contact details (locations, email, phone, social link) with HTML5 address elements and reset their UA italic in the footer style layer so contact info stays semantic and legible.
 - Give every gallery media a Bottega tomato hairline with hover zoom and a light overlay mask, and drive the gallery video with the same custom play control pattern as the story video (never native controls); respect reduced motion.
+- Keep route modules declarative and thin; compose page sections from `src/features`, reusable interface pieces from `src/components`, behavior from hooks or pure helpers, and English copy from `src/content/en` so future localization does not require presentation edits.
+- Keep shared, home, and menu styling in their respective imported stylesheets, using only Bottega tokens; verify filtering, scroll math, metadata, and accessibility with Vitest.

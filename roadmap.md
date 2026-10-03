@@ -7,3 +7,4 @@
 - [x] Add the real menu on its own searchable page with illustrative images, all prices and options, and replace the sample menu links.
 - [x] Share the home and menu header with official logo and name variants and bold colored navigation links.
 - [ ] Use the Bottega responsive MenuToggle and MenuOverlay in the shared header — blocked because the refreshed catalog lists them but the attached source/export files are missing.
+- [x] Restructure the project into maintainable features, shared components, centralized English content, focused style sheets, and tested pure behavior.
