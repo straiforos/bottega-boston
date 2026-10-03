@@ -35,12 +35,10 @@ export function BottegaHeader() {
       logo={
         <Link to="/" aria-label={restaurantContent.navigation.homeLabel} className="header-brand">
           <span className="desktop-logo header-brand-pair">
-            <Logo variant="mark" size="md" tone={logoTone} />
-            <Logo variant="wordmark" size="md" tone={logoTone} />
+            <Logo variant="lockup-wordmark" size="md" tone={logoTone} />
           </span>
           <span className="mobile-logo header-brand-pair">
-            <Logo variant="mark" size="sm" tone={logoTone} />
-            <Logo variant="wordmark" size="sm" tone={logoTone} />
+            <Logo variant="lockup-wordmark" size="sm" tone={logoTone} />
           </span>
         </Link>
       }
