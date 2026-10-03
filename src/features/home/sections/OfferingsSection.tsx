@@ -4,6 +4,7 @@ import { MovingRibbon } from '@/components/media/MovingRibbon';
 import { links } from '@/content/links';
 import { restaurantContent } from '@/content/en/restaurant';
 import { useOfferingsMotion } from '../hooks/useOfferingsMotion';
+import { MenuHeading } from './MenuHeading';
 import coffee from '@/assets/coffee.asset.json';
 import pasta from '@/assets/pasta-club.asset.json';
 import mercatino from '@/assets/mercatino.jpg.asset.json';

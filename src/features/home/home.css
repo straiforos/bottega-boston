@@ -167,13 +167,15 @@
   justify-items: center;
   align-content: center;
 }
-.offerings-heading {
-  display: grid;
+.menu-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   gap: var(--bt-space-md);
-  text-align: center;
 }
-.offerings-heading .eyebrow {
-  color: var(--bt-cream);
+.pasta-pot-icon {
+  height: var(--bt-text-3xl);
+  width: auto;
 }
 @media (max-width: 900px) {
   .offerings-track {

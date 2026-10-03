@@ -2,10 +2,9 @@ export const restaurantContent = {
   home: {
     welcome: 'Benvenuti',
     pastaIsLife: 'Pasta is life',
+    familyIsLife: 'Family is life',
     menu: {
-      eyebrow: 'Made with amore. Served with joy.',
       title: 'Menu.',
-      subtitle: 'Something delicious for every part of your day.',
       action: 'View menu',
     },
   },
