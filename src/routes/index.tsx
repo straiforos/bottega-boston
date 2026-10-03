@@ -47,8 +47,12 @@ function GalleryVideo({ src }: { src: string }) {
     if (video.paused) void video.play().catch(() => setPlaying(false));
     else video.pause();
   };
+  const startOnHover = () => {
+    if (ref.current?.paused) void ref.current.play().catch(() => setPlaying(false));
+  };
+  const stopOnLeave = () => ref.current?.pause();
   return (
-    <div className="gallery-player">
+    <div className="gallery-player" onMouseEnter={startOnHover} onMouseLeave={stopOnLeave} onFocus={startOnHover} onBlur={stopOnLeave}>
       <video ref={ref} src={src} loop muted playsInline preload="metadata" aria-label="A moment at Bottega" onClick={togglePlayback} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} />
       <div className="gallery-play-control" data-playing={playing ? 'true' : 'false'}><Button variant="cream" size="md" aria-label={playing ? 'Pause video' : 'Play video'} title={playing ? 'Pause video' : 'Play video'} onClick={togglePlayback}><svg className="gallery-play-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">{playing ? <path d="M6 4h4v16H6zM14 4h4v16h-4z" /> : <path d="M7 3v18l15-9z" />}</svg></Button></div>
     </div>
