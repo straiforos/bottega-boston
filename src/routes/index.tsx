@@ -38,6 +38,24 @@ function MovingRibbon({ text }: { text: string }) {
   return <WaveRibbon ref={ref} text={text} separator="✦" />;
 }
 
+function GalleryVideo({ src }: { src: string }) {
+  const ref = useRef<HTMLVideoElement>(null);
+  const [playing, setPlaying] = useState(false);
+  const togglePlayback = () => {
+    const video = ref.current;
+    if (!video) return;
+    if (video.paused) void video.play().catch(() => setPlaying(false));
+    else video.pause();
+  };
+  return (
+    <div className="gallery-player">
+      <video ref={ref} src={src} loop muted playsInline preload="metadata" aria-label="A moment at Bottega" onClick={togglePlayback} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} />
+      <div className="gallery-play-control" data-playing={playing ? 'true' : 'false'}><Button variant="cream" size="md" aria-label={playing ? 'Pause video' : 'Play video'} title={playing ? 'Pause video' : 'Play video'} onClick={togglePlayback}><svg className="gallery-play-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">{playing ? <path d="M6 4h4v16H6zM14 4h4v16h-4z" /> : <path d="M7 3v18l15-9z" />}</svg></Button></div>
+    </div>
+  );
+}
+
+
 function Index() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const offeringsRef = useRef<HTMLDivElement>(null);
@@ -117,7 +135,7 @@ function Index() {
         </section>
         <section id="events" className="section events"><div className="section-inner"><p className="eyebrow">Good food. Better company.</p><div className="events-heading"><Display size="xl" tone="forest">Come hang out<br />with us.</Display></div><div className="event-empty"><RestaurantSketch kind="lemon" /><Serif size="md" tone="forest">No events at the moment.</Serif><p>More good times are on the way. Ci vediamo presto!</p></div></div></section>
         <Marquee text="Pasta is life" separator={<RestaurantSketch small />} />
-        <section className="social-section"><div className="social-heading"><Display size="md" tone="forest">Life, the Bottega way.</Display><LinkAction href="https://www.instagram.com/eatbottega/" target="_blank" rel="noreferrer">@eatbottega</LinkAction></div><div className="gallery"><figure className="gallery-item"><video src={socialVideo.url} controls loop muted playsInline preload="metadata" aria-label="A moment at Bottega" /></figure>{[social1, social2, social3].map((asset, i) => <figure className="gallery-item" key={asset.asset_id}><img src={asset.url} loading="lazy" alt={['Enjoying a sweet treat at Bottega', 'A Bottega guest sharing a plate of pasta', 'Coffee and a little work at Bottega'][i]} /><figcaption><PillLabel variant="mustard">{['La dolce vita', '#pastaislife', 'Caffè, always'][i]}</PillLabel></figcaption></figure>)}</div></section>
+        <section className="social-section"><div className="social-heading"><Display size="md" tone="forest">Life, the Bottega way.</Display><LinkAction href="https://www.instagram.com/eatbottega/" target="_blank" rel="noreferrer">@eatbottega</LinkAction></div><div className="gallery"><figure className="gallery-item"><GalleryVideo src={socialVideo.url} /></figure>{[social1, social2, social3].map((asset, i) => <figure className="gallery-item" key={asset.asset_id}><img src={asset.url} loading="lazy" alt={['Enjoying a sweet treat at Bottega', 'A Bottega guest sharing a plate of pasta', 'Coffee and a little work at Bottega'][i]} /><figcaption><PillLabel variant="mustard">{['La dolce vita', '#pastaislife', 'Caffè, always'][i]}</PillLabel></figcaption></figure>)}</div></section>
         <section id="club" className="club bt-surface-dark"><div className="club-ribbon"><MovingRibbon text="Follow us" /></div><div className="club-grid"><div className="club-copy"><p className="eyebrow">Carbs. Community. Cin cin.</p><Display size="lg" tone="mustard">Join the Bottega<br />Pasta Club.</Display><Serif size="sm" tone="cream">Good pasta. Good people. Good news.</Serif><p>Get early access to events, menu launches, special offers, and everything happening at Bottega.</p><form className="club-form" onSubmit={(event) => { event.preventDefault(); const data = new FormData(event.currentTarget); window.location.href = `mailto:ciao@eatbottega.com?subject=Pasta%20Club%20signup&body=${encodeURIComponent(`Please add me to the Pasta Club email list.\nEmail: ${String(data.get('email'))}`)}`; }}><TextField surface="inverse" label="Email address" name="email" type="email" placeholder="Your email address" required /><Checkbox surface="inverse" required>I’d like to receive news from Bottega.</Checkbox><div><Button type="submit" variant="cream">Count me in ↗</Button></div></form></div><img className="club-photo" src={pasta.url} alt="Pasta Club is always a good idea" loading="lazy" /></div></section>
       </main>
       <footer id="contact" className="footer bt-surface-dark"><div className="section-inner"><div className="footer-grid"><div><Logo variant="lockup-wordmark" tone="cream" size="md" /><p>Judgment-free.<br />Full of carbs.</p><address className="social-links"><a href="https://www.instagram.com/eatbottega/" target="_blank" rel="noreferrer">Instagram ↗</a></address></div><div><Display as="h3" size="sm">Find us</Display><address><strong>Bottega Fioretina</strong><br />313B Harvard St.<br />Brookline, MA 02446</address><address><strong>Bottega Del Sud</strong><br />645 E 2nd St.<br />Boston, MA 02127</address></div><div><Display as="h3" size="sm">Come on in</Display><p>Monday to Friday<br />7:30 am – 9:00 pm</p><p>Weekends<br />9:30 am – 9:00 pm</p></div><div><Display as="h3" size="sm">Say ciao</Display><address><a href="mailto:ciao@eatbottega.com">ciao@eatbottega.com</a><p><LinkAction href="mailto:ciao@eatbottega.com" tone="mustard">Contact us</LinkAction></p></address></div></div><div className="footer-bottom"><span>© {new Date().getFullYear()} Bottega. Made with amore.</span><div className="legal-links">{[['Privacy policy', 'privecy-policy'], ['Accessibility', 'accessibility-statement'], ['Terms & conditions', 'terms-and-conditions'], ['Refund policy', 'refund-policy']].map(([text, path]) => <a href={`https://ciao724.wixstudio.com/my-site/${path}`} key={path}>{text}</a>)}</div></div></div></footer>
