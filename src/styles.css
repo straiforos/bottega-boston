@@ -46,6 +46,10 @@ main { overflow: clip; }
 .big-sketch { width: calc(var(--bt-space-8) * 2); height: calc(var(--bt-space-8) * 2); }
 .menu-intro .section-inner { padding-bottom: var(--bt-space-lg); }
 .offerings-section { background: var(--bt-forest); padding-block: var(--bt-space-8); padding-inline: var(--bt-margin); }
+.offerings-track { position: relative; background: var(--bt-forest); height: calc(100vh * 3); }
+.offerings-track > .offerings-section { position: sticky; top: 0; min-height: 100vh; display: grid; align-content: center; overflow: hidden; }
+@media (max-width: 767px) { .offerings-track { height: auto; } .offerings-track > .offerings-section { position: static; min-height: 0; } }
+@media (prefers-reduced-motion: reduce) { .offerings-track { height: auto; } .offerings-track > .offerings-section { position: static; min-height: 0; } }
 .offerings { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--bt-space-xl); align-items: start; justify-items: center; }
 .offering { position: relative; width: calc(var(--bt-space-8) * 3.5); will-change: opacity, transform; }
 .catering-stamp { position: absolute; top: calc(-1 * var(--bt-space-xl)); right: calc(-1 * var(--bt-space-lg)); }
