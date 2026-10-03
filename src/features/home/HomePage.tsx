@@ -1,11 +1,10 @@
-import { Marquee } from '@/design-system/bottega-f5161c';
 import { BottegaHeader } from '@/components/BottegaHeader';
-import { RestaurantSketch } from '@/components/RestaurantSketch';
+import { SketchMarquee } from '@/components/media/SketchMarquee';
 import { SiteFooter } from '@/components/SiteFooter';
+import { restaurantContent } from '@/content/en/restaurant';
 import { ClubSection } from './sections/ClubSection';
 import { EventsSection } from './sections/EventsSection';
 import { HeroSection } from './sections/HeroSection';
-import { MenuIntroSection } from './sections/MenuIntroSection';
 import { OfferingsSection } from './sections/OfferingsSection';
 import { SocialSection } from './sections/SocialSection';
 import { StorySection } from './sections/StorySection';
@@ -13,17 +12,14 @@ import { StorySection } from './sections/StorySection';
 export function HomePage() {
   return (
     <>
-      <Marquee text="Benvenuti" separator={<RestaurantSketch kind="pasta" small />} variant="cream" />
+      <SketchMarquee text={restaurantContent.home.welcome} />
       <BottegaHeader />
       <main>
         <HeroSection />
-        <Marquee text="Benvenuti" separator={<RestaurantSketch kind="lemon" small />} />
         <StorySection />
-        <Marquee text="#pastaislife" separator={<RestaurantSketch small />} />
-        <MenuIntroSection />
         <OfferingsSection />
         <EventsSection />
-        <Marquee text="Pasta is life" separator={<RestaurantSketch small />} />
+        <SketchMarquee text={restaurantContent.home.pastaIsLife} />
         <SocialSection />
         <ClubSection />
       </main>
