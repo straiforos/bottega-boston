@@ -120,7 +120,11 @@ function Index() {
     return () => { preference.removeEventListener('change', stop); stop(); };
   }, []);
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { videoRef.current?.pause(); setPlaying(false); }
+    const video = videoRef.current;
+    const sync = () => setPlaying(!video?.paused);
+    const timer = window.setTimeout(sync, 300);
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { video?.pause(); setPlaying(false); }
+    return () => { window.clearTimeout(timer); };
   }, []);
   return (
     <>
@@ -135,7 +139,7 @@ function Index() {
         <section id="about" className="section story bt-surface-dark">
           <div className="section-inner story-grid">
             <div className="story-player"><div className="arch-video">
-              <video ref={videoRef} src={clubVideo.url} poster={poster.url} muted={muted} loop playsInline preload="metadata" aria-label="Making fresh pasta together at Bottega" onClick={togglePlayback} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} />
+              <video ref={videoRef} src={clubVideo.url} poster={poster.url} muted={muted} autoPlay loop playsInline preload="metadata" aria-label="Making fresh pasta together at Bottega" onClick={togglePlayback} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} />
               <div className="video-play-control" data-playing={playing ? 'true' : 'false'}><Button variant="cream" size="lg" aria-label={playing ? 'Pause video' : 'Play video'} title={playing ? 'Pause video' : 'Play video'} onClick={togglePlayback}><svg className="video-play-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">{playing ? <path d="M6 4h4v16H6zM14 4h4v16h-4z" /> : <path d="M7 3v18l15-9z" />}</svg></Button></div>
               <div className="video-sound-control"><Button variant="cream" size="sm" aria-pressed={!muted} aria-label={muted ? 'Turn sound on' : 'Turn sound off'} title={muted ? 'Turn sound on' : 'Turn sound off'} onClick={() => setMuted(!muted)}><svg className="video-sound-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 5 6 9H3v6h3l5 4z" />{muted ? <path d="m16 9 5 6m0-6-5 6" /> : <><path d="M15 8a6 6 0 0 1 0 8" /><path d="M18 5a10 10 0 0 1 0 14" /></>}</svg></Button></div>
               <div className="video-caption"><PillLabel variant="mustard">About us</PillLabel></div>
