@@ -34,7 +34,12 @@ export function BottegaHeader() {
       className={scrolled ? 'shared-header shared-header--stuck' : 'shared-header'}
       logo={
         <Link to="/" aria-label={restaurantContent.navigation.homeLabel} className="header-brand">
-          <Logo variant="lockup-wordmark" size="md" tone={logoTone} />
+          <span className="desktop-logo">
+            <Logo variant="lockup-wordmark" size="md" tone={logoTone} />
+          </span>
+          <span className="mobile-logo">
+            <Logo variant="lockup-wordmark" size="sm" tone={logoTone} />
+          </span>
         </Link>
       }
       action={
