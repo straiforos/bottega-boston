@@ -12,4 +12,3 @@
 - [x] Use the Bottega responsive MenuToggle and MenuOverlay in the shared header.
 - [x] Restructure the project into maintainable features, shared components, centralized English content, focused style sheets, and tested pure behavior.
 - [x] Trim the events section: drop the "Good food. Better company." intro line and the "no events" note, leaving the "Come hang out with us." heading under the red ribbon.
-
