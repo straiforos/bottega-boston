@@ -88,7 +88,7 @@ function Index() {
     const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
     window.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', schedule);
-    update();
+    schedule();
     const stop = () => {
       window.removeEventListener('scroll', schedule);
       window.removeEventListener('resize', schedule);
