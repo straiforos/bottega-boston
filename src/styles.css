@@ -7,11 +7,13 @@ button, input { font: inherit; }
 a { color: inherit; }
 img, video { max-width: 100%; }
 main { overflow: clip; }
-.header-actions, .navigation, .social-links { display: flex; align-items: center; gap: var(--bt-space-lg); }
-.header-actions { flex-shrink: 0; }
+.social-links { display: flex; align-items: center; gap: var(--bt-space-lg); }
+.shared-header { flex-wrap: wrap; gap: var(--bt-space-lg); }
+.header-brand { display: block; }
+.header-brand-pair { align-items: center; gap: var(--bt-space-sm); }
+.desktop-logo.header-brand-pair { display: inline-flex; }
+.header-navigation { display: flex; align-items: center; flex-wrap: wrap; gap: var(--bt-space-lg); margin-left: auto; }
 .mobile-logo { display: none; }
-.navigation a { text-decoration: none; font-size: var(--bt-text-sm); }
-.navigation a:hover { text-decoration: underline; }
 .hero { position: relative; background: var(--bt-forest); }
 .hero-photo { display: block; width: 100%; height: auto; }
 .hero-copy { position: absolute; inset-inline: var(--bt-margin); bottom: calc(var(--bt-space-8) * 2); }
@@ -80,8 +82,10 @@ a:focus-visible { outline: var(--bt-border-width) solid var(--bt-focus); outline
 @media (max-width: 767px) {
   .desktop-logo { display: none; }
   .mobile-logo { display: inline; }
-  .navigation { display: none; }
-  .header-actions { gap: var(--bt-space-sm); }
+  .desktop-logo.header-brand-pair { display: none; }
+  .mobile-logo.header-brand-pair { display: inline-flex; }
+  .shared-header { gap: var(--bt-space-sm); }
+  .header-navigation { order: 1; flex-basis: 100%; justify-content: space-between; gap: var(--bt-space-sm); margin-left: 0; }
   .hero-copy { bottom: var(--bt-space-lg); }
   .hero-hashtag { font-size: var(--bt-text-display); }
   .hero-stamp { left: 0; top: calc(-1 * var(--bt-space-8)); }
@@ -106,7 +110,6 @@ a:focus-visible { outline: var(--bt-border-width) solid var(--bt-focus); outline
 }
 
 .real-menu { background: var(--bt-background); color: var(--bt-body); }
-.menu-header-actions { display: flex; align-items: center; gap: var(--bt-space-lg); }
 .menu-page-heading { padding-block: var(--bt-space-xl); padding-inline: var(--bt-margin); }
 .menu-photo-note { color: var(--bt-muted); font-size: var(--bt-text-sm); }
 .menu-legend, .menu-dietary-tags { display: flex; flex-wrap: wrap; gap: var(--bt-space-xs); }
@@ -133,5 +136,4 @@ a:focus-visible { outline: var(--bt-border-width) solid var(--bt-focus); outline
   .menu-filter { position: static; }
   .menu-category-list { flex-direction: row; flex-wrap: wrap; }
   .menu-dish-grid { grid-template-columns: minmax(0, 1fr); }
-  .menu-header-actions { gap: var(--bt-space-sm); }
 }

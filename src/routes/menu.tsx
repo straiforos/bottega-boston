@@ -1,6 +1,7 @@
-import { createFileRoute, createLink, Link } from '@tanstack/react-router';
+import { createFileRoute, createLink } from '@tanstack/react-router';
 import { useState } from 'react';
-import { Button, Card, Display, LinkAction, Logo, Marquee, PillLabel, Serif, SiteHeader, TextField } from '@/design-system/bottega-f5161c';
+import { Button, Card, Display, LinkAction, Logo, Marquee, PillLabel, Serif, TextField } from '@/design-system/bottega-f5161c';
+import { BottegaHeader } from '@/components/BottegaHeader';
 import { menuSections } from '@/lib/menu-data';
 import { menuImages } from '@/lib/menu-images';
 
@@ -29,7 +30,7 @@ function MenuPage() {
   const count = sections.reduce((total, section) => total + section.items.length, 0);
 
   return <>
-    <SiteHeader variant="cream" logo={<Link to="/" aria-label="Bottega home"><span className="desktop-logo"><Logo variant="lockup-wordmark" size="md" /></span><span className="mobile-logo"><Logo variant="lockup-wordmark" size="sm" /></span></Link>} action={<div className="menu-header-actions"><span className="desktop-logo"><PageLink to="/">Home</PageLink></span><Button variant="primary" onClick={() => window.location.assign('https://ciao724.wixstudio.com/my-site/online-ordering')}>Order now ↗</Button></div>} />
+    <BottegaHeader />
     <main className="real-menu">
       <header className="menu-page-heading section-inner">
         <p className="eyebrow">Buon appetito</p>

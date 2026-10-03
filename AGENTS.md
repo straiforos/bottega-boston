@@ -6,3 +6,4 @@
 - Keep offering cards aligned and animate their wrappers with viewport-triggered sequential reveals; preserve library component appearance and respect reduced motion so updates remain compatible and content stays accessible.
 - Use a wrapper layout for the overlapping club ribbon; library components retain their own appearance so design-system updates remain compatible.
 - Keep the real menu in a dedicated /menu route with source-derived structured data and individual illustrative image imports; home menu actions use a TanStack createLink wrapper around LinkAction without editing vendor components.
+- Compose both page headers through BottegaHeader using the library's separate mark and wordmark variants and router-aware LinkAction navigation so branding and navigation remain consistent.
