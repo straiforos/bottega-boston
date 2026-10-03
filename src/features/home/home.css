@@ -101,11 +101,14 @@
 }
 .video-captions {
   position: absolute;
-  bottom: var(--bt-space-xl);
+  bottom: calc(var(--bt-space-xl) + var(--bt-space-lg));
   inset-inline: var(--bt-space-lg);
   display: flex;
   justify-content: center;
   pointer-events: none;
+}
+.video-captions-text {
+  font-size: var(--bt-text-sm);
 }
 .video-play-control {
   position: absolute;
@@ -134,10 +137,12 @@
   width: var(--bt-space-xl);
   height: var(--bt-space-xl);
 }
-.video-sound-control {
+.video-controls {
   position: absolute;
   bottom: var(--bt-space-md);
   right: var(--bt-space-md);
+  display: flex;
+  gap: var(--bt-space-sm);
 }
 .video-sound-icon {
   display: block;
@@ -455,7 +460,8 @@
   }
   .club-media {
     order: -1;
-    margin-top: 0;
+    /* Lift the photo to the section top so the wave passes behind her head. */
+    margin-top: calc(-1 * var(--bt-space-8));
   }
   .club-photo {
     height: auto;
