@@ -250,7 +250,7 @@
   text-align: center;
   background: var(--bt-cobalt);
   color: var(--bt-cream);
-  padding-top: calc(var(--bt-space-8) * 2);
+  padding-block: calc(var(--bt-space-8) * 2);
 }
 .events-ribbon {
   position: absolute;
@@ -258,17 +258,7 @@
   top: calc(-1 * var(--bt-space-8));
   pointer-events: none;
 }
-.events-heading {
-  margin-bottom: var(--bt-space-xl);
-}
-.event-empty {
-  border-top: var(--bt-border-thin) solid var(--bt-outline-variant);
-  border-bottom: var(--bt-border-thin) solid var(--bt-outline-variant);
-  padding: var(--bt-space-xl) 0;
-}
-.event-empty p {
-  color: var(--bt-muted);
-}
+
 .social-section {
   padding-top: var(--bt-space-xl);
   background: var(--bt-background);
