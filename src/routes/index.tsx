@@ -57,9 +57,9 @@ function Index() {
     cards.forEach((card) => { card.dataset.reveal = 'pending'; });
     const observer = new IntersectionObserver((entries) => {
       entries.forEach((entry) => {
-        if (!entry.isIntersecting || !(entry.target instanceof HTMLElement)) return;
-        entry.target.dataset.reveal = 'visible';
-        observer.unobserve(entry.target);
+        if (!(entry.target instanceof HTMLElement)) return;
+        if (entry.isIntersecting) entry.target.dataset.reveal = 'visible';
+        else if (!entry.target.contains(document.activeElement)) entry.target.dataset.reveal = 'pending';
       });
     }, { threshold: 0.15 });
     cards.forEach((card) => observer.observe(card));
@@ -71,7 +71,7 @@ function Index() {
     const showFocused = (event: FocusEvent) => {
       if (!(event.target instanceof Element)) return;
       const card = event.target.closest<HTMLElement>('.offering');
-      if (card) { card.dataset.reveal = 'visible'; observer.unobserve(card); }
+      if (card) card.dataset.reveal = 'visible';
     };
     preference.addEventListener('change', showAll);
     container.addEventListener('focusin', showFocused);
