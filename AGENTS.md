@@ -4,3 +4,4 @@
 - Keep original uploaded and downloaded media in CDN pointer imports; do not embed raw binary copies in app source.
 - This initial restaurant page is presentation-only: ordering links to the original ordering service, and email requests use the restaurant address rather than pretending to save subscriptions.
 - Use wrapper layouts for staggered library cards and the overlapping club ribbon; library components retain their own appearance so design-system updates remain compatible.
+- Keep the real menu in a dedicated /menu route with source-derived structured data and individual illustrative image imports; home menu actions use a TanStack createLink wrapper around LinkAction without editing vendor components.
