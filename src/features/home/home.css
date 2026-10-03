@@ -264,7 +264,7 @@
 }
 
 .social-section {
-  padding-top: var(--bt-space-xl);
+  padding-top: 0;
   background: var(--bt-background);
 }
 .gallery {
