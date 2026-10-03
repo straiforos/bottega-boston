@@ -138,7 +138,8 @@
 }
 .offerings-section {
   background: var(--bt-forest);
-  padding-block: var(--bt-space-8);
+  padding-top: var(--bt-space-lg);
+  padding-bottom: var(--bt-space-8);
   padding-inline: var(--bt-margin);
 }
 .offerings-track {
@@ -151,7 +152,7 @@
   top: 0;
   min-height: 100vh;
   display: grid;
-  align-content: center;
+  align-content: start;
   overflow: hidden;
 }
 .offerings-ribbon {
@@ -394,7 +395,8 @@
     gap: var(--bt-space-lg);
   }
   .offerings-section {
-    padding-block: var(--bt-space-xl);
+    padding-top: var(--bt-space-lg);
+    padding-bottom: var(--bt-space-xl);
   }
   .offerings-ribbon {
     margin-top: calc(-1 * var(--bt-space-lg));
