@@ -208,6 +208,10 @@
     position: static;
     min-height: 0;
   }
+  /* Keep the section label clear of the CC/sound controls on narrow screens. */
+  .video-caption {
+    text-align: left;
+  }
 }
 @media (prefers-reduced-motion: reduce) {
   .offerings-track {
