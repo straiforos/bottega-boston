@@ -429,6 +429,11 @@
   }
   .offerings-ribbon {
     margin-top: calc(-1 * var(--bt-space-lg));
+    padding-bottom: var(--bt-space-sm);
+  }
+  /* Drop the headline's default block margins so "Menu." hugs the ribbon and its action. */
+  .menu-heading > * {
+    margin-block: 0;
   }
   .events {
     padding-top: var(--bt-space-8);
