@@ -360,7 +360,9 @@
 .club-ribbon {
   position: absolute;
   inset-inline: 0;
-  top: calc(-1 * var(--bt-space-8));
+  /* The wave SVG scales with width; lift it so its dip stays near her head
+     instead of sinking toward her face on wider screens. */
+  top: calc(-21.7% + var(--bt-space-8));
   pointer-events: none;
 }
 .club-grid {
