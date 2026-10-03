@@ -1,0 +1,12 @@
+node_modules
+dist
+.output
+.nitro
+.tanstack
+.wrangler
+src/routeTree.gen.ts
+src/routes/*preview*.tsx
+src/design-system
+src/assets/menu
+src/lib/menu-data.ts
+src/lib/menu-images.ts

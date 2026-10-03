@@ -1,34 +1,79 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useState } from 'react';
 import { createLink, Link } from '@tanstack/react-router';
-import { Button, LinkAction, Logo, SiteHeader } from '@/design-system/bottega-f5161c';
+import { Button, Logo, MenuOverlay, MenuToggle, SiteHeader } from '@/design-system/bottega-f5161c';
+import { restaurantContent } from '@/content/en/restaurant';
+import { links } from '@/content/links';
 
-const HeaderLink = createLink(LinkAction);
-const orderingUrl = 'https://ciao724.wixstudio.com/my-site/online-ordering';
+const HeaderLink = createLink('a');
 
 export function BottegaHeader() {
   const [scrolled, setScrolled] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const navigationId = useId();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8);
+    const onScroll = () => setScrolled(window.scrollY > 0);
     onScroll();
     window.addEventListener('scroll', onScroll, { passive: true });
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  const logoTone = scrolled ? 'cream' : 'auto';
-  const linkTone = scrolled ? 'cream' : 'forest';
+  useEffect(() => {
+    if (!menuOpen) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setMenuOpen(false);
+    };
+    window.addEventListener('keydown', closeOnEscape);
+    return () => window.removeEventListener('keydown', closeOnEscape);
+  }, [menuOpen]);
 
-  return <SiteHeader variant={scrolled ? 'forest' : 'cream'} className={scrolled ? 'shared-header shared-header--stuck' : 'shared-header'} logo={
-    <Link to="/" aria-label="Bottega home" className="header-brand">
-      <span className="desktop-logo header-brand-pair"><Logo variant="mark" size="md" tone={logoTone} /><Logo variant="wordmark" size="md" tone={logoTone} /></span>
-      <span className="mobile-logo header-brand-pair"><Logo variant="mark" size="sm" tone={logoTone} /><Logo variant="wordmark" size="sm" tone={logoTone} /></span>
-    </Link>
-  } action={<>
-    <nav aria-label="Main navigation" className="header-navigation">
-      <HeaderLink to="/" hash="about" tone={linkTone}>Our story</HeaderLink>
-      <HeaderLink to="/menu" tone={linkTone}>Menu</HeaderLink>
-      <HeaderLink to="/" hash="events" tone={linkTone}>Come hang out</HeaderLink>
-    </nav>
-    <Button variant={scrolled ? 'cream' : 'primary'} onClick={() => window.location.assign(orderingUrl)}>Order now ↗</Button>
-  </>} />;
+  const logoTone = scrolled ? 'cream' : 'auto';
+  return (
+    <SiteHeader
+      variant={scrolled ? 'forest' : 'cream'}
+      className={scrolled ? 'shared-header shared-header--stuck' : 'shared-header'}
+      logo={
+        <Link to="/" aria-label={restaurantContent.navigation.homeLabel} className="header-brand">
+          <span className="desktop-logo header-brand-pair">
+            <Logo variant="mark" size="md" tone={logoTone} />
+            <Logo variant="wordmark" size="md" tone={logoTone} />
+          </span>
+          <span className="mobile-logo header-brand-pair">
+            <Logo variant="mark" size="sm" tone={logoTone} />
+            <Logo variant="wordmark" size="sm" tone={logoTone} />
+          </span>
+        </Link>
+      }
+      action={
+        <div className="header-actions">
+          <MenuToggle
+            className="header-menu-toggle"
+            open={menuOpen}
+            aria-controls={navigationId}
+            onClick={() => setMenuOpen((open) => !open)}
+          />
+          <MenuOverlay
+            id={navigationId}
+            open={menuOpen}
+            label={restaurantContent.navigation.menuLabel}
+            footer={
+              <Button variant={scrolled ? 'cream' : 'primary'} onClick={() => window.location.assign(links.order)}>
+                {restaurantContent.navigation.order}
+              </Button>
+            }
+          >
+            <HeaderLink className="bt-menu-overlay__link" to="/" hash="about" onClick={() => setMenuOpen(false)}>
+              {restaurantContent.navigation.story}
+            </HeaderLink>
+            <HeaderLink className="bt-menu-overlay__link" to="/menu" onClick={() => setMenuOpen(false)}>
+              {restaurantContent.navigation.menu}
+            </HeaderLink>
+            <HeaderLink className="bt-menu-overlay__link" to="/" hash="events" onClick={() => setMenuOpen(false)}>
+              {restaurantContent.navigation.events}
+            </HeaderLink>
+          </MenuOverlay>
+        </div>
+      }
+    />
+  );
 }

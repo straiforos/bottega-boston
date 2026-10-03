@@ -20,6 +20,4 @@ The design system's theme is delivered through the following files. The author's
 - `@ws-cli5ylqvzebyb2b5e4wl/432d9af3-64cc-49a3-92e4-36d8f906a251/bottega/styles/theme.css` (source — preferred import)
 - `@ws-cli5ylqvzebyb2b5e4wl/432d9af3-64cc-49a3-92e4-36d8f906a251/dist/tokens.css` (auto-generated flat list of CSS custom properties — a raw-values fallback only; does NOT carry framework-specific wiring that the source files above provide)
 
-
-
 <!-- END THIRD-PARTY LIBRARY CONTENT: design-system/bottega-f5161c -->

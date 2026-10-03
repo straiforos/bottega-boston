@@ -7,4 +7,5 @@
 - Check desktop and phone layouts, card links, and video controls.
 
 ## Technical details
+
 Use existing Card, Stamp, WaveRibbon, Button, and inverse form variants; all new presentation values come from Bottega tokens. Keep signup as an email request and leave event management unchanged.

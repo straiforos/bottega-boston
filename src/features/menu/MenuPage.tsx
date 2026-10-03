@@ -1,0 +1,80 @@
+import { Button, Display, Marquee, PillLabel, Serif } from '@/design-system/bottega-f5161c';
+import { BottegaHeader } from '@/components/BottegaHeader';
+import { SiteFooter } from '@/components/SiteFooter';
+import { menuSections } from '@/lib/menu-data';
+import { MenuDishCard } from './components/MenuDishCard';
+import { MenuFilter } from './components/MenuFilter';
+import { useMenuFilters } from './hooks/useMenuFilters';
+
+export function MenuPage() {
+  const filters = useMenuFilters(menuSections);
+  return (
+    <>
+      <BottegaHeader />
+      <main className="real-menu">
+        <header className="menu-page-heading section-inner">
+          <p className="eyebrow">Buon appetito</p>
+          <Display as="h1" size="xl" tone="forest">
+            Bottega menu
+          </Display>
+          <Serif as="p" size="md" tone="forest">
+            Pasta, panini & a little dolce vita.
+          </Serif>
+          <p className="menu-photo-note">
+            Illustrative images — not photographs of Bottega’s actual dishes. Presentation and portions may vary.
+          </p>
+          <div className="menu-legend">
+            <PillLabel variant="chip-forest">GF · Gluten free</PillLabel>
+            <PillLabel variant="chip-forest">V · Vegetarian</PillLabel>
+            <PillLabel variant="chip-forest">VG · Vegan</PillLabel>
+          </div>
+        </header>
+        <Marquee text="#pastaislife · #familyislife" variant="forest" />
+        <div className="menu-browse section-inner">
+          <MenuFilter
+            menuSections={menuSections}
+            query={filters.query}
+            selection={filters.selection}
+            count={filters.count}
+            onQueryChange={filters.setQuery}
+            onSelectionChange={filters.setSelection}
+          />
+          <div className="menu-content">
+            {filters.sections.map((section) => (
+              <section
+                key={section.id}
+                id={section.id}
+                className="menu-category-section"
+                aria-labelledby={`${section.id}-title`}
+              >
+                <div className="menu-category-heading">
+                  <Display as="h2" size="sm" tone="forest" id={`${section.id}-title`}>
+                    {section.name}
+                  </Display>
+                  {section.note && <p>{section.note}</p>}
+                </div>
+                <div className="menu-dish-grid">
+                  {section.items.map((item) => (
+                    <MenuDishCard key={item.id} item={item} />
+                  ))}
+                </div>
+              </section>
+            ))}
+            {filters.count === 0 && (
+              <div className="menu-no-results">
+                <Serif size="md" tone="forest">
+                  No dishes found.
+                </Serif>
+                <Button variant="outline" onClick={filters.reset}>
+                  Clear filters
+                </Button>
+              </div>
+            )}
+          </div>
+        </div>
+      </main>
+      <Marquee text="Made with amore" />
+      <SiteFooter compact />
+    </>
+  );
+}

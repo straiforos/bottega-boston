@@ -1,59 +1,59 @@
-import type { Dirent } from "node:fs";
-import type * as TS from "typescript";
-import type { Plugin, ViteDevServer } from "vite";
+import type { Dirent } from 'node:fs';
+import type * as TS from 'typescript';
+import type { Plugin, ViteDevServer } from 'vite';
 
-import { mkdir, readdir, readFile, stat, writeFile } from "node:fs/promises";
-import path from "node:path";
+import { mkdir, readdir, readFile, stat, writeFile } from 'node:fs/promises';
+import path from 'node:path';
 
 // The editor's element-selector runtime — the same CDN tag the proxy worker
 // injects into static previews, so click-to-select works inside canvas frames.
 const SELECTOR_SCRIPT_TAG = `<script src="https://cdn.gpteng.co/lovable.js" type="module"></script>`;
 
-const MOCKUPS_DIR = "src/components/mockups";
-const GENERATED_MODULE = "src/.generated/mockup-components.ts";
-const APP_CSS_IMPORT = "@/styles.css";
-const SCHEMA_PATH = ".lovable/design-system.json";
-const MOCKUP_ROUTE_FILE = "src/routes/[__mockup].preview.$.tsx";
-const COMPONENT_ROUTE_FILE = "src/routes/[__component].preview.$.tsx";
+const MOCKUPS_DIR = 'src/components/mockups';
+const GENERATED_MODULE = 'src/.generated/mockup-components.ts';
+const APP_CSS_IMPORT = '@/styles.css';
+const SCHEMA_PATH = '.lovable/design-system.json';
+const MOCKUP_ROUTE_FILE = 'src/routes/[__mockup].preview.$.tsx';
+const COMPONENT_ROUTE_FILE = 'src/routes/[__component].preview.$.tsx';
 
 // A draft exploration sits beside the component it explores, e.g.
 // "src/components/ui/button-candidate-squared.tsx".
-const DRAFT_CANDIDATE_INFIX = "-candidate-";
+const DRAFT_CANDIDATE_INFIX = '-candidate-';
 
 const COMPONENT_SOURCE_EXTENSION = /\.(tsx|ts|jsx|js)$/;
 
 function isDraftCandidateFile(projectRelativePath: string): boolean {
-  if (!projectRelativePath.startsWith("src/") || !COMPONENT_SOURCE_EXTENSION.test(projectRelativePath)) return false;
+  if (!projectRelativePath.startsWith('src/') || !COMPONENT_SOURCE_EXTENSION.test(projectRelativePath)) return false;
   if (projectRelativePath.startsWith(`${MOCKUPS_DIR}/`)) return false;
-  const segments = projectRelativePath.split("/");
-  if (segments.some((segment) => segment.startsWith("_"))) return false;
-  return (segments[segments.length - 1] ?? "").includes(DRAFT_CANDIDATE_INFIX);
+  const segments = projectRelativePath.split('/');
+  if (segments.some((segment) => segment.startsWith('_'))) return false;
+  return (segments[segments.length - 1] ?? '').includes(DRAFT_CANDIDATE_INFIX);
 }
 
 function draftCandidateName(projectRelativePath: string): string {
-  return projectRelativePath.replace(/^\/+/, "").replace(COMPONENT_SOURCE_EXTENSION, "");
+  return projectRelativePath.replace(/^\/+/, '').replace(COMPONENT_SOURCE_EXTENSION, '');
 }
 
 function componentFileStem(file: string): string {
   return file
-    .replace(/\\/g, "/")
-    .replace(/^\/+/, "")
-    .replace(/\.(tsx|ts|jsx|js)$/, "");
+    .replace(/\\/g, '/')
+    .replace(/^\/+/, '')
+    .replace(/\.(tsx|ts|jsx|js)$/, '');
 }
 
 function draftCandidateSourceStem(file: string): string {
   const stem = componentFileStem(file);
-  const index = stem.indexOf(DRAFT_CANDIDATE_INFIX, stem.lastIndexOf("/") + 1);
+  const index = stem.indexOf(DRAFT_CANDIDATE_INFIX, stem.lastIndexOf('/') + 1);
   return index === -1 ? stem : stem.slice(0, index);
 }
 
 function fileBaseName(file: string): string {
-  return (file.split("/").pop() ?? "").replace(/\.(tsx|ts|jsx|js)$/, "");
+  return (file.split('/').pop() ?? '').replace(/\.(tsx|ts|jsx|js)$/, '');
 }
 
 // Joins names across casing conventions: "alert-dialog" and "AlertDialog" are one component.
 function normalizeJoinKey(value: string): string {
-  return value.toLowerCase().replace(/[^a-z0-9]/g, "");
+  return value.toLowerCase().replace(/[^a-z0-9]/g, '');
 }
 
 function previewDisplayName(name: string): string {
@@ -69,7 +69,7 @@ function pascalCaseFromFileName(name: string): string {
     .split(/[-_.]+/)
     .filter(Boolean)
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-    .join("");
+    .join('');
 }
 
 // The plugin owns these route sources so existing projects self-install them
@@ -531,8 +531,8 @@ interface MockupPreviewPluginOptions {
 }
 
 export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): Plugin {
-  let root = "";
-  let currentSource = "";
+  let root = '';
+  let currentSource = '';
 
   function getMockupsAbsDir(): string {
     return path.join(root, MOCKUPS_DIR);
@@ -543,15 +543,15 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
   }
 
   function isPreviewTarget(relativeToMockups: string): boolean {
-    return relativeToMockups.split(path.sep).every((segment) => !segment.startsWith("_"));
+    return relativeToMockups.split(path.sep).every((segment) => !segment.startsWith('_'));
   }
 
   function isSafeComponentPath(componentPath: string): boolean {
     return (
       /^[A-Za-z0-9_/-]+$/.test(componentPath) &&
       componentPath
-        .split("/")
-        .every((segment) => segment !== "" && segment !== "." && segment !== ".." && !segment.startsWith("_"))
+        .split('/')
+        .every((segment) => segment !== '' && segment !== '.' && segment !== '..' && !segment.startsWith('_'))
     );
   }
 
@@ -559,18 +559,18 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
   // absolute/traversal paths, allow only component source under src/.
   function isSafeComponentFile(file: string): boolean {
     const normalized = file.split(path.sep).join(path.posix.sep);
-    if (normalized.startsWith("/") || /^[A-Za-z]:/.test(normalized)) return false;
-    if (!normalized.split("/").every((segment) => segment !== "..")) return false;
+    if (normalized.startsWith('/') || /^[A-Za-z]:/.test(normalized)) return false;
+    if (!normalized.split('/').every((segment) => segment !== '..')) return false;
     return /^src\/.+\.(tsx|jsx|ts|js)$/.test(normalized);
   }
 
   function escapeHTML(value: string): string {
     return value
-      .replace(/&/g, "&amp;")
-      .replace(/</g, "&lt;")
-      .replace(/>/g, "&gt;")
-      .replace(/"/g, "&quot;")
-      .replace(/'/g, "&#x27;");
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#x27;');
   }
 
   async function walk(dir: string): Promise<string[]> {
@@ -578,15 +578,15 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
     try {
       entries = await readdir(dir, { withFileTypes: true });
     } catch (error) {
-      if ((error as { code?: string }).code === "ENOENT") return [];
+      if ((error as { code?: string }).code === 'ENOENT') return [];
       throw error;
     }
 
     const files = await Promise.all(
       entries.map(async (entry) => {
         const absolutePath = path.join(dir, entry.name);
-        if (entry.isDirectory()) return entry.name.startsWith("_") ? [] : walk(absolutePath);
-        if (!entry.isFile() || !entry.name.endsWith(".tsx")) return [];
+        if (entry.isDirectory()) return entry.name.startsWith('_') ? [] : walk(absolutePath);
+        if (!entry.isFile() || !entry.name.endsWith('.tsx')) return [];
 
         const relativeToMockups = path.relative(getMockupsAbsDir(), absolutePath);
         return isPreviewTarget(relativeToMockups) ? [absolutePath] : [];
@@ -601,13 +601,13 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
     try {
       entries = await readdir(dir, { withFileTypes: true });
     } catch (error) {
-      if ((error as { code?: string }).code === "ENOENT") return [];
+      if ((error as { code?: string }).code === 'ENOENT') return [];
       throw error;
     }
 
     const files = await Promise.all(
       entries.map(async (entry) => {
-        if (entry.name.startsWith("_") || entry.name === "node_modules") return [];
+        if (entry.name.startsWith('_') || entry.name === 'node_modules') return [];
         const absolutePath = path.join(dir, entry.name);
         if (entry.isDirectory()) {
           return absolutePath === getMockupsAbsDir() ? [] : walkSource(absolutePath);
@@ -626,8 +626,8 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
         const projectRelativePath = path.relative(root, absolutePath).split(path.sep).join(path.posix.sep);
         const mockupRelative = path.posix.relative(MOCKUPS_DIR, projectRelativePath);
         return {
-          key: mockupRelative.replace(/\.tsx$/, ""),
-          importPath: path.posix.relative("src/.generated", projectRelativePath),
+          key: mockupRelative.replace(/\.tsx$/, ''),
+          importPath: path.posix.relative('src/.generated', projectRelativePath),
         };
       })
       .sort((a, b) => (a.key < b.key ? -1 : a.key > b.key ? 1 : 0));
@@ -636,38 +636,38 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
   function generateSource(mockups: DiscoveredComponent[], components: ResolvedComponentEntry[]): string {
     const mockupEntries = mockups
       .map((mockup) => `  ${JSON.stringify(mockup.key)}: () => import(${JSON.stringify(mockup.importPath)})`)
-      .join(",\n");
+      .join(',\n');
     const componentEntries = components
       .map((component) => {
         const meta = `name: ${JSON.stringify(component.name)}, exportName: ${JSON.stringify(component.exportName)}, isDefault: ${component.isDefault}, props: ${JSON.stringify(component.props)}, schemaProps: ${JSON.stringify(component.schemaProps)}`;
-        const load = component.importPath ? `load: () => import(${JSON.stringify(component.importPath)}), ` : "";
-        const file = component.file ? `, file: ${JSON.stringify(component.file)}` : "";
-        const variants = component.variants ? `, variants: ${JSON.stringify(component.variants)}` : "";
+        const load = component.importPath ? `load: () => import(${JSON.stringify(component.importPath)}), ` : '';
+        const file = component.file ? `, file: ${JSON.stringify(component.file)}` : '';
+        const variants = component.variants ? `, variants: ${JSON.stringify(component.variants)}` : '';
         return `  ${JSON.stringify(component.name)}: { ${load}${meta}${file}${variants} }`;
       })
-      .join(",\n");
+      .join(',\n');
 
     return [
-      "// This file is auto-generated by mockupPreviewPlugin.ts.",
-      "export type PreviewLoader = () => Promise<Record<string, unknown>>;",
-      "export interface ComponentPreview {",
-      "  load?: PreviewLoader;",
-      "  name: string;",
-      "  exportName: string;",
-      "  isDefault: boolean;",
-      "  file?: string;",
-      "  props: Record<string, string | number | boolean>;",
-      "  schemaProps: Array<{ name: string; type?: string; values?: string[] }>;",
-      "  variants?: Record<string, string[]>;",
-      "}",
-      "export const mockups: Record<string, PreviewLoader> = {",
+      '// This file is auto-generated by mockupPreviewPlugin.ts.',
+      'export type PreviewLoader = () => Promise<Record<string, unknown>>;',
+      'export interface ComponentPreview {',
+      '  load?: PreviewLoader;',
+      '  name: string;',
+      '  exportName: string;',
+      '  isDefault: boolean;',
+      '  file?: string;',
+      '  props: Record<string, string | number | boolean>;',
+      '  schemaProps: Array<{ name: string; type?: string; values?: string[] }>;',
+      '  variants?: Record<string, string[]>;',
+      '}',
+      'export const mockups: Record<string, PreviewLoader> = {',
       mockupEntries,
-      "};",
-      "export const components: Record<string, ComponentPreview> = {",
+      '};',
+      'export const components: Record<string, ComponentPreview> = {',
       componentEntries,
-      "};",
-      "",
-    ].join("\n");
+      '};',
+      '',
+    ].join('\n');
   }
 
   // File-bearing components get a loader; Path-B (no file) a loader-less entry.
@@ -707,7 +707,7 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
 
   async function writeFileIfChanged(absolutePath: string, content: string): Promise<boolean> {
     try {
-      if ((await readFile(absolutePath, "utf8")) === content) return false;
+      if ((await readFile(absolutePath, 'utf8')) === content) return false;
     } catch {
       // missing → fall through to write
     }
@@ -718,25 +718,25 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
 
   async function usesTanstackRouter(): Promise<boolean> {
     try {
-      const pkg = JSON.parse(await readFile(path.join(root, "package.json"), "utf8")) as {
+      const pkg = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8')) as {
         dependencies?: Record<string, string>;
         devDependencies?: Record<string, string>;
       };
-      return !!(pkg.dependencies?.["@tanstack/react-router"] ?? pkg.devDependencies?.["@tanstack/react-router"]);
+      return !!(pkg.dependencies?.['@tanstack/react-router'] ?? pkg.devDependencies?.['@tanstack/react-router']);
     } catch {
       return false;
     }
   }
 
   async function writePreviewRoutes(): Promise<boolean> {
-    const sitemapSource = await readFile(path.join(root, "src/lib/sitemap.ts"), "utf8").catch(() => "");
+    const sitemapSource = await readFile(path.join(root, 'src/lib/sitemap.ts'), 'utf8').catch(() => '');
     // Other apps can define incompatible staticData, so only recognize our installed contract.
     const hasSitemapInventory = /^\s*export\s+const\s+sitemapRouteInventoryVersion\s*=\s*1\s*(?:;|$)/m.test(
       sitemapSource,
     );
     const routeSource = (source: string) =>
       hasSitemapInventory
-        ? source.replace("\n  component:", "\n  staticData: { sitemap: false },\n  component:")
+        ? source.replace('\n  component:', '\n  staticData: { sitemap: false },\n  component:')
         : source;
     const mockupChanged = await writeFileIfChanged(
       path.join(root, MOCKUP_ROUTE_FILE),
@@ -776,7 +776,7 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
     } catch (error) {
       // Never propagate: buildStart awaits this (a throw fails the build) and
       // the watcher handlers fire-and-forget it (unhandled rejection).
-      console.warn("[mockup-preview] refresh failed; previews degrade to empty:", error);
+      console.warn('[mockup-preview] refresh failed; previews degrade to empty:', error);
       changed = await ensureGeneratedModuleExists();
     } finally {
       refreshInFlight = false;
@@ -861,33 +861,33 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
   }
 
   function toComponentImportSpecifier(file: string): string {
-    const normalized = file.split(path.sep).join(path.posix.sep).replace(/^\/+/, "");
-    return normalized.startsWith("src/") ? "@/" + normalized.slice("src/".length) : "/" + normalized;
+    const normalized = file.split(path.sep).join(path.posix.sep).replace(/^\/+/, '');
+    return normalized.startsWith('src/') ? '@/' + normalized.slice('src/'.length) : '/' + normalized;
   }
 
   function representativePropValue(prop: SchemaProp, componentName: string): string | number | boolean | undefined {
-    if (prop.default !== undefined && prop.default !== "") {
+    if (prop.default !== undefined && prop.default !== '') {
       switch (prop.type) {
-        case "boolean":
-          return prop.default === "true";
-        case "number": {
+        case 'boolean':
+          return prop.default === 'true';
+        case 'number': {
           const parsed = Number(prop.default);
           return Number.isNaN(parsed) ? 1 : parsed;
         }
-        case "enum":
-        case "string":
+        case 'enum':
+        case 'string':
           return prop.default;
         default:
           return undefined;
       }
     }
-    if (prop.type === "enum" && prop.values && prop.values.length > 0) return prop.values[0];
+    if (prop.type === 'enum' && prop.values && prop.values.length > 0) return prop.values[0];
     switch (prop.type) {
-      case "string":
+      case 'string':
         return componentName;
-      case "number":
+      case 'number':
         return 1;
-      case "boolean":
+      case 'boolean':
         return false;
       default:
         return undefined;
@@ -905,14 +905,14 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
   ): Promise<VariantAxes | undefined> {
     let ts: typeof TS;
     try {
-      const mod = await import("typescript");
+      const mod = await import('typescript');
       ts = ((mod as { default?: typeof TS }).default ?? mod) as typeof TS;
     } catch {
       return undefined;
     }
 
     try {
-      const source = await readFile(path.join(root, file), "utf8");
+      const source = await readFile(path.join(root, file), 'utf8');
       // setParentNodes: cvaConstName walks up to the variable declaration.
       const sourceFile = ts.createSourceFile(file, source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
       const axes: VariantAxes = {};
@@ -961,7 +961,7 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
         for (const argument of call.arguments) {
           if (!ts.isObjectLiteralExpression(argument)) continue;
           for (const property of argument.properties) {
-            if (!ts.isPropertyAssignment(property) || keyOf(property.name) !== "variants") continue;
+            if (!ts.isPropertyAssignment(property) || keyOf(property.name) !== 'variants') continue;
             if (!ts.isObjectLiteralExpression(property.initializer)) continue;
             for (const axis of property.initializer.properties) {
               if (!ts.isPropertyAssignment(axis) || !ts.isObjectLiteralExpression(axis.initializer)) continue;
@@ -977,12 +977,12 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
         if (ts.isTypeAliasDeclaration(node)) {
           const values = literalUnion(node.type);
           if (values) unions.set(node.name.text, values);
-        } else if (ts.isCallExpression(node) && ts.isIdentifier(node.expression) && node.expression.text === "cva") {
+        } else if (ts.isCallExpression(node) && ts.isIdentifier(node.expression) && node.expression.text === 'cva') {
           // Compound files (card.tsx exporting Card, CardHeader, …) must not
           // hand every export the first cva axis they happen to share a file
           // with: take the `<name>Variants` const, or anything only when this
           // component owns the file outright.
-          if (exclusive || cvaConstName(node) === lowerFirst(componentName) + "Variants") collectCva(node);
+          if (exclusive || cvaConstName(node) === lowerFirst(componentName) + 'Variants') collectCva(node);
         }
         ts.forEachChild(node, collectUnionsAndCva);
       };
@@ -992,9 +992,9 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
       // aliases above. Runs second so a cva axis wins over a redeclared prop.
       // Same scoping rule as cva: `<Name>Props`, or any `*Props` only when this
       // component is the file's sole export.
-      const ownProps = componentName + "Props";
+      const ownProps = componentName + 'Props';
       const propsMembers = (node: TS.Node): readonly TS.TypeElement[] | undefined => {
-        const named = (name: string): boolean => name === ownProps || (exclusive && name.endsWith("Props"));
+        const named = (name: string): boolean => name === ownProps || (exclusive && name.endsWith('Props'));
         if (ts.isInterfaceDeclaration(node) && named(node.name.text)) return node.members;
         if (ts.isTypeAliasDeclaration(node) && named(node.name.text) && ts.isTypeLiteralNode(node.type)) {
           return node.type.members;
@@ -1044,7 +1044,7 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
     return props;
   }
 
-  function errorPreviewHTML(title: string, message: string, color = "red"): string {
+  function errorPreviewHTML(title: string, message: string, color = 'red'): string {
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1068,20 +1068,20 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
       return errorPreviewHTML(
         component.name,
         `"${component.name}" has no source file to render (npm / Path B component).`,
-        "#6b7280",
+        '#6b7280',
       );
     }
     const importPath = toComponentImportSpecifier(component.file);
     const nameLiteral = JSON.stringify(component.name);
-    const fileLiteral = JSON.stringify(component.file).replace(/</g, "\\u003c");
-    const propsLiteral = JSON.stringify(synthesizeProps(component)).replace(/</g, "\\u003c");
-    const schemaPropsLiteral = JSON.stringify(component.props ?? []).replace(/</g, "\\u003c");
-    const childrenLiteral = JSON.stringify(previewDisplayName(component.name)).replace(/</g, "\\u003c");
+    const fileLiteral = JSON.stringify(component.file).replace(/</g, '\\u003c');
+    const propsLiteral = JSON.stringify(synthesizeProps(component)).replace(/</g, '\\u003c');
+    const schemaPropsLiteral = JSON.stringify(component.props ?? []).replace(/</g, '\\u003c');
+    const childrenLiteral = JSON.stringify(previewDisplayName(component.name)).replace(/</g, '\\u003c');
     const canonicalExportLiteral = JSON.stringify(previewDisplayName(component.name));
-    const sourceExportLiteral = JSON.stringify(component.export_name ?? component.name).replace(/</g, "\\u003c");
+    const sourceExportLiteral = JSON.stringify(component.export_name ?? component.name).replace(/</g, '\\u003c');
     const exportNameLiteral = JSON.stringify(pascalCaseFromFileName(component.export_name ?? component.name)).replace(
       /</g,
-      "\\u003c",
+      '\\u003c',
     );
     const primaryExport = isDraftCandidateFile(component.file)
       ? `mod[${canonicalExportLiteral}] ?? mod[${sourceExportLiteral}] ?? mod[${exportNameLiteral}] ?? mod.default`
@@ -1233,7 +1233,7 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
     const isRenderableExport = (value) => typeof value === "function"
       || (typeof value === "object" && value !== null && RENDERABLE.has(value.$$typeof));
 
-    import(${JSON.stringify(importPath).replace(/</g, "\\u003c")}).then((mod) => {
+    import(${JSON.stringify(importPath).replace(/</g, '\\u003c')}).then((mod) => {
       Component = ${primaryExport} ?? Object.values(mod).find(isRenderableExport);
       if (Component) {
         renderSpecimen();
@@ -1256,7 +1256,7 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
   // Drafts are unexported and .dsignore'd by design, so neither the published schema
   // nor the barrel fallback can name them; glob them in separately.
   async function discoverDraftCandidates(): Promise<SchemaComponent[]> {
-    const files = await walkSource(path.join(root, "src"));
+    const files = await walkSource(path.join(root, 'src'));
     return files
       .map((absolutePath) => path.relative(root, absolutePath).split(path.sep).join(path.posix.sep))
       .filter((file) => isDraftCandidateFile(file))
@@ -1286,7 +1286,7 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
 
   async function loadSchemaComponents(): Promise<SchemaComponent[] | null> {
     try {
-      const raw = await readFile(path.join(root, SCHEMA_PATH), "utf8");
+      const raw = await readFile(path.join(root, SCHEMA_PATH), 'utf8');
       const parsed = JSON.parse(raw) as { components?: unknown };
       if (!Array.isArray(parsed.components)) return [];
       // Drifted schemas exist in prod: skip malformed entries, never throw —
@@ -1301,10 +1301,10 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
   }
 
   function isValidSchemaComponent(entry: unknown): entry is SchemaComponent {
-    if (typeof entry !== "object" || entry === null) return false;
+    if (typeof entry !== 'object' || entry === null) return false;
     const c = entry as Record<string, unknown>;
-    if (typeof c.name !== "string" || c.name === "") return false;
-    if (c.file !== undefined && c.file !== null && typeof c.file !== "string") return false;
+    if (typeof c.name !== 'string' || c.name === '') return false;
+    if (c.file !== undefined && c.file !== null && typeof c.file !== 'string') return false;
     if (c.props !== undefined && c.props !== null && !Array.isArray(c.props)) return false;
     return true;
   }
@@ -1325,9 +1325,9 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
 
     let ts: typeof TS | undefined;
     try {
-      const mod = await import("typescript");
+      const mod = await import('typescript');
       const compiler = ((mod as { default?: typeof TS }).default ?? mod) as typeof TS;
-      ts = typeof compiler.createSourceFile === "function" ? compiler : undefined;
+      ts = typeof compiler.createSourceFile === 'function' ? compiler : undefined;
     } catch {
       ts = undefined;
     }
@@ -1338,7 +1338,7 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
 
       let barrel: string;
       try {
-        barrel = await readFile(path.join(root, barrelFile), "utf8");
+        barrel = await readFile(path.join(root, barrelFile), 'utf8');
       } catch {
         return;
       }
@@ -1348,9 +1348,9 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
           if (match[1]) continue;
           const file = match[3] ? await resolveBarrelExport(barrelFile, match[3]) : barrelFile;
           if (!file) continue;
-          for (const specifier of match[2].split(",")) {
+          for (const specifier of match[2].split(',')) {
             const trimmed = specifier.trim();
-            if (!trimmed.startsWith("type ")) {
+            if (!trimmed.startsWith('type ')) {
               const [exportName, name = exportName] = trimmed.split(/\s+as\s+/).map((part) => part.trim());
               addComponent(name, file, exportName);
             }
@@ -1417,24 +1417,24 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
       }
     }
 
-    await visitBarrel("src/index.ts");
+    await visitBarrel('src/index.ts');
     return out.length > 0 ? out : null;
   }
 
   // Resolve a barrel re-export target ("./components/alert") to an existing
   // source file under src/ with a real extension (matches isSafeComponentFile).
   async function resolveBarrelExport(fromFile: string, specifier: string): Promise<string | undefined> {
-    if (!specifier.startsWith(".")) return undefined; // only local re-exports
+    if (!specifier.startsWith('.')) return undefined; // only local re-exports
     const target = path.posix.normalize(path.posix.join(path.posix.dirname(fromFile), specifier));
-    if (target !== "src" && !target.startsWith("src/")) return undefined;
+    if (target !== 'src' && !target.startsWith('src/')) return undefined;
     const candidates = [
       `${target}.tsx`,
       `${target}.ts`,
       `${target}.jsx`,
       `${target}.js`,
-      path.posix.join(target, "index.tsx"),
-      path.posix.join(target, "index.ts"),
-    ].filter((candidate) => candidate.startsWith("src/"));
+      path.posix.join(target, 'index.tsx'),
+      path.posix.join(target, 'index.ts'),
+    ].filter((candidate) => candidate.startsWith('src/'));
     for (const candidate of candidates) {
       try {
         if ((await stat(path.join(root, candidate))).isFile()) return candidate;
@@ -1447,7 +1447,7 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
 
   function addPreviewMiddleware(server: ViteDevServer): void {
     server.middlewares.use(async (req, res, next) => {
-      const url = req.url ?? "";
+      const url = req.url ?? '';
       const match = url.match(/^\/__mockup\/preview\/(.+?)(?:\?.*)?$/);
       if (!match) return next();
 
@@ -1468,7 +1468,7 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
         // transformIndexHtml can throw under a terminal SSR plugin (tanstackStart);
         // serve the untransformed shell instead of 404ing via the SSR catch-all.
       }
-      res.setHeader("Content-Type", "text/html");
+      res.setHeader('Content-Type', 'text/html');
       res.statusCode = 200;
       res.end(body);
     });
@@ -1476,7 +1476,7 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
 
   function addComponentPreviewMiddleware(server: ViteDevServer): void {
     server.middlewares.use(async (req, res, next) => {
-      const url = req.url ?? "";
+      const url = req.url ?? '';
       const match = url.match(/^\/__component\/preview\/([^?]+)(?:\?(.*))?$/);
       if (!match) return next();
 
@@ -1505,15 +1505,15 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
         // transformIndexHtml can throw under a terminal SSR plugin (tanstackStart);
         // serve the untransformed shell instead of 404ing via the SSR catch-all.
       }
-      res.setHeader("Content-Type", "text/html");
+      res.setHeader('Content-Type', 'text/html');
       res.statusCode = 200;
       res.end(body);
     });
   }
 
   return {
-    name: "mockup-preview",
-    enforce: "pre",
+    name: 'mockup-preview',
+    enforce: 'pre',
 
     config(config) {
       if (!options.designSystemPolling || config.server?.watch === null) return;
@@ -1535,7 +1535,7 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
       try {
         if (await usesTanstackRouter()) await writePreviewRoutes();
       } catch (error) {
-        console.warn("[mockup-preview] route self-install failed:", error);
+        console.warn('[mockup-preview] route self-install failed:', error);
       }
     },
 
@@ -1555,9 +1555,9 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
         const isMockupPreviewFile = (file: string): boolean => {
           const relativeToMockups = path.relative(getMockupsAbsDir(), file);
           return (
-            !relativeToMockups.startsWith("..") &&
+            !relativeToMockups.startsWith('..') &&
             !path.isAbsolute(relativeToMockups) &&
-            relativeToMockups.endsWith(".tsx") &&
+            relativeToMockups.endsWith('.tsx') &&
             isPreviewTarget(relativeToMockups)
           );
         };
@@ -1569,12 +1569,12 @@ export function mockupPreviewPlugin(options: MockupPreviewPluginOptions = {}): P
         const refreshPreviewSources = async () => {
           const changed = await refresh();
           if (options.designSystemPolling && changed)
-            server.watcher.emit("change", path.join(root, APP_CSS_IMPORT.replace("@/", "src/")));
+            server.watcher.emit('change', path.join(root, APP_CSS_IMPORT.replace('@/', 'src/')));
         };
-        server.watcher.on("add", (file) => {
+        server.watcher.on('add', (file) => {
           if (isPreviewSource(file)) void refreshPreviewSources();
         });
-        server.watcher.on("unlink", (file) => {
+        server.watcher.on('unlink', (file) => {
           if (isPreviewSource(file)) void refreshPreviewSources();
         });
       };

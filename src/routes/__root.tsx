@@ -1,30 +1,28 @@
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import {
-  Outlet,
-  createRootRouteWithContext,
-  HeadContent,
-  Scripts,
-} from "@tanstack/react-router";
-import type { ReactNode } from "react";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Outlet, createRootRouteWithContext, HeadContent, Scripts } from '@tanstack/react-router';
+import type { ReactNode } from 'react';
 
-import appCss from "../styles.css?url";
+import appCss from '../styles.css?url';
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
-      { charSet: "utf-8" },
-      { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Bottega — Pasta is life" },
-      { name: "description", content: "Meet, eat, and celebrate life at Bottega." },
-      { property: "og:title", content: "Bottega — Pasta is life" },
-      { property: "og:description", content: "Meet, eat, and celebrate life at Bottega." },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
+      { charSet: 'utf-8' },
+      { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+      { title: 'Bottega — Pasta is life' },
+      { name: 'description', content: 'Meet, eat, and celebrate life at Bottega.' },
+      { property: 'og:title', content: 'Bottega — Pasta is life' },
+      { property: 'og:description', content: 'Meet, eat, and celebrate life at Bottega.' },
+      { property: 'og:type', content: 'website' },
+      { name: 'twitter:card', content: 'summary_large_image' },
     ],
     links: [
-      { rel: "stylesheet", href: appCss },
-      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Domine:wght@400;700&family=DM+Sans:wght@400;500;700&display=swap" },
-      { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
+      { rel: 'stylesheet', href: appCss },
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Domine:wght@400;700&family=DM+Sans:wght@400;500;700&display=swap',
+      },
+      { rel: 'icon', href: '/favicon.ico', type: 'image/x-icon' },
     ],
   }),
   shellComponent: RootShell,
