@@ -3,6 +3,7 @@ export const restaurantContent = {
     welcome: 'Benvenuti',
     pastaIsLife: 'Pasta is life',
     familyIsLife: 'Family is life',
+    events: 'Bottega events',
     menu: {
       title: 'Menu.',
       action: 'View menu',
