@@ -20,6 +20,7 @@ export function HomePage() {
         <StorySection />
         <OfferingsSection />
         <EventsSection />
+        <SketchMarquee text={restaurantContent.home.pastaIsLife} variant="forest" />
         <SocialSection />
         <ClubSection />
       </main>
