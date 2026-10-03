@@ -7,7 +7,7 @@ export function easeOutCubic(value: number) {
 }
 
 export function desktopCardProgress(overall: number, index: number) {
-  return clamp((overall - index * 0.27) / 0.3);
+  return clamp((overall - index * 0.3) / 0.4);
 }
 
 export function mobileCardProgress(viewport: number, top: number, index: number) {
