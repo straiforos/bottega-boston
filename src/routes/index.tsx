@@ -3,6 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Button, Card, Stamp, Display, Serif, Logo, Marquee, WaveRibbon, LinkAction, TextField, Checkbox, PillLabel } from '@/design-system/bottega-f5161c';
 import { BottegaHeader } from '@/components/BottegaHeader';
 import { RestaurantSketch } from '@/components/RestaurantSketch';
+import mercatino from '@/assets/mercatino.jpg.asset.json';
 import hero from '@/assets/hero.asset.json';
 import coffee from '@/assets/coffee.asset.json';
 import pasta from '@/assets/pasta-club.asset.json';
@@ -132,7 +133,7 @@ function Index() {
         <section className="offerings-section bt-surface-dark" aria-label="Discover Bottega"><div ref={offeringsRef} className="section-inner offerings">
           <article className="offering offering-coffee"><Card variant="cream" shape="rect"><div><Display as="h3" size="sm" tone="forest">Coffee + house drinks</Display><Serif size="lg" tone="forest">& dolci</Serif></div><img className="offering-image" src={coffee.url} alt="A Bottega guest holding a cappuccino and iced coffee" loading="lazy" /><MenuLink to="/menu" hash="category-8">Catering menu</MenuLink></Card><div className="catering-stamp"><Stamp size="sm">Catering<br />menu</Stamp></div></article>
           <article className="offering offering-food"><Card variant="mustard" shape="arch"><img className="offering-image" src={pasta.url} alt="A woman holding a plate of Bottega pesto pasta" loading="lazy" /><Display as="h3" size="md" tone="forest">The food</Display><Serif size="sm" tone="forest">Breakfast, lunch, dinner<br />& everything in between.</Serif><MenuLink to="/menu">Food menu</MenuLink></Card></article>
-          <article id="market" className="offering offering-market"><Card variant="cobalt" shape="rect"><Serif as="h3" size="lg" tone="cream">Il Mercatino</Serif><PillLabel variant="mustard">The little market</PillLabel><div className="market-art"><RestaurantSketch kind="market" /></div><Serif size="sm" tone="cream">A little Bottega.<br />To take home.</Serif><LinkAction href="mailto:ciao@eatbottega.com?subject=Il%20Mercatino%20inquiry" tone="mustard">Explore the market</LinkAction></Card></article>
+          <article id="market" className="offering offering-market"><Card variant="cobalt" shape="rect"><Serif as="h3" size="lg" tone="cream">Il Mercatino</Serif><PillLabel variant="mustard">The little market</PillLabel><img className="offering-image" src={mercatino.url} alt="Inside Il Mercatino at Bottega — shelves of pasta, pantry goods and totes" loading="lazy" /><Serif size="sm" tone="cream">A little Bottega.<br />To take home.</Serif><LinkAction href="mailto:ciao@eatbottega.com?subject=Il%20Mercatino%20inquiry" tone="mustard">Explore the market</LinkAction></Card></article>
         </div>
         </section>
         <section id="events" className="section events"><div className="section-inner"><p className="eyebrow">Good food. Better company.</p><div className="events-heading"><Display size="xl" tone="forest">Come hang out<br />with us.</Display></div><div className="event-empty"><RestaurantSketch kind="lemon" /><Serif size="md" tone="forest">No events at the moment.</Serif><p>More good times are on the way. Ci vediamo presto!</p></div></div></section>
