@@ -179,7 +179,7 @@
   gap: var(--bt-space-md);
 }
 .pasta-pot-icon svg {
-  height: var(--bt-text-3xl);
+  height: var(--bt-space-xl);
   width: auto;
   display: block;
 }
