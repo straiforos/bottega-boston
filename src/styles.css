@@ -8,7 +8,8 @@ a { color: inherit; }
 img, video { max-width: 100%; }
 main { overflow: clip; }
 .social-links { display: flex; align-items: center; gap: var(--bt-space-lg); }
-.shared-header { flex-wrap: wrap; gap: var(--bt-space-lg); }
+.shared-header { flex-wrap: wrap; gap: var(--bt-space-lg); position: sticky; top: 0; z-index: 10; transition: background-color var(--bt-duration) ease, color var(--bt-duration) ease, border-color var(--bt-duration) ease; }
+.shared-header--stuck { box-shadow: var(--bt-shadow-card); }
 .header-brand { display: block; }
 .header-brand-pair { align-items: center; gap: var(--bt-space-sm); }
 .desktop-logo.header-brand-pair { display: inline-flex; }
