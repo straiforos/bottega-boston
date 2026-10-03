@@ -33,20 +33,6 @@ main {
     color var(--bt-duration) ease,
     border-color var(--bt-duration) ease;
 }
-.header-brand {
-  display: block;
-}
-.header-actions {
-  display: flex;
-  align-items: center;
-  margin-left: auto;
-}
-.header-menu-toggle {
-  display: none;
-}
-.mobile-logo {
-  display: none;
-}
 .footer {
   background: var(--bt-forest);
   color: var(--bt-cream);
@@ -87,17 +73,8 @@ a:focus-visible {
   outline-offset: var(--bt-space-xs);
 }
 @media (max-width: 900px) {
-  .desktop-logo {
-    display: none;
-  }
-  .mobile-logo {
-    display: inline;
-  }
   .shared-header {
     gap: var(--bt-space-sm);
-  }
-  .header-menu-toggle {
-    display: inline-flex;
   }
   .footer-grid {
     grid-template-columns: 1fr 1fr;
