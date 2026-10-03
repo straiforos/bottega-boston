@@ -36,22 +36,12 @@ main {
 .header-brand {
   display: block;
 }
-.header-brand-pair {
-  align-items: center;
-  gap: var(--bt-space-sm);
-}
-.desktop-logo.header-brand-pair {
-  display: inline-flex;
-}
 .header-actions {
   display: flex;
   align-items: center;
   margin-left: auto;
 }
 .header-menu-toggle {
-  display: none;
-}
-.mobile-logo {
   display: none;
 }
 .footer {
@@ -94,18 +84,6 @@ a:focus-visible {
   outline-offset: var(--bt-space-xs);
 }
 @media (max-width: 900px) {
-  .desktop-logo {
-    display: none;
-  }
-  .mobile-logo {
-    display: inline;
-  }
-  .desktop-logo.header-brand-pair {
-    display: none;
-  }
-  .mobile-logo.header-brand-pair {
-    display: inline-flex;
-  }
   .shared-header {
     gap: var(--bt-space-sm);
   }
