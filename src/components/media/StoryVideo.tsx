@@ -59,8 +59,13 @@ export function StoryVideo({ src, poster }: { src: string; poster: string }) {
           onPlay={() => setPlaying(true)}
           onPause={() => setPlaying(false)}
         >
-          <track kind="captions" src={storyCaptions} srcLang="en" label="English" default />
+          <track kind="captions" src={storyCaptions} srcLang="en" label="English" />
         </video>
+        {caption && (
+          <div className="video-captions">
+            <PillLabel variant="mustard">{caption}</PillLabel>
+          </div>
+        )}
         <div className="video-play-control" data-playing={playing}>
           <Button
             variant="cream"
