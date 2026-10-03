@@ -16,3 +16,4 @@
 - [x] Enlarge the Pasta Club photo and align its top with the gallery edge: componentize the photo, keep the "Follow us" ribbon behind her face.
 - [x] On mobile, lift the Pasta Club photo to the section top so the "Follow us" wave passes behind her head (desktop unchanged).
 - [x] Style the story video captions: browser captions hidden, smaller mustard pill overlay kept clear of the "About us" pill, and a CC toggle button beside the sound toggle.
+- [x] On mobile, left-align the "About us" pill so the CC and sound controls stay clear of it.
