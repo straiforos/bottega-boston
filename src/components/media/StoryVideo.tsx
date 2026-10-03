@@ -27,8 +27,8 @@ export function StoryVideo({ src, poster }: { src: string; poster: string }) {
     if (!track) return;
     track.mode = 'hidden';
     const updateCaption = () => {
-      const cues = Array.from(track.activeCues ?? []);
-      setCaption(cues.map((cue) => cue.text ?? '').join(' '));
+      const cues = Array.from(track.activeCues ?? []) as VTTCue[];
+      setCaption(cues.map((cue) => cue.text).join(' '));
     };
     updateCaption();
     track.addEventListener('cuechange', updateCaption);
