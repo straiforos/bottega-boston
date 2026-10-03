@@ -34,19 +34,27 @@ export function useOfferingsMotion() {
         card.style.transform = `translateY(${((1 - progress) * travel).toFixed(3)}rem)`;
       });
     };
-    const schedule = () => { if (!frame) frame = requestAnimationFrame(update); };
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(update);
+    };
     const stop = () => {
       window.removeEventListener('scroll', schedule);
       window.removeEventListener('resize', schedule);
       if (frame) cancelAnimationFrame(frame);
-      cards.forEach((card) => { card.style.opacity = ''; card.style.transform = ''; });
+      cards.forEach((card) => {
+        card.style.opacity = '';
+        card.style.transform = '';
+      });
     };
 
     window.addEventListener('scroll', schedule, { passive: true });
     window.addEventListener('resize', schedule);
     preference.addEventListener('change', stop);
     schedule();
-    return () => { preference.removeEventListener('change', stop); stop(); };
+    return () => {
+      preference.removeEventListener('change', stop);
+      stop();
+    };
   }, []);
 
   return offeringsRef;

@@ -6,9 +6,7 @@
     "framework": "react",
     "css_framework": "css-variables",
     "starter_template": "custom_design_system",
-    "theme_files": [
-      "src/bottega/styles/theme.css"
-    ],
+    "theme_files": ["src/bottega/styles/theme.css"],
     "source_type": "local",
     "source_manifest": {
       "#enrichment": "4023e9b56cd3e8e88310f05a83f4672946f33e1e6fc7dca5c9b6fe5454ffe5f2",
@@ -412,32 +410,19 @@
         {
           "name": "variant",
           "type": "enum",
-          "values": [
-            "primary",
-            "accent",
-            "outline",
-            "ghost",
-            "cream"
-          ],
+          "values": ["primary", "accent", "outline", "ghost", "cream"],
           "default": "primary"
         },
         {
           "name": "size",
           "type": "enum",
-          "values": [
-            "sm",
-            "md",
-            "lg"
-          ],
+          "values": ["sm", "md", "lg"],
           "default": "md"
         },
         {
           "name": "width",
           "type": "enum",
-          "values": [
-            "auto",
-            "full"
-          ],
+          "values": ["auto", "full"],
           "default": "auto"
         }
       ]
@@ -450,36 +435,18 @@
         {
           "name": "as",
           "type": "enum",
-          "values": [
-            "h1",
-            "h2",
-            "h3",
-            "p"
-          ]
+          "values": ["h1", "h2", "h3", "p"]
         },
         {
           "name": "size",
           "type": "enum",
-          "values": [
-            "sm",
-            "md",
-            "lg",
-            "xl"
-          ],
+          "values": ["sm", "md", "lg", "xl"],
           "default": "lg"
         },
         {
           "name": "tone",
           "type": "enum",
-          "values": [
-            "forest",
-            "cream",
-            "mustard",
-            "tomato",
-            "cobalt",
-            "ink",
-            "inherit"
-          ],
+          "values": ["forest", "cream", "mustard", "tomato", "cobalt", "ink", "inherit"],
           "default": "inherit"
         }
       ]
@@ -492,36 +459,18 @@
         {
           "name": "as",
           "type": "enum",
-          "values": [
-            "h2",
-            "h3",
-            "h4",
-            "p",
-            "span"
-          ]
+          "values": ["h2", "h3", "h4", "p", "span"]
         },
         {
           "name": "size",
           "type": "enum",
-          "values": [
-            "sm",
-            "md",
-            "lg"
-          ],
+          "values": ["sm", "md", "lg"],
           "default": "lg"
         },
         {
           "name": "tone",
           "type": "enum",
-          "values": [
-            "forest",
-            "cream",
-            "mustard",
-            "tomato",
-            "cobalt",
-            "ink",
-            "inherit"
-          ],
+          "values": ["forest", "cream", "mustard", "tomato", "cobalt", "ink", "inherit"],
           "default": "inherit"
         }
       ]
@@ -534,20 +483,13 @@
         {
           "name": "size",
           "type": "enum",
-          "values": [
-            "sm",
-            "md",
-            "lg"
-          ],
+          "values": ["sm", "md", "lg"],
           "default": "md"
         },
         {
           "name": "variant",
           "type": "enum",
-          "values": [
-            "bold",
-            "light"
-          ],
+          "values": ["bold", "light"],
           "default": "bold"
         }
       ]
@@ -570,11 +512,7 @@
         {
           "name": "variant",
           "type": "enum",
-          "values": [
-            "cream",
-            "forest",
-            "tomato"
-          ],
+          "values": ["cream", "forest", "tomato"],
           "default": "cream"
         },
         {
@@ -592,22 +530,13 @@
         {
           "name": "variant",
           "type": "enum",
-          "values": [
-            "cream",
-            "mustard",
-            "cobalt",
-            "forest",
-            "white"
-          ],
+          "values": ["cream", "mustard", "cobalt", "forest", "white"],
           "default": "cream"
         },
         {
           "name": "shape",
           "type": "enum",
-          "values": [
-            "rect",
-            "arch"
-          ],
+          "values": ["rect", "arch"],
           "default": "rect"
         },
         {
@@ -659,10 +588,7 @@
         {
           "name": "surface",
           "type": "enum",
-          "values": [
-            "default",
-            "inverse"
-          ],
+          "values": ["default", "inverse"],
           "default": "default"
         }
       ]
@@ -680,10 +606,7 @@
         {
           "name": "surface",
           "type": "enum",
-          "values": [
-            "default",
-            "inverse"
-          ],
+          "values": ["default", "inverse"],
           "default": "default"
         }
       ]
@@ -701,10 +624,7 @@
         {
           "name": "surface",
           "type": "enum",
-          "values": [
-            "default",
-            "inverse"
-          ],
+          "values": ["default", "inverse"],
           "default": "default"
         }
       ]
@@ -717,14 +637,7 @@
         {
           "name": "variant",
           "type": "enum",
-          "values": [
-            "forest",
-            "mustard",
-            "tomato",
-            "cobalt",
-            "chip-forest",
-            "chip-tomato"
-          ],
+          "values": ["forest", "mustard", "tomato", "cobalt", "chip-forest", "chip-tomato"],
           "default": "forest"
         }
       ]
@@ -747,11 +660,7 @@
         {
           "name": "variant",
           "type": "enum",
-          "values": [
-            "mustard",
-            "cream",
-            "tomato"
-          ],
+          "values": ["mustard", "cream", "tomato"],
           "default": "mustard"
         }
       ]
@@ -764,11 +673,7 @@
         {
           "name": "tone",
           "type": "enum",
-          "values": [
-            "forest",
-            "cream",
-            "mustard"
-          ],
+          "values": ["forest", "cream", "mustard"],
           "default": "forest"
         }
       ]
@@ -790,10 +695,7 @@
         {
           "name": "variant",
           "type": "enum",
-          "values": [
-            "cream",
-            "forest"
-          ],
+          "values": ["cream", "forest"],
           "default": "cream"
         }
       ]
@@ -806,32 +708,19 @@
         {
           "name": "variant",
           "type": "enum",
-          "values": [
-            "mark",
-            "wordmark",
-            "lockup",
-            "lockup-wordmark"
-          ],
+          "values": ["mark", "wordmark", "lockup", "lockup-wordmark"],
           "default": "mark"
         },
         {
           "name": "size",
           "type": "enum",
-          "values": [
-            "sm",
-            "md",
-            "lg"
-          ],
+          "values": ["sm", "md", "lg"],
           "default": "md"
         },
         {
           "name": "tone",
           "type": "enum",
-          "values": [
-            "auto",
-            "ink",
-            "cream"
-          ],
+          "values": ["auto", "ink", "cream"],
           "default": "auto"
         },
         {
@@ -848,19 +737,13 @@
         {
           "name": "defaultTheme",
           "type": "enum",
-          "values": [
-            "light",
-            "dark"
-          ],
+          "values": ["light", "dark"],
           "default": "dark"
         },
         {
           "name": "size",
           "type": "enum",
-          "values": [
-            "sm",
-            "md"
-          ],
+          "values": ["sm", "md"],
           "default": "md"
         }
       ]
@@ -878,10 +761,7 @@
         {
           "name": "size",
           "type": "enum",
-          "values": [
-            "sm",
-            "md"
-          ],
+          "values": ["sm", "md"],
           "default": "md"
         },
         {

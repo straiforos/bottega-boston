@@ -1,5 +1,5 @@
-@import "./design-system/bottega-f5161c/bottega/styles/theme.css";
-@import "./design-system/bottega-f5161c/bottega/styles/components.css";
-@import "./styles/shared.css";
-@import "./features/home/home.css";
-@import "./features/menu/menu.css";
+@import './design-system/bottega-f5161c/bottega/styles/theme.css';
+@import './design-system/bottega-f5161c/bottega/styles/components.css';
+@import './styles/shared.css';
+@import './features/home/home.css';
+@import './features/menu/menu.css';

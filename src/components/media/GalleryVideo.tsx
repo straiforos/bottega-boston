@@ -19,10 +19,33 @@ export function GalleryVideo({ src }: { src: string }) {
   };
 
   return (
-    <div className="gallery-player" onMouseEnter={start} onMouseLeave={() => videoRef.current?.pause()} onFocus={start} onBlur={() => videoRef.current?.pause()}>
-      <video ref={videoRef} src={src} loop muted playsInline preload="metadata" aria-label="A moment at Bottega" onClick={togglePlayback} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} />
+    <div
+      className="gallery-player"
+      onMouseEnter={start}
+      onMouseLeave={() => videoRef.current?.pause()}
+      onFocus={start}
+      onBlur={() => videoRef.current?.pause()}
+    >
+      <video
+        ref={videoRef}
+        src={src}
+        loop
+        muted
+        playsInline
+        preload="metadata"
+        aria-label="A moment at Bottega"
+        onClick={togglePlayback}
+        onPlay={() => setPlaying(true)}
+        onPause={() => setPlaying(false)}
+      />
       <div className="gallery-play-control" data-playing={playing}>
-        <Button variant="cream" size="md" aria-label={playing ? labels.pause : labels.play} title={playing ? labels.pause : labels.play} onClick={togglePlayback}>
+        <Button
+          variant="cream"
+          size="md"
+          aria-label={playing ? labels.pause : labels.play}
+          title={playing ? labels.pause : labels.play}
+          onClick={togglePlayback}
+        >
           <PlayPauseIcon playing={playing} className="gallery-play-icon" />
         </Button>
       </div>

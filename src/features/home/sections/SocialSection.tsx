@@ -13,5 +13,29 @@ const images = [
 ] as const;
 
 export function SocialSection() {
-  return <section className="social-section"><div className="social-heading"><Display size="md" tone="forest">Life, the Bottega way.</Display><LinkAction href={links.instagram} target="_blank" rel="noreferrer">@eatbottega</LinkAction></div><div className="gallery"><figure className="gallery-item"><GalleryVideo src={socialVideo.url} /></figure>{images.map(({ asset, alt, caption }) => <figure className="gallery-item" key={asset.asset_id}><img src={asset.url} loading="lazy" alt={alt} /><figcaption><PillLabel variant="mustard">{caption}</PillLabel></figcaption></figure>)}</div></section>;
+  return (
+    <section className="social-section">
+      <div className="social-heading">
+        <Display size="md" tone="forest">
+          Life, the Bottega way.
+        </Display>
+        <LinkAction href={links.instagram} target="_blank" rel="noreferrer">
+          @eatbottega
+        </LinkAction>
+      </div>
+      <div className="gallery">
+        <figure className="gallery-item">
+          <GalleryVideo src={socialVideo.url} />
+        </figure>
+        {images.map(({ asset, alt, caption }) => (
+          <figure className="gallery-item" key={asset.asset_id}>
+            <img src={asset.url} loading="lazy" alt={alt} />
+            <figcaption>
+              <PillLabel variant="mustard">{caption}</PillLabel>
+            </figcaption>
+          </figure>
+        ))}
+      </div>
+    </section>
+  );
 }

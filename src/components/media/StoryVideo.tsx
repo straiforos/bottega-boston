@@ -29,23 +29,67 @@ export function StoryVideo({ src, poster }: { src: string; poster: string }) {
   return (
     <div className="story-player">
       <div className="arch-video">
-        <video ref={videoRef} src={src} poster={poster} muted={muted} autoPlay={!reducedMotion} loop playsInline preload="metadata" aria-label="Making fresh pasta together at Bottega" onClick={togglePlayback} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)}>
+        <video
+          ref={videoRef}
+          src={src}
+          poster={poster}
+          muted={muted}
+          autoPlay={!reducedMotion}
+          loop
+          playsInline
+          preload="metadata"
+          aria-label="Making fresh pasta together at Bottega"
+          onClick={togglePlayback}
+          onPlay={() => setPlaying(true)}
+          onPause={() => setPlaying(false)}
+        >
           <track kind="captions" src={storyCaptions} srcLang="en" label="English" default />
         </video>
         <div className="video-play-control" data-playing={playing}>
-          <Button variant="cream" size="lg" aria-label={playing ? labels.pause : labels.play} title={playing ? labels.pause : labels.play} onClick={togglePlayback}>
+          <Button
+            variant="cream"
+            size="lg"
+            aria-label={playing ? labels.pause : labels.play}
+            title={playing ? labels.pause : labels.play}
+            onClick={togglePlayback}
+          >
             <PlayPauseIcon playing={playing} className="video-play-icon" />
           </Button>
         </div>
         <div className="video-sound-control">
-          <Button variant="cream" size="sm" aria-pressed={!muted} aria-label={muted ? labels.soundOn : labels.soundOff} title={muted ? labels.soundOn : labels.soundOff} onClick={() => setMuted((value) => !value)}>
-            <svg className="video-sound-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <Button
+            variant="cream"
+            size="sm"
+            aria-pressed={!muted}
+            aria-label={muted ? labels.soundOn : labels.soundOff}
+            title={muted ? labels.soundOn : labels.soundOff}
+            onClick={() => setMuted((value) => !value)}
+          >
+            <svg
+              className="video-sound-icon"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
               <path d="M11 5 6 9H3v6h3l5 4z" />
-              {muted ? <path d="m16 9 5 6m0-6-5 6" /> : <><path d="M15 8a6 6 0 0 1 0 8" /><path d="M18 5a10 10 0 0 1 0 14" /></>}
+              {muted ? (
+                <path d="m16 9 5 6m0-6-5 6" />
+              ) : (
+                <>
+                  <path d="M15 8a6 6 0 0 1 0 8" />
+                  <path d="M18 5a10 10 0 0 1 0 14" />
+                </>
+              )}
             </svg>
           </Button>
         </div>
-        <div className="video-caption"><PillLabel variant="mustard">About us</PillLabel></div>
+        <div className="video-caption">
+          <PillLabel variant="mustard">About us</PillLabel>
+        </div>
       </div>
     </div>
   );

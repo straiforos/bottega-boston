@@ -8,9 +8,15 @@ export function filterMenu(sections: readonly MenuSection[], query: string, sele
     .map((section) => ({
       ...section,
       items: section.items.filter((item) => {
-        const searchable = `${section.name} ${section.note} ${item.name} ${item.description} ${item.tags.join(' ')}`.toLocaleLowerCase('en');
+        const searchable =
+          `${section.name} ${section.note} ${item.name} ${item.description} ${item.tags.join(' ')}`.toLocaleLowerCase(
+            'en',
+          );
         const matchesQuery = !term || searchable.includes(term);
-        const matchesCategory = selection === 'all' || selection === section.id || (selection === 'catering' && section.name.startsWith('Catering'));
+        const matchesCategory =
+          selection === 'all' ||
+          selection === section.id ||
+          (selection === 'catering' && section.name.startsWith('Catering'));
         return matchesQuery && matchesCategory;
       }),
     }))

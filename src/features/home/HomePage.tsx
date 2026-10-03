@@ -11,5 +11,23 @@ import { SocialSection } from './sections/SocialSection';
 import { StorySection } from './sections/StorySection';
 
 export function HomePage() {
-  return <><Marquee text="Benvenuti" separator={<RestaurantSketch kind="pasta" small />} variant="cream" /><BottegaHeader /><main><HeroSection /><Marquee text="Benvenuti" separator={<RestaurantSketch kind="lemon" small />} /><StorySection /><Marquee text="#pastaislife" separator={<RestaurantSketch small />} /><MenuIntroSection /><OfferingsSection /><EventsSection /><Marquee text="Pasta is life" separator={<RestaurantSketch small />} /><SocialSection /><ClubSection /></main><SiteFooter /></>;
+  return (
+    <>
+      <Marquee text="Benvenuti" separator={<RestaurantSketch kind="pasta" small />} variant="cream" />
+      <BottegaHeader />
+      <main>
+        <HeroSection />
+        <Marquee text="Benvenuti" separator={<RestaurantSketch kind="lemon" small />} />
+        <StorySection />
+        <Marquee text="#pastaislife" separator={<RestaurantSketch small />} />
+        <MenuIntroSection />
+        <OfferingsSection />
+        <EventsSection />
+        <Marquee text="Pasta is life" separator={<RestaurantSketch small />} />
+        <SocialSection />
+        <ClubSection />
+      </main>
+      <SiteFooter />
+    </>
+  );
 }
