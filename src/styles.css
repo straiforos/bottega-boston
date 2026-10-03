@@ -99,6 +99,7 @@ a:focus-visible { outline: var(--bt-border-width) solid var(--bt-focus); outline
   .gallery { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .social-heading { align-items: start; flex-direction: column; }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: var(--bt-space-lg); }
+  .footer-grid > :first-child { grid-column: 1 / -1; }
   .club { padding-top: var(--bt-space-8); }
   .club-ribbon { top: calc(-1 * var(--bt-space-lg)); }
   .club-copy { padding: 0 var(--bt-margin); }
