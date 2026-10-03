@@ -10,7 +10,6 @@ export function EventsSection() {
         <MovingRibbon text={restaurantContent.home.events} variant="tomato" />
       </div>
       <div className="section-inner">
-        <p className="eyebrow">Good food. Better company.</p>
         <div className="events-heading">
           <Display size="xl" tone="forest">
             Come hang out
