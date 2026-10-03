@@ -157,6 +157,7 @@
 .offerings-ribbon {
   position: relative;
   margin-top: calc(-1 * var(--bt-space-8));
+  padding-bottom: var(--bt-space-xl);
   pointer-events: none;
 }
 .offerings-layout {
