@@ -1,0 +1,187 @@
+/* Bottega — Retro Italian Trattoria tokens.
+   Brand fonts (Barlow Condensed, Domine, DM Sans) are loaded via a <link> in the document head. */
+:root {
+  /* Brand palette */
+  --bt-forest: #194d33;
+  --bt-forest-dark: #16462e;
+  --bt-forest-deep: #00361f;
+  --bt-cream: #faf6ee;
+  --bt-parchment: #f1ebdd;
+  --bt-white: #ffffff;
+  --bt-mustard: #f8d468;
+  --bt-mustard-deep: #e8b938;
+  --bt-tomato: #d63426;
+  --bt-tomato-border: #ba2619;
+  --bt-cobalt: #1d5bb5;
+  --bt-ink: #1e1a17;
+
+  /* Surfaces */
+  --bt-surface: var(--bt-cream);
+  --bt-surface-dim: #dddad2;
+  --bt-surface-container-low: #f7f3eb;
+  --bt-surface-container: #f1ede6;
+  --bt-surface-container-high: #ece8e0;
+  --bt-outline: #717972;
+  --bt-outline-variant: #c0c9c0;
+
+  /* Semantic */
+  --bt-background: var(--bt-cream);
+  --bt-foreground: var(--bt-forest);
+  --bt-body: var(--bt-ink);
+  --bt-surface-inverse: var(--bt-forest);
+  --bt-on-inverse: var(--bt-cream);
+  --bt-primary: var(--bt-forest-dark);
+  --bt-on-primary: var(--bt-mustard);
+  --bt-accent: var(--bt-mustard);
+  --bt-accent-hover: var(--bt-mustard-deep);
+  --bt-on-accent: var(--bt-forest);
+  --bt-highlight: var(--bt-cobalt);
+  --bt-on-highlight: var(--bt-white);
+  --bt-danger: #ba1a1a;
+  --bt-danger-container: #ffdad6;
+  --bt-on-danger-container: #410002;
+  --bt-border: var(--bt-forest);
+  --bt-border-accent: var(--bt-tomato);
+  --bt-border-gold: var(--bt-mustard-deep);
+  --bt-muted: #414942;
+  --bt-focus: var(--bt-cobalt);
+
+  /* Controls (checkbox, radio) — plain-surface ink, checked fill, mark on fill */
+  --bt-control: var(--bt-forest);
+  --bt-control-fill: var(--bt-forest);
+  --bt-on-control: var(--bt-cream);
+
+  /* Brand text inks — adapt per surface so tones stay legible */
+  --bt-ink-brand: var(--bt-forest);
+  --bt-ink-accent: var(--bt-tomato);
+  --bt-ink-highlight: var(--bt-cobalt);
+  --bt-shadow-ink: rgba(22, 70, 46, 0.9);
+  --bt-logo-filter: none;
+
+  /* Typography */
+  --bt-font-display: "Barlow Condensed", "Arial Narrow", sans-serif;
+  --bt-font-serif: "Domine", Georgia, serif;
+  --bt-font-sans: "DM Sans", system-ui, sans-serif;
+  --bt-font-stamp: var(--bt-font-display);
+
+  --bt-text-xs: 0.75rem;
+  --bt-text-sm: 0.875rem;   /* body-sm */
+  --bt-text-base: 1rem;     /* body-md */
+  --bt-text-lg: 1.125rem;   /* body-lg, label-button */
+  --bt-text-label: 1.25rem; /* label-ticker, label-badge */
+  --bt-text-subtitle: 1.375rem;
+  --bt-text-title: 2rem;
+  --bt-text-xl: 1.875rem;   /* headline-md */
+  --bt-text-2xl: 2.5rem;    /* headline-lg */
+  --bt-text-3xl: 3.5rem;    /* headline-xl, hero mobile */
+  --bt-text-display: 5.5rem;/* display-hero */
+
+  --bt-tracking-button: 0.08em;
+  --bt-tracking-ticker: 0.12em;
+  --bt-tracking-badge: 0.04em;
+
+  /* Spacing */
+  --bt-space-xs: 0.375rem;
+  --bt-space-sm: 0.75rem;
+  --bt-space-md: 1.25rem;
+  --bt-space-lg: 2rem;
+  --bt-space-xl: 3.5rem;
+  --bt-gutter: 1.5rem;
+  --bt-margin: 3rem;
+  /* Numeric scale (aliases used by components) */
+  --bt-space-1: var(--bt-space-xs);
+  --bt-space-2: var(--bt-space-sm);
+  --bt-space-3: var(--bt-space-md);
+  --bt-space-4: var(--bt-gutter);
+  --bt-space-5: var(--bt-space-lg);
+  --bt-space-6: var(--bt-margin);
+  --bt-space-7: var(--bt-space-xl);
+  --bt-space-8: 6rem;
+
+  /* Radius */
+  --bt-radius-none: 0;
+  --bt-radius-sm: 0.25rem;
+  --bt-radius-md: 0.5rem;
+  --bt-radius-lg: 1rem;
+  --bt-radius-pill: 9999px;
+  --bt-radius-arch: 999px 999px 0 0;
+
+  /* Borders & depth — hard offset shadows only, no blur */
+  --bt-border-width: 2px;
+  --bt-border-thin: 1.5px;
+  --bt-shadow-stamp: 3px 3px 0 var(--bt-shadow-ink);
+  --bt-shadow-card: 6px 6px 0 var(--bt-tomato);
+  --bt-shadow-hover: 3px 3px 0 var(--bt-shadow-ink);
+
+  --bt-marquee-height: 3.25rem;
+  --bt-duration: 180ms;
+}
+
+/* Dark scope: the dark theme AND fixed dark surfaces (forest/cobalt cards, forest header & marquee)
+   so anything nested inside them picks legible tokens regardless of the page theme. */
+:root[data-theme="dark"],
+.bt-surface-dark, .bt-card--forest, .bt-card--cobalt, .bt-header--forest, .bt-marquee--forest {
+  --bt-foreground: var(--bt-cream);
+  --bt-body: var(--bt-cream);
+  --bt-surface: var(--bt-forest-deep);
+  --bt-outline: var(--bt-parchment);
+  --bt-muted: var(--bt-parchment);
+  --bt-border: var(--bt-mustard);
+  --bt-border-gold: var(--bt-mustard);
+  --bt-control: var(--bt-cream);
+  --bt-control-fill: var(--bt-cream);
+  --bt-on-control: var(--bt-forest);
+  --bt-danger: #ffb4ab;
+  --bt-danger-container: #5c0d0d;
+  --bt-on-danger-container: var(--bt-cream);
+  --bt-ink-brand: var(--bt-cream);
+  --bt-ink-accent: #ff8a7a;
+  --bt-ink-highlight: #a9c7ff;
+  --bt-shadow-ink: var(--bt-ink);
+  --bt-logo-filter: invert(1);
+}
+:root[data-theme="dark"] {
+  --bt-background: var(--bt-forest);
+  --bt-surface-dim: var(--bt-forest-dark);
+  --bt-surface-container-low: var(--bt-forest-deep);
+  --bt-surface-container: var(--bt-forest-dark);
+  --bt-surface-container-high: var(--bt-forest);
+  --bt-outline-variant: var(--bt-forest);
+  --bt-surface-inverse: var(--bt-forest-deep);
+}
+
+/* Light scope: fixed light surfaces restore light tokens even inside the dark theme. */
+.bt-surface-light, .bt-card--cream, .bt-card--white, .bt-card--mustard, .bt-marquee--cream, .bt-marquee--tomato, .bt-stamp {
+  --bt-foreground: var(--bt-forest);
+  --bt-body: var(--bt-ink);
+  --bt-surface: var(--bt-cream);
+  --bt-muted: #414942;
+  --bt-border: var(--bt-forest);
+  --bt-border-gold: var(--bt-mustard-deep);
+  --bt-control: var(--bt-forest);
+  --bt-control-fill: var(--bt-forest);
+  --bt-on-control: var(--bt-cream);
+  --bt-danger: #ba1a1a;
+  --bt-danger-container: #ffdad6;
+  --bt-on-danger-container: #410002;
+  --bt-ink-brand: var(--bt-forest);
+  --bt-ink-accent: var(--bt-tomato);
+  --bt-ink-highlight: var(--bt-cobalt);
+  --bt-shadow-ink: rgba(22, 70, 46, 0.9);
+  --bt-logo-filter: none;
+}
+
+@media (max-width: 767px) {
+  :root {
+    --bt-text-display: 3.5rem;
+    --bt-gutter: 1rem;
+    --bt-margin: 1.25rem;
+  }
+}
+
+body {
+  background: var(--bt-background);
+  color: var(--bt-body);
+  font-family: var(--bt-font-sans);
+  line-height: 1.55;
+}
