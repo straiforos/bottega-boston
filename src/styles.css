@@ -121,6 +121,9 @@ a:focus-visible { outline: var(--bt-border-width) solid var(--bt-focus); outline
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   .offering[data-reveal] { opacity: 1; transform: none; transition: none; }
+  .gallery-item img, .gallery-item video { transition: none; }
+  .gallery-item:hover img, .gallery-item:hover video, .gallery-item:focus-within img, .gallery-item:focus-within video { transform: none; }
+  .gallery-item::after { opacity: 0; }
 }
 
 .real-menu { background: var(--bt-background); color: var(--bt-body); }
