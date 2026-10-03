@@ -1,4 +1,4 @@
-import { links } from '@/content/links';
+import { PillLabel } from '@/design-system/bottega-f5161c';
 import { GalleryVideo } from '@/components/media/GalleryVideo';
 import socialVideo from '@/assets/social-video.asset.json';
 import social1 from '@/assets/social-1.asset.json';
