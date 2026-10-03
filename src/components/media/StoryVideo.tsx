@@ -8,6 +8,7 @@ import storyCaptions from '@/content/en/story-captions.vtt?url';
 export function StoryVideo({ src, poster }: { src: string; poster: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [muted, setMuted] = useState(true);
+  const [captionsOn, setCaptionsOn] = useState(true);
   const [playing, setPlaying] = useState(false);
   const [caption, setCaption] = useState('');
   const reducedMotion = usePrefersReducedMotion();
@@ -61,9 +62,11 @@ export function StoryVideo({ src, poster }: { src: string; poster: string }) {
         >
           <track kind="captions" src={storyCaptions} srcLang="en" label="English" />
         </video>
-        {caption && (
+        {captionsOn && caption && (
           <div className="video-captions">
-            <PillLabel variant="mustard">{caption}</PillLabel>
+            <PillLabel variant="mustard" className="video-captions-text">
+              {caption}
+            </PillLabel>
           </div>
         )}
         <div className="video-play-control" data-playing={playing}>
@@ -77,7 +80,17 @@ export function StoryVideo({ src, poster }: { src: string; poster: string }) {
             <PlayPauseIcon playing={playing} className="video-play-icon" />
           </Button>
         </div>
-        <div className="video-sound-control">
+        <div className="video-controls">
+          <Button
+            variant="cream"
+            size="sm"
+            aria-pressed={captionsOn}
+            aria-label={captionsOn ? labels.captionsOff : labels.captionsOn}
+            title={captionsOn ? labels.captionsOff : labels.captionsOn}
+            onClick={() => setCaptionsOn((value) => !value)}
+          >
+            CC
+          </Button>
           <Button
             variant="cream"
             size="sm"

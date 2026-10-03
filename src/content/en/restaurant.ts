@@ -51,6 +51,8 @@ export const restaurantContent = {
     pause: 'Pause video',
     soundOn: 'Turn sound on',
     soundOff: 'Turn sound off',
+    captionsOn: 'Show captions',
+    captionsOff: 'Hide captions',
   },
 } as const;
 
