@@ -6,6 +6,6 @@
 - Keep offering cards aligned and animate their wrappers with scroll-linked sequential reveals inside a pinned (sticky) track on desktop so the section holds until all cards land; rise and fall track scroll position and reverse; preserve library component appearance and respect reduced motion so updates remain compatible and content stays accessible.
 - Use a wrapper layout for the overlapping club ribbon; library components retain their own appearance so design-system updates remain compatible.
 - Keep the real menu in a dedicated /menu route with source-derived structured data and individual illustrative image imports; home menu actions use a TanStack createLink wrapper around LinkAction without editing vendor components.
-- Compose both page headers through BottegaHeader using the library's separate mark and wordmark variants and router-aware LinkAction navigation so branding and navigation remain consistent.
+- Compose both page headers through BottegaHeader using the library's separate mark and wordmark variants plus MenuToggle and MenuOverlay so branding and responsive navigation remain consistent.
 - Mark up footer contact details (locations, email, phone, social link) with HTML5 address elements and reset their UA italic in the footer style layer so contact info stays semantic and legible.
 - Give every gallery media a Bottega tomato hairline with hover zoom and a light overlay mask, and drive the gallery video with the same custom play control pattern as the story video (never native controls); respect reduced motion.
