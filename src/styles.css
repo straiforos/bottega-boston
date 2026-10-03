@@ -16,7 +16,7 @@ main { overflow: clip; }
 .hero-photo { display: block; width: 100%; height: auto; }
 .hero-copy { position: absolute; inset-inline: var(--bt-margin); bottom: calc(var(--bt-space-8) * 2); }
 .hero-headline { position: relative; width: fit-content; max-width: 100%; margin-inline: auto; }
-.hero-stamp { position: absolute; left: calc(-1 * var(--bt-space-lg)); top: calc(-1 * var(--bt-space-xl)); }
+.hero-stamp { position: absolute; left: calc(-1 * var(--bt-space-lg)); top: calc(-1 * (var(--bt-space-8) + var(--bt-space-lg))); }
 .hero-hashtag { position: relative; margin: 0; font-size: calc(var(--bt-text-display) * 2); letter-spacing: 0; }
 .sketch { width: var(--bt-space-xl); height: var(--bt-space-xl); display: inline-block; vertical-align: middle; }
 .sketch-small { width: var(--bt-space-lg); height: var(--bt-space-lg); }
@@ -84,7 +84,7 @@ a:focus-visible { outline: var(--bt-border-width) solid var(--bt-focus); outline
   .header-actions { gap: var(--bt-space-sm); }
   .hero-copy { bottom: var(--bt-space-lg); }
   .hero-hashtag { font-size: var(--bt-text-display); }
-  .hero-stamp { left: 0; top: calc(-1 * var(--bt-space-xl)); }
+  .hero-stamp { left: 0; top: calc(-1 * var(--bt-space-8)); }
   .story-grid, .club-grid { grid-template-columns: 1fr; gap: var(--bt-space-xl); }
   .section { padding-block: var(--bt-space-xl); }
   .offerings { grid-template-columns: 1fr; gap: var(--bt-space-xl); }
