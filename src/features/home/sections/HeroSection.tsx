@@ -13,7 +13,7 @@ export function HeroSection() {
       <div className="hero-copy bt-surface-light">
         <div className="hero-headline">
           <div className="hero-stamp">
-            <span className="desktop-logo">
+            <span className="desktop-only">
               <Stamp size="md" variant="light">
                 Buona
                 <br />
@@ -22,7 +22,7 @@ export function HeroSection() {
                 Italian.
               </Stamp>
             </span>
-            <span className="mobile-logo">
+            <span className="mobile-only">
               <Stamp size="sm" variant="light">
                 Buona
                 <br />
