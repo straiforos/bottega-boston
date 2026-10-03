@@ -12,4 +12,6 @@ export { LinkAction, type LinkActionProps } from "./components/LinkAction";
 export { SiteHeader, type SiteHeaderProps } from "./components/SiteHeader";
 export { Logo, type LogoProps } from "./components/Logo";
 export { ThemeToggle, type ThemeToggleProps, type Theme } from "./components/ThemeToggle";
+export { MenuToggle, type MenuToggleProps } from "./components/MenuToggle";
+export { MenuOverlay, type MenuOverlayProps } from "./components/MenuOverlay";
 export { cx } from "./lib/cx";

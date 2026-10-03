@@ -2,7 +2,7 @@
   "meta": {
     "name": "Bottega",
     "package": "@ws-cli5ylqvzebyb2b5e4wl/432d9af3-64cc-49a3-92e4-36d8f906a251",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "framework": "react",
     "css_framework": "css-variables",
     "starter_template": "custom_design_system",
@@ -11,10 +11,13 @@
     ],
     "source_type": "local",
     "source_manifest": {
-      "#enrichment": "65693c2c0d4a19e572d5a42058aeca34ac66156ae1745f54e2955fc935efe40c",
-      ".dsignore": "2c7d76468c15bc0f1499420154f01ae3",
+      "#enrichment": "4023e9b56cd3e8e88310f05a83f4672946f33e1e6fc7dca5c9b6fe5454ffe5f2",
+      ".dsignore": "9202e1883820df077bdb3435c29315c4",
       ".gitignore": "6059213806e442947666752f3db6bfdc",
-      ".lovable/meta.yaml": "741c3eafda0760cb63dd46f35131ad2e",
+      ".lovable/meta.yaml": "731dc53c4191bd35cabf4a0af7095d7f",
+      ".lovable/plan.md": "86f0f22c11c0222d331c29873e8e27fa",
+      ".lovable/plan/add-the-hamburger-menu-to-bottega-2026-10-03.md": "e098ed9349bfea17cf054ff65ee3ae67",
+      ".lovable/plan/add-the-menu-overlay-to-bottega-2026-10-03.md": "bd97829f1335f8cdd21f4ccda3faf9c6",
       ".lovable/sources.yaml": "30ba92fda13f611b48d1157bbc70a97c",
       ".lovable/system.md": "6d7549c527775d3820f77fdbfeda7d4b",
       "AGENTS.md": "6a774320b7fa9868c5934a3b0f926395",
@@ -23,9 +26,9 @@
       "eslint.config.js": "07a67437fb1a45ab36d6de0145ff09de",
       "lovable.toml": "9636c1bf32f9901bfba4eabb92981217",
       "mockupPreviewPlugin.ts": "70d01fe16b7ca25f16ff6bdb97f08b0b",
-      "package.json": "6ab8abbb31173ead63909d2efdc15c56",
+      "package.json": "65ab088ba2857493da79eac342b2c7cf",
       "public/favicon.png": "8591d74b97a1a207c1efed1baebaaf3a",
-      "roadmap.md": "25133bdd3280695836f9e46e461c7e81",
+      "roadmap.md": "92f03490729007bfc58d9b291113e187",
       "src/bottega/assets/icons/noodle-menu.png": "72ebc45c661ec57224f5f63d45584bda",
       "src/bottega/assets/logos/bottega-logo.png": "2f1ddf64c4925e64c7517ad2c94355f4",
       "src/bottega/assets/logos/bottega-wordmark.png": "4f2f5560d2506735dc1a346346b9d2f9",
@@ -35,14 +38,16 @@
       "src/bottega/components/LinkAction.tsx": "18a7c30a9cf96ccb49c8d261eff0b571",
       "src/bottega/components/Logo.tsx": "28e25ca711ef396309fcb77af5eed366",
       "src/bottega/components/Marquee.tsx": "e8f10316ceb0abde9806da350cf00746",
+      "src/bottega/components/MenuOverlay.tsx": "c45f518511f87a9a39fe1eb812522d27",
+      "src/bottega/components/MenuToggle.tsx": "e9917f0089dd9cf486c94697c0637bed",
       "src/bottega/components/SiteHeader.tsx": "0cdd8a592aa28bba7590228a64e6b0d0",
       "src/bottega/components/Stamp.tsx": "fab48ad4d19d6f132413a4035b65035d",
       "src/bottega/components/ThemeToggle.tsx": "229aaa64efc3e1fc3006f95a0e211960",
       "src/bottega/components/Typography.tsx": "afecd6dd65289c2b29b162ae965bdf50",
       "src/bottega/components/WaveRibbon.tsx": "b4be4f7863e6960ff842de12a407fb42",
-      "src/bottega/index.ts": "7f59efe38e509805a31598e8405e6af4",
+      "src/bottega/index.ts": "e54fad41b15c7fe3bf6d5f150c3fdbeb",
       "src/bottega/lib/cx.ts": "7ae105dce8319a6dc3263f679bb79dd7",
-      "src/bottega/styles/components.css": "d8ac98bc17498ec660568d2b2bc42ffe",
+      "src/bottega/styles/components.css": "6d8590f1761103d7adb1f5cbd4ab0e47",
       "src/bottega/styles/theme.css": "1e3ef2304287b851b05d2cba21cc1ec0",
       "src/index.ts": "bf9cbac9ff755b03c2749c3043d4102c",
       "src/mockup-preview.d.ts": "ae9d81e2b8514e13fd59b5b6bece9a64",
@@ -52,11 +57,11 @@
       "src/routes/[__mockup].preview.$.tsx": "5d9f42470848aa60148f20f9580e240e",
       "src/routes/__root.tsx": "32d8c1ee58418654d1dc11b4c488f536",
       "src/routes/colors.tsx": "c7ca79efbc6b97363ee61e3fab301ea2",
-      "src/routes/components.tsx": "cdc5ae233c8ac877084c131a8dedf292",
+      "src/routes/components.tsx": "1a9c502d1c47f72765cddc2559de4768",
       "src/routes/index.tsx": "fce807bc6fac491529cdebfbb37882de",
       "src/routes/typography.tsx": "e2efa3afd45331f883294e97e1ae2684",
-      "src/showcase/Shell.tsx": "eeceddaf2c56673e9ddc6b0fb5e7cf93",
-      "src/showcase/showcase.css": "ce1b6b74bab467070a817efd9e4ff65a",
+      "src/showcase/Shell.tsx": "df733ee60907e7e1c7cf99541b677e3e",
+      "src/showcase/showcase.css": "0ee79a19eefa1edf73d842d192102846",
       "src/styles.css": "fccca7064393320dc09155a76de03886",
       "tsconfig.json": "994abf64c2b9f78b568879f80ed0170e",
       "vite.config.ts": "a99d983076495f848761d0f97f17062a",
@@ -857,6 +862,58 @@
             "md"
           ],
           "default": "md"
+        }
+      ]
+    },
+    {
+      "name": "MenuToggle",
+      "file": "src/bottega/components/MenuToggle",
+      "import_path": "",
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "size",
+          "type": "enum",
+          "values": [
+            "sm",
+            "md"
+          ],
+          "default": "md"
+        },
+        {
+          "name": "openLabel",
+          "type": "string",
+          "default": "Menu"
+        },
+        {
+          "name": "closeLabel",
+          "type": "string",
+          "default": "Close"
+        }
+      ]
+    },
+    {
+      "name": "MenuOverlay",
+      "file": "src/bottega/components/MenuOverlay",
+      "import_path": "",
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "footer",
+          "type": "any"
+        },
+        {
+          "name": "label",
+          "type": "string",
+          "default": "Primary"
         }
       ]
     }

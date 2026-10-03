@@ -8,6 +8,8 @@ export { Checkbox, PillLabel, Radio, TextField } from "./bottega/components/Form
 export { LinkAction } from "./bottega/components/LinkAction";
 export { Logo } from "./bottega/components/Logo";
 export { Marquee } from "./bottega/components/Marquee";
+export { MenuOverlay } from "./bottega/components/MenuOverlay";
+export { MenuToggle } from "./bottega/components/MenuToggle";
 export { SiteHeader } from "./bottega/components/SiteHeader";
 export { Stamp } from "./bottega/components/Stamp";
 export { ThemeToggle } from "./bottega/components/ThemeToggle";

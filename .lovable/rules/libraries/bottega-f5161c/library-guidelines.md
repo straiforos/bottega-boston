@@ -9,7 +9,7 @@
 
 The design system exports these components — import them from `@/design-system/bottega-f5161c` and compose them before building anything from scratch:
 
-`ArchFrame`, `Button`, `Card`, `Checkbox`, `Display`, `LinkAction`, `Logo`, `Marquee`, `PillLabel`, `Radio`, `Serif`, `SiteHeader`, `Stamp`, `TextField`, `ThemeToggle`, `WaveRibbon`
+`ArchFrame`, `Button`, `Card`, `Checkbox`, `Display`, `LinkAction`, `Logo`, `Marquee`, `MenuOverlay`, `MenuToggle`, `PillLabel`, `Radio`, `Serif`, `SiteHeader`, `Stamp`, `TextField`, `ThemeToggle`, `WaveRibbon`
 
 Per-component details (import stanzas, props, variants, examples) live in `.lovable/rules/libraries/bottega-f5161c/components.md` — on disk, not auto-loaded. Read that file or the component source when the name alone isn't enough.
 

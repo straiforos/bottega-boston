@@ -118,6 +118,35 @@ import { Marquee } from "@/design-system/bottega-f5161c"
 | `variant` | cream · forest · tomato | `cream` |
 | `repeat` | number | `8` |
 
+### MenuOverlay
+
+```ts
+import { MenuOverlay } from "@/design-system/bottega-f5161c"
+```
+
+**Props:**
+
+| Prop | Type | Default |
+|---|---|---|
+| `open` | boolean | `false` |
+| `footer` | any | `—` |
+| `label` | string | `Primary` |
+
+### MenuToggle
+
+```ts
+import { MenuToggle } from "@/design-system/bottega-f5161c"
+```
+
+**Props:**
+
+| Prop | Type | Default |
+|---|---|---|
+| `open` | boolean | `false` |
+| `size` | sm · md | `md` |
+| `openLabel` | string | `Menu` |
+| `closeLabel` | string | `Close` |
+
 ### PillLabel
 
 ```ts
