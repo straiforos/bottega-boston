@@ -4,6 +4,7 @@ import { MovingRibbon } from '@/components/media/MovingRibbon';
 import { links } from '@/content/links';
 import { restaurantContent } from '@/content/en/restaurant';
 import { useOfferingsMotion } from '../hooks/useOfferingsMotion';
+import { MenuHeading } from './MenuHeading';
 import coffee from '@/assets/coffee.asset.json';
 import pasta from '@/assets/pasta-club.asset.json';
 import mercatino from '@/assets/mercatino.jpg.asset.json';
@@ -15,18 +16,12 @@ export function OfferingsSection() {
   return (
     <div className="offerings-track">
       <div className="offerings-ribbon">
-        <MovingRibbon text={restaurantContent.home.pastaIsLife} />
+        <MovingRibbon text={restaurantContent.home.familyIsLife} />
       </div>
       <section id="menu" className="offerings-section bt-surface-dark" aria-label="Discover Bottega">
         <div className="offerings-layout">
           <div className="offerings-heading">
-            <p className="eyebrow">{restaurantContent.home.menu.eyebrow}</p>
-            <Display size="lg" tone="mustard">
-              {restaurantContent.home.menu.title}
-            </Display>
-            <Serif size="md" tone="cream">
-              {restaurantContent.home.menu.subtitle}
-            </Serif>
+            <MenuHeading />
             <MenuLink to="/menu" tone="mustard">
               {restaurantContent.home.menu.action}
             </MenuLink>

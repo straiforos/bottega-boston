@@ -172,8 +172,19 @@
   gap: var(--bt-space-md);
   text-align: center;
 }
-.offerings-heading .eyebrow {
-  color: var(--bt-cream);
+.menu-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--bt-space-md);
+}
+.pasta-pot-icon svg {
+  height: var(--bt-space-xl);
+  width: auto;
+  display: block;
+}
+.pasta-pot-icon [data-color='1'] {
+  fill: var(--bt-mustard);
 }
 @media (max-width: 900px) {
   .offerings-track {
