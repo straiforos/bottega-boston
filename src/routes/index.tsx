@@ -43,6 +43,12 @@ function Index() {
   const offeringsRef = useRef<HTMLDivElement>(null);
   const [muted, setMuted] = useState(true);
   const [playing, setPlaying] = useState(false);
+  const togglePlayback = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (video.paused) void video.play().catch(() => setPlaying(false));
+    else video.pause();
+  };
   useEffect(() => {
     const container = offeringsRef.current;
     const preference = window.matchMedia('(prefers-reduced-motion: reduce)');
@@ -92,7 +98,12 @@ function Index() {
         <Marquee text="Benvenuti" separator={<RestaurantSketch kind="lemon" small />} />
         <section id="about" className="section story bt-surface-dark">
           <div className="section-inner story-grid">
-            <div className="story-player"><div className="arch-video"><video ref={videoRef} src={clubVideo.url} poster={poster.url} autoPlay muted={muted} loop playsInline preload="metadata" aria-label="Making fresh pasta together at Bottega" onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} /><div className="video-caption"><PillLabel variant="mustard">About us</PillLabel></div></div><div className="video-controls"><span className="video-label">Made together. With amore.</span><div className="video-buttons"><Button variant="cream" size="sm" aria-label={playing ? 'Pause video' : 'Play video'} title={playing ? 'Pause video' : 'Play video'} onClick={() => { if (playing) { videoRef.current?.pause(); setPlaying(false); } else void videoRef.current?.play().catch(() => setPlaying(false)); }}>{playing ? 'Ⅱ' : '▶'}</Button><Button variant="cream" size="sm" aria-pressed={!muted} aria-label={muted ? 'Turn sound on' : 'Turn sound off'} title={muted ? 'Turn sound on' : 'Turn sound off'} onClick={() => setMuted(!muted)}>{muted ? '♫ ×' : '♫'}</Button></div></div></div>
+            <div className="story-player"><div className="arch-video">
+              <video ref={videoRef} src={clubVideo.url} poster={poster.url} muted={muted} loop playsInline preload="metadata" aria-label="Making fresh pasta together at Bottega" onClick={togglePlayback} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} />
+              <div className="video-play-control"><Button variant="cream" size="lg" aria-label={playing ? 'Pause video' : 'Play video'} title={playing ? 'Pause video' : 'Play video'} onClick={togglePlayback}><svg className="video-play-icon" viewBox="0 0 24 24" aria-hidden="true" fill="currentColor">{playing ? <path d="M6 4h4v16H6zM14 4h4v16h-4z" /> : <path d="M7 3v18l15-9z" />}</svg></Button></div>
+              <div className="video-sound-control"><Button variant="cream" size="sm" aria-pressed={!muted} aria-label={muted ? 'Turn sound on' : 'Turn sound off'} title={muted ? 'Turn sound on' : 'Turn sound off'} onClick={() => setMuted(!muted)}><svg className="video-sound-icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M11 5 6 9H3v6h3l5 4z" />{muted ? <path d="m16 9 5 6m0-6-5 6" /> : <><path d="M15 8a6 6 0 0 1 0 8" /><path d="M18 5a10 10 0 0 1 0 14" /></>}</svg></Button></div>
+              <div className="video-caption"><PillLabel variant="mustard">About us</PillLabel></div>
+            </div></div>
             <div><p className="eyebrow">A tavola, with love</p><div className="story-heading"><Display size="xl" tone="mustard">Bottega<br />Pasta Club.</Display></div><Serif size="lg" tone="cream">The place to meet, eat,<br />and celebrate life.</Serif><div className="story-copy"><p>Judgment-free and full of carbs. A haven where joy is served on a plate alongside a slice of bread.</p><p>With a cannolo in hand and an espresso in the other, we cin cin for a place that feels like home.</p></div><LinkAction href="#club" tone="mustard">Come join the club</LinkAction></div>
           </div>
         </section>
