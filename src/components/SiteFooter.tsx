@@ -1,5 +1,6 @@
 import { createLink } from '@tanstack/react-router';
 import { Display, LinkAction, Logo } from '@/design-system/bottega-f5161c';
+import { InstagramIcon } from '@/components/InstagramIcon';
 import { restaurantContent } from '@/content/en/restaurant';
 import { links } from '@/content/links';
 
@@ -53,8 +54,8 @@ export function SiteFooter({ compact = false }: { compact?: boolean }) {
               Full of carbs.
             </p>
             <address className="social-links">
-              <a href={links.instagram} target="_blank" rel="noreferrer">
-                Instagram ↗
+              <a href={links.instagram} target="_blank" rel="noreferrer" aria-label="Bottega on Instagram">
+                <InstagramIcon />
               </a>
             </address>
           </div>

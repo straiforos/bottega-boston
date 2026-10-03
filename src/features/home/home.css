@@ -252,11 +252,8 @@
   background: var(--bt-cobalt);
   color: var(--bt-cream);
   /* Ribbon height scales with width; % padding tracks width so the heading always clears its dip. */
-  padding-top: max(
-    calc(var(--bt-space-8) + var(--bt-space-lg)),
-    calc(22% - var(--bt-space-8) - var(--bt-space-xl))
-  );
-  padding-bottom: 0;
+  padding-top: max(calc(var(--bt-space-8) + var(--bt-space-lg)), calc(22% - var(--bt-space-8) - var(--bt-space-xl)));
+  padding-bottom: var(--bt-space-8);
 }
 
 .events-ribbon {
@@ -269,14 +266,6 @@
 .social-section {
   padding-top: var(--bt-space-xl);
   background: var(--bt-background);
-}
-.social-heading {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-inline: var(--bt-margin);
-  margin-bottom: var(--bt-space-xl);
-  gap: var(--bt-space-lg);
 }
 .gallery {
   display: grid;
@@ -441,10 +430,6 @@
   }
   .gallery {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .social-heading {
-    align-items: start;
-    flex-direction: column;
   }
   .footer-grid {
     grid-template-columns: 1fr 1fr;

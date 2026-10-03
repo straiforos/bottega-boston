@@ -1,6 +1,5 @@
-import { Display, LinkAction, PillLabel } from '@/design-system/bottega-f5161c';
+import { PillLabel } from '@/design-system/bottega-f5161c';
 import { GalleryVideo } from '@/components/media/GalleryVideo';
-import { links } from '@/content/links';
 import socialVideo from '@/assets/social-video.asset.json';
 import social1 from '@/assets/social-1.asset.json';
 import social2 from '@/assets/social-2.asset.json';
@@ -15,14 +14,6 @@ const images = [
 export function SocialSection() {
   return (
     <section className="social-section">
-      <div className="social-heading">
-        <Display size="md" tone="forest">
-          Life, the Bottega way.
-        </Display>
-        <LinkAction href={links.instagram} target="_blank" rel="noreferrer">
-          @eatbottega
-        </LinkAction>
-      </div>
       <div className="gallery">
         <figure className="gallery-item">
           <GalleryVideo src={socialVideo.url} />
