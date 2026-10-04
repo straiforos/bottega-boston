@@ -29,13 +29,23 @@ export function BottegaHeader() {
         </Button>
       }
     >
-      <HeaderLink className="bt-menu-overlay__link" activeOptions={{ exact: true, includeHash: true }} to="/" hash="about">
+      <HeaderLink
+        className="bt-menu-overlay__link"
+        activeOptions={{ exact: true, includeHash: true }}
+        to="/"
+        hash="about"
+      >
         {nav.story}
       </HeaderLink>
       <HeaderLink className="bt-menu-overlay__link" activeOptions={{ exact: true, includeHash: true }} to="/menu">
         {nav.menu}
       </HeaderLink>
-      <HeaderLink className="bt-menu-overlay__link" activeOptions={{ exact: true, includeHash: true }} to="/" hash="events">
+      <HeaderLink
+        className="bt-menu-overlay__link"
+        activeOptions={{ exact: true, includeHash: true }}
+        to="/"
+        hash="events"
+      >
         {nav.events}
       </HeaderLink>
     </SiteHeader>
