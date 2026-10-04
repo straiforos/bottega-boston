@@ -7,6 +7,7 @@ dist
 src/routeTree.gen.ts
 src/routes/*preview*.tsx
 src/design-system
+.lovable/rules
 src/assets/menu
 src/lib/menu-data.ts
 src/lib/menu-images.ts
