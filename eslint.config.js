@@ -16,6 +16,8 @@ export default tseslint.config(
       'src/routeTree.gen.ts',
       'src/routes/[__component].preview.$.tsx',
       'src/routes/[__mockup].preview.$.tsx',
+      // Vendor design-system copy: lint failures there are fixed upstream in the library.
+      'src/design-system/**',
     ],
   },
   {

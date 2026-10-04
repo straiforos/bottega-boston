@@ -226,13 +226,17 @@
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: var(--bt-space-xl);
-  align-items: start;
+  align-items: stretch;
   justify-items: center;
 }
 .offering {
   position: relative;
+  display: flex;
   width: calc(var(--bt-space-8) * 3.5);
   will-change: opacity, transform;
+}
+.offering > .bt-card {
+  flex: 1;
 }
 .catering-stamp {
   position: absolute;
