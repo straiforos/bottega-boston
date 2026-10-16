@@ -17,3 +17,4 @@
 - Staff access is Google sign-in restricted by public.staff_allowlist (signup blocked by an auth.users trigger; admin role granted by trigger) — why: no self sign-up, roles never derived from client data.
 - Gallery tiles live in gallery_items (seeded rows reference bundled CDN assets by asset_key) and are edited inline on the home page by staff — why: same single-page, RLS-gated admin pattern as the menu.
 - Media processing runs in the staff browser: photos in a module Web Worker (OffscreenCanvas), videos in ffmpeg.wasm loaded lazily from staff editors only — why: the Worker server can't run sharp/FFmpeg, and visitors must never download the tooling.
+- Draw app-owned inline icons as SVG with `currentColor`, no width/height attributes, sized by a class in the shared stylesheet using Bottega typography tokens — why: the library does the same, so icons inherit themed ink and scale with its type instead of hardcoding a size.
