@@ -6,6 +6,13 @@ export interface MenuItem {
   readonly tags: readonly string[];
   /** Uploaded photo; when absent the bundled illustrative image for the id is used. */
   readonly imageUrl?: string | null;
+  readonly imageVariants?: readonly ImageVariant[] | null;
+}
+
+export interface ImageVariant {
+  readonly key: 'thumb' | 'standard' | 'hq';
+  readonly url: string;
+  readonly width: number;
 }
 
 export interface MenuSection {

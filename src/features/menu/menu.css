@@ -129,3 +129,8 @@
 .dish-add {
   margin-top: var(--bt-space-lg);
 }
+/* User-requested red delete action: the library has no danger button variant. */
+.dish-delete {
+  color: var(--bt-danger);
+  border-color: var(--bt-danger);
+}

@@ -52,6 +52,7 @@ export function EditableDish({ item }: { item: MenuItem }) {
           <Button
             variant="ghost"
             size="sm"
+            className="dish-delete"
             onClick={() => void remove()}
             disabled={busy}
             aria-label={`${staffContent.delete} ${item.name}`}

@@ -2,6 +2,7 @@ import { useId, useState, type FormEvent } from 'react';
 import { Button, Card, TextField } from '@/design-system/bottega-f5161c';
 import { staffContent } from '@/content/en/staff';
 import { validateDishDraft } from '@/lib/menu/menu-api';
+import { uploadSizeError } from '@/lib/menu/process-image';
 import type { DishDraft } from '@/lib/menu/types';
 
 interface DishEditorProps {
@@ -22,7 +23,7 @@ export function DishEditor({ initial, onSave, onCancel }: DishEditorProps) {
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
-    const problem = validateDishDraft(draft);
+    const problem = validateDishDraft(draft) ?? (photo ? uploadSizeError(photo.size) : null);
     if (problem) return setError(problem);
     setSaving(true);
     setError(null);
@@ -69,7 +70,7 @@ export function DishEditor({ initial, onSave, onCancel }: DishEditorProps) {
             id={photoId}
             className="bt-input"
             type="file"
-            accept="image/jpeg,image/png,image/webp"
+            accept="image/*"
             onChange={(e) => setPhoto(e.target.files?.[0] ?? null)}
           />
           <span className="bt-field__hint">{t.photoHint}</span>
@@ -81,7 +82,7 @@ export function DishEditor({ initial, onSave, onCancel }: DishEditorProps) {
         )}
         <div className="dish-editor-actions">
           <Button type="submit" size="sm" disabled={saving}>
-            {saving ? staffContent.saving : staffContent.save}
+            {saving ? (photo ? staffContent.processing : staffContent.saving) : staffContent.save}
           </Button>
           <Button variant="ghost" size="sm" onClick={onCancel} disabled={saving}>
             {staffContent.cancel}
