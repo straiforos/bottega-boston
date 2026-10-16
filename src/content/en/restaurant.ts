@@ -53,6 +53,8 @@ export const restaurantContent = {
     soundOff: 'Turn sound off',
     captionsOn: 'Show captions',
     captionsOff: 'Hide captions',
+    galleryPrev: 'Previous photos',
+    galleryNext: 'More photos',
   },
 } as const;
 
