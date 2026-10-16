@@ -17,6 +17,7 @@ interface GalleryVideoProps {
 /** Hover-to-play gallery video: cover first, nothing downloads until near the screen, best version per connection. */
 export function GalleryVideo({ src, versions = [], poster, label = 'A moment at Bottega' }: GalleryVideoProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const playerRef = useRef<HTMLDivElement>(null);
   const [playing, setPlaying] = useState(false);
   const [near, setNear] = useState(false);
   const [order, setOrder] = useState<readonly string[]>(['small', 'standard']);
@@ -25,8 +26,8 @@ export function GalleryVideo({ src, versions = [], poster, label = 'A moment at 
   useEffect(() => {
     const connection = (navigator as Navigator & { connection?: ConnectionLike }).connection;
     setOrder(videoSourcesForConnection(connection, window.innerWidth));
-    const video = videoRef.current;
-    if (!video || !('IntersectionObserver' in window)) return setNear(true);
+    const player = playerRef.current;
+    if (!player || !('IntersectionObserver' in window)) return setNear(true);
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -36,7 +37,7 @@ export function GalleryVideo({ src, versions = [], poster, label = 'A moment at 
       },
       { rootMargin: '50%' },
     );
-    observer.observe(video);
+    observer.observe(player);
     return () => observer.disconnect();
   }, []);
 
@@ -54,6 +55,7 @@ export function GalleryVideo({ src, versions = [], poster, label = 'A moment at 
 
   return (
     <div
+      ref={playerRef}
       className="gallery-player"
       onMouseEnter={start}
       onMouseLeave={() => videoRef.current?.pause()}
