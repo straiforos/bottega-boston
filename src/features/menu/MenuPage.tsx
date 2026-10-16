@@ -9,12 +9,14 @@ import { AddDish } from './admin/AddDish';
 import { EditableDish } from './admin/EditableDish';
 import { MenuDishCard } from './components/MenuDishCard';
 import { MenuFilter } from './components/MenuFilter';
+import { useMenuFilterRail } from './hooks/useMenuFilterRail';
 import { useMenuFilters } from './hooks/useMenuFilters';
 
 export function MenuPage() {
   const { data: menuSections = fallbackMenu } = useQuery(menuQueryOptions);
   const { isAdmin } = useStaffSession();
   const filters = useMenuFilters(menuSections);
+  const rail = useMenuFilterRail();
   return (
     <>
       <BottegaHeader />
@@ -39,17 +41,21 @@ export function MenuPage() {
         </header>
         <Marquee text="#pastaislife · #familyislife" variant="forest" />
         <div className="menu-browse section-inner">
-          <div className="menu-filter-rail">
-            <MenuFilter
-              menuSections={menuSections}
-              query={filters.query}
-              selection={filters.selection}
-              count={filters.count}
-              dietary={filters.dietary}
-              onDietaryChange={filters.setDietary}
-              onQueryChange={filters.setQuery}
-              onSelectionChange={filters.setSelection}
-            />
+          <div className="menu-filter-rail" ref={rail.railRef}>
+            <div className="menu-filter-sticky">
+              <div ref={rail.filterRef}>
+                <MenuFilter
+                  menuSections={menuSections}
+                  query={filters.query}
+                  selection={filters.selection}
+                  count={filters.count}
+                  dietary={filters.dietary}
+                  onDietaryChange={filters.setDietary}
+                  onQueryChange={filters.setQuery}
+                  onSelectionChange={filters.setSelection}
+                />
+              </div>
+            </div>
           </div>
           <div className="menu-content">
             {filters.sections.map((section) => (
