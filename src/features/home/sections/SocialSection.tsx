@@ -21,7 +21,11 @@ export function SocialSection() {
       )}
       <div className="gallery">
         {items.map((item) =>
-          isAdmin ? <EditableTile key={item.id} item={item} items={items} /> : <GalleryTile key={item.id} item={item} />,
+          isAdmin ? (
+            <EditableTile key={item.id} item={item} items={items} />
+          ) : (
+            <GalleryTile key={item.id} item={item} />
+          ),
         )}
       </div>
       {isAdmin && <AddTile nextSortOrder={(items.at(-1)?.sortOrder ?? 0) + 1} />}

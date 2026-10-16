@@ -80,18 +80,43 @@ async function processVideo(file: File, onProgress: Progress): Promise<Processed
       const size = renditionSize(width, height, spec.shortEdge);
       const out = `${spec.key}.mp4`;
       await ffmpeg.exec([
-        '-i', 'input', '-an',
-        '-vf', `scale=${size.width}:${size.height}`,
-        '-c:v', 'libx264', '-preset', 'veryfast', '-pix_fmt', 'yuv420p',
-        '-b:v', `${spec.kbps}k`, '-maxrate', `${Math.round(spec.kbps * 1.4)}k`, '-bufsize', `${spec.kbps * 2}k`,
-        '-movflags', '+faststart', out,
+        '-i',
+        'input',
+        '-an',
+        '-vf',
+        `scale=${size.width}:${size.height}`,
+        '-c:v',
+        'libx264',
+        '-preset',
+        'veryfast',
+        '-pix_fmt',
+        'yuv420p',
+        '-b:v',
+        `${spec.kbps}k`,
+        '-maxrate',
+        `${Math.round(spec.kbps * 1.4)}k`,
+        '-bufsize',
+        `${spec.kbps * 2}k`,
+        '-movflags',
+        '+faststart',
+        out,
       ]);
       const data = (await ffmpeg.readFile(out)) as Uint8Array;
       versions.push({ key: spec.key, width: size.width, blob: new Blob([data.slice()], { type: 'video/mp4' }) });
       step += 1;
     }
     const cover = renditionSize(width, height, 1080);
-    await ffmpeg.exec(['-i', 'input', '-frames:v', '1', '-vf', `scale=${cover.width}:${cover.height}`, '-q:v', '4', 'poster.jpg']);
+    await ffmpeg.exec([
+      '-i',
+      'input',
+      '-frames:v',
+      '1',
+      '-vf',
+      `scale=${cover.width}:${cover.height}`,
+      '-q:v',
+      '4',
+      'poster.jpg',
+    ]);
     const poster = (await ffmpeg.readFile('poster.jpg')) as Uint8Array;
     onProgress(1);
     return { kind: 'video', versions, poster: new Blob([poster.slice()], { type: 'image/jpeg' }) };

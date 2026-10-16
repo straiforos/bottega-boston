@@ -54,7 +54,12 @@ export function EditableTile({ item, items }: EditableTileProps) {
     <div className="gallery-cell">
       <GalleryTile item={item} />
       <div className="gallery-admin-actions">
-        <Button variant="primary" size="sm" onClick={() => setEditing(true)} aria-label={`${staffContent.edit} ${label}`}>
+        <Button
+          variant="primary"
+          size="sm"
+          onClick={() => setEditing(true)}
+          aria-label={`${staffContent.edit} ${label}`}
+        >
           {staffContent.edit}
         </Button>
         <Button

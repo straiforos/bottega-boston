@@ -88,7 +88,11 @@ export async function uploadTileMedia(tileId: string, media: ProcessedMedia) {
   const versions: MediaVersion[] = [];
   for (const version of media.versions) {
     const ext = version.blob.type === 'video/mp4' ? 'mp4' : version.blob.type === 'image/webp' ? 'webp' : 'jpg';
-    versions.push({ key: version.key, width: version.width, url: await store(`${tileId}/${stamp}-${version.key}.${ext}`, version.blob) });
+    versions.push({
+      key: version.key,
+      width: version.width,
+      url: await store(`${tileId}/${stamp}-${version.key}.${ext}`, version.blob),
+    });
   }
   const poster = media.poster ? await store(`${tileId}/${stamp}-poster.jpg`, media.poster) : null;
   const standard = versions.find((v) => v.key === 'standard') ?? versions[0];
