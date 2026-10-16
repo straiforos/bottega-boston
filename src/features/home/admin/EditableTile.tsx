@@ -63,7 +63,7 @@ export function EditableTile({ item, items }: EditableTileProps) {
           {staffContent.edit}
         </Button>
         <Button
-          variant="outline"
+          variant="primary"
           size="sm"
           disabled={busy || index === 0}
           onClick={() => void run(() => admin.move(items, item.id, -1))}
@@ -73,7 +73,7 @@ export function EditableTile({ item, items }: EditableTileProps) {
           ←
         </Button>
         <Button
-          variant="outline"
+          variant="primary"
           size="sm"
           disabled={busy || index === items.length - 1}
           onClick={() => void run(() => admin.move(items, item.id, 1))}
