@@ -7,7 +7,8 @@ import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   {
-    ignores: ['src/integrations/**', 
+    ignores: [
+      'src/integrations/**',
       'dist',
       '.output',
       '.nitro',
