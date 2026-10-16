@@ -23,10 +23,17 @@
   padding-block: var(--bt-space-xl);
   padding-inline: var(--bt-margin);
 }
-.menu-filter {
-  align-self: start;
+/* Sticky rail spanning the viewport so the filter floats vertically centered
+   instead of pinning flush under the sticky header. */
+.menu-filter-rail {
   position: sticky;
-  top: var(--bt-space-lg);
+  top: 0;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
+.menu-filter {
+  min-width: 0;
 }
 .menu-category-list {
   display: flex;
