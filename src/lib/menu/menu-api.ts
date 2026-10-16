@@ -1,6 +1,8 @@
 import { queryOptions } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
-import type { DishDraft, MenuSection } from './types';
+import type { Json } from '@/integrations/supabase/types';
+import { processDishPhoto } from './process-image';
+import type { DishDraft, ImageVariant, MenuSection } from './types';
 
 export const MENU_IMAGE_BUCKET = 'menu-images';
 const TEN_YEARS_SECONDS = 60 * 60 * 24 * 365 * 10;
@@ -19,6 +21,7 @@ interface ItemRow {
   description: string;
   tags: string[];
   image_url: string | null;
+  image_variants?: Json | null;
   sort_order: number;
 }
 
@@ -40,6 +43,7 @@ export function buildMenuSections(sections: SectionRow[], items: ItemRow[]): Men
           description: item.description,
           tags: item.tags,
           imageUrl: item.image_url,
+          imageVariants: Array.isArray(item.image_variants) ? (item.image_variants as unknown as ImageVariant[]) : null,
         })),
     }));
 }
@@ -55,7 +59,7 @@ export function validateDishDraft(draft: DishDraft): string | null {
 async function fetchMenu(): Promise<MenuSection[]> {
   const [sections, items] = await Promise.all([
     supabase.from('menu_sections').select('id,name,note,sort_order'),
-    supabase.from('menu_items').select('id,section_id,name,price,description,tags,image_url,sort_order'),
+    supabase.from('menu_items').select('id,section_id,name,price,description,tags,image_url,image_variants,sort_order'),
   ]);
   if (sections.error) throw sections.error;
   if (items.error) throw items.error;
@@ -64,17 +68,32 @@ async function fetchMenu(): Promise<MenuSection[]> {
 
 export const menuQueryOptions = queryOptions({ queryKey: ['menu'], queryFn: fetchMenu });
 
-export async function uploadDishImage(dishId: string, file: File): Promise<string> {
-  const ext = file.name.split('.').pop()?.toLowerCase() || 'jpg';
-  const path = `${dishId}/${Date.now()}.${ext}`;
-  const upload = await supabase.storage.from(MENU_IMAGE_BUCKET).upload(path, file, { contentType: file.type });
-  if (upload.error) throw upload.error;
-  const signed = await supabase.storage.from(MENU_IMAGE_BUCKET).createSignedUrl(path, TEN_YEARS_SECONDS);
-  if (signed.error) throw signed.error;
-  return signed.data.signedUrl;
+export interface UploadedImage {
+  readonly url: string;
+  readonly variants: ImageVariant[];
 }
 
-export async function saveDish(dishId: string, draft: DishDraft, imageUrl?: string) {
+/** Processes the photo in the browser, then stores every version. */
+export async function uploadDishImage(dishId: string, file: File): Promise<UploadedImage> {
+  const processed = await processDishPhoto(file);
+  const stamp = Date.now();
+  const variants: ImageVariant[] = [];
+  for (const version of processed) {
+    const ext = version.blob.type === 'image/webp' ? 'webp' : 'jpg';
+    const path = `${dishId}/${stamp}-${version.key}.${ext}`;
+    const upload = await supabase.storage
+      .from(MENU_IMAGE_BUCKET)
+      .upload(path, version.blob, { contentType: version.blob.type, cacheControl: '31536000' });
+    if (upload.error) throw upload.error;
+    const signed = await supabase.storage.from(MENU_IMAGE_BUCKET).createSignedUrl(path, TEN_YEARS_SECONDS);
+    if (signed.error) throw signed.error;
+    variants.push({ key: version.key, url: signed.data.signedUrl, width: version.width });
+  }
+  const standard = variants.find((v) => v.key === 'standard') ?? variants[0];
+  return { url: standard.url, variants };
+}
+
+export async function saveDish(dishId: string, draft: DishDraft, image?: UploadedImage) {
   const { error } = await supabase
     .from('menu_items')
     .update({
@@ -82,7 +101,7 @@ export async function saveDish(dishId: string, draft: DishDraft, imageUrl?: stri
       price: draft.price.trim(),
       description: draft.description.trim(),
       updated_at: new Date().toISOString(),
-      ...(imageUrl ? { image_url: imageUrl } : {}),
+      ...(image ? { image_url: image.url, image_variants: image.variants as unknown as Json } : {}),
     })
     .eq('id', dishId);
   if (error) throw error;

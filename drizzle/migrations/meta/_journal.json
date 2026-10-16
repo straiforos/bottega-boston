@@ -22,6 +22,13 @@
       "when": 1792122223662,
       "tag": "0002_restrict_signup_and_storage",
       "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1792122813927,
+      "tag": "0003_dish_image_variants",
+      "breakpoints": true
     }
   ]
 }

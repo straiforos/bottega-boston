@@ -42,7 +42,7 @@ export function EditableDish({ item }: { item: MenuItem }) {
       actions={
         <div className="dish-admin-actions">
           <Button
-            variant="outline"
+            variant="primary"
             size="sm"
             onClick={() => setEditing(true)}
             aria-label={`${staffContent.edit} ${item.name}`}
@@ -52,6 +52,7 @@ export function EditableDish({ item }: { item: MenuItem }) {
           <Button
             variant="ghost"
             size="sm"
+            className="dish-delete"
             onClick={() => void remove()}
             disabled={busy}
             aria-label={`${staffContent.delete} ${item.name}`}

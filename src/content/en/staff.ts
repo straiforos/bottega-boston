@@ -12,6 +12,7 @@ export const staffContent = {
   save: 'Save',
   cancel: 'Cancel',
   saving: 'Saving…',
+  processing: 'Preparing photo…',
   saved: 'Menu updated',
   deleted: 'Dish removed',
   failed: 'Couldn’t save that change. Please try again.',
@@ -21,6 +22,6 @@ export const staffContent = {
     priceHint: 'e.g. $14.00 or Mini $3.50 | Traditional $5.45',
     description: 'Description',
     photo: 'Photo',
-    photoHint: 'JPG or PNG, up to 5 MB',
+    photoHint: 'Any phone photo up to 100 MB — we resize it for fast loading',
   },
 } as const;

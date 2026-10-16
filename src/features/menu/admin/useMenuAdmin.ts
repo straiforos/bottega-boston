@@ -9,8 +9,8 @@ export function useMenuAdmin() {
 
   return {
     async update(dishId: string, draft: DishDraft, photo: File | null) {
-      const imageUrl = photo ? await uploadDishImage(dishId, photo) : undefined;
-      await saveDish(dishId, draft, imageUrl);
+      const image = photo ? await uploadDishImage(dishId, photo) : undefined;
+      await saveDish(dishId, draft, image);
       await refresh();
     },
     async create(sectionId: string, draft: DishDraft, photo: File | null, sortOrder: number) {
