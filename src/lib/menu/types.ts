@@ -26,4 +26,5 @@ export interface DishDraft {
   readonly name: string;
   readonly price: string;
   readonly description: string;
+  readonly tags: readonly string[];
 }

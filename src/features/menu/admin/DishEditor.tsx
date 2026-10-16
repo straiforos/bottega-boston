@@ -1,7 +1,8 @@
 import { useId, useState, type FormEvent } from 'react';
-import { Button, Card, FileUpload, TextField } from '@/design-system/bottega-f5161c';
+import { Button, Card, Checkbox, FileUpload, TextField } from '@/design-system/bottega-f5161c';
 import { staffContent } from '@/content/en/staff';
 import { validateDishDraft } from '@/lib/menu/menu-api';
+import { DIETARY_OPTIONS, toggleTag } from '@/lib/menu/dietary';
 import { uploadSizeError } from '@/lib/menu/process-image';
 import type { DishDraft } from '@/lib/menu/types';
 
@@ -61,6 +62,18 @@ export function DishEditor({ initial, onSave, onCancel }: DishEditorProps) {
             onChange={(e) => setDraft({ ...draft, description: e.target.value })}
           />
         </div>
+        <fieldset className="menu-dietary-filter">
+          <legend className="bt-field__label">Dietary</legend>
+          {DIETARY_OPTIONS.map((option) => (
+            <Checkbox
+              key={option.tag}
+              checked={draft.tags.includes(option.tag)}
+              onChange={() => setDraft({ ...draft, tags: toggleTag(draft.tags, option.tag) })}
+            >
+              {option.label} ({option.tag})
+            </Checkbox>
+          ))}
+        </fieldset>
         <FileUpload
           label={t.photo}
           accept="image/*"

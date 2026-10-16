@@ -1,8 +1,11 @@
+import { matchesDietary, type DietaryTag } from './dietary';
 import type { MenuSection } from './types';
 
 export type MenuSelection = 'all' | 'catering' | string;
 
-export function filterMenu(sections: readonly MenuSection[], query: string, selection: MenuSelection) {
+export function filterMenu(sections: readonly MenuSection[], query: string, selection: MenuSelection,
+  dietary: readonly DietaryTag[] = [],
+) {
   const term = query.trim().toLocaleLowerCase('en');
   return sections
     .map((section) => ({
@@ -17,7 +20,7 @@ export function filterMenu(sections: readonly MenuSection[], query: string, sele
           selection === 'all' ||
           selection === section.id ||
           (selection === 'catering' && section.name.startsWith('Catering'));
-        return matchesQuery && matchesCategory;
+        return matchesQuery && matchesCategory && matchesDietary(item.tags, dietary);
       }),
     }))
     .filter((section) => section.items.length > 0);

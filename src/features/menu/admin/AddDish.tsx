@@ -20,7 +20,7 @@ export function AddDish({ sectionId, nextSortOrder }: { sectionId: string; nextS
   }
   return (
     <DishEditor
-      initial={{ name: '', price: '', description: '' }}
+      initial={{ name: '', price: '', description: '', tags: [] }}
       onCancel={() => setOpen(false)}
       onSave={async (draft, photo) => {
         await admin.create(sectionId, draft, photo, nextSortOrder);
