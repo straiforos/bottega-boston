@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { restaurantContent } from '@/content/en/restaurant';
 import { HomePage } from '@/features/home/HomePage';
 
-export const Route = createFileRoute('/')({
+export const Route = createFileRoute('/_site/')({
   head: () => ({
     meta: [
       { title: restaurantContent.metadata.home.title },

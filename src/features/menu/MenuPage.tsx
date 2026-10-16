@@ -1,6 +1,5 @@
 import { Button, Display, Marquee, PillLabel, Serif } from '@/design-system/bottega-f5161c';
 import { BottegaHeader } from '@/components/BottegaHeader';
-import { SiteFooter } from '@/components/SiteFooter';
 import { useQuery } from '@tanstack/react-query';
 import { menuSections as fallbackMenu } from '@/lib/menu-data';
 import { menuQueryOptions } from '@/lib/menu/menu-api';
@@ -89,7 +88,6 @@ export function MenuPage() {
         </div>
       </main>
       <Marquee text="Made with amore" />
-      <SiteFooter compact />
     </>
   );
 }

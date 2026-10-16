@@ -9,20 +9,25 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as IndexRouteImport } from './routes/index'
-import { Route as MenuRouteImport } from './routes/menu'
+import { Route as SiteRouteImport } from './routes/_site'
+import { Route as SiteIndexRouteImport } from './routes/_site/index'
+import { Route as SiteMenuRouteImport } from './routes/_site/menu'
 import { Route as Char91__componentChar93PreviewSplatRouteImport } from './routes/[__component].preview.$'
 import { Route as Char91__mockupChar93PreviewSplatRouteImport } from './routes/[__mockup].preview.$'
 
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const SiteRoute = SiteRouteImport.update({
+  id: '/_site',
   getParentRoute: () => rootRouteImport,
 } as any)
-const MenuRoute = MenuRouteImport.update({
+const SiteIndexRoute = SiteIndexRouteImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteMenuRoute = SiteMenuRouteImport.update({
   id: '/menu',
   path: '/menu',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => SiteRoute,
 } as any)
 const Char91__componentChar93PreviewSplatRoute =
   Char91__componentChar93PreviewSplatRouteImport.update({
@@ -38,21 +43,22 @@ const Char91__mockupChar93PreviewSplatRoute =
   } as any)
 
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
-  '/menu': typeof MenuRoute
+  '/': typeof SiteIndexRoute
+  '/menu': typeof SiteMenuRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
 }
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
-  '/menu': typeof MenuRoute
+  '/menu': typeof SiteMenuRoute
+  '/': typeof SiteIndexRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
-  '/': typeof IndexRoute
-  '/menu': typeof MenuRoute
+  '/_site': typeof SiteRouteWithChildren
+  '/_site/menu': typeof SiteMenuRoute
+  '/_site/': typeof SiteIndexRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
 }
@@ -60,37 +66,44 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths: '/' | '/menu' | '/__component/preview/$' | '/__mockup/preview/$'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/menu' | '/__component/preview/$' | '/__mockup/preview/$'
+  to: '/menu' | '/' | '/__component/preview/$' | '/__mockup/preview/$'
   id:
     | '__root__'
-    | '/'
-    | '/menu'
+    | '/_site'
+    | '/_site/menu'
+    | '/_site/'
     | '/__component/preview/$'
     | '/__mockup/preview/$'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
-  MenuRoute: typeof MenuRoute
+  SiteRoute: typeof SiteRouteWithChildren
   Char91__componentChar93PreviewSplatRoute: typeof Char91__componentChar93PreviewSplatRoute
   Char91__mockupChar93PreviewSplatRoute: typeof Char91__mockupChar93PreviewSplatRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
-      path: '/'
+    '/_site': {
+      id: '/_site'
+      path: ''
       fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+      preLoaderRoute: typeof SiteRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/menu': {
-      id: '/menu'
+    '/_site/': {
+      id: '/_site/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof SiteIndexRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/menu': {
+      id: '/_site/menu'
       path: '/menu'
       fullPath: '/menu'
-      preLoaderRoute: typeof MenuRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof SiteMenuRouteImport
+      parentRoute: typeof SiteRoute
     }
     '/__component/preview/$': {
       id: '/__component/preview/$'
@@ -109,9 +122,20 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface SiteRouteChildren {
+  SiteMenuRoute: typeof SiteMenuRoute
+  SiteIndexRoute: typeof SiteIndexRoute
+}
+
+const SiteRouteChildren: SiteRouteChildren = {
+  SiteMenuRoute: SiteMenuRoute,
+  SiteIndexRoute: SiteIndexRoute,
+}
+
+const SiteRouteWithChildren = SiteRoute._addFileChildren(SiteRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
-  MenuRoute: MenuRoute,
+  SiteRoute: SiteRouteWithChildren,
   Char91__componentChar93PreviewSplatRoute:
     Char91__componentChar93PreviewSplatRoute,
   Char91__mockupChar93PreviewSplatRoute: Char91__mockupChar93PreviewSplatRoute,

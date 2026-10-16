@@ -1,6 +1,5 @@
 import { BottegaHeader } from '@/components/BottegaHeader';
 import { SketchMarquee } from '@/components/media/SketchMarquee';
-import { SiteFooter } from '@/components/SiteFooter';
 import { restaurantContent } from '@/content/en/restaurant';
 import { ClubSection } from './sections/ClubSection';
 import { EventsSection } from './sections/EventsSection';
@@ -24,7 +23,6 @@ export function HomePage() {
         <SocialSection />
         <ClubSection />
       </main>
-      <SiteFooter />
     </>
   );
 }
