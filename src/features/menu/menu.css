@@ -145,3 +145,7 @@
   padding: 0;
   border: 0;
 }
+
+.menu-editing-ribbon {
+  padding-block: var(--bt-space-md) 0;
+}
