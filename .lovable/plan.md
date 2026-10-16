@@ -53,5 +53,5 @@ Signed-in staff also see a small red "Editing the gallery" ribbon above the gall
 ## Notes
 
 - The media processor is the one piece that runs outside this site; it's free software but needs somewhere to run. I can build and test everything else, but uploads won't finish processing until it's started.
-- Also add "Process gallery videos for slow connections" to the roadmap when building.
+- Video processing for slow connections ships as part of this work, not as a later step.
 - The two existing intentional style deviations stay (red delete button, caption text size); no new ones planned.
