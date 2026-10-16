@@ -7,7 +7,8 @@ export const staffContent = {
   editing: 'Editing the menu',
   edit: 'Edit',
   delete: 'Delete',
-  confirmDelete: (name: string) => `Delete “${name}” from the menu?`,
+  confirmDeleteTitle: 'Delete this dish?',
+  confirmDelete: (name: string) => `“${name}” will be removed from the menu for everyone.`,
   addDish: 'Add dish',
   save: 'Save',
   cancel: 'Cancel',
@@ -22,6 +23,8 @@ export const staffContent = {
     priceHint: 'e.g. $14.00 or Mini $3.50 | Traditional $5.45',
     description: 'Description',
     photo: 'Photo',
+    browse: 'Choose photo',
+    photoRejected: 'That file isn’t a photo.',
     photoHint: 'Any phone photo up to 100 MB — we resize it for fast loading',
   },
 } as const;

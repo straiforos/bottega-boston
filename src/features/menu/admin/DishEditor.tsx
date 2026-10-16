@@ -1,5 +1,5 @@
 import { useId, useState, type FormEvent } from 'react';
-import { Button, Card, TextField } from '@/design-system/bottega-f5161c';
+import { Button, Card, FileUpload, TextField } from '@/design-system/bottega-f5161c';
 import { staffContent } from '@/content/en/staff';
 import { validateDishDraft } from '@/lib/menu/menu-api';
 import { uploadSizeError } from '@/lib/menu/process-image';
@@ -18,7 +18,6 @@ export function DishEditor({ initial, onSave, onCancel }: DishEditorProps) {
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const descriptionId = useId();
-  const photoId = useId();
   const t = staffContent.fields;
 
   const submit = async (event: FormEvent) => {
@@ -62,19 +61,19 @@ export function DishEditor({ initial, onSave, onCancel }: DishEditorProps) {
             onChange={(e) => setDraft({ ...draft, description: e.target.value })}
           />
         </div>
-        <div className="bt-field">
-          <label className="bt-field__label" htmlFor={photoId}>
-            {t.photo}
-          </label>
-          <input
-            id={photoId}
-            className="bt-input"
-            type="file"
-            accept="image/*"
-            onChange={(e) => setPhoto(e.target.files?.[0] ?? null)}
-          />
-          <span className="bt-field__hint">{t.photoHint}</span>
-        </div>
+        <FileUpload
+          label={t.photo}
+          accept="image/*"
+          multiple={false}
+          size="sm"
+          browseLabel={t.browse}
+          files={photo ? [photo] : []}
+          onFilesChange={(files) => setPhoto(files[0] ?? null)}
+          onReject={() => setError(t.photoRejected)}
+          error={photo ? (uploadSizeError(photo.size) ?? undefined) : undefined}
+        >
+          {t.photoHint}
+        </FileUpload>
         {error && (
           <p className="bt-field__hint bt-field__hint--error" role="alert">
             {error}
