@@ -19,6 +19,7 @@ export type Database = {
           description: string
           id: string
           image_url: string | null
+          image_variants: Json | null
           name: string
           price: string
           section_id: string
@@ -30,6 +31,7 @@ export type Database = {
           description?: string
           id?: string
           image_url?: string | null
+          image_variants?: Json | null
           name: string
           price?: string
           section_id: string
@@ -41,6 +43,7 @@ export type Database = {
           description?: string
           id?: string
           image_url?: string | null
+          image_variants?: Json | null
           name?: string
           price?: string
           section_id?: string

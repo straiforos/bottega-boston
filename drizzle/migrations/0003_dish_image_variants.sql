@@ -1,0 +1,2 @@
+ALTER TABLE public.menu_items ADD COLUMN image_variants jsonb;
+COMMENT ON COLUMN public.menu_items.image_variants IS 'Processed photo versions: [{key,url,width}] for thumb/standard/hq; image_url holds the standard version.';
