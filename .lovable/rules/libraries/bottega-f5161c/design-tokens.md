@@ -36,6 +36,7 @@ Reference via `var(--name)` in inline styles or CSS.
 | `--bt-on-danger-container` |
 | `--bt-muted` |
 | `--bt-border-thin` |
+| `--bt-backdrop` |
 | `--bt-ink-accent` |
 | `--bt-ink-highlight` |
 
@@ -111,6 +112,13 @@ Reference via `var(--name)` in inline styles or CSS.
 | `--bt-tracking-badge` |
 | `--bt-gutter` |
 | `--bt-marquee-height` |
+| `--bt-upload-min-height` |
+| `--bt-upload-min-height-sm` |
+| `--bt-upload-preview-size` |
+| `--bt-icon-size` |
+| `--bt-dialog-width-sm` |
+| `--bt-dialog-width-md` |
+| `--bt-focus-width` |
 | `--bt-duration` |
 
 

@@ -15,3 +15,6 @@ export { ThemeToggle, type ThemeToggleProps, type Theme } from "./components/The
 export { MenuToggle, type MenuToggleProps } from "./components/MenuToggle";
 export { MenuOverlay, type MenuOverlayProps } from "./components/MenuOverlay";
 export { cx } from "./lib/cx";
+
+export { FileUpload, type FileUploadProps } from "./components/FileUpload";
+export { Confirmation, type ConfirmationProps } from "./components/Confirmation";

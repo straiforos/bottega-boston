@@ -62,6 +62,41 @@ import { Checkbox } from "@/design-system/bottega-f5161c"
 | `children` | any | `—` |
 | `surface` | default · inverse | `default` |
 
+### Confirmation
+
+```ts
+import { Confirmation } from "@/design-system/bottega-f5161c"
+```
+
+Confirm consequential actions in a controlled modal. Use the danger variant for destructive actions and close it after the consumer completes the action.
+
+**Props:**
+
+| Prop | Type | Default |
+|---|---|---|
+| `open` | boolean | `—` |
+| `title` | string | `—` |
+| `children` | any | `—` |
+| `variant` | default · danger | `default` |
+| `size` | sm · md | `md` |
+| `confirmLabel` | string | `Confirm` |
+| `cancelLabel` | string | `Cancel` |
+| `pending` | boolean | `false` |
+| `onConfirm` | function | `—` |
+| `onCancel` | function | `—` |
+
+**Examples:**
+
+_Typical use_
+```tsx
+<Confirmation open={open} title="Remove photo?" variant="danger" confirmLabel="Remove" onCancel={() => setOpen(false)} onConfirm={removePhoto}>This removes the selected photo.</Confirmation>
+```
+
+**Avoid:**
+
+- Do not use confirmation dialogs for routine navigation.
+- Do not report completion before the consuming action succeeds.
+
 ### Display
 
 ```ts
@@ -75,6 +110,44 @@ import { Display } from "@/design-system/bottega-f5161c"
 | `as` | h1 · h2 · h3 · p | `—` |
 | `size` | sm · md · lg · xl | `lg` |
 | `tone` | forest · cream · mustard · tomato · cobalt · ink · inherit | `inherit` |
+
+### FileUpload
+
+```ts
+import { FileUpload } from "@/design-system/bottega-f5161c"
+```
+
+Select photos through drag-and-drop or the native file picker. Returns local File objects; the consumer owns storage and uploading.
+
+**Props:**
+
+| Prop | Type | Default |
+|---|---|---|
+| `label` | string | `—` |
+| `children` | any | `—` |
+| `accept` | string | `image/*` |
+| `multiple` | boolean | `true` |
+| `disabled` | boolean | `false` |
+| `name` | string | `—` |
+| `files` | any | `—` |
+| `onFilesChange` | function | `—` |
+| `onReject` | function | `—` |
+| `error` | string | `—` |
+| `variant` | default · accent | `default` |
+| `size` | sm · md | `md` |
+| `browseLabel` | string | `Choose photos` |
+
+**Examples:**
+
+_Typical use_
+```tsx
+<FileUpload label="Menu photos" files={photos} onFilesChange={setPhotos} />
+```
+
+**Avoid:**
+
+- Do not imply selected files have been saved or uploaded.
+- Do not rely on accept filtering as server-side file validation.
 
 ### LinkAction
 

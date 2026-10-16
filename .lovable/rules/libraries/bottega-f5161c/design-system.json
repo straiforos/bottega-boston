@@ -2,7 +2,7 @@
   "meta": {
     "name": "Bottega",
     "package": "@ws-cli5ylqvzebyb2b5e4wl/432d9af3-64cc-49a3-92e4-36d8f906a251",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "framework": "react",
     "css_framework": "css-variables",
     "starter_template": "custom_design_system",
@@ -11,7 +11,7 @@
     ],
     "source_type": "local",
     "source_manifest": {
-      "#enrichment": "4023e9b56cd3e8e88310f05a83f4672946f33e1e6fc7dca5c9b6fe5454ffe5f2",
+      "#enrichment": "b5a629ffca55df5dfc759d66bda2b3c4fa2734f037f9c6402c416957a66df134",
       ".dsignore": "9202e1883820df077bdb3435c29315c4",
       ".gitignore": "6059213806e442947666752f3db6bfdc",
       ".lovable/meta.yaml": "731dc53c4191bd35cabf4a0af7095d7f",
@@ -20,7 +20,7 @@
       ".lovable/plan/composite-responsive-siteheader-2026-10-03.md": "86f0f22c11c0222d331c29873e8e27fa",
       ".lovable/sources.yaml": "30ba92fda13f611b48d1157bbc70a97c",
       ".lovable/system.md": "c93c4b072d1e55e6866a8331114f2601",
-      "AGENTS.md": "d63e30ba0672d3dce0d6c89477de3ed4",
+      "AGENTS.md": "f602d29a7070807125d7d1a1f24b3859",
       "README.md": "d19675c449605f23c7cfa133c69b398b",
       "bunfig.toml": "25f4c8696b22b0943db7191e0cdf7942",
       "eslint.config.js": "07a67437fb1a45ab36d6de0145ff09de",
@@ -28,12 +28,14 @@
       "mockupPreviewPlugin.ts": "70d01fe16b7ca25f16ff6bdb97f08b0b",
       "package.json": "c3e5084e52ab8faa86820d48e652c297",
       "public/favicon.png": "8591d74b97a1a207c1efed1baebaaf3a",
-      "roadmap.md": "a2955b660ccb0484365ae740eaa3f0de",
+      "roadmap.md": "8fe99b97e8c6e0c5864d9d0c8a4d02c3",
       "src/bottega/assets/icons/noodle-menu.png": "72ebc45c661ec57224f5f63d45584bda",
       "src/bottega/assets/logos/bottega-logo.png": "2f1ddf64c4925e64c7517ad2c94355f4",
       "src/bottega/assets/logos/bottega-wordmark.png": "4f2f5560d2506735dc1a346346b9d2f9",
       "src/bottega/components/Button.tsx": "e04419032fe70083134e5c9d3a538239",
       "src/bottega/components/Card.tsx": "ba6113c853585eff98fb1b48a6eb47e2",
+      "src/bottega/components/Confirmation.tsx": "d363490ec1562fc5a5b86fedb8d136c2",
+      "src/bottega/components/FileUpload.tsx": "0adf300d793259223c40aab32399ab0e",
       "src/bottega/components/Form.tsx": "fe1dde8147d2740e2ba58a6728fd59cc",
       "src/bottega/components/LinkAction.tsx": "18a7c30a9cf96ccb49c8d261eff0b571",
       "src/bottega/components/Logo.tsx": "28e25ca711ef396309fcb77af5eed366",
@@ -45,10 +47,12 @@
       "src/bottega/components/ThemeToggle.tsx": "229aaa64efc3e1fc3006f95a0e211960",
       "src/bottega/components/Typography.tsx": "afecd6dd65289c2b29b162ae965bdf50",
       "src/bottega/components/WaveRibbon.tsx": "b4be4f7863e6960ff842de12a407fb42",
-      "src/bottega/index.ts": "e54fad41b15c7fe3bf6d5f150c3fdbeb",
+      "src/bottega/index.ts": "ca26c520ec904e60777edcad50d1e3a0",
       "src/bottega/lib/cx.ts": "7ae105dce8319a6dc3263f679bb79dd7",
-      "src/bottega/styles/components.css": "89f33d142a7a828977324d062d4e1d1d",
-      "src/bottega/styles/theme.css": "1e3ef2304287b851b05d2cba21cc1ec0",
+      "src/bottega/lib/files.test.ts": "a7083b0f7955fff6f0106d3266cceca7",
+      "src/bottega/lib/files.ts": "864d6693af24152e4c2b1b814c57c4c3",
+      "src/bottega/styles/components.css": "cf5a082089ba480884468c946edcf4fc",
+      "src/bottega/styles/theme.css": "1ea95bbbc9990e4db29f815c18f40e8b",
       "src/index.ts": "d6db7a37e55fd28ceedfa8fc5272c699",
       "src/mockup-preview.d.ts": "ae9d81e2b8514e13fd59b5b6bece9a64",
       "src/routeTree.gen.ts": "b493492c3c7229d800131062a1facc31",
@@ -57,7 +61,7 @@
       "src/routes/[__mockup].preview.$.tsx": "5d9f42470848aa60148f20f9580e240e",
       "src/routes/__root.tsx": "32d8c1ee58418654d1dc11b4c488f536",
       "src/routes/colors.tsx": "c7ca79efbc6b97363ee61e3fab301ea2",
-      "src/routes/components.tsx": "46ea3b29e8a8cb97f46f8404cacebb4b",
+      "src/routes/components.tsx": "a9d6b0b59d17a6cc12fc0c8bd9169fef",
       "src/routes/index.tsx": "fce807bc6fac491529cdebfbb37882de",
       "src/routes/typography.tsx": "e2efa3afd45331f883294e97e1ae2684",
       "src/showcase/Shell.tsx": "8d16bcd92ff8699d8d33b5ffbf96264e",
@@ -184,6 +188,11 @@
       {
         "name": "--bt-border-thin",
         "raw": "1.5px",
+        "source": "src/bottega/styles/theme.css"
+      },
+      {
+        "name": "--bt-backdrop",
+        "raw": "rgba(0, 0, 0, 0.65)",
         "source": "src/bottega/styles/theme.css"
       },
       {
@@ -394,6 +403,41 @@
       {
         "name": "--bt-marquee-height",
         "raw": "3.25rem",
+        "source": "src/bottega/styles/theme.css"
+      },
+      {
+        "name": "--bt-upload-min-height",
+        "raw": "13rem",
+        "source": "src/bottega/styles/theme.css"
+      },
+      {
+        "name": "--bt-upload-min-height-sm",
+        "raw": "9rem",
+        "source": "src/bottega/styles/theme.css"
+      },
+      {
+        "name": "--bt-upload-preview-size",
+        "raw": "3.5rem",
+        "source": "src/bottega/styles/theme.css"
+      },
+      {
+        "name": "--bt-icon-size",
+        "raw": "3rem",
+        "source": "src/bottega/styles/theme.css"
+      },
+      {
+        "name": "--bt-dialog-width-sm",
+        "raw": "24rem",
+        "source": "src/bottega/styles/theme.css"
+      },
+      {
+        "name": "--bt-dialog-width-md",
+        "raw": "32rem",
+        "source": "src/bottega/styles/theme.css"
+      },
+      {
+        "name": "--bt-focus-width",
+        "raw": "3px",
         "source": "src/bottega/styles/theme.css"
       },
       {
@@ -954,6 +998,166 @@
           "type": "string",
           "default": "Primary"
         }
+      ]
+    },
+    {
+      "name": "FileUpload",
+      "file": "src/bottega/components/FileUpload",
+      "import_path": "",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "children",
+          "type": "any"
+        },
+        {
+          "name": "accept",
+          "type": "string",
+          "default": "image/*"
+        },
+        {
+          "name": "multiple",
+          "type": "boolean",
+          "default": "true"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "name": "files",
+          "type": "any"
+        },
+        {
+          "name": "onFilesChange",
+          "type": "function"
+        },
+        {
+          "name": "onReject",
+          "type": "function"
+        },
+        {
+          "name": "error",
+          "type": "string"
+        },
+        {
+          "name": "variant",
+          "type": "enum",
+          "values": [
+            "default",
+            "accent"
+          ],
+          "default": "default"
+        },
+        {
+          "name": "size",
+          "type": "enum",
+          "values": [
+            "sm",
+            "md"
+          ],
+          "default": "md"
+        },
+        {
+          "name": "browseLabel",
+          "type": "string",
+          "default": "Choose photos"
+        }
+      ],
+      "usage": "Select photos through drag-and-drop or the native file picker. Returns local File objects; the consumer owns storage and uploading.",
+      "examples": [
+        {
+          "label": "Typical use",
+          "code": "\u003cFileUpload label=\"Menu photos\" files={photos} onFilesChange={setPhotos} /\u003e"
+        }
+      ],
+      "antipatterns": [
+        "Do not imply selected files have been saved or uploaded.",
+        "Do not rely on accept filtering as server-side file validation."
+      ]
+    },
+    {
+      "name": "Confirmation",
+      "file": "src/bottega/components/Confirmation",
+      "import_path": "",
+      "props": [
+        {
+          "name": "open",
+          "type": "boolean",
+          "required": true
+        },
+        {
+          "name": "title",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "children",
+          "type": "any"
+        },
+        {
+          "name": "variant",
+          "type": "enum",
+          "values": [
+            "default",
+            "danger"
+          ],
+          "default": "default"
+        },
+        {
+          "name": "size",
+          "type": "enum",
+          "values": [
+            "sm",
+            "md"
+          ],
+          "default": "md"
+        },
+        {
+          "name": "confirmLabel",
+          "type": "string",
+          "default": "Confirm"
+        },
+        {
+          "name": "cancelLabel",
+          "type": "string",
+          "default": "Cancel"
+        },
+        {
+          "name": "pending",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "onConfirm",
+          "type": "function",
+          "required": true
+        },
+        {
+          "name": "onCancel",
+          "type": "function",
+          "required": true
+        }
+      ],
+      "usage": "Confirm consequential actions in a controlled modal. Use the danger variant for destructive actions and close it after the consumer completes the action.",
+      "examples": [
+        {
+          "label": "Typical use",
+          "code": "\u003cConfirmation open={open} title=\"Remove photo?\" variant=\"danger\" confirmLabel=\"Remove\" onCancel={() =\u003e setOpen(false)} onConfirm={removePhoto}\u003eThis removes the selected photo.\u003c/Confirmation\u003e"
+        }
+      ],
+      "antipatterns": [
+        "Do not use confirmation dialogs for routine navigation.",
+        "Do not report completion before the consuming action succeeds."
       ]
     }
   ]

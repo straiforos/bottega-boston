@@ -114,6 +114,14 @@
   --bt-shadow-hover: 3px 3px 0 var(--bt-shadow-ink);
 
   --bt-marquee-height: 3.25rem;
+  --bt-upload-min-height: 13rem;
+  --bt-upload-min-height-sm: 9rem;
+  --bt-upload-preview-size: 3.5rem;
+  --bt-icon-size: 3rem;
+  --bt-dialog-width-sm: 24rem;
+  --bt-dialog-width-md: 32rem;
+  --bt-focus-width: 3px;
+  --bt-backdrop: rgba(0, 0, 0, 0.65);
   --bt-duration: 180ms;
 }
 

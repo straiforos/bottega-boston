@@ -4,6 +4,8 @@
 
 export { Button } from "./bottega/components/Button";
 export { ArchFrame, Card } from "./bottega/components/Card";
+export { Confirmation } from "./bottega/components/Confirmation";
+export { FileUpload } from "./bottega/components/FileUpload";
 export { Checkbox, PillLabel, Radio, TextField } from "./bottega/components/Form";
 export { LinkAction } from "./bottega/components/LinkAction";
 export { Logo } from "./bottega/components/Logo";
