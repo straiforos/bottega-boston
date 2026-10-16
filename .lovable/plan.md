@@ -5,8 +5,9 @@
 - A Bottega-styled welcome email is sent automatically right after signup.
 - Every email has a one-click unsubscribe link that leads to a simple Bottega "You're off the list" page.
 
-## What staff get (inline, no dashboard)
+## What staff get
 - When signed in, the Pasta Club section on the home page shows a red "Pasta Club emails" ribbon with the subscriber count, **Compose email**, **Edit welcome email** and **Download list (CSV)**.
+- Clicking **Compose email** or **Edit welcome email** opens the editor on its own full page (same site header and footer, with a "Back to home" link). Visitors who aren't staff are sent back to the home page.
 - **Composer (WYSIWYG):** a split view with editable blocks on the left and a live preview on the right, styled exactly like the sent email:
   - Blocks: headline, text (bold, italic, links), photo (same upload and resize as the gallery), button (label + link), divider/marquee strip.
   - Add, reorder (same arrow buttons as the gallery) and delete blocks.
@@ -29,5 +30,6 @@ Cream background, forest header with the Bottega logo, Barlow-style headlines (w
 - Unsubscribe: server route `/api/public/unsubscribe?token=…` plus `List-Unsubscribe` header; page route `/_site/unsubscribed`.
 - Staff functions (`requireSupabaseAuth` + has_role check): save template, send test, send campaign (batches via Resend `/emails/batch`, 100 per call, records campaign), export CSV.
 - Shared renderer `src/lib/email/render-email.ts`: blocks → table-based inline-styled HTML; same function powers the live preview (iframe) and sending, so preview = sent email. Email colors derived from Bottega token values in one mapping file (email clients can't read CSS variables — documented deviation).
-- Feature code in `src/features/home/club-admin/`, copy in `src/content/en/club.ts`; Vitest for renderer escaping, block validation, batching and unsubscribe token handling.
+- Editor routes: `src/routes/_site/emails.compose.tsx` and `src/routes/_site/emails.welcome.tsx` (thin, compose from `src/features/emails/`), client-side staff guard via useStaffSession redirecting non-admins to `/`; server functions re-check has_role. Routes get noindex meta.
+- Feature code in `src/features/emails/`, copy in `src/content/en/club.ts`; Vitest for renderer escaping, block validation, batching and unsubscribe token handling.
 - Rich text editing kept minimal (contenteditable with bold/italic/link, sanitized to an allowlist) to avoid a new UI library.
