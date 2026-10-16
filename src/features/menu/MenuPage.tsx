@@ -57,7 +57,6 @@ export function MenuPage() {
               </div>
             </div>
           </div>
-          </div>
           <div className="menu-content">
             {filters.sections.map((section) => (
               <section
