@@ -41,17 +41,22 @@ export function MenuPage() {
         </header>
         <Marquee text="#pastaislife · #familyislife" variant="forest" />
         <div className="menu-browse section-inner">
-          <div className="menu-filter-rail">
-            <MenuFilter
-              menuSections={menuSections}
-              query={filters.query}
-              selection={filters.selection}
-              count={filters.count}
-              dietary={filters.dietary}
-              onDietaryChange={filters.setDietary}
-              onQueryChange={filters.setQuery}
-              onSelectionChange={filters.setSelection}
-            />
+          <div className="menu-filter-rail" ref={rail.railRef}>
+            <div className="menu-filter-sticky">
+              <div ref={rail.filterRef}>
+                <MenuFilter
+                  menuSections={menuSections}
+                  query={filters.query}
+                  selection={filters.selection}
+                  count={filters.count}
+                  dietary={filters.dietary}
+                  onDietaryChange={filters.setDietary}
+                  onQueryChange={filters.setQuery}
+                  onSelectionChange={filters.setSelection}
+                />
+              </div>
+            </div>
+          </div>
           </div>
           <div className="menu-content">
             {filters.sections.map((section) => (
