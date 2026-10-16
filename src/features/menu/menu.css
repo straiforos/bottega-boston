@@ -139,11 +139,15 @@
 
 .menu-dietary-filter {
   display: flex;
-  flex-wrap: wrap;
-  gap: var(--bt-space-sm);
+  flex-direction: column;
+  align-items: start;
+  gap: var(--bt-space-xs);
   margin: 0;
   padding: 0;
   border: 0;
+}
+.menu-dietary-filter legend {
+  margin-block-end: var(--bt-space-xs);
 }
 
 .menu-editing-ribbon {
