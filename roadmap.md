@@ -26,5 +26,6 @@
 - [x] Menu filter floats vertically centered in the left rail while scrolling, clear of the sticky header
 - [x] Remove the "Illustrative images" disclaimer from the menu page heading (and its dead CSS)
 - [x] Show the Dietary options as a vertical list instead of a wrapping row (menu page filter and dish editor)
+- [x] Give the shared header extra top padding so the logo mark sits centered in the bar instead of crowded against the top
 
 - Menu filter rail: top-aligned at page top, glides to vertical center while scrolling (desktop); scroll math in filter-rail-offset.ts + tests, driven by useMenuFilterRail.
