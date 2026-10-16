@@ -149,8 +149,3 @@
 .menu-editing-ribbon {
   padding-block: var(--bt-space-md) 0;
 }
-
-.menu-editing-ribbon svg {
-  display: block;
-  width: 100%;
-}
