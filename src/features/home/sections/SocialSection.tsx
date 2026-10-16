@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/design-system/bottega-f5161c';
+import { ArrowIcon } from '@/components/ArrowIcon';
 import { MovingRibbon } from '@/components/media/MovingRibbon';
 import { restaurantContent } from '@/content/en/restaurant';
 import { staffContent } from '@/content/en/staff';
@@ -37,14 +38,14 @@ export function SocialSection() {
         {arrows.canPrev && (
           <span className="gallery-arrow" data-side="prev">
             <Button variant="cream" size="md" aria-label={labels.galleryPrev} onClick={() => arrows.page(-1)}>
-              ←
+              <ArrowIcon direction="left" size="md" />
             </Button>
           </span>
         )}
         {arrows.canNext && (
           <span className="gallery-arrow" data-side="next">
             <Button variant="cream" size="md" aria-label={labels.galleryNext} onClick={() => arrows.page(1)}>
-              →
+              <ArrowIcon direction="right" size="md" />
             </Button>
           </span>
         )}

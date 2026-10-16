@@ -32,3 +32,4 @@
 - [x] Inline gallery editing for staff on the home page (edit/add/delete/reorder photos and videos)
 - [x] Background in-browser (WebAssembly) processing of gallery photos and videos into small/standard/high-quality versions, with connection-aware video sources, covers and lazy loading
 - [x] Gallery is one sideways-scrolling row with arrow buttons (no wrapping)
+- [x] Gallery move and scroll arrows use a solid arrow shape in the design system's filled button style so they read clearly
