@@ -94,12 +94,6 @@
   gap: var(--bt-space-lg);
   padding-block: var(--bt-space-xl);
 }
-.menu-page-footer {
-  display: flex;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: var(--bt-space-xl);
-}
 @media (max-width: 900px) {
   .menu-browse {
     grid-template-columns: minmax(0, 1fr);
