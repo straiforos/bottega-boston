@@ -52,12 +52,12 @@ export interface RenderOptions {
 /** One renderer for the staff preview and the sent email, so what staff see is what guests get. */
 export function renderEmail(draft: EmailDraft, options: RenderOptions) {
   const body = draft.blocks.map(renderBlock).join('');
-  const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${escapeHtml(draft.subject)}</title></head>
+  const html = `<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@800&family=Domine&family=DM+Sans:wght@400;700&display=swap" rel="stylesheet"><title>${escapeHtml(draft.subject)}</title></head>
 <body style="margin:0;padding:0;background:${t.parchment};">
 <div style="display:none;max-height:0;overflow:hidden;">${escapeHtml(draft.preheader)}</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:${t.parchment};"><tr><td align="center" style="padding:24px 12px;">
 <table role="presentation" width="600" cellpadding="0" cellspacing="0" style="width:100%;max-width:600px;background:${t.cream};border:1px solid ${t.tomato};">
-<tr><td align="center" style="background:${t.forest};padding:24px;"><a href="${escapeHtml(options.siteUrl)}"><img src="${escapeHtml(options.logoUrl)}" alt="Bottega" height="56" style="display:block;height:56px;width:auto;border:0;"></a></td></tr>
+<tr><td align="center" style="background:${t.cream};padding:24px;border-bottom:1px solid ${t.tomato};"><a href="${escapeHtml(options.siteUrl)}"><img src="${escapeHtml(options.logoUrl)}" alt="Bottega" height="56" style="display:block;height:56px;width:auto;border:0;"></a></td></tr>
 <tr><td style="height:16px;"></td></tr>
 ${body}
 <tr><td style="height:24px;"></td></tr>

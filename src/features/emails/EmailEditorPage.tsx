@@ -122,7 +122,7 @@ export function EmailEditorPage({ mode }: { mode: 'compose' | 'welcome' }) {
         </div>
         <div className="email-page-inner">
           <BackLink to="/" hash="club">
-            ← {t.back}
+            {t.back}
           </BackLink>
           <Display as="h1" size="lg" tone="forest">
             {mode === 'welcome' ? t.welcomeTitle : t.composeTitle}
