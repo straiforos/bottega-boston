@@ -1,6 +1,7 @@
 import { createLink } from '@tanstack/react-router';
 import { Display, LinkAction, Logo } from '@/design-system/bottega-f5161c';
 import { InstagramIcon } from '@/components/InstagramIcon';
+import { StaffAccess } from '@/components/StaffAccess';
 import { restaurantContent } from '@/content/en/restaurant';
 import { links } from '@/content/links';
 
@@ -36,6 +37,7 @@ export function SiteFooter({ compact = false }: { compact?: boolean }) {
             <PageLink to="/" tone="cream">
               Back to Bottega
             </PageLink>
+            <StaffAccess />
           </div>
         </div>
       </footer>

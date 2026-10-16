@@ -1,12 +1,20 @@
 import { Button, Display, Marquee, PillLabel, Serif } from '@/design-system/bottega-f5161c';
 import { BottegaHeader } from '@/components/BottegaHeader';
 import { SiteFooter } from '@/components/SiteFooter';
-import { menuSections } from '@/lib/menu-data';
+import { useQuery } from '@tanstack/react-query';
+import { menuSections as fallbackMenu } from '@/lib/menu-data';
+import { menuQueryOptions } from '@/lib/menu/menu-api';
+import { useStaffSession } from '@/hooks/useStaffSession';
+import { staffContent } from '@/content/en/staff';
+import { AddDish } from './admin/AddDish';
+import { EditableDish } from './admin/EditableDish';
 import { MenuDishCard } from './components/MenuDishCard';
 import { MenuFilter } from './components/MenuFilter';
 import { useMenuFilters } from './hooks/useMenuFilters';
 
 export function MenuPage() {
+  const { data: menuSections = fallbackMenu } = useQuery(menuQueryOptions);
+  const { isAdmin } = useStaffSession();
   const filters = useMenuFilters(menuSections);
   return (
     <>
@@ -23,6 +31,7 @@ export function MenuPage() {
           <p className="menu-photo-note">
             Illustrative images — not photographs of Bottega’s actual dishes. Presentation and portions may vary.
           </p>
+          {isAdmin && <PillLabel variant="chip-forest">{staffContent.editing}</PillLabel>}
           <div className="menu-legend">
             <PillLabel variant="chip-forest">GF · Gluten free</PillLabel>
             <PillLabel variant="chip-forest">V · Vegetarian</PillLabel>
@@ -54,10 +63,16 @@ export function MenuPage() {
                   {section.note && <p>{section.note}</p>}
                 </div>
                 <div className="menu-dish-grid">
-                  {section.items.map((item) => (
-                    <MenuDishCard key={item.id} item={item} />
-                  ))}
+                  {section.items.map((item) =>
+                    isAdmin ? <EditableDish key={item.id} item={item} /> : <MenuDishCard key={item.id} item={item} />,
+                  )}
                 </div>
+                {isAdmin && (
+                  <AddDish
+                    sectionId={section.id}
+                    nextSortOrder={(menuSections.find((s) => s.id === section.id)?.items.length ?? 0) + 1}
+                  />
+                )}
               </section>
             ))}
             {filters.count === 0 && (
