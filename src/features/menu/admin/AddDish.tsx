@@ -12,7 +12,7 @@ export function AddDish({ sectionId, nextSortOrder }: { sectionId: string; nextS
   if (!open) {
     return (
       <div className="dish-add">
-        <Button variant="outline" onClick={() => setOpen(true)}>
+        <Button variant="primary" onClick={() => setOpen(true)}>
           {staffContent.addDish}
         </Button>
       </div>
