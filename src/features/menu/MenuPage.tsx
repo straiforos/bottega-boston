@@ -16,6 +16,7 @@ export function MenuPage() {
   const { data: menuSections = fallbackMenu } = useQuery(menuQueryOptions);
   const { isAdmin } = useStaffSession();
   const filters = useMenuFilters(menuSections);
+  const rail = useMenuFilterRail();
   return (
     <>
       <BottegaHeader />
