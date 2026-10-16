@@ -6,10 +6,6 @@
   padding-block: var(--bt-space-xl);
   padding-inline: var(--bt-margin);
 }
-.menu-photo-note {
-  color: var(--bt-muted);
-  font-size: var(--bt-text-sm);
-}
 .menu-legend,
 .menu-dietary-tags {
   display: flex;

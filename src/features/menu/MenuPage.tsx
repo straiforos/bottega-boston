@@ -29,9 +29,6 @@ export function MenuPage() {
           <Serif as="p" size="md" tone="forest">
             Pasta, panini & a little dolce vita.
           </Serif>
-          <p className="menu-photo-note">
-            Illustrative images — not photographs of Bottega’s actual dishes. Presentation and portions may vary.
-          </p>
           {isAdmin && <PillLabel variant="chip-forest">{staffContent.editing}</PillLabel>}
           <div className="menu-legend">
             <PillLabel variant="chip-forest">GF · Gluten free</PillLabel>
