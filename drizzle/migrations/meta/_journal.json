@@ -8,6 +8,13 @@
       "when": 1792122118779,
       "tag": "0000_menu_and_staff",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1792122195790,
+      "tag": "0001_seed_menu",
+      "breakpoints": true
     }
   ]
 }
