@@ -22,8 +22,17 @@ export function StaffSessionProvider({ children }: { children: ReactNode }) {
         if (active) setState({ user: null, isAdmin: false, ready: true });
         return;
       }
-      const { data } = await supabase.rpc('has_role', { _user_id: user.id, _role: 'admin' });
-      if (active) setState({ user, isAdmin: data === true, ready: true });
+      // Retry transient failures so a slow check never looks like "not on the staff list".
+      for (let attempt = 0; attempt < 3; attempt += 1) {
+        const { data, error } = await supabase.rpc('has_role', { _user_id: user.id, _role: 'admin' });
+        if (!error) {
+          if (active) setState({ user, isAdmin: data === true, ready: true });
+          return;
+        }
+        await new Promise((done) => setTimeout(done, 500 * (attempt + 1)));
+      }
+      // Still unknown: keep the session and stay non-admin rather than signing staff out.
+      if (active) setState({ user, isAdmin: false, ready: false });
     };
     supabase.auth.getUser().then(({ data }) => resolve(data.user));
     const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
