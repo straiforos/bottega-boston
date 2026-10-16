@@ -8,22 +8,20 @@ Let staff manage the home-page gallery the same way they manage the menu today: 
 - **Add a photo or video** — new tiles append at the end.
 - **Delete a tile** with the red Confirmation box (same as dish delete).
 - **Reorder** with small up/down arrows on each tile (simple and reliable, no drag-and-drop).
-- Staff upload the original photo or video (up to 500 MB); processing happens on a server, not on the staff member's device. The tile shows "Processing…" to staff and stays hidden from visitors until it's ready.
+- Staff pick the original photo or video (up to 500 MB); it's processed in the background in their browser before upload, with a progress bar ("Preparing video… 42%"). The page stays usable while it works.
 
-## Server processing with free open-source tools
+## Background processing with free open-source tools (WebAssembly)
 
-The site's own server can't run heavy media tools (sharp for photos, FFmpeg for video) — it only handles quick requests. So processing runs on a small separate **media processor**: a free, open-source container (sharp + FFmpeg) that watches for new uploads, processes them, and saves the results back. It can run free on a home computer, a spare server, or a free-tier host (e.g. Fly.io / Render).
+FFmpeg (video) runs as WebAssembly inside a background worker in the staff member's browser — free, open source, no extra server or service. Photo processing moves into the same kind of background worker so the page never freezes. Visitors never download these tools; they load only when staff open an editor.
 
 ```text
-Staff uploads original -> saved as "processing" -> media processor picks it up
+Staff picks file -> background worker
   -> photos: auto-orient, strip location data, 480 / 1600 / 4096 px WebP
   -> videos: 480p / 720p / 1080p web MP4 (fast start, no sound) + cover image
-  -> results saved -> tile goes live for visitors
+  -> all versions uploaded -> tile goes live for visitors
 ```
 
-Visitors' browsers then pick the right version: slow connections and data-saver get the smallest, phones get standard, fast desktops get high quality, with automatic fallback to the next if one fails. Video shows its cover instantly and downloads nothing until the tile is near the screen. The existing gallery video and dish photos move to the same pipeline (dish photos stop being processed in the browser).
-
-**What you'll need to do:** start the media processor once somewhere (I'll include the container and a one-page setup guide). Until it's running, new uploads stay in "Processing…".
+Visitors' browsers then pick the right version: slow connections and data-saver get the smallest, phones get standard, fast desktops get high quality, with automatic fallback to the next if one fails. Video shows its cover instantly and downloads nothing until the tile is near the screen. The existing gallery video gets its versions generated once during the build so it benefits too.
 
 Signed-in staff also see a small red "Editing the gallery" ribbon above the gallery, mirroring the "Editing the menu" ribbon on the menu page.
 
@@ -41,9 +39,9 @@ Signed-in staff also see a small red "Editing the gallery" ribbon above the gall
 - `SocialSection` renders from live data and swaps in the editable tiles when signed in; `GalleryVideo` and the tile hairline/zoom styling stay untouched.
 - Staff copy (labels, confirm-delete wording, errors) in `src/content/en/staff.ts`; admin styles in `home.css` using design-system tokens only.
 - Footer sign-in returns to the page you were on (currently it always lands on the menu page).
-- Media processor in `media-processor/` (Dockerfile, Node + sharp + FFmpeg): polls a `media_jobs` table (status pending/processing/done/failed, source path, target row) using the service key supplied as its own env var; originals land in a private `media-originals` bucket. Video: H.264 MP4 `+faststart`, no audio, 480p ~600 kbps / 720p ~1.5 Mbps / 1080p ~4 Mbps (never upscaled), poster JPEG. Writes `variants` jsonb + `poster_url` + `status` on the gallery/menu row. RLS: visitors read only `status = 'ready'` rows; staff see all.
+- `src/lib/media/media.worker.ts` (Vite `?worker` module Web Worker): video via `@ffmpeg/ffmpeg` + `@ffmpeg/core` (single-threaded core, so no cross-origin-isolation headers needed), lazily imported only from staff editors. H.264 MP4 `-movflags +faststart`, `-an`, 480p ~600 kbps / 720p ~1.5 Mbps / 1080p ~4 Mbps (never upscaled), poster JPEG. Photos via `createImageBitmap` + `OffscreenCanvas` in the same worker. Progress messages drive the editor's bar. Stored as `variants` jsonb + `poster_url`.
 - Pure `videoSourcesForConnection` (effectiveType/saveData/screen width) orders `<source>` elements; `GalleryVideo` gains `poster`, `preload="none"` until IntersectionObserver says near-viewport, then `metadata`. Tested like `variantsForConnection`.
-- Browser photo processing (`process-image.ts`) is retired in favor of the processor; the size check stays client-side.
+- Bucket cap 500 MB (project-wide limit raised to match).
 
 ## Verification
 
@@ -52,6 +50,6 @@ Signed-in staff also see a small red "Editing the gallery" ribbon above the gall
 
 ## Notes
 
-- The media processor is the one piece that runs outside this site; it's free software but needs somewhere to run. I can build and test everything else, but uploads won't finish processing until it's started.
+- Processing uses the staff member's device: a 1-minute clip takes roughly 1–3 minutes on a laptop, longer on phones. Keep the tab open until it finishes; a laptop is recommended for videos.
 - Video processing for slow connections ships as part of this work, not as a later step.
 - The two existing intentional style deviations stay (red delete button, caption text size); no new ones planned.
