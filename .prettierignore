@@ -10,4 +10,8 @@ src/design-system
 .lovable/rules
 src/assets/menu
 src/lib/menu-data.ts
-src/lib/menu-images.tssrc/integrations
+src/lib/menu-images.ts
+src/integrations
+drizzle
+drizzle.config.ts
+.lovable/plan
