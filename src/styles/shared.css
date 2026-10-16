@@ -112,10 +112,10 @@ a:focus-visible {
   flex-shrink: 0;
 }
 .arrow-icon--sm {
-  width: var(--bt-text-base);
-  height: var(--bt-text-base);
+  width: calc(var(--bt-icon-size) * 0.35);
+  height: calc(var(--bt-icon-size) * 0.35);
 }
 .arrow-icon--md {
-  width: var(--bt-text-lg);
-  height: var(--bt-text-lg);
+  width: calc(var(--bt-icon-size) * 0.4);
+  height: calc(var(--bt-icon-size) * 0.4);
 }
