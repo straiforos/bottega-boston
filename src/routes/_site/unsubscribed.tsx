@@ -1,9 +1,9 @@
 import { createFileRoute, createLink } from '@tanstack/react-router';
-import { Button, Display, Serif } from '@/design-system/bottega-f5161c';
+import { Display, LinkAction, Serif } from '@/design-system/bottega-f5161c';
 import { BottegaHeader } from '@/components/BottegaHeader';
 import { clubContent } from '@/content/en/club';
 
-const ButtonLink = createLink(Button as never);
+const HomeLink = createLink(LinkAction);
 
 export const Route = createFileRoute('/_site/unsubscribed')({
   head: () => ({
@@ -32,7 +32,7 @@ function UnsubscribedPage() {
           </Display>
           <Serif tone="ink">{t.body}</Serif>
           <div>
-            <ButtonLink to="/">{t.home}</ButtonLink>
+            <HomeLink to="/">{t.home}</HomeLink>
           </div>
         </div>
       </main>
