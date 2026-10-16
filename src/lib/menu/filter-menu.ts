@@ -3,7 +3,10 @@ import type { MenuSection } from './types';
 
 export type MenuSelection = 'all' | 'catering' | string;
 
-export function filterMenu(sections: readonly MenuSection[], query: string, selection: MenuSelection,
+export function filterMenu(
+  sections: readonly MenuSection[],
+  query: string,
+  selection: MenuSelection,
   dietary: readonly DietaryTag[] = [],
 ) {
   const term = query.trim().toLocaleLowerCase('en');
