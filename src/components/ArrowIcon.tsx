@@ -11,9 +11,11 @@ export function ArrowIcon({ direction }: ArrowIconProps) {
       viewBox="0 0 24 24"
       fill="currentColor"
       aria-hidden="true"
-      style={direction === 'left' ? { transform: 'scaleX(-1)' } : undefined}
     >
-      <path d="M2 9h11V4l9 8-9 8v-5H2z" />
+      <path
+        d="M2 9h11V4l9 8-9 8v-5H2z"
+        transform={direction === 'left' ? 'scale(-1,1) translate(-24,0)' : undefined}
+      />
     </svg>
   );
 }

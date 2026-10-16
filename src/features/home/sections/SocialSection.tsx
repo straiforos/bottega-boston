@@ -37,14 +37,14 @@ export function SocialSection() {
         {arrows.canPrev && (
           <span className="gallery-arrow" data-side="prev">
             <Button variant="cream" size="md" aria-label={labels.galleryPrev} onClick={() => arrows.page(-1)}>
-              ←
+              <ArrowIcon direction="left" />
             </Button>
           </span>
         )}
         {arrows.canNext && (
           <span className="gallery-arrow" data-side="next">
             <Button variant="cream" size="md" aria-label={labels.galleryNext} onClick={() => arrows.page(1)}>
-              →
+              <ArrowIcon direction="right" />
             </Button>
           </span>
         )}
