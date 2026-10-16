@@ -20,5 +20,5 @@
 - [x] On mobile, tighten the gap between the "Family is life" ribbon and the menu heading.
 - [x] Drop the period from the menu heading and move the pasta-pot sketch in front of the word.
 - [x] Remove the "A tavola, with love" label above the "Bottega Pasta Club." heading.
-- [ ] Photo uploads up to 100 MB; browser-processed thumbnail / 5 MB standard / 50 MB high-quality versions chosen by connection speed
-- [ ] Menu admin buttons: Edit uses primary style, Delete is red
+- [x] Photo uploads up to 100 MB; browser-processed thumbnail / 5 MB standard / 50 MB high-quality versions chosen by connection speed
+- [x] Menu admin buttons: Edit uses primary style, Delete is red
