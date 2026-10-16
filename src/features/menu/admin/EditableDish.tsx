@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Button } from '@/design-system/bottega-f5161c';
+import { Button, Confirmation } from '@/design-system/bottega-f5161c';
 import { staffContent } from '@/content/en/staff';
 import type { MenuItem } from '@/lib/menu/types';
 import { MenuDishCard } from '../components/MenuDishCard';
@@ -10,6 +10,8 @@ import { useMenuAdmin } from './useMenuAdmin';
 export function EditableDish({ item }: { item: MenuItem }) {
   const [editing, setEditing] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [confirming, setConfirming] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const admin = useMenuAdmin();
 
   if (editing) {
@@ -26,12 +28,14 @@ export function EditableDish({ item }: { item: MenuItem }) {
   }
 
   const remove = async () => {
-    if (!window.confirm(staffContent.confirmDelete(item.name))) return;
     setBusy(true);
+    setError(null);
     try {
       await admin.remove(item.id);
+      setConfirming(false);
     } catch {
-      window.alert(staffContent.failed);
+      setError(staffContent.failed);
+    } finally {
       setBusy(false);
     }
   };
@@ -53,12 +57,25 @@ export function EditableDish({ item }: { item: MenuItem }) {
             variant="ghost"
             size="sm"
             className="dish-delete"
-            onClick={() => void remove()}
+            onClick={() => setConfirming(true)}
             disabled={busy}
             aria-label={`${staffContent.delete} ${item.name}`}
           >
             {staffContent.delete}
           </Button>
+          <Confirmation
+            open={confirming}
+            title={staffContent.confirmDeleteTitle}
+            variant="danger"
+            confirmLabel={staffContent.delete}
+            cancelLabel={staffContent.cancel}
+            pending={busy}
+            onCancel={() => setConfirming(false)}
+            onConfirm={() => void remove()}
+          >
+            {staffContent.confirmDelete(item.name)}
+            {error && <span role="alert"> {error}</span>}
+          </Confirmation>
         </div>
       }
     />
