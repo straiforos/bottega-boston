@@ -1,49 +1,10 @@
-import { createLink } from '@tanstack/react-router';
 import { Display, LinkAction, Logo } from '@/design-system/bottega-f5161c';
 import { InstagramIcon } from '@/components/InstagramIcon';
 import { StaffAccess } from '@/components/StaffAccess';
 import { restaurantContent } from '@/content/en/restaurant';
 import { links } from '@/content/links';
 
-const PageLink = createLink(LinkAction);
-
-export function SiteFooter({ compact = false }: { compact?: boolean }) {
-  if (compact) {
-    return (
-      <footer className="footer bt-surface-dark">
-        <div className="section-inner menu-page-footer">
-          <div>
-            <Logo variant="wordmark" tone="cream" size="sm" />
-            <address>
-              {restaurantContent.addresses.map((address) => (
-                <span key={address.name}>
-                  {address.lines.join(' · ')}
-                  <br />
-                </span>
-              ))}
-            </address>
-          </div>
-          <div>
-            <address>
-              <LinkAction href={`tel:${links.phone}`} tone="mustard">
-                (617) 232-2661
-              </LinkAction>
-              <p>
-                <LinkAction href={`mailto:${links.email}`} tone="cream">
-                  {links.email}
-                </LinkAction>
-              </p>
-            </address>
-            <PageLink to="/" tone="cream">
-              Back to Bottega
-            </PageLink>
-            <StaffAccess />
-          </div>
-        </div>
-      </footer>
-    );
-  }
-
+export function SiteFooter() {
   return (
     <footer id="contact" className="footer bt-surface-dark">
       <div className="section-inner">
@@ -95,7 +56,10 @@ export function SiteFooter({ compact = false }: { compact?: boolean }) {
               Say ciao
             </Display>
             <address>
-              <a href={`mailto:${links.email}`}>{links.email}</a>
+              <a href={`tel:${links.phone}`}>(617) 232-2661</a>
+              <p>
+                <a href={`mailto:${links.email}`}>{links.email}</a>
+              </p>
               <p>
                 <LinkAction href={`mailto:${links.email}`} tone="mustard">
                   Contact us
