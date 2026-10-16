@@ -64,7 +64,7 @@ export function EditableTile({ item, items }: EditableTileProps) {
         </Button>
         <Button
           variant="primary"
-          size="sm"
+          size="md"
           disabled={busy || index === 0}
           onClick={() => void run(() => admin.move(items, item.id, -1))}
           aria-label={`${t.moveEarlier}: ${label}`}
@@ -74,7 +74,7 @@ export function EditableTile({ item, items }: EditableTileProps) {
         </Button>
         <Button
           variant="primary"
-          size="sm"
+          size="md"
           disabled={busy || index === items.length - 1}
           onClick={() => void run(() => admin.move(items, item.id, 1))}
           aria-label={`${t.moveLater}: ${label}`}
