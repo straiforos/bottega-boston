@@ -3,7 +3,7 @@ import { Button, Card, Checkbox, FileUpload, TextField } from '@/design-system/b
 import { staffContent } from '@/content/en/staff';
 import { validateDishDraft } from '@/lib/menu/menu-api';
 import { DIETARY_OPTIONS, toggleTag } from '@/lib/menu/dietary';
-import { uploadSizeError } from '@/lib/menu/process-image';
+import { uploadSizeError } from '@/lib/media/process-image';
 import type { DishDraft } from '@/lib/menu/types';
 
 interface DishEditorProps {
