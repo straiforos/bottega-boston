@@ -9,7 +9,7 @@ export function siteOrigin() {
   return new URL(getRequest().url).origin;
 }
 
-const address = restaurantContent.footer.addresses
+const address = restaurantContent.addresses
   .map((a) => `${a.name}, ${a.lines.join(', ')}`)
   .join(' · ');
 
