@@ -41,7 +41,9 @@ Signed-in staff also see a small red "Editing the gallery" ribbon above the gall
 - `SocialSection` renders from live data and swaps in the editable tiles when signed in; `GalleryVideo` and the tile hairline/zoom styling stay untouched.
 - Staff copy (labels, confirm-delete wording, errors) in `src/content/en/staff.ts`; admin styles in `home.css` using design-system tokens only.
 - Footer sign-in returns to the page you were on (currently it always lands on the menu page).
-- Video pipeline `src/lib/media/process-video.ts`: ffmpeg.wasm loaded lazily only in the staff editor (never in the visitor bundle); H.264/AAC-free MP4 with `+faststart`, renditions 480p ~600 kbps / 720p ~1.5 Mbps / 1080p ~4 Mbps (never upscaled), poster JPEG. Stored as `video_variants` jsonb + `poster_url`. Pure `videoSourcesForConnection` (effectiveType/saveData/screen width) orders `<source>` elements; `GalleryVideo` gains `poster`, `preload="none"` until IntersectionObserver says near-viewport, then `metadata`. Tested like `variantsForConnection`.
+- Media processor in `media-processor/` (Dockerfile, Node + sharp + FFmpeg): polls a `media_jobs` table (status pending/processing/done/failed, source path, target row) using the service key supplied as its own env var; originals land in a private `media-originals` bucket. Video: H.264 MP4 `+faststart`, no audio, 480p ~600 kbps / 720p ~1.5 Mbps / 1080p ~4 Mbps (never upscaled), poster JPEG. Writes `variants` jsonb + `poster_url` + `status` on the gallery/menu row. RLS: visitors read only `status = 'ready'` rows; staff see all.
+- Pure `videoSourcesForConnection` (effectiveType/saveData/screen width) orders `<source>` elements; `GalleryVideo` gains `poster`, `preload="none"` until IntersectionObserver says near-viewport, then `metadata`. Tested like `variantsForConnection`.
+- Browser photo processing (`process-image.ts`) is retired in favor of the processor; the size check stays client-side.
 
 ## Verification
 
@@ -50,6 +52,6 @@ Signed-in staff also see a small red "Editing the gallery" ribbon above the gall
 
 ## Notes
 
-- Video processing runs on the staff member's device and takes a while for long clips (roughly real-time or slower on phones); a laptop is recommended for uploads. Keep the tab open until it finishes.
+- The media processor is the one piece that runs outside this site; it's free software but needs somewhere to run. I can build and test everything else, but uploads won't finish processing until it's started.
 - Also add "Process gallery videos for slow connections" to the roadmap when building.
 - The two existing intentional style deviations stay (red delete button, caption text size); no new ones planned.
