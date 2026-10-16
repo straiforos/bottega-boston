@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/design-system/bottega-f5161c';
+import { ArrowIcon } from '@/components/ArrowIcon';
 import { MovingRibbon } from '@/components/media/MovingRibbon';
 import { restaurantContent } from '@/content/en/restaurant';
 import { staffContent } from '@/content/en/staff';
