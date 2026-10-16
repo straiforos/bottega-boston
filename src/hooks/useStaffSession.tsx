@@ -1,6 +1,5 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
 import type { User } from '@supabase/supabase-js';
-import { useQueryClient } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 
 export interface StaffSession {
@@ -15,7 +14,6 @@ const StaffSessionContext = createContext<StaffSession>(initial);
 /** Single auth listener for the app; resolves whether the database grants the user admin. */
 export function StaffSessionProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<StaffSession>(initial);
-  const queryClient = useQueryClient();
 
   useEffect(() => {
     let active = true;
@@ -36,7 +34,7 @@ export function StaffSessionProvider({ children }: { children: ReactNode }) {
       active = false;
       sub.subscription.unsubscribe();
     };
-  }, [queryClient]);
+  }, []);
 
   return <StaffSessionContext.Provider value={state}>{children}</StaffSessionContext.Provider>;
 }
