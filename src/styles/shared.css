@@ -107,3 +107,15 @@ a:focus-visible {
   gap: var(--bt-space-sm);
   font-size: var(--bt-text-sm);
 }
+.arrow-icon {
+  display: block;
+  flex-shrink: 0;
+}
+.arrow-icon--sm {
+  width: var(--bt-text-base);
+  height: var(--bt-text-base);
+}
+.arrow-icon--md {
+  width: var(--bt-text-lg);
+  height: var(--bt-text-lg);
+}
