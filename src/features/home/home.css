@@ -503,3 +503,34 @@
     opacity: 0;
   }
 }
+
+/* Staff gallery editing */
+.gallery-editing-ribbon {
+  padding-top: var(--bt-space-lg);
+}
+.gallery-cell {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+.gallery-cell > .gallery-item {
+  flex: 1;
+}
+.gallery-admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bt-space-xs);
+  padding: var(--bt-space-sm);
+}
+.gallery-add {
+  display: flex;
+  justify-content: center;
+  padding-block: var(--bt-space-lg);
+}
+.gallery-editor-wrap {
+  padding: var(--bt-space-lg);
+}
+.gallery-editor-wrap .dish-editor {
+  display: grid;
+  gap: var(--bt-space-md);
+}
