@@ -8,7 +8,16 @@ Let staff manage the home-page gallery the same way they manage the menu today: 
 - **Add a photo or video** — new tiles append at the end.
 - **Delete a tile** with the red Confirmation box (same as dish delete).
 - **Reorder** with small up/down arrows on each tile (simple and reliable, no drag-and-drop).
-- Photos go through the same browser processing as dish photos (auto-orient, location strip, small/standard/high-quality versions); videos upload as-is up to 200 MB.
+- Photos go through the same browser processing as dish photos (auto-orient, location strip, small/standard/high-quality versions).
+- Videos (up to 500 MB) go through a new video processing step in the staff member's browser before upload — see below.
+
+## Video processing for slow connections and phones
+
+When staff upload a video, the browser prepares it before saving ("Preparing video… 42%"):
+- **Three versions:** small (480p, low bitrate), standard (720p) and high quality (1080p), all as web-friendly MP4 set up to start playing before fully downloaded. Sound is removed (gallery videos play muted).
+- **A cover image** taken from the first frame, shown instantly while the video loads.
+- **Visitors' browsers pick the right version:** slow connections and data-saver get the small one; phones get standard; fast desktops get high quality. If one version fails to load, the browser falls back to the next. Nothing downloads until the tile is near the screen, and only a small preview loads before someone hovers or taps play.
+- The existing gallery video gets the same three versions + cover generated once, so it benefits too.
 
 Signed-in staff also see a small red "Editing the gallery" ribbon above the gallery, mirroring the "Editing the menu" ribbon on the menu page.
 
@@ -26,6 +35,7 @@ Signed-in staff also see a small red "Editing the gallery" ribbon above the gall
 - `SocialSection` renders from live data and swaps in the editable tiles when signed in; `GalleryVideo` and the tile hairline/zoom styling stay untouched.
 - Staff copy (labels, confirm-delete wording, errors) in `src/content/en/staff.ts`; admin styles in `home.css` using design-system tokens only.
 - Footer sign-in returns to the page you were on (currently it always lands on the menu page).
+- Video pipeline `src/lib/media/process-video.ts`: ffmpeg.wasm loaded lazily only in the staff editor (never in the visitor bundle); H.264/AAC-free MP4 with `+faststart`, renditions 480p ~600 kbps / 720p ~1.5 Mbps / 1080p ~4 Mbps (never upscaled), poster JPEG. Stored as `video_variants` jsonb + `poster_url`. Pure `videoSourcesForConnection` (effectiveType/saveData/screen width) orders `<source>` elements; `GalleryVideo` gains `poster`, `preload="none"` until IntersectionObserver says near-viewport, then `metadata`. Tested like `variantsForConnection`.
 
 ## Verification
 
@@ -34,5 +44,6 @@ Signed-in staff also see a small red "Editing the gallery" ribbon above the gall
 
 ## Notes
 
-- Videos aren't resized in the browser — a practical 200 MB upload limit instead.
+- Video processing runs on the staff member's device and takes a while for long clips (roughly real-time or slower on phones); a laptop is recommended for uploads. Keep the tab open until it finishes.
+- Also add "Process gallery videos for slow connections" to the roadmap when building.
 - The two existing intentional style deviations stay (red delete button, caption text size); no new ones planned.
