@@ -8,16 +8,22 @@ Let staff manage the home-page gallery the same way they manage the menu today: 
 - **Add a photo or video** — new tiles append at the end.
 - **Delete a tile** with the red Confirmation box (same as dish delete).
 - **Reorder** with small up/down arrows on each tile (simple and reliable, no drag-and-drop).
-- Photos go through the same browser processing as dish photos (auto-orient, location strip, small/standard/high-quality versions).
-- Videos (up to 500 MB) go through a new video processing step in the staff member's browser before upload — see below.
+- Staff upload the original photo or video (up to 500 MB); processing happens on a server, not on the staff member's device. The tile shows "Processing…" to staff and stays hidden from visitors until it's ready.
 
-## Video processing for slow connections and phones
+## Server processing with free open-source tools
 
-When staff upload a video, the browser prepares it before saving ("Preparing video… 42%"):
-- **Three versions:** small (480p, low bitrate), standard (720p) and high quality (1080p), all as web-friendly MP4 set up to start playing before fully downloaded. Sound is removed (gallery videos play muted).
-- **A cover image** taken from the first frame, shown instantly while the video loads.
-- **Visitors' browsers pick the right version:** slow connections and data-saver get the small one; phones get standard; fast desktops get high quality. If one version fails to load, the browser falls back to the next. Nothing downloads until the tile is near the screen, and only a small preview loads before someone hovers or taps play.
-- The existing gallery video gets the same three versions + cover generated once, so it benefits too.
+The site's own server can't run heavy media tools (sharp for photos, FFmpeg for video) — it only handles quick requests. So processing runs on a small separate **media processor**: a free, open-source container (sharp + FFmpeg) that watches for new uploads, processes them, and saves the results back. It can run free on a home computer, a spare server, or a free-tier host (e.g. Fly.io / Render).
+
+```text
+Staff uploads original -> saved as "processing" -> media processor picks it up
+  -> photos: auto-orient, strip location data, 480 / 1600 / 4096 px WebP
+  -> videos: 480p / 720p / 1080p web MP4 (fast start, no sound) + cover image
+  -> results saved -> tile goes live for visitors
+```
+
+Visitors' browsers then pick the right version: slow connections and data-saver get the smallest, phones get standard, fast desktops get high quality, with automatic fallback to the next if one fails. Video shows its cover instantly and downloads nothing until the tile is near the screen. The existing gallery video and dish photos move to the same pipeline (dish photos stop being processed in the browser).
+
+**What you'll need to do:** start the media processor once somewhere (I'll include the container and a one-page setup guide). Until it's running, new uploads stay in "Processing…".
 
 Signed-in staff also see a small red "Editing the gallery" ribbon above the gallery, mirroring the "Editing the menu" ribbon on the menu page.
 
