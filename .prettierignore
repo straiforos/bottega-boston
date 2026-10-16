@@ -10,4 +10,4 @@ src/design-system
 .lovable/rules
 src/assets/menu
 src/lib/menu-data.ts
-src/lib/menu-images.ts
+src/lib/menu-images.tssrc/integrations
