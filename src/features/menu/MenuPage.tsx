@@ -9,6 +9,7 @@ import { AddDish } from './admin/AddDish';
 import { EditableDish } from './admin/EditableDish';
 import { MenuDishCard } from './components/MenuDishCard';
 import { MenuFilter } from './components/MenuFilter';
+import { useMenuFilterRail } from './hooks/useMenuFilterRail';
 import { useMenuFilters } from './hooks/useMenuFilters';
 
 export function MenuPage() {

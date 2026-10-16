@@ -23,9 +23,13 @@
   padding-block: var(--bt-space-xl);
   padding-inline: var(--bt-margin);
 }
-/* Sticky rail spanning the viewport so the filter floats vertically centered
-   instead of pinning flush under the sticky header. */
+/* Desktop rail: static grid column; the inner sticky wrapper spans the
+   viewport. The filter starts top-aligned at the page top and glides to
+   vertical center while scrolling (useMenuFilterRail drives the offset). */
 .menu-filter-rail {
+  height: 100%;
+}
+.menu-filter-sticky {
   position: sticky;
   top: 0;
   height: 100vh;
@@ -105,7 +109,8 @@
   .menu-browse {
     grid-template-columns: minmax(0, 1fr);
   }
-  .menu-filter-rail {
+  .menu-filter-rail,
+  .menu-filter-sticky {
     position: static;
     height: auto;
     display: block;
