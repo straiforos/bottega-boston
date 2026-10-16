@@ -33,3 +33,6 @@
 - [x] Background in-browser (WebAssembly) processing of gallery photos and videos into small/standard/high-quality versions, with connection-aware video sources, covers and lazy loading
 - [x] Gallery is one sideways-scrolling row with arrow buttons (no wrapping)
 - [x] Gallery move and scroll arrows use a solid arrow shape in the design system's filled button style so they read clearly
+- [x] Pasta Club signup saves subscribers and sends an automatic welcome email (Resend)
+- [x] Staff email editor on its own page: block-based WYSIWYG with live preview, test send, send to all, editable welcome email, CSV export, unsubscribe
+- [ ] Verify a sending domain in Resend so emails reach all guests (waiting on the restaurant)

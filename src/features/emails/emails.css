@@ -1,0 +1,114 @@
+/* Pasta Club email editor and staff strip — Bottega tokens only. */
+.club-admin {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  gap: var(--bt-space-sm);
+  padding-block: var(--bt-space-md);
+}
+.club-admin-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--bt-space-md);
+  padding-inline: var(--bt-margin);
+}
+.club-status {
+  font-family: var(--bt-font-serif);
+  font-size: var(--bt-text-lg);
+}
+
+.email-page {
+  min-height: 100vh;
+  background: var(--bt-cream);
+  color: var(--bt-ink);
+}
+.email-page-ribbon {
+  padding-top: var(--bt-space-md);
+}
+.email-page-inner {
+  display: grid;
+  gap: var(--bt-space-md);
+  padding: var(--bt-space-lg) var(--bt-margin) var(--bt-space-8);
+}
+.email-unsubscribed {
+  justify-items: start;
+  padding-block: var(--bt-space-8);
+}
+.email-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: var(--bt-space-lg);
+  align-items: start;
+}
+.email-controls {
+  display: grid;
+  gap: var(--bt-space-md);
+}
+.email-preview {
+  position: sticky;
+  top: var(--bt-space-8);
+  display: grid;
+  gap: var(--bt-space-sm);
+}
+.email-preview-frame {
+  width: 100%;
+  height: calc(100vh - var(--bt-space-8) * 2);
+  border-width: var(--bt-border-width);
+  border-style: solid;
+  border-color: var(--bt-tomato);
+  background: var(--bt-parchment);
+}
+.email-block {
+  display: grid;
+  gap: var(--bt-space-sm);
+  padding: var(--bt-space-md);
+}
+.email-block-head,
+.email-block-actions,
+.email-add,
+.email-send,
+.email-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--bt-space-sm);
+}
+.email-block-head {
+  justify-content: space-between;
+}
+.email-textarea {
+  resize: vertical;
+  font-family: var(--bt-font-sans);
+}
+.email-photo-thumb {
+  width: 100%;
+  height: auto;
+  border-width: var(--bt-border-width);
+  border-style: solid;
+  border-color: var(--bt-tomato);
+}
+.email-history {
+  display: grid;
+  gap: var(--bt-space-xs);
+  padding: var(--bt-space-md);
+}
+.email-history ul {
+  margin: 0;
+  padding-inline-start: var(--bt-space-md);
+}
+
+@media (max-width: 900px) {
+  .email-workspace {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .email-preview {
+    position: static;
+  }
+}
+.email-block,
+.email-history {
+  justify-items: stretch;
+  text-align: start;
+}

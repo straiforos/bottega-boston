@@ -14,6 +14,93 @@ export type Database = {
   }
   public: {
     Tables: {
+      club_subscribers: {
+        Row: {
+          consent_at: string
+          created_at: string
+          email: string
+          id: string
+          unsubscribe_token: string
+          unsubscribed_at: string | null
+          welcome_sent_at: string | null
+        }
+        Insert: {
+          consent_at?: string
+          created_at?: string
+          email: string
+          id?: string
+          unsubscribe_token?: string
+          unsubscribed_at?: string | null
+          welcome_sent_at?: string | null
+        }
+        Update: {
+          consent_at?: string
+          created_at?: string
+          email?: string
+          id?: string
+          unsubscribe_token?: string
+          unsubscribed_at?: string | null
+          welcome_sent_at?: string | null
+        }
+        Relationships: []
+      }
+      email_campaigns: {
+        Row: {
+          blocks: Json
+          failed_count: number
+          id: string
+          preheader: string
+          recipient_count: number
+          sent_at: string
+          sent_by: string | null
+          subject: string
+        }
+        Insert: {
+          blocks?: Json
+          failed_count?: number
+          id?: string
+          preheader?: string
+          recipient_count?: number
+          sent_at?: string
+          sent_by?: string | null
+          subject: string
+        }
+        Update: {
+          blocks?: Json
+          failed_count?: number
+          id?: string
+          preheader?: string
+          recipient_count?: number
+          sent_at?: string
+          sent_by?: string | null
+          subject?: string
+        }
+        Relationships: []
+      }
+      email_templates: {
+        Row: {
+          blocks: Json
+          key: string
+          preheader: string
+          subject: string
+          updated_at: string
+        }
+        Insert: {
+          blocks?: Json
+          key: string
+          preheader?: string
+          subject?: string
+          updated_at?: string
+        }
+        Update: {
+          blocks?: Json
+          key?: string
+          preheader?: string
+          subject?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       gallery_items: {
         Row: {
           alt: string

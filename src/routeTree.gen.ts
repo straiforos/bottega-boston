@@ -12,8 +12,12 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SiteRouteImport } from './routes/_site'
 import { Route as SiteIndexRouteImport } from './routes/_site/index'
 import { Route as SiteMenuRouteImport } from './routes/_site/menu'
+import { Route as SiteUnsubscribedRouteImport } from './routes/_site/unsubscribed'
 import { Route as Char91__componentChar93PreviewSplatRouteImport } from './routes/[__component].preview.$'
 import { Route as Char91__mockupChar93PreviewSplatRouteImport } from './routes/[__mockup].preview.$'
+import { Route as SiteEmailsComposeRouteImport } from './routes/_site/emails.compose'
+import { Route as SiteEmailsWelcomeRouteImport } from './routes/_site/emails.welcome'
+import { Route as ApiPublicUnsubscribeRouteImport } from './routes/api/public/unsubscribe'
 
 const SiteRoute = SiteRouteImport.update({
   id: '/_site',
@@ -29,6 +33,11 @@ const SiteMenuRoute = SiteMenuRouteImport.update({
   path: '/menu',
   getParentRoute: () => SiteRoute,
 } as any)
+const SiteUnsubscribedRoute = SiteUnsubscribedRouteImport.update({
+  id: '/unsubscribed',
+  path: '/unsubscribed',
+  getParentRoute: () => SiteRoute,
+} as any)
 const Char91__componentChar93PreviewSplatRoute =
   Char91__componentChar93PreviewSplatRouteImport.update({
     id: '/__component/preview/$',
@@ -41,45 +50,93 @@ const Char91__mockupChar93PreviewSplatRoute =
     path: '/__mockup/preview/$',
     getParentRoute: () => rootRouteImport,
   } as any)
+const SiteEmailsComposeRoute = SiteEmailsComposeRouteImport.update({
+  id: '/emails/compose',
+  path: '/emails/compose',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteEmailsWelcomeRoute = SiteEmailsWelcomeRouteImport.update({
+  id: '/emails/welcome',
+  path: '/emails/welcome',
+  getParentRoute: () => SiteRoute,
+} as any)
+const ApiPublicUnsubscribeRoute = ApiPublicUnsubscribeRouteImport.update({
+  id: '/api/public/unsubscribe',
+  path: '/api/public/unsubscribe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof SiteIndexRoute
   '/menu': typeof SiteMenuRoute
+  '/unsubscribed': typeof SiteUnsubscribedRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
+  '/emails/compose': typeof SiteEmailsComposeRoute
+  '/emails/welcome': typeof SiteEmailsWelcomeRoute
+  '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
 }
 export interface FileRoutesByTo {
   '/menu': typeof SiteMenuRoute
+  '/unsubscribed': typeof SiteUnsubscribedRoute
   '/': typeof SiteIndexRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
+  '/emails/compose': typeof SiteEmailsComposeRoute
+  '/emails/welcome': typeof SiteEmailsWelcomeRoute
+  '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_site': typeof SiteRouteWithChildren
   '/_site/menu': typeof SiteMenuRoute
+  '/_site/unsubscribed': typeof SiteUnsubscribedRoute
   '/_site/': typeof SiteIndexRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
+  '/_site/emails/compose': typeof SiteEmailsComposeRoute
+  '/_site/emails/welcome': typeof SiteEmailsWelcomeRoute
+  '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/menu' | '/__component/preview/$' | '/__mockup/preview/$'
+  fullPaths:
+    | '/'
+    | '/menu'
+    | '/unsubscribed'
+    | '/__component/preview/$'
+    | '/__mockup/preview/$'
+    | '/emails/compose'
+    | '/emails/welcome'
+    | '/api/public/unsubscribe'
   fileRoutesByTo: FileRoutesByTo
-  to: '/menu' | '/' | '/__component/preview/$' | '/__mockup/preview/$'
+  to:
+    | '/menu'
+    | '/unsubscribed'
+    | '/'
+    | '/__component/preview/$'
+    | '/__mockup/preview/$'
+    | '/emails/compose'
+    | '/emails/welcome'
+    | '/api/public/unsubscribe'
   id:
     | '__root__'
     | '/_site'
     | '/_site/menu'
+    | '/_site/unsubscribed'
     | '/_site/'
     | '/__component/preview/$'
     | '/__mockup/preview/$'
+    | '/_site/emails/compose'
+    | '/_site/emails/welcome'
+    | '/api/public/unsubscribe'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   SiteRoute: typeof SiteRouteWithChildren
   Char91__componentChar93PreviewSplatRoute: typeof Char91__componentChar93PreviewSplatRoute
   Char91__mockupChar93PreviewSplatRoute: typeof Char91__mockupChar93PreviewSplatRoute
+  ApiPublicUnsubscribeRoute: typeof ApiPublicUnsubscribeRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -105,6 +162,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteMenuRouteImport
       parentRoute: typeof SiteRoute
     }
+    '/_site/unsubscribed': {
+      id: '/_site/unsubscribed'
+      path: '/unsubscribed'
+      fullPath: '/unsubscribed'
+      preLoaderRoute: typeof SiteUnsubscribedRouteImport
+      parentRoute: typeof SiteRoute
+    }
     '/__component/preview/$': {
       id: '/__component/preview/$'
       path: '/__component/preview/$'
@@ -119,17 +183,44 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91__mockupChar93PreviewSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_site/emails/compose': {
+      id: '/_site/emails/compose'
+      path: '/emails/compose'
+      fullPath: '/emails/compose'
+      preLoaderRoute: typeof SiteEmailsComposeRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/emails/welcome': {
+      id: '/_site/emails/welcome'
+      path: '/emails/welcome'
+      fullPath: '/emails/welcome'
+      preLoaderRoute: typeof SiteEmailsWelcomeRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/api/public/unsubscribe': {
+      id: '/api/public/unsubscribe'
+      path: '/api/public/unsubscribe'
+      fullPath: '/api/public/unsubscribe'
+      preLoaderRoute: typeof ApiPublicUnsubscribeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 interface SiteRouteChildren {
   SiteMenuRoute: typeof SiteMenuRoute
+  SiteUnsubscribedRoute: typeof SiteUnsubscribedRoute
   SiteIndexRoute: typeof SiteIndexRoute
+  SiteEmailsComposeRoute: typeof SiteEmailsComposeRoute
+  SiteEmailsWelcomeRoute: typeof SiteEmailsWelcomeRoute
 }
 
 const SiteRouteChildren: SiteRouteChildren = {
   SiteMenuRoute: SiteMenuRoute,
+  SiteUnsubscribedRoute: SiteUnsubscribedRoute,
   SiteIndexRoute: SiteIndexRoute,
+  SiteEmailsComposeRoute: SiteEmailsComposeRoute,
+  SiteEmailsWelcomeRoute: SiteEmailsWelcomeRoute,
 }
 
 const SiteRouteWithChildren = SiteRoute._addFileChildren(SiteRouteChildren)
@@ -139,16 +230,18 @@ const rootRouteChildren: RootRouteChildren = {
   Char91__componentChar93PreviewSplatRoute:
     Char91__componentChar93PreviewSplatRoute,
   Char91__mockupChar93PreviewSplatRoute: Char91__mockupChar93PreviewSplatRoute,
+  ApiPublicUnsubscribeRoute: ApiPublicUnsubscribeRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
 
 import type { getRouter } from './router.tsx'
-import type { createStart } from '@tanstack/react-start'
+import type { startInstance } from './start.ts'
 declare module '@tanstack/react-start' {
   interface Register {
     ssr: true
     router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
   }
 }
