@@ -280,10 +280,41 @@
   padding-top: 0;
   background: var(--bt-background);
 }
+.gallery-strip {
+  position: relative;
+}
+/* One row that scrolls sideways, so extra tiles never wrap into a half-empty row. */
 .gallery {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-flow: column;
+  grid-auto-columns: 25%;
   gap: 0;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+.gallery::-webkit-scrollbar {
+  display: none;
+}
+.gallery > * {
+  scroll-snap-align: start;
+}
+.gallery-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+.gallery-arrow[data-side='prev'] {
+  left: var(--bt-space-md);
+}
+.gallery-arrow[data-side='next'] {
+  right: var(--bt-space-md);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .gallery {
+    scroll-behavior: smooth;
+  }
 }
 .gallery-item {
   margin: 0;
@@ -452,7 +483,7 @@
     height: calc(var(--bt-space-8) * 2.5);
   }
   .gallery {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-columns: 50%;
   }
   .footer-grid {
     grid-template-columns: 1fr 1fr;
