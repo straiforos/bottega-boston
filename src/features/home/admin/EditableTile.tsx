@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Button, Confirmation } from '@/design-system/bottega-f5161c';
+import { ArrowIcon } from '@/components/ArrowIcon';
 import { staffContent } from '@/content/en/staff';
 import type { GalleryItem } from '@/lib/gallery/types';
 import { GalleryTile } from '../components/GalleryTile';
@@ -64,23 +65,23 @@ export function EditableTile({ item, items }: EditableTileProps) {
         </Button>
         <Button
           variant="primary"
-          size="md"
+          size="sm"
           disabled={busy || index === 0}
           onClick={() => void run(() => admin.move(items, item.id, -1))}
           aria-label={`${t.moveEarlier}: ${label}`}
           title={t.moveEarlier}
         >
-          ←
+          <ArrowIcon direction="left" />
         </Button>
         <Button
           variant="primary"
-          size="md"
+          size="sm"
           disabled={busy || index === items.length - 1}
           onClick={() => void run(() => admin.move(items, item.id, 1))}
           aria-label={`${t.moveLater}: ${label}`}
           title={t.moveLater}
         >
-          →
+          <ArrowIcon direction="right" />
         </Button>
         <Button
           variant="ghost"
