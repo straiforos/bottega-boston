@@ -29,6 +29,13 @@
       "when": 1792122813927,
       "tag": "0003_dish_image_variants",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1792126044878,
+      "tag": "0004_gallery_items",
+      "breakpoints": true
     }
   ]
 }
