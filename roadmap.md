@@ -31,3 +31,4 @@
 - Menu filter rail: top-aligned at page top, glides to vertical center while scrolling (desktop); scroll math in filter-rail-offset.ts + tests, driven by useMenuFilterRail.
 - [x] Inline gallery editing for staff on the home page (edit/add/delete/reorder photos and videos)
 - [x] Background in-browser (WebAssembly) processing of gallery photos and videos into small/standard/high-quality versions, with connection-aware video sources, covers and lazy loading
+- [x] Gallery is one sideways-scrolling row with arrow buttons (no wrapping)
