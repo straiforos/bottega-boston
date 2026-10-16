@@ -115,3 +115,17 @@
     grid-template-columns: minmax(0, 1fr);
   }
 }
+.dish-admin-actions,
+.dish-editor-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bt-space-sm);
+  margin-top: var(--bt-space-md);
+}
+.dish-editor {
+  display: grid;
+  gap: var(--bt-space-md);
+}
+.dish-add {
+  margin-top: var(--bt-space-lg);
+}

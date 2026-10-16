@@ -93,3 +93,10 @@ a:focus-visible {
     grid-column: 1 / -1;
   }
 }
+.staff-access {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--bt-space-sm);
+  font-size: var(--bt-text-sm);
+}

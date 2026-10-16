@@ -11,3 +11,7 @@ src/design-system
 src/assets/menu
 src/lib/menu-data.ts
 src/lib/menu-images.ts
+src/integrations
+drizzle
+drizzle.config.ts
+.lovable/plan

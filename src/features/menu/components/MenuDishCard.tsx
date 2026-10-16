@@ -1,11 +1,13 @@
+import type { ReactNode } from 'react';
 import { Card, Display, PillLabel, Serif } from '@/design-system/bottega-f5161c';
 import { menuImages } from '@/lib/menu-images';
 import type { MenuItem } from '@/lib/menu/types';
 
-export function MenuDishCard({ item }: { item: MenuItem }) {
+export function MenuDishCard({ item, actions }: { item: MenuItem; actions?: ReactNode }) {
+  const image = item.imageUrl ?? menuImages[item.id];
   return (
     <article className="menu-dish-item">
-      <img src={menuImages[item.id]} alt={`Illustrative ${item.name}`} loading="lazy" width={480} height={480} />
+      {image && <img src={image} alt={`Illustrative ${item.name}`} loading="lazy" width={480} height={480} />}
       <Card variant="cream" shape="rect">
         <div className="menu-dish-heading">
           <Display as="h3" size="sm" tone="forest">
@@ -36,6 +38,7 @@ export function MenuDishCard({ item }: { item: MenuItem }) {
               ))}
           </div>
         )}
+        {actions}
       </Card>
     </article>
   );
