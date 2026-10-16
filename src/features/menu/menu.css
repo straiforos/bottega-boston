@@ -105,8 +105,10 @@
   .menu-browse {
     grid-template-columns: minmax(0, 1fr);
   }
-  .menu-filter {
+  .menu-filter-rail {
     position: static;
+    height: auto;
+    display: block;
   }
   .menu-category-list {
     flex-direction: row;
