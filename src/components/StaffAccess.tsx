@@ -37,18 +37,28 @@ export function StaffAccess() {
       {user && isAdmin ? (
         <>
           <span>{staffContent.signedInAs(user.email ?? '')}</span>
-          <LinkAction href="#" role="button" tone="cream" onClick={(event) => {
+          <LinkAction
+            href="#"
+            role="button"
+            tone="cream"
+            onClick={(event) => {
               event.preventDefault();
               void supabase.auth.signOut();
-            }}>
+            }}
+          >
             {staffContent.signOut}
           </LinkAction>
         </>
       ) : (
-        <LinkAction href="#" role="button" tone="cream" onClick={(event) => {
+        <LinkAction
+          href="#"
+          role="button"
+          tone="cream"
+          onClick={(event) => {
             event.preventDefault();
             void signIn();
-          }}>
+          }}
+        >
           {staffContent.signIn}
         </LinkAction>
       )}

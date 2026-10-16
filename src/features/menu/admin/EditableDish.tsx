@@ -41,7 +41,12 @@ export function EditableDish({ item }: { item: MenuItem }) {
       item={item}
       actions={
         <div className="dish-admin-actions">
-          <Button variant="outline" size="sm" onClick={() => setEditing(true)} aria-label={`${staffContent.edit} ${item.name}`}>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setEditing(true)}
+            aria-label={`${staffContent.edit} ${item.name}`}
+          >
             {staffContent.edit}
           </Button>
           <Button

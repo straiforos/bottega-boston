@@ -106,6 +106,7 @@ export function SiteFooter({ compact = false }: { compact?: boolean }) {
         </div>
         <div className="footer-bottom">
           <span>© {new Date().getFullYear()} Bottega. Made with amore.</span>
+          <StaffAccess />
           <div className="legal-links">
             {restaurantContent.legal.map(({ label, path }) => (
               <a href={`${links.legalBase}/${path}`} key={path}>
