@@ -8,6 +8,7 @@
 - Compose alternating sketch separators around the library marquee and keep the home menu introduction inside the pinned offerings section to avoid duplicate section headings.
 - Keep the real menu in a dedicated /menu route with source-derived structured data and individual illustrative image imports; home menu actions use a TanStack createLink wrapper around LinkAction without editing vendor components.
 - Compose both page headers through BottegaHeader using the library's separate mark and wordmark variants and router-aware LinkAction navigation so branding and navigation remain consistent.
+- Render the shared footer once from the `_site` pathless layout route (`src/routes/_site.tsx`) so every guest page gets the same footer automatically; pages never compose SiteFooter themselves.
 - Mark up footer contact details (locations, email, phone, social link) with HTML5 address elements and reset their UA italic in the footer style layer so contact info stays semantic and legible.
 - Give every gallery media a Bottega tomato hairline with hover zoom and a light overlay mask, and drive the gallery video with the same custom play control pattern as the story video (never native controls); respect reduced motion.
 - Keep route modules declarative and thin; compose page sections from `src/features`, reusable interface pieces from `src/components`, behavior from hooks or pure helpers, and English copy from `src/content/en` so future localization does not require presentation edits.
