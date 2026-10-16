@@ -1,4 +1,5 @@
-import { Button, TextField } from '@/design-system/bottega-f5161c';
+import { Button, Checkbox, TextField } from '@/design-system/bottega-f5161c';
+import { DIETARY_OPTIONS, toggleTag, type DietaryTag } from '@/lib/menu/dietary';
 import type { MenuSection } from '@/lib/menu/types';
 
 interface MenuFilterProps {
@@ -6,6 +7,8 @@ interface MenuFilterProps {
   query: string;
   selection: string;
   count: number;
+  dietary: readonly DietaryTag[];
+  onDietaryChange: (value: DietaryTag[]) => void;
   onQueryChange: (value: string) => void;
   onSelectionChange: (value: string) => void;
 }
@@ -15,6 +18,8 @@ export function MenuFilter({
   query,
   selection,
   count,
+  dietary,
+  onDietaryChange,
   onQueryChange,
   onSelectionChange,
 }: MenuFilterProps) {
@@ -27,6 +32,18 @@ export function MenuFilter({
         value={query}
         onChange={(event) => onQueryChange(event.target.value)}
       />
+      <fieldset className="menu-dietary-filter">
+        <legend className="bt-field__label">Dietary</legend>
+        {DIETARY_OPTIONS.map((option) => (
+          <Checkbox
+            key={option.tag}
+            checked={dietary.includes(option.tag)}
+            onChange={() => onDietaryChange(toggleTag(dietary, option.tag) as DietaryTag[])}
+          >
+            {option.label}
+          </Checkbox>
+        ))}
+      </fieldset>
       <nav className="menu-category-list" aria-label="Menu categories">
         <Button
           variant={selection === 'all' ? 'primary' : 'ghost'}

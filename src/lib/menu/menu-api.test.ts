@@ -4,10 +4,10 @@ import { buildMenuSections, validateDishDraft } from './menu-api';
 
 describe('menu admin rules', () => {
   it('rejects a dish without a name', () => {
-    expect(validateDishDraft({ name: '  ', price: '$1', description: '' })).toBe('Give the dish a name.');
+    expect(validateDishDraft({ name: '  ', price: '$1', description: '', tags: [] })).toBe('Give the dish a name.');
   });
   it('accepts a named dish', () => {
-    expect(validateDishDraft({ name: 'Tiramisu', price: '$7.55', description: '' })).toBeNull();
+    expect(validateDishDraft({ name: 'Tiramisu', price: '$7.55', description: '', tags: [] })).toBeNull();
   });
   it('groups dishes under sections in sort order', () => {
     const out = buildMenuSections(

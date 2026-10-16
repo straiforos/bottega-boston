@@ -45,6 +45,8 @@ export function MenuPage() {
               query={filters.query}
               selection={filters.selection}
               count={filters.count}
+              dietary={filters.dietary}
+              onDietaryChange={filters.setDietary}
               onQueryChange={filters.setQuery}
               onSelectionChange={filters.setSelection}
             />

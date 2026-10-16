@@ -100,6 +100,7 @@ export async function saveDish(dishId: string, draft: DishDraft, image?: Uploade
       name: draft.name.trim(),
       price: draft.price.trim(),
       description: draft.description.trim(),
+      tags: [...draft.tags],
       updated_at: new Date().toISOString(),
       ...(image ? { image_url: image.url, image_variants: image.variants as unknown as Json } : {}),
     })
@@ -115,6 +116,7 @@ export async function addDish(sectionId: string, draft: DishDraft, sortOrder: nu
       name: draft.name.trim(),
       price: draft.price.trim(),
       description: draft.description.trim(),
+      tags: [...draft.tags],
       sort_order: sortOrder,
     })
     .select('id')

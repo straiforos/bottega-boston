@@ -137,3 +137,12 @@
   color: var(--bt-danger);
   border-color: var(--bt-danger);
 }
+
+.menu-dietary-filter {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bt-space-sm);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
