@@ -26,5 +26,4 @@
 - [x] Menu filter floats vertically centered in the left rail while scrolling, clear of the sticky header
 - [x] Remove the "Illustrative images" disclaimer from the menu page heading (and its dead CSS)
 
-
 - Menu filter rail: top-aligned at page top, glides to vertical center while scrolling (desktop); scroll math in filter-rail-offset.ts + tests, driven by useMenuFilterRail.
