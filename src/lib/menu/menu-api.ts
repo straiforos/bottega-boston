@@ -1,7 +1,7 @@
 import { queryOptions } from '@tanstack/react-query';
 import { supabase } from '@/integrations/supabase/client';
 import type { Json } from '@/integrations/supabase/types';
-import { processDishPhoto } from './process-image';
+import { processDishPhoto } from '@/lib/media/process-image';
 import type { DishDraft, ImageVariant, MenuSection } from './types';
 
 export const MENU_IMAGE_BUCKET = 'menu-images';

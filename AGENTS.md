@@ -15,3 +15,5 @@
 - Keep shared, home, and menu styling in their respective imported stylesheets, using only Bottega tokens; verify filtering, scroll math, metadata, and accessibility with Vitest.
 - Menu content lives in Lovable Cloud tables (menu_sections, menu_items); /menu reads them client-side with the bundled menu-data.ts as SSR/placeholder fallback, and admin edits happen inline on /menu (no dashboard) — why: one page for guests and staff, database RLS (has_role admin) is the only write gate.
 - Staff access is Google sign-in restricted by public.staff_allowlist (signup blocked by an auth.users trigger; admin role granted by trigger) — why: no self sign-up, roles never derived from client data.
+- Gallery tiles live in gallery_items (seeded rows reference bundled CDN assets by asset_key) and are edited inline on the home page by staff — why: same single-page, RLS-gated admin pattern as the menu.
+- Media processing runs in the staff browser: photos in a module Web Worker (OffscreenCanvas), videos in ffmpeg.wasm loaded lazily from staff editors only — why: the Worker server can't run sharp/FFmpeg, and visitors must never download the tooling.

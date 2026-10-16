@@ -25,6 +25,9 @@ export default defineConfig(({ command, mode }) => {
         },
       },
     },
+    // ffmpeg.wasm spawns its own worker; pre-bundling breaks its worker URL.
+    optimizeDeps: { exclude: ['@ffmpeg/ffmpeg', '@ffmpeg/util'] },
+    worker: { format: 'es' },
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),

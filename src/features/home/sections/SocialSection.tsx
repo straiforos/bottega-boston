@@ -1,32 +1,34 @@
-import { PillLabel } from '@/design-system/bottega-f5161c';
-import { GalleryVideo } from '@/components/media/GalleryVideo';
-import socialVideo from '@/assets/social-video.asset.json';
-import social1 from '@/assets/social-1.asset.json';
-import social2 from '@/assets/social-2.asset.json';
-import social3 from '@/assets/social-3.asset.json';
-
-const images = [
-  { asset: social1, alt: 'Enjoying a sweet treat at Bottega', caption: 'La dolce vita' },
-  { asset: social2, alt: 'A Bottega guest sharing a plate of pasta', caption: '#pastaislife' },
-  { asset: social3, alt: 'Coffee and a little work at Bottega', caption: 'Caffè, always' },
-] as const;
+import { useQuery } from '@tanstack/react-query';
+import { MovingRibbon } from '@/components/media/MovingRibbon';
+import { staffContent } from '@/content/en/staff';
+import { useStaffSession } from '@/hooks/useStaffSession';
+import { galleryQueryOptions } from '@/lib/gallery/gallery-api';
+import { fallbackGallery } from '@/lib/gallery/gallery-assets';
+import { AddTile } from '../admin/AddTile';
+import { EditableTile } from '../admin/EditableTile';
+import { GalleryTile } from '../components/GalleryTile';
 
 export function SocialSection() {
+  const { data: items = fallbackGallery } = useQuery(galleryQueryOptions);
+  const { isAdmin } = useStaffSession();
+
   return (
     <section className="social-section">
+      {isAdmin && (
+        <div className="gallery-editing-ribbon" role="status">
+          <MovingRibbon text={staffContent.gallery.editing} variant="tomato" />
+        </div>
+      )}
       <div className="gallery">
-        <figure className="gallery-item">
-          <GalleryVideo src={socialVideo.url} />
-        </figure>
-        {images.map(({ asset, alt, caption }) => (
-          <figure className="gallery-item" key={asset.asset_id}>
-            <img src={asset.url} loading="lazy" alt={alt} />
-            <figcaption>
-              <PillLabel variant="mustard">{caption}</PillLabel>
-            </figcaption>
-          </figure>
-        ))}
+        {items.map((item) =>
+          isAdmin ? (
+            <EditableTile key={item.id} item={item} items={items} />
+          ) : (
+            <GalleryTile key={item.id} item={item} />
+          ),
+        )}
       </div>
+      {isAdmin && <AddTile nextSortOrder={(items.at(-1)?.sortOrder ?? 0) + 1} />}
     </section>
   );
 }

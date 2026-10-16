@@ -29,5 +29,5 @@
 - [x] Give the shared header extra top padding so the logo mark sits centered in the bar instead of crowded against the top
 
 - Menu filter rail: top-aligned at page top, glides to vertical center while scrolling (desktop); scroll math in filter-rail-offset.ts + tests, driven by useMenuFilterRail.
-- [ ] Inline gallery editing for staff on the home page (edit/add/delete/reorder photos and videos)
-- [ ] Background in-browser (WebAssembly) processing of gallery photos and videos into small/standard/high-quality versions, with connection-aware video sources, covers and lazy loading
+- [x] Inline gallery editing for staff on the home page (edit/add/delete/reorder photos and videos)
+- [x] Background in-browser (WebAssembly) processing of gallery photos and videos into small/standard/high-quality versions, with connection-aware video sources, covers and lazy loading

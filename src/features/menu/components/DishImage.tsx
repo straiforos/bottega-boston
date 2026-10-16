@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { variantsForConnection } from '@/lib/menu/process-image';
+import { variantsForConnection } from '@/lib/media/process-image';
 import type { MenuItem } from '@/lib/menu/types';
 import { menuImages } from '@/lib/menu-images';
 

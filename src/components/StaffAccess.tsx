@@ -25,7 +25,7 @@ export function StaffAccess() {
   const signIn = async () => {
     setNotice(null);
     const result = await lovable.auth.signInWithOAuth('google', {
-      redirect_uri: `${window.location.origin}/menu`,
+      redirect_uri: `${window.location.origin}${window.location.pathname}`,
     });
     if (result.error) {
       setNotice(/staff list/i.test(result.error.message) ? staffContent.notListed : staffContent.signInFailed);
