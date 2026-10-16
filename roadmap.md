@@ -23,3 +23,4 @@
 - [x] Photo uploads up to 100 MB; browser-processed thumbnail / 5 MB standard / 50 MB high-quality versions chosen by connection speed
 - [x] Menu admin buttons: Edit uses primary style, Delete is red
 - [x] Footer shared by all pages through the _site layout route (no compact variant)
+- [x] Menu filter floats vertically centered in the left rail while scrolling, clear of the sticky header
