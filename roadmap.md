@@ -43,3 +43,4 @@
 - [x] Use canonical BottegaMap with geocoded pins and connect Google Maps; live rendering requires checking on the authorized site.
 
 - [x] Dark-green Locations section with built-in map inset cards containing addresses and Order now links; verified cards and destinations locally (map rendering requires authorized host).
+- [x] Menu filter rail shows Catering selected when arriving from a catering link (/menu#category-8); hash targets now land below the sticky header.

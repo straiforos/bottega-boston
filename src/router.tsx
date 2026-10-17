@@ -1,6 +1,7 @@
 import { QueryClient } from '@tanstack/react-query';
 import { createRouter } from '@tanstack/react-router';
 import { routeTree } from './routeTree.gen';
+import { scrollToSection } from './lib/scroll-to-section';
 
 type HistoryState = { __TSR_index?: number } | null;
 
@@ -49,7 +50,7 @@ export const getRouter = () => {
     if (!hash) return;
     // The new page's sections settle over a moment; re-aim a few times.
     for (const delay of [100, 400, 900]) {
-      window.setTimeout(() => document.getElementById(hash)?.scrollIntoView(), delay);
+      window.setTimeout(() => scrollToSection(hash), delay);
     }
   });
 
