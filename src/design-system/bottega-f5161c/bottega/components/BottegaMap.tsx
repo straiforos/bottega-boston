@@ -36,7 +36,11 @@ function loadMaps(key: string, channel: string): Promise<GMaps> {
   if (window.google?.maps?.Map) return Promise.resolve(window.google.maps);
   if (loader) return loader;
   loader = new Promise((resolve, reject) => {
-    window.__bottegaMapsReady = () => resolve(window.google!.maps);
+    window.__bottegaMapsReady = () => {
+      const maps = window.google?.maps;
+      if (maps) resolve(maps);
+      else { loader = null; reject(new Error("Google Maps failed to initialize")); }
+    };
     const s = document.createElement("script");
     s.async = true;
     s.src = `https://maps.googleapis.com/maps/api/js?key=${encodeURIComponent(key)}&loading=async&callback=__bottegaMapsReady&channel=${encodeURIComponent(channel)}`;
@@ -51,10 +55,10 @@ export function bottegaMapStyles(el: Element = document.documentElement) {
   const cs = getComputedStyle(el);
   const t = (n: string) => cs.getPropertyValue(n).trim();
   const dark = document.documentElement.dataset.theme === "dark";
-  const land = dark ? t("--bt-forest-deep") : t("--bt-cream");
-  const park = dark ? t("--bt-forest") : t("--bt-parchment");
+  const land = dark ? t("--bt-forest-deep") : t("--bt-parchment");
+  const park = t("--bt-forest");
   const water = dark ? t("--bt-forest-dark") : t("--bt-cobalt");
-  const road = dark ? t("--bt-forest-dark") : t("--bt-white");
+  const road = dark ? t("--bt-forest-dark") : t("--bt-cream");
   const label = dark ? t("--bt-cream") : t("--bt-ink");
   const halo = land;
   return [
@@ -63,13 +67,25 @@ export function bottegaMapStyles(el: Element = document.documentElement) {
     { elementType: "labels.text.stroke", stylers: [{ color: halo }] },
     { featureType: "poi", stylers: [{ visibility: "off" }] },
     { featureType: "transit", stylers: [{ visibility: "off" }] },
+    { featureType: "landscape", elementType: "geometry", stylers: [{ color: land }] },
+    { featureType: "landscape", elementType: "labels", stylers: [{ visibility: "off" }] },
     { featureType: "landscape.natural", elementType: "geometry", stylers: [{ color: park }] },
-    { featureType: "road", elementType: "geometry", stylers: [{ color: road }] },
+    { featureType: "road", elementType: "geometry.fill", stylers: [{ color: road }] },
+    ...(!dark ? [
+      { elementType: "labels.text.stroke", stylers: [{ color: t("--bt-cream") }, { weight: 3 }] },
+      { featureType: "road", elementType: "geometry.stroke", stylers: [{ color: t("--bt-terracotta") }, { weight: 1 }] },
+      { featureType: "road", elementType: "labels.text.fill", stylers: [{ visibility: "on" }, { color: t("--bt-ink") }] },
+      { featureType: "road", elementType: "labels.text.stroke", stylers: [{ visibility: "on" }, { color: t("--bt-cream") }, { weight: 3 }] },
+      { featureType: "administrative", elementType: "labels.text.fill", stylers: [{ color: t("--bt-forest") }] },
+      { featureType: "poi.park", elementType: "geometry", stylers: [{ visibility: "on" }, { color: park }] },
+      { featureType: "poi.park", elementType: "labels.text.fill", stylers: [{ visibility: "on" }, { color: t("--bt-cream") }] },
+      { featureType: "poi.park", elementType: "labels.text.stroke", stylers: [{ visibility: "on" }, { color: park }, { weight: 3 }] },
+    ] : []),
     { featureType: "road.highway", elementType: "geometry.fill", stylers: [{ color: t("--bt-mustard") }] },
     { featureType: "road.highway", elementType: "geometry.stroke", stylers: [{ color: t("--bt-terracotta") }] },
     { featureType: "administrative", elementType: "geometry.stroke", stylers: [{ color: t("--bt-terracotta") }] },
     { featureType: "water", elementType: "geometry", stylers: [{ color: water }] },
-    { featureType: "water", elementType: "labels.text.fill", stylers: [{ color: dark ? t("--bt-cream") : t("--bt-white") }] },
+    { featureType: "water", elementType: "labels.text.fill", stylers: [{ color: t("--bt-cream") }] },
     { featureType: "water", elementType: "labels.text.stroke", stylers: [{ color: water }] },
   ];
 }
