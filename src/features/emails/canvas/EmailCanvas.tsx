@@ -69,10 +69,9 @@ export function EmailCanvas({ html, device, blocks, selectedId, disabled, onSele
           {hovered && <div className="email-canvas-box email-canvas-box--hover" style={place(hovered)} />}
           {selected && selectedBlock && (
             <div className="email-canvas-box email-canvas-box--selected" style={place(selected)}>
-              <div className="email-canvas-label">
+              <div className="email-canvas-bar">
                 <PillLabel variant="chip-forest">{t.blockNames[selectedBlock.type]}</PillLabel>
-              </div>
-              <div className="email-canvas-tools">
+                <div className="email-canvas-tools">
                 <Button size="sm" aria-label={t.moveUp} disabled={indexOf(selected.id) === 0} onClick={() => onMove(selected.id, -1)}>
                   <ArrowIcon direction="left" size="sm" />
                 </Button>
@@ -88,8 +87,12 @@ export function EmailCanvas({ html, device, blocks, selectedId, disabled, onSele
                   {t.duplicate}
                 </Button>
                 <Button size="sm" onClick={() => onRemove(selected.id)}>
-                  {t.remove}
+                  {t.removeShort}
                 </Button>
+                <Button size="sm" variant="accent" aria-label={t.insertAbove} onClick={() => onInsert(indexOf(selected.id))}>
+                  + {t.above}
+                </Button>
+                </div>
               </div>
               <div className="email-canvas-insert email-canvas-insert--above">
                 <Button size="sm" variant="accent" aria-label={t.insertAbove} onClick={() => onInsert(indexOf(selected.id))}>
@@ -98,7 +101,7 @@ export function EmailCanvas({ html, device, blocks, selectedId, disabled, onSele
               </div>
               <div className="email-canvas-insert email-canvas-insert--below">
                 <Button size="sm" variant="accent" aria-label={t.insertBelow} onClick={() => onInsert(indexOf(selected.id) + 1)}>
-                  +
+                  + {t.below}
                 </Button>
               </div>
             </div>
