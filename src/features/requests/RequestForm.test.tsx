@@ -17,5 +17,5 @@ it('a validation error shows the danger snackbar above the form', () => {
   fireEvent.click(screen.getByRole('button', { name: 'Send request' }));
   const alert = screen.getAllByRole('alert').find((el) => el.classList.contains('bt-snackbar--danger'));
   expect(alert).toBeDefined();
-  expect(alert?.textContent).toContain('Some fields need attention — please correct the highlighted fields and try again.');
+  expect(alert?.textContent).toContain('Some fields need attention. Please correct the highlighted fields and try again.');
 });

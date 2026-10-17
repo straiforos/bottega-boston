@@ -8,7 +8,7 @@ import { filterRailOffset } from './filter-rail-offset';
  * and this hook slides the filter itself between its natural position and the
  * centered position (see filter-rail-offset.ts for the math).
  *
- * Desktop only — the phone layout keeps the filter in normal flow.
+ * Desktop only; the phone layout keeps the filter in normal flow.
  */
 export function useMenuFilterRail() {
   const railRef = useRef<HTMLDivElement>(null);

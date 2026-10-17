@@ -24,7 +24,7 @@ main {
   gap: var(--bt-space-lg);
 }
 /* Inline glyphs follow the text they sit in, exactly as the library's own
-   link arrow does — the footer sets its body copy to --bt-text-sm. */
+   link arrow does; the footer sets its body copy to --bt-text-sm. */
 .social-links svg {
   display: block;
   width: var(--bt-text-sm);
@@ -41,8 +41,8 @@ main {
 .shared-header {
   gap: var(--bt-space-lg);
 }
-/* The library's lockup logo is taller than its own box — the dome mark is
-   1.5x the logo height and bottom-aligned — so the spire reaches up into the
+/* The library's lockup logo is taller than its own box: the dome mark is
+   1.5x the logo height and bottom-aligned, so the spire reaches up into the
    header's top padding. Extra top padding brings the visible mark back to the
    middle of the bar. */
 .shared-header.bt-header {

@@ -9,7 +9,7 @@ export const getRouter = () => {
   const queryClient = new QueryClient();
 
   // TanStack re-anchors the window (usually to the top) every time a route
-  // load settles — including the *initial* page load, which yanked the menu
+  // load settles, including the *initial* page load, which yanked the menu
   // out from under guests mid-scroll. The scrollRestoration function decides
   // per navigation: the initial load never touches the scroll, a link click
   // lands at the top, and browser back/forward restores the previous spot.

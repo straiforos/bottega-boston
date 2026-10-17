@@ -1,7 +1,7 @@
 /**
  * Email clients cannot read CSS variables, so emails use the literal values of the
  * Bottega light-theme tokens (copied from the design system's theme.css). Deliberate,
- * documented deviation — keep in sync if the library's palette changes.
+ * documented deviation; keep in sync if the library's palette changes.
  */
 export const emailTheme = {
   forest: '#165740',

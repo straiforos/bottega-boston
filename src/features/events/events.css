@@ -1,4 +1,4 @@
-/* Events, requests and staff lists — Bottega tokens only. */
+/* Events, requests and staff lists: Bottega tokens only. */
 .events-list {
   display: grid;
   gap: var(--bt-space-lg);
