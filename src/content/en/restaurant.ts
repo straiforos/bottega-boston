@@ -29,7 +29,7 @@ export const restaurantContent = {
       socialDescription: 'Judgment-free and full of carbs. Discover Bottega’s menu, Pasta Club, and Italian market.',
     },
     menu: {
-      title: 'Bottega Menu — Pasta, Panini, Dolci & Catering',
+      title: 'Bottega Menu | Pasta, Panini, Dolci & Catering',
       description:
         'Explore Bottega Fiorentina’s full menu: coffee, breakfast, antipasti, salads, panini, customizable pasta, Italian sweets and catering trays, with prices and dietary labels.',
       socialDescription:
