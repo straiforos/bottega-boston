@@ -1,4 +1,4 @@
-import { useId, useState, type FormEvent } from 'react';
+import { useId, useMemo, useState, type FormEvent } from 'react';
 import { useServerFn } from '@tanstack/react-start';
 import { Button, Card, Checkbox, Display, Radio, Serif, TextField } from '@/design-system/bottega-f5161c';
 import { eventsContent } from '@/content/en/events';
@@ -6,6 +6,7 @@ import { orderLocations } from '@/content/links';
 import { zonedToUtc } from '@/lib/events/occurrences';
 import { maskPhone, requestDateBounds, requestSchema, type OrderLineInput, type RequestKind } from '@/lib/events/requests';
 import { submitRequest } from '@/lib/events/requests.functions';
+import { draftKey, useFormDraft } from '@/lib/events/form-draft';
 import { OrderPicker } from './OrderPicker';
 import { Turnstile } from './Turnstile';
 
@@ -38,6 +39,12 @@ export function RequestForm({ kind }: { kind: RequestKind }) {
   const [captchaKey, setCaptchaKey] = useState(0);
   const ids = { dietary: useId(), notes: useId() };
   const set = (patch: Partial<typeof form>) => setForm((f) => ({ ...f, ...patch }));
+  const draft = useMemo(() => ({ form: { ...form, website: '' }, lines, withCatering }), [form, lines, withCatering]);
+  const clearDraft = useFormDraft(draftKey(kind), draft, (saved) => {
+    if (saved.form) setForm((f) => ({ ...f, ...saved.form, website: '' }));
+    if (Array.isArray(saved.lines)) setLines(saved.lines);
+    if (typeof saved.withCatering === 'boolean' && kind === 'space') setWithCatering(saved.withCatering);
+  });
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
@@ -81,6 +88,7 @@ export function RequestForm({ kind }: { kind: RequestKind }) {
     setStatus('sending');
     try {
       await send({ data: parsed.data });
+      clearDraft();
       setStatus('sent');
     } catch (e) {
       setFailure(e instanceof Error && e.message.length < 140 ? e.message : t.failed);
