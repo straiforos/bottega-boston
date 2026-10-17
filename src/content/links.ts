@@ -11,7 +11,7 @@ export const orderLocations = [
     name: 'Bottega Fiorentina',
     area: 'Brookline',
     lines: ['313B Harvard St.', 'Brookline, MA 02446'],
-    mapQuery: '313B Harvard St, Brookline, MA 02446',
+    coordinates: { lat: 42.3434217, lng: -71.12304999999999 },
     orderUrl: 'https://direct.chownow.com/order/18964/locations/27186',
   },
   {
@@ -19,7 +19,7 @@ export const orderLocations = [
     name: 'Bottega Del Sud',
     area: 'Boston',
     lines: ['645 E 2nd St.', 'Boston, MA 02127'],
-    mapQuery: '645 E 2nd St, Boston, MA 02127',
+    coordinates: { lat: 42.3371986, lng: -71.0372905 },
     orderUrl: 'https://direct.chownow.com/order/18964/locations/63385',
   },
 ] as const;
