@@ -4,13 +4,10 @@ import { Button, Checkbox, Display, Serif, TextField } from '@/design-system/bot
 import { MovingRibbon } from '@/components/media/MovingRibbon';
 import { ClubPhoto } from '@/components/media/ClubPhoto';
 import { clubContent } from '@/content/en/club';
-import { useStaffSession } from '@/hooks/useStaffSession';
 import { joinClub } from '@/lib/email/club.functions';
-import { ClubAdminBar } from '@/features/emails/ClubAdminBar';
 
 export function ClubSection() {
   const join = useServerFn(joinClub);
-  const { isAdmin } = useStaffSession();
   const [state, setState] = useState<'idle' | 'busy' | 'joined' | 'already' | 'failed'>('idle');
 
   const submit = async (event: FormEvent<HTMLFormElement>) => {
@@ -39,7 +36,6 @@ export function ClubSection() {
       <div className="club-ribbon">
         <MovingRibbon text="Follow us" />
       </div>
-      {isAdmin && <ClubAdminBar />}
       <div className="club-grid">
         <div className="club-copy">
           <p className="eyebrow">Carbs. Community. Cin cin.</p>
