@@ -9,6 +9,8 @@ export const eventsContent = {
   staff: {
     add: 'Add event',
     edit: 'Edit event',
+    backToEvents: 'All events',
+    notFound: 'This event no longer exists.',
     manage: 'Manage events',
     title: 'Events',
     hidden: 'Hidden',

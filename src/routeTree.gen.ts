@@ -25,6 +25,7 @@ import { Route as SiteEventsRequestRouteImport } from './routes/_site/events.req
 import { Route as ApiPublicResendWebhookRouteImport } from './routes/api/public/resend-webhook'
 import { Route as ApiPublicSendScheduledRouteImport } from './routes/api/public/send-scheduled'
 import { Route as ApiPublicUnsubscribeRouteImport } from './routes/api/public/unsubscribe'
+import { Route as SiteAdminEventsEventIdRouteImport } from './routes/_site/admin.events_.$eventId'
 import { Route as SiteEmailsTemplateKeyRouteImport } from './routes/_site/emails_.template.$key'
 
 const SiteRoute = SiteRouteImport.update({
@@ -108,6 +109,11 @@ const ApiPublicUnsubscribeRoute = ApiPublicUnsubscribeRouteImport.update({
   path: '/api/public/unsubscribe',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SiteAdminEventsEventIdRoute = SiteAdminEventsEventIdRouteImport.update({
+  id: '/admin/events_/$eventId',
+  path: '/admin/events/$eventId',
+  getParentRoute: () => SiteRoute,
+} as any)
 const SiteEmailsTemplateKeyRoute = SiteEmailsTemplateKeyRouteImport.update({
   id: '/emails_/template/$key',
   path: '/emails/template/$key',
@@ -130,6 +136,7 @@ export interface FileRoutesByFullPath {
   '/api/public/resend-webhook': typeof ApiPublicResendWebhookRoute
   '/api/public/send-scheduled': typeof ApiPublicSendScheduledRoute
   '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
+  '/admin/events/$eventId': typeof SiteAdminEventsEventIdRoute
   '/emails/template/$key': typeof SiteEmailsTemplateKeyRoute
 }
 export interface FileRoutesByTo {
@@ -148,6 +155,7 @@ export interface FileRoutesByTo {
   '/api/public/resend-webhook': typeof ApiPublicResendWebhookRoute
   '/api/public/send-scheduled': typeof ApiPublicSendScheduledRoute
   '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
+  '/admin/events/$eventId': typeof SiteAdminEventsEventIdRoute
   '/emails/template/$key': typeof SiteEmailsTemplateKeyRoute
 }
 export interface FileRoutesById {
@@ -168,6 +176,7 @@ export interface FileRoutesById {
   '/api/public/resend-webhook': typeof ApiPublicResendWebhookRoute
   '/api/public/send-scheduled': typeof ApiPublicSendScheduledRoute
   '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
+  '/_site/admin/events_/$eventId': typeof SiteAdminEventsEventIdRoute
   '/_site/emails_/template/$key': typeof SiteEmailsTemplateKeyRoute
 }
 export interface FileRouteTypes {
@@ -188,6 +197,7 @@ export interface FileRouteTypes {
     | '/api/public/resend-webhook'
     | '/api/public/send-scheduled'
     | '/api/public/unsubscribe'
+    | '/admin/events/$eventId'
     | '/emails/template/$key'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -206,6 +216,7 @@ export interface FileRouteTypes {
     | '/api/public/resend-webhook'
     | '/api/public/send-scheduled'
     | '/api/public/unsubscribe'
+    | '/admin/events/$eventId'
     | '/emails/template/$key'
   id:
     | '__root__'
@@ -225,6 +236,7 @@ export interface FileRouteTypes {
     | '/api/public/resend-webhook'
     | '/api/public/send-scheduled'
     | '/api/public/unsubscribe'
+    | '/_site/admin/events_/$eventId'
     | '/_site/emails_/template/$key'
   fileRoutesById: FileRoutesById
 }
@@ -351,6 +363,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicUnsubscribeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_site/admin/events_/$eventId': {
+      id: '/_site/admin/events_/$eventId'
+      path: '/admin/events/$eventId'
+      fullPath: '/admin/events/$eventId'
+      preLoaderRoute: typeof SiteAdminEventsEventIdRouteImport
+      parentRoute: typeof SiteRoute
+    }
     '/_site/emails_/template/$key': {
       id: '/_site/emails_/template/$key'
       path: '/emails/template/$key'
@@ -372,6 +391,7 @@ interface SiteRouteChildren {
   SiteEmailsComposeRoute: typeof SiteEmailsComposeRoute
   SiteEmailsWelcomeRoute: typeof SiteEmailsWelcomeRoute
   SiteEventsRequestRoute: typeof SiteEventsRequestRoute
+  SiteAdminEventsEventIdRoute: typeof SiteAdminEventsEventIdRoute
   SiteEmailsTemplateKeyRoute: typeof SiteEmailsTemplateKeyRoute
 }
 
@@ -386,6 +406,7 @@ const SiteRouteChildren: SiteRouteChildren = {
   SiteEmailsComposeRoute: SiteEmailsComposeRoute,
   SiteEmailsWelcomeRoute: SiteEmailsWelcomeRoute,
   SiteEventsRequestRoute: SiteEventsRequestRoute,
+  SiteAdminEventsEventIdRoute: SiteAdminEventsEventIdRoute,
   SiteEmailsTemplateKeyRoute: SiteEmailsTemplateKeyRoute,
 }
 

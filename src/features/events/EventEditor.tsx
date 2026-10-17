@@ -1,9 +1,12 @@
-import { useId, useState, type FormEvent } from 'react';
-import { useQueryClient } from '@tanstack/react-query';
-import { Button, Checkbox, FileUpload, Radio, TextField } from '@/design-system/bottega-f5161c';
+import { useEffect, useId, useState, type FormEvent } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from '@tanstack/react-router';
+import { Button, Checkbox, Display, FileUpload, Radio, TextField } from '@/design-system/bottega-f5161c';
 import { eventsContent } from '@/content/en/events';
 import { orderLocations } from '@/content/links';
-import { GalleryEditorDialog } from '@/features/home/admin/GalleryEditorDialog';
+import { BottegaHeader } from '@/components/BottegaHeader';
+import { clubContent } from '@/content/en/club';
+import { useStaffSession } from '@/hooks/useStaffSession';
 import { uploadTileMedia } from '@/lib/gallery/gallery-api';
 import { localDate, localTime, zonedToUtc, type Recurrence, type RecurrenceFreq } from '@/lib/events/occurrences';
 import {
@@ -37,18 +40,38 @@ function toDraft(e: BottegaEvent | null): EventDraft {
 
 const toLocalInput = (iso: string) => (iso ? `${localDate(new Date(iso), EVENT_TZ)}T${localTime(new Date(iso), EVENT_TZ)}` : '');
 
-interface Props {
-  open: boolean;
-  event: BottegaEvent | null;
-  onClose: () => void;
-}
+/** Staff page for adding or changing an event, its repeat pattern and single dates. */
+export function EventEditorPage({ eventId }: { eventId: string }) {
+  const { isAdmin, ready } = useStaffSession();
+  const navigate = useNavigate();
+  const { data, isPending } = useQuery({ ...eventsQueryOptions, enabled: isAdmin });
+  const isNew = eventId === 'new';
+  const event = isNew ? null : ((data ?? []).find((e) => e.id === eventId) ?? null);
+  const close = () => void navigate({ to: '/admin/events' });
 
-/** Staff dialog for adding or changing an event, its repeat pattern and single dates. */
-export function EventEditor({ open, event, onClose }: Props) {
+  useEffect(() => {
+    if (ready && !isAdmin) void navigate({ to: '/' });
+  }, [ready, isAdmin, navigate]);
+
   return (
-    <GalleryEditorDialog open={open} label={event ? t.edit : t.add} onCancel={onClose}>
-      <EventForm key={event?.id ?? 'new'} event={event} onClose={onClose} />
-    </GalleryEditorDialog>
+    <>
+      <BottegaHeader />
+      <main className="email-page">
+        <div className="email-page-inner event-editor-page">
+          <div>
+            <Button variant="outline" size="sm" onClick={close}>{t.backToEvents}</Button>
+          </div>
+          <Display as="h1" size="lg" tone="forest">{isNew ? t.add : t.edit}</Display>
+          {!isAdmin || (!isNew && isPending) ? (
+            <p>{ready && !isAdmin ? clubContent.editor.staffOnly : '…'}</p>
+          ) : !isNew && !event ? (
+            <p>{t.notFound}</p>
+          ) : (
+            <EventForm key={event?.id ?? 'new'} event={event} onClose={close} />
+          )}
+        </div>
+      </main>
+    </>
   );
 }
 
