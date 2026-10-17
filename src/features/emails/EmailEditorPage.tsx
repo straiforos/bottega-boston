@@ -284,7 +284,7 @@ export function EmailEditorPage(props: Props) {
                       <Button
                         key={d}
                         size="sm"
-                        variant={device === d ? 'primary' : 'outline'}
+                        variant={device === d ? 'primary' : 'ghost'}
                         aria-pressed={device === d}
                         onClick={() => setDevice(d)}
                       >

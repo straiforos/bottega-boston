@@ -64,7 +64,7 @@ export function EmailsWorkspace() {
                     role="tab"
                     size="sm"
                     aria-selected={tab === key}
-                    variant={tab === key ? 'primary' : 'outline'}
+                    variant={tab === key ? 'primary' : 'ghost'}
                     onClick={() => setTab(key)}
                   >
                     {w.tabs[key]}
@@ -172,7 +172,7 @@ function Templates({ data, onChange }: { data: Workspace | null; onChange: () =>
               <ActionLink to="/emails/template/$key" params={{ key: tpl.key }}>
                 {w.edit}
               </ActionLink>
-              <Button size="sm" variant="outline" onClick={() => void duplicate({ data: tpl.key }).then(onChange)}>
+              <Button size="sm" variant="ghost" onClick={() => void duplicate({ data: tpl.key }).then(onChange)}>
                 {w.duplicate}
               </Button>
             </div>
@@ -210,7 +210,7 @@ function Subscribers() {
     <div className="email-list">
       <div className="email-send">
         <TextField label={w.search} type="search" value={search} onChange={(e) => setSearch(e.target.value)} />
-        <Button size="sm" variant="outline" onClick={() => void download()}>
+        <Button size="sm" variant="ghost" onClick={() => void download()}>
           {clubContent.admin.download}
         </Button>
       </div>
@@ -273,7 +273,7 @@ function Analytics({ data }: { data: Workspace | null }) {
           <Button
             key={c.id}
             size="sm"
-            variant={selected === c.id ? 'primary' : 'outline'}
+            variant={selected === c.id ? 'primary' : 'ghost'}
             aria-pressed={selected === c.id}
             onClick={() => setSelected(c.id)}
           >

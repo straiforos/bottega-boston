@@ -112,6 +112,8 @@
   gap: var(--bt-space-md);
 }
 .email-row {
+  width: 100%;
+  text-align: start;
   display: flex;
   flex-wrap: wrap;
   align-items: center;
