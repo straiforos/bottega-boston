@@ -57,19 +57,8 @@ export function EmailCanvas({ html, device, blocks, selectedId, disabled, onSele
 
   return (
     <div className={`email-canvas email-canvas--${device}`}>
-      <iframe
-        ref={frame}
-        className={`email-preview-frame email-preview-frame--${device}`}
-        title={t.preview}
-        srcDoc={html}
-        sandbox="allow-scripts"
-      />
-      {!disabled && (
-        <div className="email-canvas-layer" aria-hidden={!selected}>
-          {hovered && <div className="email-canvas-box email-canvas-box--hover" style={place(hovered)} />}
-          {selected && selectedBlock && (
-            <div className="email-canvas-box email-canvas-box--selected" style={place(selected)}>
-              <div className="email-canvas-bar">
+      {!disabled && selected && selectedBlock && (
+              <div className="email-canvas-bar" aria-label={t.blocks} role="toolbar">
                 <PillLabel variant="chip-forest">{t.blockNames[selectedBlock.type]}</PillLabel>
                 <div className="email-canvas-tools">
                 <Button size="sm" aria-label={t.moveUp} disabled={indexOf(selected.id) === 0} onClick={() => onMove(selected.id, -1)}>
@@ -94,11 +83,20 @@ export function EmailCanvas({ html, device, blocks, selectedId, disabled, onSele
                 </Button>
                 </div>
               </div>
-              <div className="email-canvas-insert email-canvas-insert--above">
-                <Button size="sm" variant="accent" aria-label={t.insertAbove} onClick={() => onInsert(indexOf(selected.id))}>
-                  +
-                </Button>
-              </div>
+      )}
+      <div className="email-canvas-stage">
+      <iframe
+        ref={frame}
+        className={`email-preview-frame email-preview-frame--${device}`}
+        title={t.preview}
+        srcDoc={html}
+        sandbox="allow-scripts"
+      />
+      {!disabled && (
+        <div className="email-canvas-layer" aria-hidden={!selected}>
+          {hovered && <div className="email-canvas-box email-canvas-box--hover" style={place(hovered)} />}
+          {selected && selectedBlock && (
+            <div className="email-canvas-box email-canvas-box--selected" style={place(selected)}>
               <div className="email-canvas-insert email-canvas-insert--below">
                 <Button size="sm" variant="accent" aria-label={t.insertBelow} onClick={() => onInsert(indexOf(selected.id) + 1)}>
                   + {t.below}
@@ -108,6 +106,7 @@ export function EmailCanvas({ html, device, blocks, selectedId, disabled, onSele
           )}
         </div>
       )}
+      </div>
       <p className="email-canvas-live" role="status" aria-live="polite">
         {selectedBlock ? t.selected(t.blockNames[selectedBlock.type]) : ''}
       </p>
