@@ -23,8 +23,15 @@ function OfferingLink({ card }: { card: OfferingCard }) {
       </MenuLink>
     );
   }
+  if (card.linkHref.startsWith('mailto:') || card.linkHref.startsWith('tel:')) {
+    return (
+      <LinkAction href={card.linkHref} tone={tone}>
+        {card.linkLabel}
+      </LinkAction>
+    );
+  }
   return (
-    <LinkAction href={card.linkHref} tone={tone}>
+    <LinkAction href={card.linkHref} target="_blank" rel="noopener noreferrer" tone={tone}>
       {card.linkLabel}
     </LinkAction>
   );

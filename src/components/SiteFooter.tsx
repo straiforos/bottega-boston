@@ -17,7 +17,7 @@ export function SiteFooter() {
               Full of carbs.
             </p>
             <address className="social-links">
-              <a href={links.instagram} target="_blank" rel="noreferrer" aria-label="Bottega on Instagram">
+              <a href={links.instagram} target="_blank" rel="noopener noreferrer" aria-label="Bottega on Instagram">
                 <InstagramIcon />
               </a>
             </address>
@@ -73,7 +73,12 @@ export function SiteFooter() {
           <StaffAccess />
           <div className="legal-links">
             {restaurantContent.legal.map(({ label, path }) => (
-              <a href={`${links.legalBase}/${path}`} key={path}>
+              <a
+                href={`${links.legalBase}/${path}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                key={path}
+              >
                 {label}
               </a>
             ))}
