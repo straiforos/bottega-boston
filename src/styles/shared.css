@@ -123,8 +123,8 @@ a:focus-visible {
   gap: var(--bt-space-lg);
   padding-block: var(--bt-space-xl);
   padding-inline: var(--bt-margin);
-  background: var(--bt-cream);
-  color: var(--bt-ink);
+  background: var(--bt-forest-deep);
+  color: var(--bt-cream);
   scroll-margin-top: var(--bt-space-8);
 }
 .locations-head {
@@ -155,4 +155,8 @@ a:focus-visible {
 }
 .order-location address {
   font-style: normal;
+}
+.location-card-content {
+  display: grid;
+  gap: var(--bt-space-sm);
 }
