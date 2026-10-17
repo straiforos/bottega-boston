@@ -27,7 +27,7 @@ export function useMenuFilterRail() {
         filter.style.transform = '';
         return;
       }
-      const header = document.querySelector<HTMLElement>('.shared-header');
+      const header = document.querySelector<HTMLElement>('.shared-header-stack');
       const offset = filterRailOffset({
         scrollY: window.scrollY,
         railTop: rail.getBoundingClientRect().top + window.scrollY,

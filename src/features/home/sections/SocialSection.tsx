@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/design-system/bottega-f5161c';
 import { ArrowIcon } from '@/components/ArrowIcon';
-import { MovingRibbon } from '@/components/media/MovingRibbon';
 import { restaurantContent } from '@/content/en/restaurant';
 import { staffContent } from '@/content/en/staff';
 import { useStaffSession } from '@/hooks/useStaffSession';
@@ -20,11 +19,6 @@ export function SocialSection() {
 
   return (
     <section className="social-section">
-      {isAdmin && (
-        <div className="gallery-editing-ribbon" role="status">
-          <MovingRibbon text={staffContent.gallery.editing} variant="tomato" />
-        </div>
-      )}
       <div className="gallery-strip">
         <div className="gallery" ref={arrows.ref}>
           {items.map((item) =>

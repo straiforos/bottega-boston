@@ -1,6 +1,5 @@
 import { Button, Display, Marquee, PillLabel, Serif } from '@/design-system/bottega-f5161c';
 import { BottegaHeader } from '@/components/BottegaHeader';
-import { MovingRibbon } from '@/components/media/MovingRibbon';
 import { useQuery } from '@tanstack/react-query';
 import { menuSections as fallbackMenu } from '@/lib/menu-data';
 import { menuQueryOptions } from '@/lib/menu/menu-api';
@@ -22,11 +21,6 @@ export function MenuPage() {
     <>
       <BottegaHeader />
       <main className="real-menu">
-        {isAdmin && (
-          <div className="menu-editing-ribbon" role="status">
-            <MovingRibbon text={staffContent.editing} variant="tomato" />
-          </div>
-        )}
         <header className="menu-page-heading section-inner">
           <p className="eyebrow">Buon appetito</p>
           <Display as="h1" size="xl" tone="forest">
