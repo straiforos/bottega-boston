@@ -2,6 +2,7 @@
 // Re-exports the components from this attached library so consumer
 // imports through `@/design-system/{slug}` resolve uniformly.
 
+export { BottegaMap } from "./bottega/components/BottegaMap";
 export { Button } from "./bottega/components/Button";
 export { ArchFrame, Card } from "./bottega/components/Card";
 export { Confirmation } from "./bottega/components/Confirmation";

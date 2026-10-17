@@ -34,3 +34,4 @@ export { cx } from "./lib/cx";
 
 export { FileUpload, type FileUploadProps } from "./components/FileUpload";
 export { Confirmation, type ConfirmationProps } from "./components/Confirmation";
+export { BottegaMap, bottegaMapStyles, type BottegaMapProps, type BottegaMapMarker } from "./components/BottegaMap";

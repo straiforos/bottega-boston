@@ -124,6 +124,9 @@ Reference via `var(--name)` in inline styles or CSS.
 | `--bt-dialog-width-sm` |
 | `--bt-dialog-width-md` |
 | `--bt-focus-width` |
+| `--bt-map-height-sm` |
+| `--bt-map-height-md` |
+| `--bt-map-height-lg` |
 | `--bt-duration` |
 
 

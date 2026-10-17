@@ -43,6 +43,7 @@ Fonts are not bundled: add this to the root route head `links`:
 - Fixed-color surfaces re-scope tokens so nested content stays legible in either theme: forest/cobalt cards, forest header and forest marquee use the dark scope; cream/white/mustard cards, cream/terracotta/tomato marquees and stamps use the light scope.
 - For custom panels with a fixed brand background, add `bt-surface-dark` (forest, cobalt) or `bt-surface-light` (cream, parchment, white) so tones, inputs, controls and logos inside adapt.
 - Text tones `forest`, `terracotta`, `tomato`, `cobalt`, `ink` map to adaptive inks (`--bt-ink-brand`, `--bt-ink-accent`, `--bt-ink-highlight`, `--bt-body`) — use them freely on themed backgrounds.
+- `BottegaMap` renders Google Maps with token-derived styles (`bottegaMapStyles()`), synced to `data-theme`. It reads `VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_BROWSER_KEY` by default (link the Google Maps connector) or an `apiKey` prop; the managed key only works on *.lovable.app domains. Use it for rendering only — Places/geocoding must go through the server. It is always framed as a sharp terracotta-bordered rectangle with a hard offset shadow — never an arch.
 
 
 <!-- END THIRD-PARTY LIBRARY CONTENT: design-system/bottega-f5161c -->

@@ -21,6 +21,39 @@ import { ArchFrame } from "@/design-system/bottega-f5161c"
 | `alt` | string | `—` |
 | `action` | any | `—` |
 
+### BottegaMap
+
+```ts
+import { BottegaMap } from "@/design-system/bottega-f5161c"
+```
+
+Show the restaurant location on a Google map styled with Bottega tokens; it follows the light/dark theme. Uses the Lovable Google Maps connector key by default.
+
+**Props:**
+
+| Prop | Type | Default |
+|---|---|---|
+| `center` | object | `—` |
+| `zoom` | number | `15` |
+| `markers` | any | `—` |
+| `label` | string | `—` |
+| `apiKey` | string | `—` |
+| `size` | sm · md · lg | `md` |
+| `children` | any | `—` |
+
+**Examples:**
+
+_Location with card_
+```tsx
+<BottegaMap label="Map showing Bottega" center={{ lat: 41.8986, lng: 12.4769 }} markers={[{ lat: 41.8986, lng: 12.4769, title: "Bottega" }]} />
+```
+
+**Avoid:**
+
+- Do not use the browser key for Places or geocoding.
+- Do not pass hardcoded hex map styles; use bottegaMapStyles().
+- Do not wrap the map in an arch or rounded frame; it is always a sharp terracotta-bordered rectangle.
+
 ### Button
 
 ```ts

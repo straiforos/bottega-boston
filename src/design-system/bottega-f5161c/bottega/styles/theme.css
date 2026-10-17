@@ -127,6 +127,9 @@
   --bt-dialog-width-sm: 24rem;
   --bt-dialog-width-md: 32rem;
   --bt-focus-width: 3px;
+  --bt-map-height-sm: 16rem;
+  --bt-map-height-md: 24rem;
+  --bt-map-height-lg: 34rem;
   --bt-backdrop: rgba(0, 0, 0, 0.65);
   --bt-duration: 180ms;
 }

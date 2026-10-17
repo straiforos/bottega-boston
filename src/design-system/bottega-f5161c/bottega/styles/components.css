@@ -247,3 +247,13 @@
 .bt-confirmation__actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--bt-space-2); margin-top: var(--bt-space-5); }
 .bt-confirmation--danger .bt-confirmation__icon { color: var(--bt-danger); border-color: var(--bt-danger); }
 .bt-confirmation--danger .bt-confirmation__confirm { background: var(--bt-tomato); color: var(--bt-cream); border-color: var(--bt-tomato-border); }
+
+/* BottegaMap */
+.bt-map { position: relative; overflow: hidden; border: var(--bt-border-width) solid var(--bt-border-accent); box-shadow: var(--bt-shadow-card); background: var(--bt-parchment); border-radius: var(--bt-radius-none); }
+.bt-map--sm { height: var(--bt-map-height-sm); }
+.bt-map--md { height: var(--bt-map-height-md); }
+.bt-map--lg { height: var(--bt-map-height-lg); }
+.bt-map__canvas { position: absolute; inset: 0; }
+.bt-map__fallback { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: var(--bt-space-sm); background: var(--bt-parchment); color: var(--bt-foreground); font-family: var(--bt-font-display); font-size: var(--bt-text-label); letter-spacing: var(--bt-tracking-badge); text-transform: uppercase; }
+.bt-map__pin { width: var(--bt-icon-size); height: var(--bt-icon-size); background: var(--bt-terracotta); border-radius: 50% 50% 50% 0; transform: rotate(-45deg); box-shadow: var(--bt-shadow-stamp); }
+.bt-map__card { position: absolute; left: var(--bt-space-md); bottom: var(--bt-space-md); max-width: min(20rem, calc(100% - 2 * var(--bt-space-md))); }
