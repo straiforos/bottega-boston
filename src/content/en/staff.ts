@@ -18,6 +18,7 @@ export const staffContent = {
   deleted: 'Dish removed',
   failed: 'Couldn’t save that change. Please try again.',
   changesSaved: 'Changes saved.',
+  mediaDraftFailed: 'Your browser couldn’t keep this photo or video for recovery. Keep this tab open or choose the file again after a refresh.',
   fields: {
     name: 'Dish name',
     price: 'Price',
