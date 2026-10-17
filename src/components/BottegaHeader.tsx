@@ -75,6 +75,12 @@ export function BottegaHeader() {
                 </HeaderLink>
               ))}
             </MenuSubmenu>
+            <HeaderLink className="bt-menu-overlay__link" to="/admin/events">
+              {nav.adminEvents}
+            </HeaderLink>
+            <HeaderLink className="bt-menu-overlay__link" to="/admin/requests">
+              {nav.adminRequests}
+            </HeaderLink>
           </MenuSubmenu>
         )}
       </SiteHeader>

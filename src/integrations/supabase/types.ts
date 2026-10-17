@@ -206,6 +206,152 @@ export type Database = {
         }
         Relationships: []
       }
+      event_exceptions: {
+        Row: {
+          event_id: string
+          id: string
+          occurrence_date: string
+          skipped: boolean
+          start_time: string | null
+          ticket_url: string | null
+        }
+        Insert: {
+          event_id: string
+          id?: string
+          occurrence_date: string
+          skipped?: boolean
+          start_time?: string | null
+          ticket_url?: string | null
+        }
+        Update: {
+          event_id?: string
+          id?: string
+          occurrence_date?: string
+          skipped?: boolean
+          start_time?: string | null
+          ticket_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "event_exceptions_event_id_fkey"
+            columns: ["event_id"]
+            isOneToOne: false
+            referencedRelation: "events"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      event_requests: {
+        Row: {
+          address: string
+          created_at: string
+          dietary: string
+          email: string
+          event_type: string
+          fulfillment: string
+          guests: number | null
+          id: string
+          kind: string
+          location_id: string
+          name: string
+          notes: string
+          order_lines: Json
+          phone: string
+          requested_for: string
+          staff_notes: string
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          address?: string
+          created_at?: string
+          dietary?: string
+          email: string
+          event_type?: string
+          fulfillment?: string
+          guests?: number | null
+          id?: string
+          kind: string
+          location_id?: string
+          name: string
+          notes?: string
+          order_lines?: Json
+          phone?: string
+          requested_for: string
+          staff_notes?: string
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          address?: string
+          created_at?: string
+          dietary?: string
+          email?: string
+          event_type?: string
+          fulfillment?: string
+          guests?: number | null
+          id?: string
+          kind?: string
+          location_id?: string
+          name?: string
+          notes?: string
+          order_lines?: Json
+          phone?: string
+          requested_for?: string
+          staff_notes?: string
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      events: {
+        Row: {
+          created_at: string
+          description: string
+          duration_minutes: number
+          id: string
+          image_url: string | null
+          location_id: string
+          published: boolean
+          recurrence: Json | null
+          starts_at: string
+          ticket_url: string | null
+          timezone: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string
+          duration_minutes?: number
+          id?: string
+          image_url?: string | null
+          location_id?: string
+          published?: boolean
+          recurrence?: Json | null
+          starts_at: string
+          ticket_url?: string | null
+          timezone?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          duration_minutes?: number
+          id?: string
+          image_url?: string | null
+          location_id?: string
+          published?: boolean
+          recurrence?: Json | null
+          starts_at?: string
+          ticket_url?: string | null
+          timezone?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       gallery_items: {
         Row: {
           alt: string

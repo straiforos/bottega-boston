@@ -22,3 +22,4 @@
 - Pasta Club email architecture rules live in `src/lib/email/AGENTS.md`.
 - Hero, ribbon and the three fixed offering cards read from public.home_content (keyed jsonb, admin-only writes) merged over bundled defaults in `src/lib/home/home-content.ts`, edited inline via floating staff buttons + dialogs — why: same single-page RLS-gated admin pattern; card ink is derived from the chosen surface so staff can't pick illegible pairings.
 - Subdirectories may have their own `AGENTS.md`; read it before changing files there.
+- Events (one-off and repeating, expanded by the pure `src/lib/events/occurrences.ts` in the event's time zone) are edited client-side under admin RLS; catering/event-space requests are written only through the public `submitRequest` server function, which re-prices order lines from the catering menu and rate-limits by email — why: the request table has no public insert, so the server is the only intake boundary.

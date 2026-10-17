@@ -11,13 +11,17 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SiteRouteImport } from './routes/_site'
 import { Route as SiteIndexRouteImport } from './routes/_site/index'
+import { Route as SiteCateringRouteImport } from './routes/_site/catering'
 import { Route as SiteEmailsRouteImport } from './routes/_site/emails'
 import { Route as SiteMenuRouteImport } from './routes/_site/menu'
 import { Route as SiteUnsubscribedRouteImport } from './routes/_site/unsubscribed'
 import { Route as Char91__componentChar93PreviewSplatRouteImport } from './routes/[__component].preview.$'
 import { Route as Char91__mockupChar93PreviewSplatRouteImport } from './routes/[__mockup].preview.$'
+import { Route as SiteAdminEventsRouteImport } from './routes/_site/admin.events'
+import { Route as SiteAdminRequestsRouteImport } from './routes/_site/admin.requests'
 import { Route as SiteEmailsComposeRouteImport } from './routes/_site/emails_.compose'
 import { Route as SiteEmailsWelcomeRouteImport } from './routes/_site/emails_.welcome'
+import { Route as SiteEventsRequestRouteImport } from './routes/_site/events.request'
 import { Route as ApiPublicResendWebhookRouteImport } from './routes/api/public/resend-webhook'
 import { Route as ApiPublicSendScheduledRouteImport } from './routes/api/public/send-scheduled'
 import { Route as ApiPublicUnsubscribeRouteImport } from './routes/api/public/unsubscribe'
@@ -30,6 +34,11 @@ const SiteRoute = SiteRouteImport.update({
 const SiteIndexRoute = SiteIndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteCateringRoute = SiteCateringRouteImport.update({
+  id: '/catering',
+  path: '/catering',
   getParentRoute: () => SiteRoute,
 } as any)
 const SiteEmailsRoute = SiteEmailsRouteImport.update({
@@ -59,6 +68,16 @@ const Char91__mockupChar93PreviewSplatRoute =
     path: '/__mockup/preview/$',
     getParentRoute: () => rootRouteImport,
   } as any)
+const SiteAdminEventsRoute = SiteAdminEventsRouteImport.update({
+  id: '/admin/events',
+  path: '/admin/events',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteAdminRequestsRoute = SiteAdminRequestsRouteImport.update({
+  id: '/admin/requests',
+  path: '/admin/requests',
+  getParentRoute: () => SiteRoute,
+} as any)
 const SiteEmailsComposeRoute = SiteEmailsComposeRouteImport.update({
   id: '/emails_/compose',
   path: '/emails/compose',
@@ -67,6 +86,11 @@ const SiteEmailsComposeRoute = SiteEmailsComposeRouteImport.update({
 const SiteEmailsWelcomeRoute = SiteEmailsWelcomeRouteImport.update({
   id: '/emails_/welcome',
   path: '/emails/welcome',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteEventsRequestRoute = SiteEventsRequestRouteImport.update({
+  id: '/events/request',
+  path: '/events/request',
   getParentRoute: () => SiteRoute,
 } as any)
 const ApiPublicResendWebhookRoute = ApiPublicResendWebhookRouteImport.update({
@@ -92,27 +116,35 @@ const SiteEmailsTemplateKeyRoute = SiteEmailsTemplateKeyRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof SiteIndexRoute
+  '/catering': typeof SiteCateringRoute
   '/emails': typeof SiteEmailsRoute
   '/menu': typeof SiteMenuRoute
   '/unsubscribed': typeof SiteUnsubscribedRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
+  '/admin/events': typeof SiteAdminEventsRoute
+  '/admin/requests': typeof SiteAdminRequestsRoute
   '/emails/compose': typeof SiteEmailsComposeRoute
   '/emails/welcome': typeof SiteEmailsWelcomeRoute
+  '/events/request': typeof SiteEventsRequestRoute
   '/api/public/resend-webhook': typeof ApiPublicResendWebhookRoute
   '/api/public/send-scheduled': typeof ApiPublicSendScheduledRoute
   '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
   '/emails/template/$key': typeof SiteEmailsTemplateKeyRoute
 }
 export interface FileRoutesByTo {
+  '/catering': typeof SiteCateringRoute
   '/emails': typeof SiteEmailsRoute
   '/menu': typeof SiteMenuRoute
   '/unsubscribed': typeof SiteUnsubscribedRoute
   '/': typeof SiteIndexRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
+  '/admin/events': typeof SiteAdminEventsRoute
+  '/admin/requests': typeof SiteAdminRequestsRoute
   '/emails/compose': typeof SiteEmailsComposeRoute
   '/emails/welcome': typeof SiteEmailsWelcomeRoute
+  '/events/request': typeof SiteEventsRequestRoute
   '/api/public/resend-webhook': typeof ApiPublicResendWebhookRoute
   '/api/public/send-scheduled': typeof ApiPublicSendScheduledRoute
   '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
@@ -121,14 +153,18 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_site': typeof SiteRouteWithChildren
+  '/_site/catering': typeof SiteCateringRoute
   '/_site/emails': typeof SiteEmailsRoute
   '/_site/menu': typeof SiteMenuRoute
   '/_site/unsubscribed': typeof SiteUnsubscribedRoute
   '/_site/': typeof SiteIndexRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
+  '/_site/admin/events': typeof SiteAdminEventsRoute
+  '/_site/admin/requests': typeof SiteAdminRequestsRoute
   '/_site/emails_/compose': typeof SiteEmailsComposeRoute
   '/_site/emails_/welcome': typeof SiteEmailsWelcomeRoute
+  '/_site/events/request': typeof SiteEventsRequestRoute
   '/api/public/resend-webhook': typeof ApiPublicResendWebhookRoute
   '/api/public/send-scheduled': typeof ApiPublicSendScheduledRoute
   '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
@@ -138,27 +174,35 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/catering'
     | '/emails'
     | '/menu'
     | '/unsubscribed'
     | '/__component/preview/$'
     | '/__mockup/preview/$'
+    | '/admin/events'
+    | '/admin/requests'
     | '/emails/compose'
     | '/emails/welcome'
+    | '/events/request'
     | '/api/public/resend-webhook'
     | '/api/public/send-scheduled'
     | '/api/public/unsubscribe'
     | '/emails/template/$key'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/catering'
     | '/emails'
     | '/menu'
     | '/unsubscribed'
     | '/'
     | '/__component/preview/$'
     | '/__mockup/preview/$'
+    | '/admin/events'
+    | '/admin/requests'
     | '/emails/compose'
     | '/emails/welcome'
+    | '/events/request'
     | '/api/public/resend-webhook'
     | '/api/public/send-scheduled'
     | '/api/public/unsubscribe'
@@ -166,14 +210,18 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_site'
+    | '/_site/catering'
     | '/_site/emails'
     | '/_site/menu'
     | '/_site/unsubscribed'
     | '/_site/'
     | '/__component/preview/$'
     | '/__mockup/preview/$'
+    | '/_site/admin/events'
+    | '/_site/admin/requests'
     | '/_site/emails_/compose'
     | '/_site/emails_/welcome'
+    | '/_site/events/request'
     | '/api/public/resend-webhook'
     | '/api/public/send-scheduled'
     | '/api/public/unsubscribe'
@@ -203,6 +251,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof SiteIndexRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/catering': {
+      id: '/_site/catering'
+      path: '/catering'
+      fullPath: '/catering'
+      preLoaderRoute: typeof SiteCateringRouteImport
       parentRoute: typeof SiteRoute
     }
     '/_site/emails': {
@@ -240,6 +295,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91__mockupChar93PreviewSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_site/admin/events': {
+      id: '/_site/admin/events'
+      path: '/admin/events'
+      fullPath: '/admin/events'
+      preLoaderRoute: typeof SiteAdminEventsRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/admin/requests': {
+      id: '/_site/admin/requests'
+      path: '/admin/requests'
+      fullPath: '/admin/requests'
+      preLoaderRoute: typeof SiteAdminRequestsRouteImport
+      parentRoute: typeof SiteRoute
+    }
     '/_site/emails_/compose': {
       id: '/_site/emails_/compose'
       path: '/emails/compose'
@@ -252,6 +321,13 @@ declare module '@tanstack/react-router' {
       path: '/emails/welcome'
       fullPath: '/emails/welcome'
       preLoaderRoute: typeof SiteEmailsWelcomeRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/events/request': {
+      id: '/_site/events/request'
+      path: '/events/request'
+      fullPath: '/events/request'
+      preLoaderRoute: typeof SiteEventsRequestRouteImport
       parentRoute: typeof SiteRoute
     }
     '/api/public/resend-webhook': {
@@ -286,22 +362,30 @@ declare module '@tanstack/react-router' {
 }
 
 interface SiteRouteChildren {
+  SiteCateringRoute: typeof SiteCateringRoute
   SiteEmailsRoute: typeof SiteEmailsRoute
   SiteMenuRoute: typeof SiteMenuRoute
   SiteUnsubscribedRoute: typeof SiteUnsubscribedRoute
   SiteIndexRoute: typeof SiteIndexRoute
+  SiteAdminEventsRoute: typeof SiteAdminEventsRoute
+  SiteAdminRequestsRoute: typeof SiteAdminRequestsRoute
   SiteEmailsComposeRoute: typeof SiteEmailsComposeRoute
   SiteEmailsWelcomeRoute: typeof SiteEmailsWelcomeRoute
+  SiteEventsRequestRoute: typeof SiteEventsRequestRoute
   SiteEmailsTemplateKeyRoute: typeof SiteEmailsTemplateKeyRoute
 }
 
 const SiteRouteChildren: SiteRouteChildren = {
+  SiteCateringRoute: SiteCateringRoute,
   SiteEmailsRoute: SiteEmailsRoute,
   SiteMenuRoute: SiteMenuRoute,
   SiteUnsubscribedRoute: SiteUnsubscribedRoute,
   SiteIndexRoute: SiteIndexRoute,
+  SiteAdminEventsRoute: SiteAdminEventsRoute,
+  SiteAdminRequestsRoute: SiteAdminRequestsRoute,
   SiteEmailsComposeRoute: SiteEmailsComposeRoute,
   SiteEmailsWelcomeRoute: SiteEmailsWelcomeRoute,
+  SiteEventsRequestRoute: SiteEventsRequestRoute,
   SiteEmailsTemplateKeyRoute: SiteEmailsTemplateKeyRoute,
 }
 
