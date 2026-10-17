@@ -1,5 +1,19 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+/**
+ * A padded scroller's snap positions rest one inner padding in from its true edge, so that
+ * padding is dead space the arrows must not read as room still left to travel.
+ */
+const MIN_EDGE = 1;
+
+function edgePadding(el: HTMLElement) {
+  const style = getComputedStyle(el);
+  return {
+    start: Number.parseFloat(style.paddingLeft) || 0,
+    end: Number.parseFloat(style.paddingRight) || 0,
+  };
+}
+
 /** Tracks whether a horizontal scroller can move either way, and pages it by its visible width. */
 export function useScrollArrows<T extends HTMLElement>(deps: unknown[] = []) {
   const ref = useRef<T>(null);
@@ -9,8 +23,9 @@ export function useScrollArrows<T extends HTMLElement>(deps: unknown[] = []) {
   const update = useCallback(() => {
     const el = ref.current;
     if (!el) return;
-    setCanPrev(el.scrollLeft > 1);
-    setCanNext(el.scrollLeft + el.clientWidth < el.scrollWidth - 1);
+    const { start, end } = edgePadding(el);
+    setCanPrev(el.scrollLeft > start + MIN_EDGE);
+    setCanNext(el.scrollLeft + el.clientWidth < el.scrollWidth - end - MIN_EDGE);
   }, []);
 
   useEffect(() => {
