@@ -1,9 +1,12 @@
 import { useEffect, useState } from 'react';
 import { createLink, useNavigate } from '@tanstack/react-router';
-import { Button, Marquee, SiteHeader } from '@/design-system/bottega-f5161c';
+import { Button, Marquee, MenuSubmenu, SiteHeader } from '@/design-system/bottega-f5161c';
 import { useStaffSession } from '@/hooks/useStaffSession';
 import { staffContent } from '@/content/en/staff';
 import { restaurantContent } from '@/content/en/restaurant';
+import { clubContent } from '@/content/en/club';
+
+const emailTabs = ['newsletters', 'templates', 'subscribers', 'analytics'] as const;
 
 const HeaderLink = createLink('a');
 
@@ -58,9 +61,21 @@ export function BottegaHeader() {
           {nav.events}
         </HeaderLink>
         {isAdmin && (
-          <HeaderLink className="bt-menu-overlay__link" to="/emails">
-            {nav.emailBuilder}
-          </HeaderLink>
+          <MenuSubmenu label={nav.siteAdmin}>
+            <MenuSubmenu label={nav.emails}>
+              {emailTabs.map((tab) => (
+                <HeaderLink
+                  key={tab}
+                  className="bt-menu-overlay__link"
+                  to="/emails"
+                  search={{ tab }}
+                  activeOptions={{ exact: true, includeSearch: true }}
+                >
+                  {clubContent.workspace.tabs[tab]}
+                </HeaderLink>
+              ))}
+            </MenuSubmenu>
+          </MenuSubmenu>
         )}
       </SiteHeader>
     </div>
