@@ -4,7 +4,6 @@ import { useQuery } from '@tanstack/react-query';
 import { menuSections as fallbackMenu } from '@/lib/menu-data';
 import { menuQueryOptions } from '@/lib/menu/menu-api';
 import { useStaffSession } from '@/hooks/useStaffSession';
-import { staffContent } from '@/content/en/staff';
 import { AddDish } from './admin/AddDish';
 import { EditableDish } from './admin/EditableDish';
 import { MenuDishCard } from './components/MenuDishCard';

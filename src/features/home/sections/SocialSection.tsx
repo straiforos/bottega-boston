@@ -2,7 +2,6 @@ import { useQuery } from '@tanstack/react-query';
 import { Button } from '@/design-system/bottega-f5161c';
 import { ArrowIcon } from '@/components/ArrowIcon';
 import { restaurantContent } from '@/content/en/restaurant';
-import { staffContent } from '@/content/en/staff';
 import { useStaffSession } from '@/hooks/useStaffSession';
 import { galleryQueryOptions } from '@/lib/gallery/gallery-api';
 import { fallbackGallery } from '@/lib/gallery/gallery-assets';
