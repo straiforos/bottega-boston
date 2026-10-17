@@ -75,7 +75,7 @@ export function RequestsInbox() {
                       </div>
                       <div className="admin-row-actions">
                         <PillLabel variant={row.status === 'new' ? 'terracotta' : 'chip-forest'}>{t.status[row.status]}</PillLabel>
-                        <Button size="sm" variant="outline" onClick={() => setOpen(row.id)}>Open</Button>
+                        <Button size="sm" variant="ghost" onClick={() => setOpen(row.id)}>Open</Button>
                       </div>
                     </Card>
                   ),
@@ -154,7 +154,7 @@ function RequestDetail({ row, onClose, onSaved }: { row: Row; onClose: () => voi
       {state === 'failed' && <p className="request-error" role="alert">{eventsContent.requests.failed}</p>}
       <div className="event-editor-actions">
         <Button variant="ghost" onClick={onClose}>{t.back}</Button>
-        <Button variant="outline" href={`mailto:${row.email}?subject=${encodeURIComponent('Your Bottega request')}`}>{t.reply}</Button>
+        <Button variant="ghost" href={`mailto:${row.email}?subject=${encodeURIComponent('Your Bottega request')}`}>{t.reply}</Button>
         <Button onClick={submit} disabled={state === 'saving'}>{t.save}</Button>
       </div>
     </Card>

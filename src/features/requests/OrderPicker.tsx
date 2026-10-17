@@ -48,7 +48,7 @@ export function OrderPicker({ lines, onChange, error }: Props) {
       <legend className="bt-field__label">{t.order}</legend>
       <div className="request-catalog-categories" role="group" aria-label={t.trayCategories}>
         {catalog.map((category) => (
-          <Button key={category.id} type="button" variant={section?.id === category.id ? 'primary' : 'outline'} size="sm"
+          <Button key={category.id} type="button" variant={section?.id === category.id ? 'primary' : 'ghost'} size="sm"
             aria-pressed={section?.id === category.id} onClick={() => setSectionId(category.id)}>
             {category.name}
           </Button>
@@ -76,7 +76,7 @@ export function OrderPicker({ lines, onChange, error }: Props) {
                 {l.option ? ` (${l.option})` : ''}
               </span>
               <span>{l.unitPrice != null ? formatMoney(l.unitPrice * l.quantity) : ''}</span>
-              <Button type="button" variant="outline" size="sm" aria-label={`${t.remove}: ${l.name}${l.option ? ` (${l.option})` : ''}`} onClick={() => onChange(lines.filter((_, i) => i !== index))}>
+              <Button type="button" variant="ghost" size="sm" aria-label={`${t.remove}: ${l.name}${l.option ? ` (${l.option})` : ''}`} onClick={() => onChange(lines.filter((_, i) => i !== index))}>
                 <EditorIcon kind="trash" />
               </Button>
             </li>

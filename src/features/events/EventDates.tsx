@@ -56,7 +56,7 @@ export function EventDates({ event }: { event: BottegaEvent }) {
                     value={time}
                     onChange={(e) => setTimes({ ...times, [o.date]: e.target.value })}
                   />
-                  <Button type="button" size="sm" variant="outline" disabled={busy === o.date || !times[o.date]}
+                  <Button type="button" size="sm" variant="ghost" disabled={busy === o.date || !times[o.date]}
                     onClick={() => run(o.date, () => saveException(event.id, { occurrenceDate: o.date, skipped: false, startTime: time, ticketUrl: ex?.ticketUrl ?? null }))}>
                     {t.saveDate}
                   </Button>

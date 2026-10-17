@@ -123,7 +123,7 @@ export function MenuPage() {
                 <Serif size="md" tone="forest">
                   No dishes found.
                 </Serif>
-                <Button variant="outline" onClick={filters.reset}>
+                <Button variant="ghost" onClick={filters.reset}>
                   Clear filters
                 </Button>
               </div>
