@@ -4,7 +4,6 @@ export const clubContent = {
   failed: 'That didn’t go through. Please try again.',
   joining: 'Joining…',
   admin: {
-    ribbon: 'Pasta Club emails',
     subscribers: (n: number) => `${n} ${n === 1 ? 'subscriber' : 'subscribers'}`,
     compose: 'Compose email',
     welcome: 'Edit welcome email',
