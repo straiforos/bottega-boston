@@ -32,7 +32,7 @@ export function HeroSection() {
               </Stamp>
             </span>
           </div>
-          <Display as="h1" size="xl" tone="forest" className="hero-hashtag">
+          <Display as="h1" size="hero" tone="forest" className="hero-hashtag">
             #PASTAISLIFE
           </Display>
         </div>

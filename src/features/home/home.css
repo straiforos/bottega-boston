@@ -26,8 +26,6 @@
 .hero-hashtag {
   position: relative;
   margin: 0;
-  font-size: calc(var(--bt-text-display) * 2);
-  letter-spacing: 0;
 }
 .sketch {
   width: var(--bt-space-xl);
@@ -438,9 +436,6 @@
 @media (max-width: 900px) {
   .hero-copy {
     bottom: var(--bt-space-lg);
-  }
-  .hero-hashtag {
-    font-size: var(--bt-text-display);
   }
   .hero-stamp {
     left: 0;
