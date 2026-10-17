@@ -34,7 +34,7 @@ function scrollTo(el: HTMLDivElement, geom: typeof EVENTS, scrollLeft: number) {
 
 function mount(geom: typeof EVENTS, scrollLeft: number) {
   render(<Harness />);
-  const el = screen.getByTestId<HTMLDivElement>('track');
+  const el = screen.getByTestId('track') as HTMLDivElement;
   setTrack(el, geom, scrollLeft);
   act(() => el.dispatchEvent(new Event('scroll')));
   return el;
