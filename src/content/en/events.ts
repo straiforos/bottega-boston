@@ -5,6 +5,8 @@ export const eventsContent = {
   ticketsDialog: (title: string) => `Tickets for ${title}`,
   ticketsNewTab: 'Open tickets in a new tab',
   close: 'Close',
+  scrollPrev: 'Previous events',
+  scrollNext: 'More events',
   nextDates: 'Next dates',
   staff: {
     add: 'Add event',
