@@ -3,6 +3,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 import { Button, Checkbox, Display, FileUpload, Radio, TextField } from '@/design-system/bottega-f5161c';
 import { useSnackbar } from '@/design-system/bottega-f5161c/bottega';
+import { adminDraftKey, useAdminDraft } from '@/lib/events/form-draft';
 import { eventsContent } from '@/content/en/events';
 import { orderLocations } from '@/content/links';
 import { BottegaHeader } from '@/components/BottegaHeader';
@@ -103,6 +104,12 @@ function EventForm({ event, onClose }: { event: BottegaEvent | null; onClose: ()
   const { show } = useSnackbar();
   const [draft, setDraft] = useState<EventDraft>(() => toDraft(event));
   const [when, setWhen] = useState(() => toLocalInput(draft.startsAt));
+  const baseline = useMemo(() => ({ draft: toDraft(event), when: toLocalInput(toDraft(event).startsAt) }), [event]);
+  const stored = useMemo(() => ({ draft, when }), [draft, when]);
+  const clearDraft = useAdminDraft(adminDraftKey(`event:${event?.id ?? 'new'}`), stored, baseline, (saved) => {
+    setDraft(saved.draft);
+    setWhen(saved.when);
+  });
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
@@ -142,6 +149,8 @@ function EventForm({ event, onClose }: { event: BottegaEvent | null; onClose: ()
       }
       await saveEvent(event?.id ?? null, next);
       await queryClient.invalidateQueries({ queryKey: eventsQueryOptions.queryKey });
+      clearDraft();
+      show({ message: staffContent.changesSaved, variant: 'success' });
       onClose();
     } catch (err) {
       const message = err instanceof Error ? err.message : 'Couldn’t save the event.';

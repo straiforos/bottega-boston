@@ -21,6 +21,7 @@ export function AddDish({ sectionId, nextSortOrder }: { sectionId: string; nextS
   return (
     <DishEditor
       initial={{ name: '', price: '', description: '', tags: [] }}
+      draftScope={`dish:new:${sectionId}`}
       onCancel={() => setOpen(false)}
       onSave={async (draft, photo) => {
         await admin.create(sectionId, draft, photo, nextSortOrder);

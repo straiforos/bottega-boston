@@ -17,6 +17,7 @@ export const staffContent = {
   saved: 'Menu updated',
   deleted: 'Dish removed',
   failed: 'Couldn’t save that change. Please try again.',
+  changesSaved: 'Changes saved.',
   fields: {
     name: 'Dish name',
     price: 'Price',

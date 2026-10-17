@@ -90,6 +90,7 @@ export function EditableTile({ item, items }: EditableTileProps) {
           confirmLabel={staffContent.delete}
           cancelLabel={staffContent.cancel}
           pending={busy}
+          draftScope={`tile:${item.id}`}
           onCancel={() => setConfirming(false)}
           onConfirm={() => void run(() => admin.remove(item.id))}
         >

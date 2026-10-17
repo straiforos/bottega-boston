@@ -1,5 +1,7 @@
 import { useId, useState, type FormEvent } from 'react';
 import { Button, Card, Checkbox, FileUpload, TextField } from '@/design-system/bottega-f5161c';
+import { useSnackbar } from '@/design-system/bottega-f5161c/bottega';
+import { adminDraftKey, useAdminDraft } from '@/lib/events/form-draft';
 import { staffContent } from '@/content/en/staff';
 import { validateDishDraft } from '@/lib/menu/menu-api';
 import { DIETARY_OPTIONS, toggleTag } from '@/lib/menu/dietary';
@@ -10,11 +12,15 @@ interface DishEditorProps {
   initial: DishDraft;
   onSave: (draft: DishDraft, photo: File | null) => Promise<void>;
   onCancel: () => void;
+  /** Unique storage scope so unsaved edits survive an accidental refresh. */
+  draftScope: string;
 }
 
 /** Inline form used both to edit an existing dish and to add a new one. */
-export function DishEditor({ initial, onSave, onCancel }: DishEditorProps) {
+export function DishEditor({ initial, onSave, onCancel, draftScope }: DishEditorProps) {
   const [draft, setDraft] = useState<DishDraft>(initial);
+  const { show } = useSnackbar();
+  const clearDraft = useAdminDraft(adminDraftKey(draftScope), draft, initial, setDraft);
   const [photo, setPhoto] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
@@ -24,13 +30,20 @@ export function DishEditor({ initial, onSave, onCancel }: DishEditorProps) {
   const submit = async (event: FormEvent) => {
     event.preventDefault();
     const problem = validateDishDraft(draft) ?? (photo ? uploadSizeError(photo.size) : null);
-    if (problem) return setError(problem);
+    if (problem) {
+      setError(problem);
+      show({ message: problem, variant: 'danger' });
+      return;
+    }
     setSaving(true);
     setError(null);
     try {
       await onSave(draft, photo);
+      clearDraft();
+      show({ message: staffContent.changesSaved, variant: 'success' });
     } catch {
       setError(staffContent.failed);
+      show({ message: staffContent.failed, variant: 'danger' });
       setSaving(false);
     }
   };
@@ -96,7 +109,10 @@ export function DishEditor({ initial, onSave, onCancel }: DishEditorProps) {
           <Button type="submit" size="sm" disabled={saving}>
             {saving ? (photo ? staffContent.processing : staffContent.saving) : staffContent.save}
           </Button>
-          <Button variant="ghost" size="sm" onClick={onCancel} disabled={saving}>
+          <Button variant="ghost" size="sm" onClick={() => {
+            clearDraft();
+            onCancel();
+          }} disabled={saving}>
             {staffContent.cancel}
           </Button>
         </div>
