@@ -15,7 +15,7 @@ afterEach(cleanup);
 it('catering validation requires every marked field', () => {
   render(<SnackbarProvider><RequestForm kind="catering" /></SnackbarProvider>);
   fireEvent.click(screen.getByRole('button', { name: 'Send request' }));
-  expect(screen.getByRole('alert')).toHaveTextContent(
-    'Some fields need attention — please correct the highlighted fields and try again.',
-  );
+  expect(
+    screen.getAllByRole('alert').some((el) => el.textContent === 'Some fields need attention — please correct the highlighted fields and try again.'),
+  ).toBe(true);
 });
