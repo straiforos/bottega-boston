@@ -20,6 +20,7 @@ export type Database = {
           created_at: string
           email: string
           id: string
+          status: string
           unsubscribe_token: string
           unsubscribed_at: string | null
           welcome_sent_at: string | null
@@ -29,6 +30,7 @@ export type Database = {
           created_at?: string
           email: string
           id?: string
+          status?: string
           unsubscribe_token?: string
           unsubscribed_at?: string | null
           welcome_sent_at?: string | null
@@ -38,6 +40,7 @@ export type Database = {
           created_at?: string
           email?: string
           id?: string
+          status?: string
           unsubscribe_token?: string
           unsubscribed_at?: string | null
           welcome_sent_at?: string | null
@@ -51,53 +54,155 @@ export type Database = {
           id: string
           preheader: string
           recipient_count: number
-          sent_at: string
+          scheduled_for: string | null
+          sent_at: string | null
           sent_by: string | null
-          subject: string
-        }
-        Insert: {
-          blocks?: Json
-          failed_count?: number
-          id?: string
-          preheader?: string
-          recipient_count?: number
-          sent_at?: string
-          sent_by?: string | null
-          subject: string
-        }
-        Update: {
-          blocks?: Json
-          failed_count?: number
-          id?: string
-          preheader?: string
-          recipient_count?: number
-          sent_at?: string
-          sent_by?: string | null
-          subject?: string
-        }
-        Relationships: []
-      }
-      email_templates: {
-        Row: {
-          blocks: Json
-          key: string
-          preheader: string
+          status: string
           subject: string
           updated_at: string
         }
         Insert: {
           blocks?: Json
-          key: string
+          failed_count?: number
+          id?: string
           preheader?: string
-          subject?: string
+          recipient_count?: number
+          scheduled_for?: string | null
+          sent_at?: string | null
+          sent_by?: string | null
+          status?: string
+          subject: string
           updated_at?: string
         }
         Update: {
           blocks?: Json
-          key?: string
+          failed_count?: number
+          id?: string
+          preheader?: string
+          recipient_count?: number
+          scheduled_for?: string | null
+          sent_at?: string | null
+          sent_by?: string | null
+          status?: string
+          subject?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      email_events: {
+        Row: {
+          created_at: string
+          delivery_id: string
+          id: string
+          occurred_at: string
+          resend_id: string
+          type: string
+          url: string | null
+        }
+        Insert: {
+          created_at?: string
+          delivery_id: string
+          id?: string
+          occurred_at?: string
+          resend_id: string
+          type: string
+          url?: string | null
+        }
+        Update: {
+          created_at?: string
+          delivery_id?: string
+          id?: string
+          occurred_at?: string
+          resend_id?: string
+          type?: string
+          url?: string | null
+        }
+        Relationships: []
+      }
+      email_sends: {
+        Row: {
+          campaign_id: string | null
+          clicked_at: string | null
+          created_at: string
+          email: string
+          id: string
+          opened_at: string | null
+          resend_id: string | null
+          status: string
+          subscriber_id: string | null
+          template_key: string | null
+        }
+        Insert: {
+          campaign_id?: string | null
+          clicked_at?: string | null
+          created_at?: string
+          email: string
+          id?: string
+          opened_at?: string | null
+          resend_id?: string | null
+          status?: string
+          subscriber_id?: string | null
+          template_key?: string | null
+        }
+        Update: {
+          campaign_id?: string | null
+          clicked_at?: string | null
+          created_at?: string
+          email?: string
+          id?: string
+          opened_at?: string | null
+          resend_id?: string | null
+          status?: string
+          subscriber_id?: string | null
+          template_key?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "email_sends_campaign_id_fkey"
+            columns: ["campaign_id"]
+            isOneToOne: false
+            referencedRelation: "email_campaigns"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "email_sends_subscriber_id_fkey"
+            columns: ["subscriber_id"]
+            isOneToOne: false
+            referencedRelation: "club_subscribers"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      email_templates: {
+        Row: {
+          blocks: Json
+          key: string
+          kind: string
+          name: string
+          preheader: string
+          subject: string
+          updated_at: string
+          variables: string[]
+        }
+        Insert: {
+          blocks?: Json
+          key: string
+          kind?: string
+          name?: string
           preheader?: string
           subject?: string
           updated_at?: string
+          variables?: string[]
+        }
+        Update: {
+          blocks?: Json
+          key?: string
+          kind?: string
+          name?: string
+          preheader?: string
+          subject?: string
+          updated_at?: string
+          variables?: string[]
         }
         Relationships: []
       }

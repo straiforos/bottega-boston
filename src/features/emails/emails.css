@@ -95,3 +95,55 @@
   justify-items: stretch;
   text-align: start;
 }
+.email-fieldset {
+  display: grid;
+  gap: var(--bt-space-md);
+  margin: 0;
+  padding: 0;
+  border-width: 0;
+  min-width: 0;
+}
+.email-preview-frame--phone {
+  justify-self: center;
+  max-width: var(--bt-dialog-width-sm);
+}
+.email-list {
+  display: grid;
+  gap: var(--bt-space-md);
+}
+.email-row {
+  width: 100%;
+  text-align: start;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--bt-space-sm);
+  padding: var(--bt-space-md);
+}
+.email-row-main {
+  display: grid;
+  gap: var(--bt-space-xs);
+  justify-items: start;
+}
+.email-subscribers {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+}
+.email-subscribers .email-row {
+  border-bottom-width: var(--bt-border-width);
+  border-bottom-style: solid;
+  border-bottom-color: var(--bt-outline-variant);
+}
+.email-metrics {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(calc(var(--bt-space-8) * 3), 1fr));
+  gap: var(--bt-space-md);
+}
+.email-metric {
+  display: grid;
+  gap: var(--bt-space-xs);
+  padding: var(--bt-space-md);
+}

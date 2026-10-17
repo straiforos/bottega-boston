@@ -1,7 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router';
+import { z } from 'zod';
 import { EmailEditorPage } from '@/features/emails/EmailEditorPage';
 
-export const Route = createFileRoute('/_site/emails/compose')({
+export const Route = createFileRoute('/_site/emails_/compose')({
+  validateSearch: z.object({ id: z.string().uuid().optional() }),
   head: () => ({
     meta: [
       { title: 'Compose Pasta Club email — Bottega staff' },
@@ -13,5 +15,10 @@ export const Route = createFileRoute('/_site/emails/compose')({
       { name: 'robots', content: 'noindex' },
     ],
   }),
-  component: () => <EmailEditorPage mode="compose" />,
+  component: ComposePage,
 });
+
+function ComposePage() {
+  const { id } = Route.useSearch();
+  return <EmailEditorPage key={id ?? 'new'} mode="compose" campaignId={id} />;
+}

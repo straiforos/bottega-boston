@@ -1,14 +1,17 @@
 import { z } from 'zod';
 
 /** Building blocks staff compose emails from. Text uses **bold**, _italic_ and [label](https://link). */
+const photoFields = { url: z.string().url().max(2000), alt: z.string().max(200) };
+
 export const emailBlockSchema = z.discriminatedUnion('type', [
   z.object({ id: z.string().max(40), type: z.literal('headline'), text: z.string().max(140) }),
   z.object({ id: z.string().max(40), type: z.literal('text'), text: z.string().max(5000) }),
+  z.object({ id: z.string().max(40), type: z.literal('photo'), ...photoFields }),
   z.object({
     id: z.string().max(40),
-    type: z.literal('photo'),
-    url: z.string().url().max(2000),
-    alt: z.string().max(200),
+    type: z.literal('columns'),
+    left: z.object(photoFields),
+    right: z.object(photoFields),
   }),
   z.object({
     id: z.string().max(40),
@@ -17,10 +20,22 @@ export const emailBlockSchema = z.discriminatedUnion('type', [
     url: z.string().max(2000),
   }),
   z.object({ id: z.string().max(40), type: z.literal('marquee'), text: z.string().max(80) }),
+  z.object({ id: z.string().max(40), type: z.literal('divider') }),
+  z.object({ id: z.string().max(40), type: z.literal('spacer') }),
 ]);
 
 export type EmailBlock = z.infer<typeof emailBlockSchema>;
 export type EmailBlockType = EmailBlock['type'];
+export const BLOCK_TYPES: EmailBlockType[] = [
+  'headline',
+  'text',
+  'photo',
+  'columns',
+  'button',
+  'marquee',
+  'divider',
+  'spacer',
+];
 
 export const emailDraftSchema = z.object({
   subject: z.string().trim().min(1, 'Add a subject line.').max(150),
@@ -34,6 +49,9 @@ export function isSafeLink(url: string) {
   return /^(https?:\/\/|mailto:)/i.test(url.trim());
 }
 
+const PLACEHOLDER_PHOTO = 'https://example.com/photo.jpg';
+export const isPlaceholderPhoto = (url: string) => url === PLACEHOLDER_PHOTO;
+
 /** First problem staff should fix before sending, or null. */
 export function validateDraft(draft: EmailDraft): string | null {
   const parsed = emailDraftSchema.safeParse(draft);
@@ -41,7 +59,11 @@ export function validateDraft(draft: EmailDraft): string | null {
   for (const block of draft.blocks) {
     if (block.type === 'button' && (!block.label.trim() || !isSafeLink(block.url)))
       return 'Every button needs a label and a link starting with https://';
-    if (block.type === 'photo' && !block.alt.trim()) return 'Describe every photo for people using screen readers.';
+    const photos = block.type === 'photo' ? [block] : block.type === 'columns' ? [block.left, block.right] : [];
+    for (const photo of photos) {
+      if (isPlaceholderPhoto(photo.url)) return 'Choose a picture for every photo block.';
+      if (!photo.alt.trim()) return 'Describe every photo for people using screen readers.';
+    }
   }
   return null;
 }
@@ -54,11 +76,16 @@ export function newBlock(type: EmailBlockType): EmailBlock {
     case 'text':
       return { id, type, text: 'Write your message here.' };
     case 'photo':
-      return { id, type, url: 'https://example.com/photo.jpg', alt: '' };
+      return { id, type, url: PLACEHOLDER_PHOTO, alt: '' };
+    case 'columns':
+      return { id, type, left: { url: PLACEHOLDER_PHOTO, alt: '' }, right: { url: PLACEHOLDER_PHOTO, alt: '' } };
     case 'button':
       return { id, type, label: 'Order now', url: 'https://' };
     case 'marquee':
       return { id, type, text: 'Pasta is life' };
+    case 'divider':
+    case 'spacer':
+      return { id, type };
   }
 }
 
@@ -84,10 +111,29 @@ export const defaultWelcome: EmailDraft = {
       text: 'Grazie for joining! You’re now first in line for **events**, **menu launches** and _special offers_ from Bottega.\n\nJudgment-free and full of carbs — that’s a promise.',
     },
     { id: 'w3', type: 'marquee', text: 'Pasta is life' },
-    { id: 'w4', type: 'button', label: 'Order now', url: 'https://ciao724.wixstudio.com/my-site/online-ordering' },
+    { id: 'w4', type: 'button', label: 'Order now', url: 'https://direct.chownow.com/order/18964/locations/27186' },
     { id: 'w5', type: 'text', text: 'See you at the table,\nThe Bottega family' },
   ],
 };
+
+/** Fills {{name}} placeholders with the given values; unknown placeholders are left as typed. */
+export function applyVariables(draft: EmailDraft, values: Record<string, string>): EmailDraft {
+  const fill = (s: string) =>
+    s.replace(/\{\{\s*([a-z0-9_]+)\s*\}\}/gi, (match, key: string) => (key in values ? values[key] : match));
+  const blocks = draft.blocks.map((b) => {
+    switch (b.type) {
+      case 'headline':
+      case 'text':
+      case 'marquee':
+        return { ...b, text: fill(b.text) };
+      case 'button':
+        return { ...b, label: fill(b.label) };
+      default:
+        return b;
+    }
+  });
+  return { subject: fill(draft.subject), preheader: fill(draft.preheader), blocks };
+}
 
 export function chunk<T>(items: readonly T[], size: number): T[][] {
   const out: T[][] = [];

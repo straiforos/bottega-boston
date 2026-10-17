@@ -2,7 +2,6 @@
 
 - Compose the single-page restaurant experience at the index route using the attached Bottega components and canonical CSS; preserve the library-owned appearance.
 - Keep original uploaded and downloaded media in CDN pointer imports; do not embed raw binary copies in app source.
-- This initial restaurant page is presentation-only: ordering links to the original ordering service, and email requests use the restaurant address rather than pretending to save subscriptions.
 - Keep offering cards aligned and animate their wrappers with scroll-linked sequential reveals inside a pinned (sticky) track on desktop so the section holds until all cards land; rise and fall track scroll position and reverse; preserve library component appearance and respect reduced motion so updates remain compatible and content stays accessible.
 - Use a wrapper layout for the overlapping club ribbon; library components retain their own appearance so design-system updates remain compatible.
 - Compose alternating sketch separators around the library marquee and keep the home menu introduction inside the pinned offerings section to avoid duplicate section headings.
@@ -20,5 +19,6 @@
 - Gallery staff actions overlay fixed-aspect media, the add action occupies the final scroll slot, and full forms open in accessible dialogs — why: editing must not change the gallery height or surrounding page spacing.
 - Media processing runs in the staff browser: photos in a module Web Worker (OffscreenCanvas), videos in ffmpeg.wasm loaded lazily from staff editors only — why: the Worker server can't run sharp/FFmpeg, and visitors must never download the tooling.
 - Draw app-owned inline icons as SVG with `currentColor`, no width/height attributes and no transform attribute — each direction is its own path geometry, and the drawn size comes from a class in the shared stylesheet derived from `--bt-icon-size` — why: the library does exactly this, so icons inherit themed ink and stay on its scale instead of hardcoding size or mirroring math.
-- Pasta Club emails: one renderer (`src/lib/email/render-email.ts`) builds both the staff preview and the sent HTML from validated blocks; sending goes through Resend via server functions only, staff functions re-check has_role, and email colors are literal copies of Bottega tokens because email clients can't read CSS variables — why: preview equals inbox and no client-side path can send.
+- Pasta Club email architecture rules live in `src/lib/email/AGENTS.md`.
 - Hero, ribbon and the three fixed offering cards read from public.home_content (keyed jsonb, admin-only writes) merged over bundled defaults in `src/lib/home/home-content.ts`, edited inline via floating staff buttons + dialogs — why: same single-page RLS-gated admin pattern; card ink is derived from the chosen surface so staff can't pick illegible pairings.
+- Subdirectories may have their own `AGENTS.md`; read it before changing files there.

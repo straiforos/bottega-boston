@@ -1,35 +1,19 @@
 import { useEffect, useMemo, useState } from 'react';
 import { createLink, useNavigate } from '@tanstack/react-router';
 import { useServerFn } from '@tanstack/react-start';
-import {
-  Button,
-  Card,
-  Confirmation,
-  Display,
-  LinkAction,
-  PillLabel,
-  Serif,
-  TextField,
-} from '@/design-system/bottega-f5161c';
+import { Button, Confirmation, Display, LinkAction, PillLabel, Serif, TextField } from '@/design-system/bottega-f5161c';
 import { BottegaHeader } from '@/components/BottegaHeader';
 import logoUrl from '@/design-system/bottega-f5161c/bottega/assets/logos/bottega-wordmark.png';
 import { clubContent } from '@/content/en/club';
 import { restaurantContent } from '@/content/en/restaurant';
 import { useStaffSession } from '@/hooks/useStaffSession';
+import { BLOCK_TYPES, moveBlock, newBlock, validateDraft, type EmailBlock, type EmailDraft } from '@/lib/email/blocks';
 import {
-  defaultWelcome,
-  moveBlock,
-  newBlock,
-  validateDraft,
-  type EmailBlock,
-  type EmailBlockType,
-  type EmailDraft,
-} from '@/lib/email/blocks';
-import {
-  exportSubscribers,
-  getClubOverview,
-  getWelcomeTemplate,
-  saveWelcomeTemplate,
+  getCampaign,
+  getTemplate,
+  getWorkspace,
+  saveCampaign,
+  saveTemplate,
   sendCampaign,
   sendTestEmail,
 } from '@/lib/email/club.functions';
@@ -37,9 +21,8 @@ import { renderEmail } from '@/lib/email/render-email';
 import { BlockEditor } from './BlockEditor';
 
 const BackLink = createLink(LinkAction);
-const EditorLink = createLink(LinkAction);
 const t = clubContent.editor;
-const blockTypes: EmailBlockType[] = ['headline', 'text', 'photo', 'button', 'marquee'];
+const w = clubContent.workspace;
 const address = restaurantContent.addresses.map((a) => `${a.name}, ${a.lines.join(', ')}`).join(' · ');
 
 const blankCampaign: EmailDraft = {
@@ -48,40 +31,59 @@ const blankCampaign: EmailDraft = {
   blocks: [newBlock('headline'), newBlock('text'), newBlock('button')],
 };
 
-type Overview = Awaited<ReturnType<typeof getClubOverview>>;
+type Workspace = Awaited<ReturnType<typeof getWorkspace>>;
+type Props = { mode: 'compose'; campaignId?: string } | { mode: 'template'; templateKey: string };
 
 /** Full-page WYSIWYG editor for staff: block list on the left, the exact email on the right. */
-export function EmailEditorPage({ mode }: { mode: 'compose' | 'welcome' }) {
-  const { isAdmin, ready, user } = useStaffSession();
+export function EmailEditorPage(props: Props) {
+  const { isAdmin, ready } = useStaffSession();
   const navigate = useNavigate();
-  const [draft, setDraft] = useState<EmailDraft>(mode === 'welcome' ? defaultWelcome : blankCampaign);
-  const [overview, setOverview] = useState<Overview | null>(null);
+  const [draft, setDraft] = useState<EmailDraft>(blankCampaign);
+  const [campaignId, setCampaignId] = useState(props.mode === 'compose' ? props.campaignId : undefined);
+  const [locked, setLocked] = useState(false);
+  const [templateMeta, setTemplateMeta] = useState({ name: '', kind: '', variables: [] as string[] });
+  const [workspace, setWorkspace] = useState<Workspace | null>(null);
+  const [scheduleAt, setScheduleAt] = useState('');
+  const [device, setDevice] = useState<'desktop' | 'phone'>('desktop');
   const [notice, setNotice] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [confirming, setConfirming] = useState(false);
 
-  const loadOverview = useServerFn(getClubOverview);
-  const loadWelcome = useServerFn(getWelcomeTemplate);
-  const save = useServerFn(saveWelcomeTemplate);
+  const loadWorkspace = useServerFn(getWorkspace);
+  const loadCampaign = useServerFn(getCampaign);
+  const loadTemplate = useServerFn(getTemplate);
+  const saveTpl = useServerFn(saveTemplate);
+  const saveDraftFn = useServerFn(saveCampaign);
   const test = useServerFn(sendTestEmail);
   const send = useServerFn(sendCampaign);
-  const exportList = useServerFn(exportSubscribers);
+
+  const templateKey = props.mode === 'template' ? props.templateKey : null;
+  const initialCampaign = props.mode === 'compose' ? props.campaignId : undefined;
 
   useEffect(() => {
-    if (ready && !user) void navigate({ to: '/' });
-  }, [ready, user, navigate]);
+    if (ready && !isAdmin) void navigate({ to: '/' });
+  }, [ready, isAdmin, navigate]);
 
   useEffect(() => {
     if (!isAdmin) return;
-    void loadOverview()
-      .then(setOverview)
-      .catch(() => undefined);
-    if (mode === 'welcome')
-      void loadWelcome()
-        .then(setDraft)
-        .catch(() => undefined);
-  }, [isAdmin, mode, loadOverview, loadWelcome]);
+    void loadWorkspace().then(setWorkspace).catch(() => undefined);
+    if (templateKey)
+      void loadTemplate({ data: templateKey })
+        .then((r) => {
+          setDraft(r.draft);
+          setTemplateMeta({ name: r.name, kind: r.kind, variables: r.variables });
+        })
+        .catch((e: Error) => setError(e.message));
+    else if (initialCampaign)
+      void loadCampaign({ data: initialCampaign })
+        .then((r) => {
+          setDraft(r.draft);
+          setLocked(r.status !== 'draft' && r.status !== 'scheduled');
+          if (r.scheduledFor) setScheduleAt(toLocalInput(r.scheduledFor));
+        })
+        .catch((e: Error) => setError(e.message));
+  }, [isAdmin, templateKey, initialCampaign, loadWorkspace, loadTemplate, loadCampaign]);
 
   const html = useMemo(() => renderEmail(draft, { logoUrl, siteUrl: '#', unsubscribeUrl: '#', address }), [draft]);
 
@@ -110,56 +112,52 @@ export function EmailEditorPage({ mode }: { mode: 'compose' | 'welcome' }) {
       return t.testSent(result.to);
     });
 
+  const doSaveDraft = (scheduled?: string) =>
+    run(async () => {
+      const r = await saveDraftFn({ data: { id: campaignId, draft, scheduledFor: scheduled ?? null } });
+      setCampaignId(r.id);
+      return scheduled ? t.scheduled(new Date(scheduled).toLocaleString()) : t.draftSaved;
+    });
+
   const doSend = () => {
     setConfirming(false);
     return run(async () => {
-      const result = await send({ data: draft });
-      setOverview(await loadOverview());
+      const result = await send({ data: { id: campaignId, draft } });
+      setCampaignId(result.id);
+      setLocked(true);
       if (result.failed && !result.sent) throw new Error(result.error ?? 'Send failed');
       return t.sent(result.sent, result.failed);
     });
   };
 
-  const doSave = () =>
+  const doSaveTemplate = () =>
     run(async () => {
-      await save({ data: draft });
+      await saveTpl({ data: { key: templateKey!, name: templateMeta.name || 'Template', draft } });
       return t.savedNote;
     });
 
-  const download = async () => {
-    const csv = await exportList();
-    const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'pasta-club.csv';
-    a.click();
-    URL.revokeObjectURL(url);
+  const starters = workspace?.templates.filter((tpl) => tpl.kind === 'newsletter') ?? [];
+  const useStarter = async (key: string) => {
+    const r = await loadTemplate({ data: key });
+    setDraft(r.draft);
   };
+
+  const title = props.mode === 'template' ? templateMeta.name || t.templateTitle : t.composeTitle;
 
   return (
     <>
       <BottegaHeader />
       <main className="email-page">
         <div className="email-page-inner">
-          <BackLink to="/" hash="club">
-            {t.back}
-          </BackLink>
+          <BackLink to="/emails">{t.back}</BackLink>
           <Display as="h1" size="lg" tone="forest">
-            {mode === 'welcome' ? t.welcomeTitle : t.composeTitle}
+            {title}
           </Display>
-          {mode === 'welcome' && <Serif tone="ink">{t.welcomeNote}</Serif>}
-
-          {isAdmin && (
+          {templateMeta.kind === 'welcome' && <Serif tone="ink">{t.welcomeNote}</Serif>}
+          {templateMeta.variables.length > 0 && <Serif tone="ink">{w.fields(templateMeta.variables)}</Serif>}
+          {workspace && (
             <div className="email-staff-bar">
-              {overview && (
-                <PillLabel variant="mustard">{clubContent.admin.subscribers(overview.subscribers)}</PillLabel>
-              )}
-              <EditorLink to={mode === 'compose' ? '/emails/welcome' : '/emails/compose'}>
-                {mode === 'compose' ? clubContent.admin.welcome : clubContent.admin.compose}
-              </EditorLink>
-              <Button size="sm" variant="primary" onClick={() => void download()}>
-                {clubContent.admin.download}
-              </Button>
+              <PillLabel variant="mustard">{clubContent.admin.subscribers(workspace.subscribers)}</PillLabel>
             </div>
           )}
 
@@ -168,96 +166,139 @@ export function EmailEditorPage({ mode }: { mode: 'compose' | 'welcome' }) {
           ) : (
             <div className="email-workspace">
               <section className="email-controls" aria-label={t.blocks}>
-                <TextField
-                  label={t.subject}
-                  required
-                  value={draft.subject}
-                  onChange={(e) => setDraft({ ...draft, subject: e.target.value })}
-                />
-                <TextField
-                  label={t.preheader}
-                  hint={t.preheaderHint}
-                  value={draft.preheader}
-                  onChange={(e) => setDraft({ ...draft, preheader: e.target.value })}
-                />
-                {draft.blocks.map((block, index) => (
-                  <BlockEditor
-                    key={block.id}
-                    block={block}
-                    first={index === 0}
-                    last={index === draft.blocks.length - 1}
-                    onChange={updateBlock}
-                    onMove={(dir) => setDraft((d) => ({ ...d, blocks: moveBlock(d.blocks, block.id, dir) }))}
-                    onRemove={() => setDraft((d) => ({ ...d, blocks: d.blocks.filter((b) => b.id !== block.id) }))}
+                {locked && <p role="status">{t.alreadySent}</p>}
+                <fieldset className="email-fieldset" disabled={locked}>
+                  {props.mode === 'compose' && !campaignId && starters.length > 0 && (
+                    <div className="email-add" aria-label={t.startFrom}>
+                      <span className="bt-field__hint">{t.startFrom}</span>
+                      {starters.map((s) => (
+                        <Button key={s.key} size="sm" variant="cream" onClick={() => void useStarter(s.key)}>
+                          {s.name}
+                        </Button>
+                      ))}
+                    </div>
+                  )}
+                  {props.mode === 'template' && (
+                    <TextField
+                      label={t.templateName}
+                      value={templateMeta.name}
+                      onChange={(e) => setTemplateMeta({ ...templateMeta, name: e.target.value })}
+                    />
+                  )}
+                  <TextField
+                    label={t.subject}
+                    required
+                    value={draft.subject}
+                    onChange={(e) => setDraft({ ...draft, subject: e.target.value })}
                   />
-                ))}
-                <div className="email-add">
-                  {blockTypes.map((type) => (
-                    <Button
-                      key={type}
-                      size="sm"
-                      variant="outline"
-                      onClick={() => setDraft((d) => ({ ...d, blocks: [...d.blocks, newBlock(type)] }))}
-                    >
-                      + {t.blockNames[type]}
-                    </Button>
+                  <TextField
+                    label={t.preheader}
+                    hint={t.preheaderHint}
+                    value={draft.preheader}
+                    onChange={(e) => setDraft({ ...draft, preheader: e.target.value })}
+                  />
+                  {draft.blocks.map((block, index) => (
+                    <BlockEditor
+                      key={block.id}
+                      block={block}
+                      first={index === 0}
+                      last={index === draft.blocks.length - 1}
+                      onChange={updateBlock}
+                      onMove={(dir) => setDraft((d) => ({ ...d, blocks: moveBlock(d.blocks, block.id, dir) }))}
+                      onRemove={() => setDraft((d) => ({ ...d, blocks: d.blocks.filter((b) => b.id !== block.id) }))}
+                    />
                   ))}
-                </div>
+                  <div className="email-add">
+                    {BLOCK_TYPES.map((type) => (
+                      <Button
+                        key={type}
+                        size="sm"
+                        variant="outline"
+                        onClick={() => setDraft((d) => ({ ...d, blocks: [...d.blocks, newBlock(type)] }))}
+                      >
+                        + {t.blockNames[type]}
+                      </Button>
+                    ))}
+                  </div>
+                </fieldset>
                 {error && (
                   <p className="bt-field__hint bt-field__hint--error" role="alert">
                     {error}
                   </p>
                 )}
                 {notice && <p role="status">{notice}</p>}
-                <div className="email-send">
-                  <Button variant="outline" disabled={busy} onClick={() => void doTest()}>
-                    {busy ? t.working : t.sendTest}
-                  </Button>
-                  {mode === 'welcome' ? (
-                    <Button disabled={busy} onClick={() => void doSave()}>
-                      {t.save}
+                {!locked && (
+                  <div className="email-send">
+                    <Button variant="outline" disabled={busy} onClick={() => void doTest()}>
+                      {busy ? t.working : t.sendTest}
                     </Button>
-                  ) : (
-                    <Button
-                      disabled={busy}
-                      onClick={() => {
-                        const problem = validateDraft(draft);
-                        if (problem) setError(problem);
-                        else setConfirming(true);
-                      }}
-                    >
-                      {t.send}
-                    </Button>
-                  )}
-                </div>
-                <p className="bt-field__hint">{t.domainNote}</p>
-
-                {mode === 'compose' && (
-                  <Card variant="cream" shape="rect">
-                    <div className="email-history">
-                      <Serif as="h2" size="sm" tone="forest">
-                        {t.history}
-                      </Serif>
-                      {overview?.campaigns.length ? (
-                        <ul>
-                          {overview.campaigns.map((c) => (
-                            <li key={c.id}>
-                              {new Date(c.sent_at).toLocaleDateString()} — {c.subject} ({c.recipient_count})
-                            </li>
-                          ))}
-                        </ul>
-                      ) : (
-                        <p>{t.noHistory}</p>
-                      )}
-                    </div>
-                  </Card>
+                    {props.mode === 'template' ? (
+                      <Button disabled={busy} onClick={() => void doSaveTemplate()}>
+                        {t.save}
+                      </Button>
+                    ) : (
+                      <>
+                        <Button variant="outline" disabled={busy} onClick={() => void doSaveDraft()}>
+                          {t.saveDraft}
+                        </Button>
+                        <Button
+                          disabled={busy}
+                          onClick={() => {
+                            const problem = validateDraft(draft);
+                            if (problem) setError(problem);
+                            else setConfirming(true);
+                          }}
+                        >
+                          {t.send}
+                        </Button>
+                      </>
+                    )}
+                  </div>
                 )}
+                {props.mode === 'compose' && !locked && (
+                  <div className="email-send">
+                    <TextField
+                      label={t.scheduleAt}
+                      type="datetime-local"
+                      value={scheduleAt}
+                      onChange={(e) => setScheduleAt(e.target.value)}
+                    />
+                    <Button
+                      variant="outline"
+                      disabled={busy || !scheduleAt}
+                      onClick={() => void doSaveDraft(new Date(scheduleAt).toISOString())}
+                    >
+                      {t.schedule}
+                    </Button>
+                  </div>
+                )}
+                <p className="bt-field__hint">{t.domainNote}</p>
               </section>
               <section className="email-preview" aria-label={t.preview}>
-                <Serif as="h2" size="sm" tone="forest">
-                  {t.preview}
-                </Serif>
-                <iframe className="email-preview-frame" title={t.preview} srcDoc={html} sandbox="" />
+                <div className="email-block-head">
+                  <Serif as="h2" size="sm" tone="forest">
+                    {t.preview}
+                  </Serif>
+                  <div className="email-block-actions">
+                    {(['desktop', 'phone'] as const).map((d) => (
+                      <Button
+                        key={d}
+                        size="sm"
+                        variant={device === d ? 'primary' : 'ghost'}
+                        aria-pressed={device === d}
+                        onClick={() => setDevice(d)}
+                      >
+                        {t[d]}
+                      </Button>
+                    ))}
+                  </div>
+                </div>
+                <iframe
+                  className={`email-preview-frame email-preview-frame--${device}`}
+                  title={t.preview}
+                  srcDoc={html}
+                  sandbox=""
+                />
               </section>
             </div>
           )}
@@ -266,14 +307,20 @@ export function EmailEditorPage({ mode }: { mode: 'compose' | 'welcome' }) {
           open={confirming}
           title={t.confirmTitle}
           confirmLabel={t.send}
-          cancelLabel="Cancel"
+          cancelLabel={w.cancel}
           pending={busy}
           onCancel={() => setConfirming(false)}
           onConfirm={() => void doSend()}
         >
-          {t.confirmBody(overview?.subscribers ?? 0)}
+          {t.confirmBody(workspace?.subscribers ?? 0)}
         </Confirmation>
       </main>
     </>
   );
+}
+
+function toLocalInput(iso: string) {
+  const d = new Date(iso);
+  const offset = d.getTimezoneOffset() * 60000;
+  return new Date(d.getTime() - offset).toISOString().slice(0, 16);
 }
