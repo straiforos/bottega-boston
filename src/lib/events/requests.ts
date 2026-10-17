@@ -73,6 +73,7 @@ export const requestSchema = z
     notes: text(2000),
     lines: z.array(orderLineSchema).max(40),
     website: z.string().max(0).optional(), // honeypot
+    turnstileToken: z.string().max(4096).optional(),
   })
   .superRefine((r, ctx) => {
     if (new Date(r.requestedFor).getTime() < Date.now()) ctx.addIssue({ code: 'custom', path: ['requestedFor'], message: 'Pick a future date.' });

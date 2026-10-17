@@ -7,6 +7,7 @@ import { zonedToUtc } from '@/lib/events/occurrences';
 import { requestSchema, type OrderLineInput, type RequestKind } from '@/lib/events/requests';
 import { submitRequest } from '@/lib/events/requests.functions';
 import { OrderPicker } from './OrderPicker';
+import { Turnstile } from './Turnstile';
 
 const t = eventsContent.requests;
 
@@ -32,6 +33,8 @@ export function RequestForm({ kind }: { kind: RequestKind }) {
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [status, setStatus] = useState<'idle' | 'sending' | 'sent' | 'failed'>('idle');
   const [failure, setFailure] = useState('');
+  const [captcha, setCaptcha] = useState('');
+  const [captchaKey, setCaptchaKey] = useState(0);
   const ids = { dietary: useId(), notes: useId() };
   const set = (patch: Partial<typeof form>) => setForm((f) => ({ ...f, ...patch }));
 
@@ -53,6 +56,7 @@ export function RequestForm({ kind }: { kind: RequestKind }) {
       notes: form.notes,
       lines: withCatering ? lines : [],
       website: form.website,
+      turnstileToken: captcha,
     };
     const parsed = requestSchema.safeParse(payload);
     if (!parsed.success) {
@@ -66,6 +70,12 @@ export function RequestForm({ kind }: { kind: RequestKind }) {
       setErrors({ lines: 'Add at least one tray.' });
       return;
     }
+    if (!captcha) {
+      setErrors({});
+      setFailure('Please complete the human check.');
+      setStatus('failed');
+      return;
+    }
     setErrors({});
     setStatus('sending');
     try {
@@ -74,6 +84,8 @@ export function RequestForm({ kind }: { kind: RequestKind }) {
     } catch (e) {
       setFailure(e instanceof Error && e.message.length < 140 ? e.message : t.failed);
       setStatus('failed');
+      setCaptcha('');
+      setCaptchaKey((k) => k + 1);
     }
   };
 
@@ -141,6 +153,7 @@ export function RequestForm({ kind }: { kind: RequestKind }) {
       </div>
       <input className="request-honeypot" tabIndex={-1} autoComplete="off" aria-hidden="true" value={form.website} onChange={(e) => set({ website: e.target.value })} name="website" />
 
+      <Turnstile key={captchaKey} onToken={setCaptcha} />
       {status === 'failed' && <Serif as="p" size="sm" tone="tomato" role="alert">{failure}</Serif>}
       <div>
         <Button type="submit" disabled={status === 'sending'}>{status === 'sending' ? t.sending : t.send}</Button>

@@ -36,11 +36,28 @@ const staffFallback: EmailDraft = {
   ],
 };
 
+async function verifyTurnstile(token: string | undefined): Promise<boolean> {
+  const secret = process.env.TURNSTILE_SECRET_KEY;
+  if (!secret || !token) return false;
+  const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+    method: 'POST',
+    body: new URLSearchParams({ secret, response: token }),
+  });
+  const out = (await res.json().catch(() => ({}))) as { success?: boolean };
+  return out.success === true;
+}
+
+/** Public: the Turnstile site key (publishable) for the request forms. */
+export const getTurnstileSiteKey = createServerFn({ method: 'GET' }).handler(async () => ({
+  siteKey: process.env.TURNSTILE_SITE_KEY ?? '',
+}));
+
 /** Public: a guest asks for catering or the event space. Saved for staff, then confirmed by email. */
 export const submitRequest = createServerFn({ method: 'POST' })
   .inputValidator((input: unknown) => requestSchema.parse(input))
   .handler(async ({ data }) => {
     if (data.website) return { ok: true as const };
+    if (!(await verifyTurnstile(data.turnstileToken))) throw new Error('Please complete the human check and try again.');
     const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
 
     const since = new Date(Date.now() - 3_600_000).toISOString();
