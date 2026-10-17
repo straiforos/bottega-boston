@@ -117,7 +117,7 @@ function EditShell<T>({ label, contentKey, initial, withImage, validate, toData,
 
 const multiline = 'Use | where the text should break onto a new line.';
 const toBar = (text: string) => text.replace(/\n/g, ' | ');
-const fromBar = (text: string) => text.split('|').map((part) => part.trim()).join('\n');
+const fromBar = (text: string) => text.replace(/\s*\|\s*/g, '\n');
 
 export function HeroEditor({ hero }: { hero: HeroContent }) {
   return (
