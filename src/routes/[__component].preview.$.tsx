@@ -1,5 +1,5 @@
 // AUTO-INSTALLED by mockupPreviewPlugin: build-servable canvas component preview.
-// Renders the component ALONE, client-only — keep __root.tsx providers-only.
+// Renders the component ALONE, client-only (keep __root.tsx providers-only).
 import { createFileRoute } from "@tanstack/react-router";
 import {
   Component as ReactComponent,

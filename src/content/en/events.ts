@@ -95,7 +95,7 @@ export const eventsContent = {
     thanksTitle: 'Grazie!',
     thanksBody: 'We got your request and sent a copy to your inbox. Our team will be in touch soon.',
     failed: 'That didn’t go through. Please try again.',
-    needsAttention: 'Some fields need attention — please correct the highlighted fields and try again.',
+    needsAttention: 'Some fields need attention. Please correct the highlighted fields and try again.',
   },
   inbox: {
     title: 'Requests',

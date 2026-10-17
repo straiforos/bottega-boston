@@ -93,7 +93,7 @@ export const defaultHomeContent: HomeContent = {
   ],
 };
 
-/** Dark card surfaces get cream ink; light ones forest — staff can never pick an illegible pairing. */
+/** Dark card surfaces get cream ink; light ones forest, so staff can never pick an illegible pairing. */
 export function cardInk(variant: CardVariant) {
   const dark = variant === 'cobalt' || variant === 'forest';
   return { text: dark ? ('cream' as const) : ('forest' as const), link: dark ? ('mustard' as const) : ('forest' as const) };

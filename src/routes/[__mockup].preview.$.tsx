@@ -1,5 +1,5 @@
 // AUTO-INSTALLED by mockupPreviewPlugin: build-servable canvas mockup preview.
-// Renders the mockup ALONE, client-only — keep __root.tsx providers-only.
+// Renders the mockup ALONE, client-only (keep __root.tsx providers-only).
 import { createFileRoute } from "@tanstack/react-router";
 import { createElement, Suspense, useEffect, useState, type ComponentType, type ReactElement } from "react";
 
@@ -20,7 +20,7 @@ function MockupPreview(): ReactElement | null {
       setBlocked(true);
       return;
     }
-    // Tell the canvas parent this build serves the preview routes — without
+    // Tell the canvas parent this build serves the preview routes, without
     // the handshake a routeless build's app shell is indistinguishable.
     window.parent?.postMessage({ type: "lov-canvas-preview-ready" }, "*");
     let active = true;
