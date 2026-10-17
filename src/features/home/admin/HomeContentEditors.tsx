@@ -1,6 +1,7 @@
 import { useState, type FormEvent, type ReactNode } from 'react';
 import { useSnackbar } from '@/design-system/bottega-f5161c/bottega';
 import { adminDraftKey, clearStoredDraft, isDirty, readDraft, useAdminDraft } from '@/lib/events/form-draft';
+import { useMediaDraft } from '@/lib/events/media-draft';
 import { useQueryClient } from '@tanstack/react-query';
 import { Button, Card, Checkbox, FileUpload, Radio, TextField } from '@/design-system/bottega-f5161c';
 import { staffContent } from '@/content/en/staff';
@@ -39,19 +40,18 @@ interface ShellProps<T> {
 function EditShell<T>({ label, contentKey, initial, withImage, validate, toData, fields }: ShellProps<T>) {
   const [open, setOpen] = useState(false);
   const [draft, setDraft] = useState(initial);
-  const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const [progress, setProgress] = useState<number | null>(null);
   const queryClient = useQueryClient();
   const { show } = useSnackbar();
   const key = adminDraftKey(`home:${contentKey}`);
+  const { file, setFile, clearMedia, ready: mediaReady } = useMediaDraft(key, () => show({ message: staffContent.mediaDraftFailed, variant: 'danger' }), open && Boolean(withImage));
   useAdminDraft(key, draft, initial, () => {}, open);
 
   const start = () => {
     const saved = readDraft<T>(key);
     setDraft(saved && isDirty(saved, initial) ? saved : initial);
-    setFile(null);
     setError(null);
     setOpen(true);
   };
@@ -71,6 +71,7 @@ function EditShell<T>({ label, contentKey, initial, withImage, validate, toData,
       await saveHomeContent(contentKey, toData(draft, url));
       await queryClient.invalidateQueries({ queryKey: homeContentQueryOptions.queryKey });
       clearStoredDraft(key);
+      if (withImage) await clearMedia();
       show({ message: staffContent.changesSaved, variant: 'success' });
       setOpen(false);
     } catch {
@@ -102,7 +103,7 @@ function EditShell<T>({ label, contentKey, initial, withImage, validate, toData,
                 files={file ? [file] : []}
                 onFilesChange={(files) => setFile(files[0] ?? null)}
                 onReject={() => setError('Choose an image file.')}
-                disabled={saving}
+                disabled={saving || !mediaReady}
               >
                 Leave empty to keep the current photo.
               </FileUpload>
@@ -114,10 +115,10 @@ function EditShell<T>({ label, contentKey, initial, withImage, validate, toData,
               </p>
             )}
             <div className="gallery-editor-actions" aria-live="polite">
-              <Button type="submit" size="sm" disabled={saving}>
+              <Button type="submit" size="sm" disabled={saving || (withImage && !mediaReady)}>
                 {saving ? (progress !== null && progress < 100 ? `Preparing photo… ${progress}%` : staffContent.saving) : staffContent.save}
               </Button>
-              <Button variant="ghost" size="sm" onClick={() => { clearStoredDraft(key); setOpen(false); }} disabled={saving}>
+              <Button variant="ghost" size="sm" onClick={() => { clearStoredDraft(key); if (withImage) void clearMedia(); setOpen(false); }} disabled={saving}>
                 {staffContent.cancel}
               </Button>
             </div>

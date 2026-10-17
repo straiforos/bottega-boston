@@ -2,6 +2,7 @@ import { useId, useState, type FormEvent } from 'react';
 import { Button, Card, Checkbox, FileUpload, TextField } from '@/design-system/bottega-f5161c';
 import { useSnackbar } from '@/design-system/bottega-f5161c/bottega';
 import { adminDraftKey, useAdminDraft } from '@/lib/events/form-draft';
+import { useMediaDraft } from '@/lib/events/media-draft';
 import { staffContent } from '@/content/en/staff';
 import { validateDishDraft } from '@/lib/menu/menu-api';
 import { DIETARY_OPTIONS, toggleTag } from '@/lib/menu/dietary';
@@ -21,7 +22,7 @@ export function DishEditor({ initial, onSave, onCancel, draftScope }: DishEditor
   const [draft, setDraft] = useState<DishDraft>(initial);
   const { show } = useSnackbar();
   const clearDraft = useAdminDraft(adminDraftKey(draftScope), draft, initial, setDraft);
-  const [photo, setPhoto] = useState<File | null>(null);
+  const { file: photo, setFile: setPhoto, clearMedia, ready: mediaReady } = useMediaDraft(adminDraftKey(draftScope), () => show({ message: staffContent.mediaDraftFailed, variant: 'danger' }));
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const descriptionId = useId();
@@ -40,6 +41,7 @@ export function DishEditor({ initial, onSave, onCancel, draftScope }: DishEditor
     try {
       await onSave(draft, photo);
       clearDraft();
+      await clearMedia();
       show({ message: staffContent.changesSaved, variant: 'success' });
     } catch {
       setError(staffContent.failed);
@@ -94,6 +96,7 @@ export function DishEditor({ initial, onSave, onCancel, draftScope }: DishEditor
           size="sm"
           browseLabel={t.browse}
           files={photo ? [photo] : []}
+          disabled={saving || !mediaReady}
           onFilesChange={(files) => setPhoto(files[0] ?? null)}
           onReject={() => setError(t.photoRejected)}
           error={photo ? (uploadSizeError(photo.size) ?? undefined) : undefined}
@@ -106,11 +109,12 @@ export function DishEditor({ initial, onSave, onCancel, draftScope }: DishEditor
           </p>
         )}
         <div className="dish-editor-actions">
-          <Button type="submit" size="sm" disabled={saving}>
+          <Button type="submit" size="sm" disabled={saving || !mediaReady}>
             {saving ? (photo ? staffContent.processing : staffContent.saving) : staffContent.save}
           </Button>
           <Button variant="ghost" size="sm" onClick={() => {
             clearDraft();
+            void clearMedia();
             onCancel();
           }} disabled={saving}>
             {staffContent.cancel}

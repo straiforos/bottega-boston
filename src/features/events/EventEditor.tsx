@@ -5,6 +5,7 @@ import { useNavigate } from '@tanstack/react-router';
 import { Button, Checkbox, Display, FileUpload, Radio, TextField } from '@/design-system/bottega-f5161c';
 import { useSnackbar } from '@/design-system/bottega-f5161c/bottega';
 import { adminDraftKey, useAdminDraft } from '@/lib/events/form-draft';
+import { useMediaDraft } from '@/lib/events/media-draft';
 import { eventsContent } from '@/content/en/events';
 import { orderLocations } from '@/content/links';
 import { BottegaHeader } from '@/components/BottegaHeader';
@@ -111,7 +112,7 @@ function EventForm({ event, onClose }: { event: BottegaEvent | null; onClose: ()
     setDraft(saved.draft);
     setWhen(saved.when);
   });
-  const [file, setFile] = useState<File | null>(null);
+  const { file, setFile, clearMedia, ready: mediaReady } = useMediaDraft(adminDraftKey(`event:${event?.id ?? 'new'}`), () => show({ message: staffContent.mediaDraftFailed, variant: 'danger' }));
   const [error, setError] = useState<string | null>(null);
   const [saving, setSaving] = useState(false);
   const descId = useId();
@@ -151,6 +152,7 @@ function EventForm({ event, onClose }: { event: BottegaEvent | null; onClose: ()
       await saveEvent(event?.id ?? null, next);
       await queryClient.invalidateQueries({ queryKey: eventsQueryOptions.queryKey });
       clearDraft();
+      await clearMedia();
       show({ message: staffContent.changesSaved, variant: 'success' });
       onClose();
     } catch (err) {
@@ -260,7 +262,7 @@ function EventForm({ event, onClose }: { event: BottegaEvent | null; onClose: ()
           </Button>
         </div>
       )}
-      <FileUpload label={f.photo} browseLabel={f.browse} accept="image/*" multiple={false} size="sm" files={file ? [file] : []} onFilesChange={(files: File[]) => setFile(files[0] ?? null)} />
+      <FileUpload label={f.photo} browseLabel={f.browse} accept="image/*" multiple={false} size="sm" disabled={saving || !mediaReady} files={file ? [file] : []} onFilesChange={(files: File[]) => setFile(files[0] ?? null)} />
       <Checkbox checked={draft.published} onChange={(e) => set({ published: e.target.checked })}>
         {f.published}
       </Checkbox>
@@ -269,8 +271,8 @@ function EventForm({ event, onClose }: { event: BottegaEvent | null; onClose: ()
 
       {error && <p className="request-error" role="alert">{error}</p>}
       <div className="event-editor-actions">
-        <Button type="button" variant="ghost" onClick={() => { clearDraft(); onClose(); }} disabled={saving}>{t.cancel}</Button>
-        <Button type="submit" disabled={saving}>{saving ? t.saving : t.save}</Button>
+        <Button type="button" variant="ghost" onClick={() => { clearDraft(); void clearMedia(); onClose(); }} disabled={saving}>{t.cancel}</Button>
+        <Button type="submit" disabled={saving || !mediaReady}>{saving ? t.saving : t.save}</Button>
       </div>
     </form>
   );
