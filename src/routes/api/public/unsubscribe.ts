@@ -8,7 +8,7 @@ async function unsubscribe(request: Request) {
   const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
   await supabaseAdmin
     .from('club_subscribers')
-    .update({ unsubscribed_at: new Date().toISOString() })
+    .update({ unsubscribed_at: new Date().toISOString(), status: 'unsubscribed' })
     .eq('unsubscribe_token', token)
     .is('unsubscribed_at', null);
   return true;
