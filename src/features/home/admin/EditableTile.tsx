@@ -6,6 +6,8 @@ import type { GalleryItem } from '@/lib/gallery/types';
 import { GalleryTile } from '../components/GalleryTile';
 import { TileEditor } from './TileEditor';
 import { useGalleryAdmin } from './useGalleryAdmin';
+import { GalleryEditorDialog } from './GalleryEditorDialog';
+import { GalleryActionIcon } from './GalleryActionIcon';
 
 interface EditableTileProps {
   item: GalleryItem;
@@ -22,21 +24,6 @@ export function EditableTile({ item, items }: EditableTileProps) {
   const t = staffContent.gallery;
   const index = items.findIndex((i) => i.id === item.id);
   const label = item.alt || item.caption;
-
-  if (editing) {
-    return (
-      <div className="gallery-cell">
-        <TileEditor
-          initial={{ alt: item.alt, caption: item.caption }}
-          onCancel={() => setEditing(false)}
-          onSave={async (draft, file, onProgress) => {
-            await admin.update(item.id, draft, file, onProgress);
-            setEditing(false);
-          }}
-        />
-      </div>
-    );
-  }
 
   const run = async (action: () => Promise<void>) => {
     setBusy(true);
@@ -60,8 +47,9 @@ export function EditableTile({ item, items }: EditableTileProps) {
           size="sm"
           onClick={() => setEditing(true)}
           aria-label={`${staffContent.edit} ${label}`}
+          title={staffContent.edit}
         >
-          {staffContent.edit}
+          <GalleryActionIcon action="edit" />
         </Button>
         <Button
           variant="primary"
@@ -90,8 +78,9 @@ export function EditableTile({ item, items }: EditableTileProps) {
           disabled={busy}
           onClick={() => setConfirming(true)}
           aria-label={`${staffContent.delete} ${label}`}
+          title={staffContent.delete}
         >
-          {staffContent.delete}
+          <GalleryActionIcon action="delete" />
         </Button>
         {error && !confirming && <span role="alert">{error}</span>}
         <Confirmation
@@ -108,6 +97,16 @@ export function EditableTile({ item, items }: EditableTileProps) {
           {error && <span role="alert"> {error}</span>}
         </Confirmation>
       </div>
+      <GalleryEditorDialog open={editing} label={`${staffContent.edit} ${label}`} onCancel={() => setEditing(false)}>
+        <TileEditor
+          initial={{ alt: item.alt, caption: item.caption }}
+          onCancel={() => setEditing(false)}
+          onSave={async (draft, file, onProgress) => {
+            await admin.update(item.id, draft, file, onProgress);
+            setEditing(false);
+          }}
+        />
+      </GalleryEditorDialog>
     </div>
   );
 }
