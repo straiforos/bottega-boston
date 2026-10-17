@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { describeRecurrence, nthWeekdayOfMonth, upcomingOccurrences, zonedToUtc, type EventSchedule } from './occurrences';
-import { isTicketTailorUrl, orderTotal, parsePriceOptions, priceOrder } from './requests';
+import { isTicketTailorUrl, maskPhone, orderTotal, parsePriceOptions, priceOrder, requestDateBounds, requestSchema } from './requests';
 import { upcomingEvents, type BottegaEvent } from './events-api';
 
 const tz = 'America/New_York';
@@ -82,3 +82,59 @@ describe('ticket links', () => {
     expect(isTicketTailorUrl('https://tickettailor.com.evil.io/x')).toBe(false);
   });
 });
+
+describe('phone mask', () => {
+  it('formats a full 10-digit number', () => {
+    expect(maskPhone('6175551234')).toBe('(617) 555-1234');
+  });
+  it('keeps partial numbers free of trailing separators', () => {
+    expect(maskPhone('617555')).toBe('(617) 555');
+    expect(maskPhone('6175551234')).toBe('(617) 555-1234');
+  });
+  it('captures an extension', () => {
+    expect(maskPhone('6175551234x77')).toBe('(617) 555-1234 x77');
+  });
+  it('tolerates a pasted +1 country code', () => {
+    expect(maskPhone('+1 617 555 1234')).toBe('(617) 555-1234');
+  });
+});
+
+describe('request date window', () => {
+  it('bounds the picker from the next minute to two years out', () => {
+    const bounds = requestDateBounds(new Date('2026-10-17T15:25:00'));
+    expect(bounds.min).toBe('2026-10-17T15:26');
+    expect(bounds.max).toBe('2028-10-17T15:25');
+  });
+  it('accepts a request inside the two-year window', () => {
+    const result = requestSchema.safeParse(baseRequest(new Date(Date.now() + 3600_000).toISOString()));
+    expect(result.success).toBe(true);
+  });
+  it('rejects a request beyond two years', () => {
+    const beyond = new Date(Date.now() + 2 * 366 * 24 * 60 * 60 * 1000 + 3600_000).toISOString();
+    const result = requestSchema.safeParse(baseRequest(beyond));
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.issues[0].message).toBe('Pick a date within the next two years.');
+    }
+  });
+});
+
+function baseRequest(requestedFor: string) {
+  return {
+    kind: 'catering' as const,
+    name: 'Guest',
+    email: 'guest@example.com',
+    phone: '(617) 555-1234',
+    locationId: 'brookline' as const,
+    requestedFor,
+    guests: null,
+    eventType: '',
+    fulfillment: 'pickup' as const,
+    address: '',
+    dietary: '',
+    notes: '',
+    lines: [{ itemId: 'a', option: '', quantity: 1 }],
+    website: undefined,
+    turnstileToken: undefined,
+  };
+}
