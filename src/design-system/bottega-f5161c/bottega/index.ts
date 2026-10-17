@@ -30,6 +30,8 @@ export { Logo, type LogoProps } from "./components/Logo";
 export { ThemeToggle, type ThemeToggleProps, type Theme } from "./components/ThemeToggle";
 export { MenuToggle, type MenuToggleProps } from "./components/MenuToggle";
 export { MenuOverlay, type MenuOverlayProps } from "./components/MenuOverlay";
+export { MenuLink, type MenuLinkProps } from "./components/MenuLink";
+export { MenuSubmenu, type MenuSubmenuProps } from "./components/MenuSubmenu";
 export { cx } from "./lib/cx";
 
 export { FileUpload, type FileUploadProps } from "./components/FileUpload";

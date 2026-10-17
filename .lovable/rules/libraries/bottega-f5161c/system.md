@@ -28,6 +28,17 @@ Fonts are not bundled: add this to the root route head `links`:
 - External ordering links (ChowNow and similar) go through `Button` with `href` — it renders a semantic `<a>`. Open them in a new tab with `target="_blank"` and an `aria-label` noting it opens in a new tab. Never wrap an external link in a `<button>`.
 - Firefox blocks new-tab links that keep an opener relationship (COOP). `Button` and `LinkAction` add `rel="noopener noreferrer"` automatically whenever `target="_blank"` is set — never pass `rel` by hand and never ship a raw `<a target="_blank">` outside those components.
 - Use `SiteHeader` for the complete brand header. It owns the dual logo, semantic navigation, responsive `MenuToggle`, and `MenuOverlay`; do not assemble a parallel header from those parts unless the layout is intentionally custom.
+- Compose navigation with `MenuLink` and `MenuSubmenu label="Menu"`. Submenus reuse `MenuOverlay variant="submenu"` as a labeled disclosure group: click-to-open dropdowns above the existing 1100px breakpoint and inline sections below it. Do not add ARIA menu/menuitem roles to site navigation. Escape closes the nearest submenu and restores trigger focus; Tab moves naturally, and outside clicks or navigation close it. Use `open`/`onOpenChange` for controlled state or `defaultOpen` for uncontrolled state. Parent labels are buttons, not destinations; add an "All menu" child link when the parent also has a page.
+
+```tsx
+<SiteHeader navigationFooter={<Button href="https://order.chownow.com/your-location" target="_blank">Order now</Button>}>
+  <MenuLink href="/about">About</MenuLink>
+  <MenuSubmenu label="Menu">
+    <MenuLink href="/menu">All menu</MenuLink>
+    <MenuLink href="/menu/pasta">Pasta</MenuLink>
+  </MenuSubmenu>
+</SiteHeader>
+```
 - Use `Marquee` strips to divide big color blocks; use `Stamp` sparingly (max one per section).
 - The theme ships a `box-sizing: border-box` baseline for every element, so a `width: 100%` control (e.g. `Button width="full"`) always fits its container's padding. Never work around overflow with inline widths or negative margins — if a control spills past a panel edge, the border-box baseline is missing from that build.
 

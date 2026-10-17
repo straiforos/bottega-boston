@@ -323,11 +323,33 @@ import { Marquee } from "@/design-system/bottega-f5161c"
 | `variant` | cream · forest · terracotta · tomato | `cream` |
 | `repeat` | number | `8` |
 
+### MenuLink
+
+```ts
+import { MenuLink } from "@/design-system/bottega-f5161c"
+```
+
+A semantic navigation destination inside MenuOverlay or MenuSubmenu. Supports native anchor props and automatic opener safety for new tabs.
+
+**Examples:**
+
+_Current destination_
+```tsx
+<MenuLink href="/menu" aria-current="page">Menu</MenuLink>
+```
+
+**Avoid:**
+
+- Do not use a link to toggle a submenu; use MenuSubmenu.
+- Do not replace navigation with clickable divs.
+
 ### MenuOverlay
 
 ```ts
 import { MenuOverlay } from "@/design-system/bottega-f5161c"
 ```
+
+Responsive primary navigation or a shared child disclosure panel. MenuSubmenu composes the submenu variant without creating another navigation landmark.
 
 **Props:**
 
@@ -336,6 +358,56 @@ import { MenuOverlay } from "@/design-system/bottega-f5161c"
 | `open` | boolean | `false` |
 | `footer` | any | `—` |
 | `label` | string | `Primary` |
+| `variant` | primary · submenu | `primary` |
+
+**Examples:**
+
+_Compound navigation_
+```tsx
+<MenuOverlay open={menuOpen}><MenuSubmenu label="Menu"><MenuLink href="/menu">All menu</MenuLink></MenuSubmenu></MenuOverlay>
+```
+
+**Avoid:**
+
+- Do not build a second dropdown panel; reuse MenuSubmenu and the shared overlay.
+- Do not use submenu panels as navigation landmarks or ARIA application menus.
+
+### MenuSubmenu
+
+```ts
+import { MenuSubmenu } from "@/design-system/bottega-f5161c"
+```
+
+Group child destinations in a click-to-open desktop dropdown or compact inline disclosure. Composes Button and MenuOverlay, supports controlled state, Escape focus restoration, outside dismissal and natural Tab navigation.
+
+**Props:**
+
+| Prop | Type | Default |
+|---|---|---|
+| `label` | string | `—` |
+| `children` | any | `—` |
+| `open` | boolean | `—` |
+| `defaultOpen` | boolean | `false` |
+| `onOpenChange` | function | `—` |
+| `disabled` | boolean | `false` |
+
+**Examples:**
+
+_Menu destinations_
+```tsx
+<SiteHeader><MenuSubmenu label="Menu"><MenuLink href="/menu">All menu</MenuLink><MenuLink href="/menu/pasta">Pasta</MenuLink></MenuSubmenu></SiteHeader>
+```
+
+_Controlled submenu_
+```tsx
+<MenuSubmenu label="Locations" open={open} onOpenChange={setOpen}><MenuLink href="/roma">Roma</MenuLink></MenuSubmenu>
+```
+
+**Avoid:**
+
+- Do not make the disclosure label both a link and button; provide an All menu child destination.
+- Do not implement hover-only access or add menu/menuitem roles to site navigation.
+- Do not hand-style a separate dropdown or accordion.
 
 ### MenuToggle
 

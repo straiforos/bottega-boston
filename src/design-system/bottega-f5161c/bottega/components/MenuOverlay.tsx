@@ -8,6 +8,8 @@ export interface MenuOverlayProps extends HTMLAttributes<HTMLElement> {
   footer?: ReactNode;
   /** Accessible name for the navigation landmark. */
   label?: string;
+  /** Primary navigation or a child disclosure panel (no nested navigation landmark). */
+  variant?: "primary" | "submenu";
 }
 
 /**
@@ -21,18 +23,24 @@ export interface MenuOverlayProps extends HTMLAttributes<HTMLElement> {
  * Do not place unrelated page content inside the overlay.
  */
 export const MenuOverlay = forwardRef<HTMLElement, MenuOverlayProps>(function MenuOverlay(
-  { open = false, footer, label = "Primary", className, children, ...props },
+  { open = false, footer, label = "Primary", variant = "primary", className, children, ...props },
   ref,
 ) {
+  const Element = variant === "submenu" ? "div" : "nav";
   return (
-    <nav
-      ref={ref}
-      className={cx("bt-menu-overlay", open && "bt-menu-overlay--open", className)}
+    <Element
+      ref={(node) => {
+        if (typeof ref === "function") ref(node);
+        else if (ref) ref.current = node;
+      }}
+      className={cx("bt-menu-overlay", `bt-menu-overlay--${variant}`, open && "bt-menu-overlay--open", className)}
+      role={variant === "submenu" ? "group" : undefined}
+      hidden={variant === "submenu" && !open}
       aria-label={label}
       {...props}
     >
       <div className="bt-menu-overlay__links">{children}</div>
       {footer ? <div className="bt-menu-overlay__footer">{footer}</div> : null}
-    </nav>
+    </Element>
   );
 });

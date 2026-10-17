@@ -137,6 +137,7 @@
   --bt-map-height-lg: 34rem;
   --bt-backdrop: rgba(0, 0, 0, 0.65);
   --bt-duration: 180ms;
+  --bt-submenu-width: 14rem;
 }
 
 /* Dark scope: the dark theme AND fixed dark surfaces (forest/cobalt cards, forest header & marquee)

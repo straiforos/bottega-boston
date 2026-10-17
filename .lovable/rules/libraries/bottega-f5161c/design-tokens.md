@@ -128,6 +128,7 @@ Reference via `var(--name)` in inline styles or CSS.
 | `--bt-map-height-md` |
 | `--bt-map-height-lg` |
 | `--bt-duration` |
+| `--bt-submenu-width` |
 
 
 

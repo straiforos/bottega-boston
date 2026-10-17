@@ -2,7 +2,7 @@
   "meta": {
     "name": "Bottega",
     "package": "@ws-cli5ylqvzebyb2b5e4wl/432d9af3-64cc-49a3-92e4-36d8f906a251",
-    "version": "1.3.3",
+    "version": "1.3.4",
     "framework": "react",
     "css_framework": "css-variables",
     "starter_template": "custom_design_system",
@@ -11,7 +11,7 @@
     ],
     "source_type": "local",
     "source_manifest": {
-      "#enrichment": "5e6370004b048baabbd7bd3f32b429e84da39d203720d2f4bd2618ac309f52cd",
+      "#enrichment": "38aa16eadebb9319d5601fc5b4c5c0a55291b9eb0134b39763f55be95f578337",
       ".dsignore": "9202e1883820df077bdb3435c29315c4",
       ".gitignore": "6059213806e442947666752f3db6bfdc",
       ".lovable/meta.yaml": "731dc53c4191bd35cabf4a0af7095d7f",
@@ -19,8 +19,8 @@
       ".lovable/plan/add-the-menu-overlay-to-bottega-2026-10-03.md": "bd97829f1335f8cdd21f4ccda3faf9c6",
       ".lovable/plan/composite-responsive-siteheader-2026-10-03.md": "86f0f22c11c0222d331c29873e8e27fa",
       ".lovable/sources.yaml": "30ba92fda13f611b48d1157bbc70a97c",
-      ".lovable/system.md": "91f28838afc6789e3986343c4f096588",
-      "AGENTS.md": "61afe8a20cad4dc75a50533227f6dcf2",
+      ".lovable/system.md": "9da4813d0d8881c5c9ec1bfebeccc9b6",
+      "AGENTS.md": "d35f4b43889e77714b53ecfddd0a7451",
       "README.md": "d19675c449605f23c7cfa133c69b398b",
       "bunfig.toml": "25f4c8696b22b0943db7191e0cdf7942",
       "eslint.config.js": "07a67437fb1a45ab36d6de0145ff09de",
@@ -28,7 +28,7 @@
       "mockupPreviewPlugin.ts": "70d01fe16b7ca25f16ff6bdb97f08b0b",
       "package.json": "c3e5084e52ab8faa86820d48e652c297",
       "public/favicon.png": "8591d74b97a1a207c1efed1baebaaf3a",
-      "roadmap.md": "85696a36f693c249444ed64dd14463c1",
+      "roadmap.md": "3ab8f924284b6dfcc463e89f058431dd",
       "src/bottega/assets/icons/noodle-menu.png": "72ebc45c661ec57224f5f63d45584bda",
       "src/bottega/assets/logos/bottega-logo.png": "2f1ddf64c4925e64c7517ad2c94355f4",
       "src/bottega/assets/logos/bottega-wordmark.png": "4f2f5560d2506735dc1a346346b9d2f9",
@@ -42,14 +42,16 @@
       "src/bottega/components/LinkAction.tsx": "c768c34f2df9aa78876cce96446575bc",
       "src/bottega/components/Logo.tsx": "28e25ca711ef396309fcb77af5eed366",
       "src/bottega/components/Marquee.tsx": "9433166178d4a04f8bee3e36f32733eb",
-      "src/bottega/components/MenuOverlay.tsx": "c45f518511f87a9a39fe1eb812522d27",
+      "src/bottega/components/MenuLink.tsx": "380b872c46c23cd69c4102fbb882c7fa",
+      "src/bottega/components/MenuOverlay.tsx": "8a9fc1c51946b818dcb8f6510839fb85",
+      "src/bottega/components/MenuSubmenu.tsx": "e07823fea49713d660e5baac091e0a84",
       "src/bottega/components/MenuToggle.tsx": "e9917f0089dd9cf486c94697c0637bed",
       "src/bottega/components/SiteHeader.tsx": "c45d122399e1b0bcaa9b0998a82f1592",
       "src/bottega/components/Stamp.tsx": "fab48ad4d19d6f132413a4035b65035d",
       "src/bottega/components/ThemeToggle.tsx": "229aaa64efc3e1fc3006f95a0e211960",
       "src/bottega/components/Typography.tsx": "e8063e5008a7af47d30ec96f145a5568",
       "src/bottega/components/WaveRibbon.tsx": "4eb9a0ca7e53d2561b128b4887bb3e48",
-      "src/bottega/index.ts": "f3a6a0b8ee0858f037e5fb67ac4be029",
+      "src/bottega/index.ts": "138b865324f07c279caff5b6d1e2a280",
       "src/bottega/lib/cx.ts": "7ae105dce8319a6dc3263f679bb79dd7",
       "src/bottega/lib/files.test.ts": "a7083b0f7955fff6f0106d3266cceca7",
       "src/bottega/lib/files.ts": "864d6693af24152e4c2b1b814c57c4c3",
@@ -57,8 +59,8 @@
       "src/bottega/lib/link-rel.ts": "96aac25fd20bb130792fc4ae841d78c7",
       "src/bottega/lib/map-theme.test.ts": "fc2a529b09ba0f3ee3f85809a7a53e08",
       "src/bottega/lib/map-theme.ts": "7e59d8cce6828d18eb0a3d96ffbf208c",
-      "src/bottega/styles/components.css": "86686747e617bf7662aabe4e74ed174f",
-      "src/bottega/styles/theme.css": "a9719086025ec09faeca256fc1c1017b",
+      "src/bottega/styles/components.css": "62bc68ed6a2e3029ba7c6f65d6ede717",
+      "src/bottega/styles/theme.css": "cae5192e9e815780cd23ee74f1b422cd",
       "src/index.ts": "d6db7a37e55fd28ceedfa8fc5272c699",
       "src/mockup-preview.d.ts": "ae9d81e2b8514e13fd59b5b6bece9a64",
       "src/routeTree.gen.ts": "b493492c3c7229d800131062a1facc31",
@@ -67,12 +69,13 @@
       "src/routes/[__mockup].preview.$.tsx": "5d9f42470848aa60148f20f9580e240e",
       "src/routes/__root.tsx": "32d8c1ee58418654d1dc11b4c488f536",
       "src/routes/colors.tsx": "442f6079d89c14e1cfc101460472be76",
-      "src/routes/components.tsx": "4bd42367d66709b458bb04c7375e9d25",
+      "src/routes/components.tsx": "e0bc3fb4c63e6fc4a353609895e62a10",
       "src/routes/index.tsx": "cdecf5361fbea7a6500cfaca7cb08dc8",
       "src/routes/typography.tsx": "c7eb63c2bfbcd2e5352f6dd2d93a673f",
       "src/showcase/Shell.tsx": "8d16bcd92ff8699d8d33b5ffbf96264e",
-      "src/showcase/showcase.css": "5a61e9d679bbf0d3460c78294315dab6",
+      "src/showcase/showcase.css": "961281a4390c993d322de242392454d2",
       "src/styles.css": "fccca7064393320dc09155a76de03886",
+      "tests/menu-navigation.test.py": "d7f9fbf545be4a27ec20cc8849e715df",
       "tsconfig.json": "994abf64c2b9f78b568879f80ed0170e",
       "vite.config.ts": "a99d983076495f848761d0f97f17062a",
       "wrangler.jsonc": "680b897d48e44bcc65fe437c29b38f3b"
@@ -489,6 +492,11 @@
       {
         "name": "--bt-duration",
         "raw": "180ms",
+        "source": "src/bottega/styles/theme.css"
+      },
+      {
+        "name": "--bt-submenu-width",
+        "raw": "14rem",
         "source": "src/bottega/styles/theme.css"
       }
     ]
@@ -1082,7 +1090,94 @@
           "name": "label",
           "type": "string",
           "default": "Primary"
+        },
+        {
+          "name": "variant",
+          "type": "enum",
+          "values": [
+            "primary",
+            "submenu"
+          ],
+          "default": "primary"
         }
+      ],
+      "usage": "Responsive primary navigation or a shared child disclosure panel. MenuSubmenu composes the submenu variant without creating another navigation landmark.",
+      "examples": [
+        {
+          "label": "Compound navigation",
+          "code": "\u003cMenuOverlay open={menuOpen}\u003e\u003cMenuSubmenu label=\"Menu\"\u003e\u003cMenuLink href=\"/menu\"\u003eAll menu\u003c/MenuLink\u003e\u003c/MenuSubmenu\u003e\u003c/MenuOverlay\u003e"
+        }
+      ],
+      "antipatterns": [
+        "Do not build a second dropdown panel; reuse MenuSubmenu and the shared overlay.",
+        "Do not use submenu panels as navigation landmarks or ARIA application menus."
+      ]
+    },
+    {
+      "name": "MenuLink",
+      "file": "src/bottega/components/MenuLink",
+      "import_path": "",
+      "usage": "A semantic navigation destination inside MenuOverlay or MenuSubmenu. Supports native anchor props and automatic opener safety for new tabs.",
+      "examples": [
+        {
+          "label": "Current destination",
+          "code": "\u003cMenuLink href=\"/menu\" aria-current=\"page\"\u003eMenu\u003c/MenuLink\u003e"
+        }
+      ],
+      "antipatterns": [
+        "Do not use a link to toggle a submenu; use MenuSubmenu.",
+        "Do not replace navigation with clickable divs."
+      ]
+    },
+    {
+      "name": "MenuSubmenu",
+      "file": "src/bottega/components/MenuSubmenu",
+      "import_path": "",
+      "props": [
+        {
+          "name": "label",
+          "type": "string",
+          "required": true
+        },
+        {
+          "name": "children",
+          "type": "any",
+          "required": true
+        },
+        {
+          "name": "open",
+          "type": "boolean"
+        },
+        {
+          "name": "defaultOpen",
+          "type": "boolean",
+          "default": "false"
+        },
+        {
+          "name": "onOpenChange",
+          "type": "function"
+        },
+        {
+          "name": "disabled",
+          "type": "boolean",
+          "default": "false"
+        }
+      ],
+      "usage": "Group child destinations in a click-to-open desktop dropdown or compact inline disclosure. Composes Button and MenuOverlay, supports controlled state, Escape focus restoration, outside dismissal and natural Tab navigation.",
+      "examples": [
+        {
+          "label": "Menu destinations",
+          "code": "\u003cSiteHeader\u003e\u003cMenuSubmenu label=\"Menu\"\u003e\u003cMenuLink href=\"/menu\"\u003eAll menu\u003c/MenuLink\u003e\u003cMenuLink href=\"/menu/pasta\"\u003ePasta\u003c/MenuLink\u003e\u003c/MenuSubmenu\u003e\u003c/SiteHeader\u003e"
+        },
+        {
+          "label": "Controlled submenu",
+          "code": "\u003cMenuSubmenu label=\"Locations\" open={open} onOpenChange={setOpen}\u003e\u003cMenuLink href=\"/roma\"\u003eRoma\u003c/MenuLink\u003e\u003c/MenuSubmenu\u003e"
+        }
+      ],
+      "antipatterns": [
+        "Do not make the disclosure label both a link and button; provide an All menu child destination.",
+        "Do not implement hover-only access or add menu/menuitem roles to site navigation.",
+        "Do not hand-style a separate dropdown or accordion."
       ]
     },
     {
