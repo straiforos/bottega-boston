@@ -1,6 +1,7 @@
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { Outlet, createRootRouteWithContext, HeadContent, Scripts } from '@tanstack/react-router';
 import type { ReactNode } from 'react';
+import { SnackbarProvider } from '@/design-system/bottega-f5161c';
 import { StaffSessionProvider } from '@/hooks/useStaffSession';
 
 import appCss from '../styles.css?url';
@@ -66,7 +67,9 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
       <StaffSessionProvider>
-        <Outlet />
+        <SnackbarProvider>
+          <Outlet />
+        </SnackbarProvider>
       </StaffSessionProvider>
     </QueryClientProvider>
   );
