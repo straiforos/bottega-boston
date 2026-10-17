@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { createLink } from '@tanstack/react-router';
-import { Button, SiteHeader } from '@/design-system/bottega-f5161c';
+import { Button, Marquee, SiteHeader } from '@/design-system/bottega-f5161c';
+import { useStaffSession } from '@/hooks/useStaffSession';
+import { staffContent } from '@/content/en/staff';
 import { restaurantContent } from '@/content/en/restaurant';
 import { links } from '@/content/links';
 
@@ -8,6 +10,7 @@ const HeaderLink = createLink('a');
 
 export function BottegaHeader() {
   const [scrolled, setScrolled] = useState(false);
+  const { isAdmin } = useStaffSession();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 0);
@@ -18,36 +21,48 @@ export function BottegaHeader() {
 
   const nav = restaurantContent.navigation;
   return (
-    <SiteHeader
-      variant={scrolled ? 'forest' : 'cream'}
-      className="shared-header"
-      homeLabel={nav.homeLabel}
-      navigationLabel={nav.menuLabel}
-      navigationFooter={
-        <Button size="sm" variant={scrolled ? 'cream' : 'primary'} onClick={() => window.location.assign(links.order)}>
-          {nav.order}
-        </Button>
-      }
-    >
-      <HeaderLink
-        className="bt-menu-overlay__link"
-        activeOptions={{ exact: true, includeHash: true }}
-        to="/"
-        hash="about"
+    <div className="shared-header-stack">
+      {isAdmin && <Marquee text={staffContent.editing} variant="tomato" role="status" />}
+      <SiteHeader
+        variant={scrolled ? 'forest' : 'cream'}
+        className="shared-header"
+        homeLabel={nav.homeLabel}
+        navigationLabel={nav.menuLabel}
+        navigationFooter={
+          <Button
+            size="sm"
+            variant={scrolled ? 'cream' : 'primary'}
+            onClick={() => window.location.assign(links.order)}
+          >
+            {nav.order}
+          </Button>
+        }
       >
-        {nav.story}
-      </HeaderLink>
-      <HeaderLink className="bt-menu-overlay__link" activeOptions={{ exact: true, includeHash: true }} to="/menu">
-        {nav.menu}
-      </HeaderLink>
-      <HeaderLink
-        className="bt-menu-overlay__link"
-        activeOptions={{ exact: true, includeHash: true }}
-        to="/"
-        hash="events"
-      >
-        {nav.events}
-      </HeaderLink>
-    </SiteHeader>
+        <HeaderLink
+          className="bt-menu-overlay__link"
+          activeOptions={{ exact: true, includeHash: true }}
+          to="/"
+          hash="about"
+        >
+          {nav.story}
+        </HeaderLink>
+        <HeaderLink className="bt-menu-overlay__link" activeOptions={{ exact: true, includeHash: true }} to="/menu">
+          {nav.menu}
+        </HeaderLink>
+        <HeaderLink
+          className="bt-menu-overlay__link"
+          activeOptions={{ exact: true, includeHash: true }}
+          to="/"
+          hash="events"
+        >
+          {nav.events}
+        </HeaderLink>
+        {isAdmin && (
+          <HeaderLink className="bt-menu-overlay__link" activeOptions={{ exact: true }} to="/emails/compose">
+            {nav.emailBuilder}
+          </HeaderLink>
+        )}
+      </SiteHeader>
+    </div>
   );
 }
