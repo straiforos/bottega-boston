@@ -58,7 +58,7 @@ export function BottegaHeader() {
           {nav.events}
         </HeaderLink>
         {isAdmin && (
-          <HeaderLink className="bt-menu-overlay__link" activeOptions={{ exact: true }} to="/emails/compose">
+          <HeaderLink className="bt-menu-overlay__link" to="/emails">
             {nav.emailBuilder}
           </HeaderLink>
         )}

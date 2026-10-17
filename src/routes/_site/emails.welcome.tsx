@@ -13,5 +13,5 @@ export const Route = createFileRoute('/_site/emails/welcome')({
       { name: 'robots', content: 'noindex' },
     ],
   }),
-  component: () => <EmailEditorPage mode="welcome" />,
+  component: () => <EmailEditorPage mode="template" templateKey="welcome" />,
 });
