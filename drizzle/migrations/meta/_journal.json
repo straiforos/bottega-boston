@@ -57,6 +57,13 @@
       "when": 1792253999910,
       "tag": "0007_email_management",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1792264145691,
+      "tag": "0008_events_and_requests",
+      "breakpoints": true
     }
   ]
 }
