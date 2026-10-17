@@ -148,6 +148,15 @@ a:focus-visible {
   justify-content: space-between;
   gap: var(--bt-space-md);
 }
+.order-dialog-editor {
+  display: grid;
+  gap: var(--bt-space-md);
+}
+.order-dialog-editor-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bt-space-sm);
+}
 .order-dialog-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--bt-dialog-width-sm)), 1fr));
