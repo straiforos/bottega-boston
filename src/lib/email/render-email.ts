@@ -29,6 +29,8 @@ export interface RenderOptions {
   siteUrl: string;
   unsubscribeUrl: string;
   locations: readonly EmailLocation[];
+  /** Staff canvas only: adds block anchors and a selection script. Never set for sends. */
+  editor?: boolean;
 }
 
 /** A shop's postal address. The footer links each one itself so mail clients never auto-link it in their own blue. */
@@ -132,7 +134,15 @@ export function toWaypointDocument(draft: EmailDraft, options: RenderOptions): T
     `<div style="text-align:center;border-bottom:1px solid ${t.terracotta};padding-bottom:24px;"><a href="${escapeHtml(options.siteUrl)}"><img src="${escapeHtml(options.logoUrl)}" alt="Bottega" height="56" style="display:inline-block;height:56px;width:auto;border:0;"></a></div>`,
     pad(24, 24),
   );
-  const body = draft.blocks.flatMap((b) => toWaypoint(b, doc));
+  const anchor = (id: string) => {
+    doc[`anchor-${id}`] = html(`<div data-bt-anchor="${escapeHtml(id)}"></div>`, pad(0, 0));
+    return `anchor-${id}`;
+  };
+  const body = draft.blocks.flatMap((b) => {
+    const ids = toWaypoint(b, doc);
+    return options.editor ? [anchor(b.id), ...ids] : ids;
+  });
+  if (options.editor) body.push(anchor('__end'));
   doc.footer = html(
     `<div style="background:${t.forest};padding:24px 32px;font-family:${t.sans};font-size:13px;line-height:1.6;color:${t.cream};"><span style="font-family:${t.serif};color:${t.mustard};font-size:16px;">#PastaIsLife</span><br>${options.locations.map(addressLink).join('<br>')}<br>You’re receiving this because you joined the Bottega Pasta Club. <a href="${escapeHtml(options.unsubscribeUrl)}" style="color:${t.mustard};">Unsubscribe</a></div>`,
     pad(24, 0),
@@ -164,8 +174,25 @@ export function renderEmail(draft: EmailDraft, options: RenderOptions) {
       /<body([^>]*)>/,
       `<body$1 style="margin:0;"><div style="display:none;max-height:0;overflow:hidden;">${escapeHtml(draft.preheader)}</div>`,
     )
-    .replace('<html>', '<html lang="en">');
+    .replace('<html>', '<html lang="en">')
+    .replace('</body>', options.editor ? `<script>${CANVAS_SCRIPT}</script></body>` : '</body>');
 }
+
+/** Runs inside the sandboxed preview iframe: reports block positions, hover, clicks and keys to the editor. */
+const CANVAS_SCRIPT = `(function(){
+var post=function(m){parent.postMessage(Object.assign({source:'bt-canvas'},m),'*')};
+var anchors=function(){return Array.prototype.slice.call(document.querySelectorAll('[data-bt-anchor]'))};
+var rects=function(){var a=anchors(),out=[];for(var i=0;i<a.length-1;i++){var t=a[i].getBoundingClientRect().top+scrollY,b=a[i+1].getBoundingClientRect().top+scrollY;out.push({id:a[i].getAttribute('data-bt-anchor'),top:t,height:Math.max(b-t,8)})}return out};
+var report=function(){post({type:'rects',rects:rects(),scrollY:scrollY,width:document.documentElement.clientWidth})};
+var at=function(y){var r=rects(),py=y+scrollY;for(var i=0;i<r.length;i++){if(py>=r[i].top&&py<r[i].top+r[i].height)return r[i].id}return null};
+addEventListener('mousemove',function(e){post({type:'hover',id:at(e.clientY)})});
+addEventListener('mouseleave',function(){post({type:'hover',id:null})});
+addEventListener('click',function(e){e.preventDefault();post({type:'select',id:at(e.clientY)})},true);
+addEventListener('keydown',function(e){if(['ArrowUp','ArrowDown','Delete','Backspace','Escape'].indexOf(e.key)>-1){e.preventDefault();post({type:'key',key:e.key})}});
+addEventListener('scroll',report);addEventListener('resize',report);addEventListener('load',report);
+Array.prototype.forEach.call(document.images,function(i){i.addEventListener('load',report)});
+report();
+})();`;
 
 export function renderPlainText(draft: EmailDraft, unsubscribeUrl: string) {
   const lines = draft.blocks.map((b) => {
