@@ -50,12 +50,18 @@
 .email-block-head,
 .email-block-actions,
 .email-add,
-.email-send,
 .email-staff-bar,
 .email-toolbar {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  gap: var(--bt-space-sm);
+}
+/* The schedule row pairs a labelled field with a single-line button, so align on the input line. */
+.email-send {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
   gap: var(--bt-space-sm);
 }
 .email-block-head {
