@@ -302,12 +302,13 @@ export function EmailEditorPage(props: Props) {
                           <Button
                             key={type}
                             size="sm"
-                            variant="outline"
+                            variant="ghost"
                             onClick={() => {
                               insert(type);
                             }}
                           >
-                            + {t.blockNames[type]}
+                            <EditorIcon kind="plus" size="sm" />
+                            {t.blockNames[type]}
                           </Button>
                         ))}
                       </div>
@@ -322,7 +323,7 @@ export function EmailEditorPage(props: Props) {
                 {notice && <p role="status">{notice}</p>}
                 {!locked && (
                   <div className="email-send">
-                    <Button variant="outline" disabled={busy} onClick={() => void doTest()}>
+                    <Button variant="ghost" disabled={busy} onClick={() => void doTest()}>
                       {busy ? t.working : t.sendTest}
                     </Button>
                     {props.mode === 'template' ? (
