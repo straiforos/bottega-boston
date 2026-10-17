@@ -12,10 +12,10 @@ vi.mock('./Turnstile', () => ({ Turnstile: () => null }));
 
 afterEach(cleanup);
 
-it('catering validation requires every marked field', () => {
+it('a validation error shows the danger snackbar above the form', () => {
   render(<SnackbarProvider><RequestForm kind="catering" /></SnackbarProvider>);
   fireEvent.click(screen.getByRole('button', { name: 'Send request' }));
-  expect(
-    screen.getAllByRole('alert').some((el) => el.textContent === 'Some fields need attention — please correct the highlighted fields and try again.'),
-  ).toBe(true);
+  const alert = screen.getAllByRole('alert').find((el) => el.classList.contains('bt-snackbar--danger'));
+  expect(alert).toBeDefined();
+  expect(alert?.textContent).toContain('Some fields need attention — please correct the highlighted fields and try again.');
 });
