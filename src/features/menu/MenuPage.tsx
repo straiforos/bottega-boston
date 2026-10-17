@@ -11,10 +11,36 @@ import { MenuFilter } from './components/MenuFilter';
 import { useMenuFilterRail } from './hooks/useMenuFilterRail';
 import { useMenuFilters } from './hooks/useMenuFilters';
 
+/** After a filter change, bring the top of the results into view below the sticky header. */
+function scrollToResults() {
+  requestAnimationFrame(() => {
+    const content = document.querySelector<HTMLElement>('.menu-content');
+    if (!content) return;
+    const header = document.querySelector<HTMLElement>('.shared-header-stack');
+    const headerH = header?.offsetHeight ?? 0;
+    const top = content.getBoundingClientRect().top + window.scrollY - headerH;
+    if (window.scrollY > top) {
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      window.scrollTo({ top, behavior: reduce ? 'auto' : 'smooth' });
+    }
+  });
+}
+
 export function MenuPage() {
   const { data: menuSections = fallbackMenu } = useQuery(menuQueryOptions);
   const { isAdmin } = useStaffSession();
-  const filters = useMenuFilters(menuSections);
+  const baseFilters = useMenuFilters(menuSections);
+  const filters = {
+    ...baseFilters,
+    setSelection: (value: string) => {
+      baseFilters.setSelection(value);
+      scrollToResults();
+    },
+    setDietary: (value: Parameters<typeof baseFilters.setDietary>[0]) => {
+      baseFilters.setDietary(value);
+      scrollToResults();
+    },
+  };
   const rail = useMenuFilterRail();
   return (
     <>
