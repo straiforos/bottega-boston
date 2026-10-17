@@ -13,6 +13,7 @@ export const getRouter = () => {
   // per navigation: the initial load never touches the scroll, a link click
   // lands at the top, and browser back/forward restores the previous spot.
   let scrollDecision = false;
+  let scrollToTopOnRender = false;
   const router = createRouter({
     routeTree,
     context: { queryClient },
@@ -24,12 +25,25 @@ export const getRouter = () => {
     if (!from) {
       // Initial page load: the browser owns the scroll position.
       scrollDecision = false;
+      scrollToTopOnRender = false;
       return;
     }
     const nextIndex = (router.latestLocation.state as HistoryState)?.__TSR_index ?? 0;
     const prevIndex = from.state?.__TSR_index ?? 0;
-    // New entry (link click) → scroll to top; back/forward → restore; replace → stay.
-    scrollDecision = nextIndex !== prevIndex;
+    if (nextIndex > prevIndex) {
+      // Link click: always land at the top, ignoring any stale saved position.
+      scrollDecision = false;
+      scrollToTopOnRender = true;
+    } else {
+      // Back/forward: restore the saved position. Replace: stay put.
+      scrollDecision = nextIndex < prevIndex;
+      scrollToTopOnRender = false;
+    }
+  });
+  router.subscribe('onRendered', () => {
+    if (!scrollToTopOnRender) return;
+    scrollToTopOnRender = false;
+    window.scrollTo(0, 0);
   });
 
   return router;
