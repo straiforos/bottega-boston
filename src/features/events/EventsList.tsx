@@ -28,7 +28,7 @@ export function EventsList() {
               {isAdmin && (
                 <div className="event-card-staff">
                   <Button size="sm" aria-label={`${t.staff.edit}: ${u.event.title}`} onClick={() => setEditing(u.event)}>
-                    <GalleryActionIcon name="edit" />
+                    <GalleryActionIcon action="edit" />
                   </Button>
                 </div>
               )}

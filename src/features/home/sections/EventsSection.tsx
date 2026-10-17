@@ -1,6 +1,7 @@
 import { Display } from '@/design-system/bottega-f5161c';
 import { MovingRibbon } from '@/components/media/MovingRibbon';
 import { restaurantContent } from '@/content/en/restaurant';
+import { EventsList } from '@/features/events/EventsList';
 
 export function EventsSection() {
   return (
@@ -16,6 +17,7 @@ export function EventsSection() {
             with us.
           </Display>
         </div>
+        <EventsList />
       </div>
     </section>
   );
