@@ -45,9 +45,10 @@ export const getRouter = () => {
     scrollToTopOnRender = false;
     // Links to a section (#locations, #events) land on that section; others at the top.
     const hash = router.state.location.hash;
-    const target = hash ? document.getElementById(hash) : null;
-    if (target) target.scrollIntoView();
-    else window.scrollTo(0, 0);
+    window.scrollTo(0, 0);
+    if (!hash) return;
+    // Wait for the new page's sections to lay out before jumping.
+    window.setTimeout(() => document.getElementById(hash)?.scrollIntoView(), 100);
   });
 
   return router;
