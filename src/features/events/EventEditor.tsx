@@ -1,7 +1,7 @@
 import { useEffect, useId, useState, type FormEvent } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
-import { Button, Checkbox, Display, FileUpload, Radio, TextField } from '@/design-system/bottega-f5161c';
+import { Button, Checkbox, Display, FileUpload, Radio, TextField, useSnackbar } from '@/design-system/bottega-f5161c';
 import { eventsContent } from '@/content/en/events';
 import { orderLocations } from '@/content/links';
 import { BottegaHeader } from '@/components/BottegaHeader';
@@ -99,6 +99,7 @@ export function EventEditorPage({ eventId }: { eventId: string }) {
 
 function EventForm({ event, onClose }: { event: BottegaEvent | null; onClose: () => void }) {
   const queryClient = useQueryClient();
+  const { show } = useSnackbar();
   const [draft, setDraft] = useState<EventDraft>(() => toDraft(event));
   const [when, setWhen] = useState(() => toLocalInput(draft.startsAt));
   const [file, setFile] = useState<File | null>(null);
@@ -125,7 +126,11 @@ function EventForm({ event, onClose }: { event: BottegaEvent | null; onClose: ()
     const [date, time] = when.split('T');
     const next = { ...draft, startsAt: date && time ? zonedToUtc(date, time, EVENT_TZ).toISOString() : '' };
     const problem = validateEvent(next);
-    if (problem) return setError(problem);
+    if (problem) {
+      setError(problem);
+      show({ message: problem, variant: 'danger' });
+      return;
+    }
     setSaving(true);
     setError(null);
     try {
@@ -138,7 +143,9 @@ function EventForm({ event, onClose }: { event: BottegaEvent | null; onClose: ()
       await queryClient.invalidateQueries({ queryKey: eventsQueryOptions.queryKey });
       onClose();
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Couldn’t save the event.');
+      const message = err instanceof Error ? err.message : 'Couldn’t save the event.';
+      setError(message);
+      show({ message, variant: 'danger' });
     } finally {
       setSaving(false);
     }
