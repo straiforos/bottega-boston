@@ -102,9 +102,9 @@ export function RequestForm({ kind }: { kind: RequestKind }) {
   return (
     <form className="request-form" onSubmit={submit} noValidate>
       <div className="request-grid">
-        <TextField label={t.name} required autoComplete="name" value={form.name} error={errors.name} onChange={(e) => set({ name: e.target.value })} maxLength={100} />
-        <TextField label={t.email} required type="email" autoComplete="email" value={form.email} error={errors.email} onChange={(e) => set({ email: e.target.value })} maxLength={254} />
-        <TextField label={t.phone} required type="tel" autoComplete="tel" inputMode="tel" value={form.phone} error={errors.phone} onChange={(e) => set({ phone: maskPhone(e.target.value) })} maxLength={20} />
+        <TextField label={t.name} required name="name" autoComplete="name" value={form.name} error={errors.name} onChange={(e) => set({ name: e.target.value })} maxLength={100} />
+        <TextField label={t.email} required type="email" name="email" autoComplete="email" value={form.email} error={errors.email} onChange={(e) => set({ email: e.target.value })} maxLength={254} />
+        <TextField label={t.phone} required type="tel" name="phone" autoComplete="tel" inputMode="tel" value={form.phone} error={errors.phone} onChange={(e) => set({ phone: maskPhone(e.target.value) })} maxLength={40} />
         <TextField label={t.when} required type="datetime-local" min={whenBounds.min} max={whenBounds.max} value={form.when} error={errors.requestedFor} onChange={(e) => set({ when: e.target.value })} />
         {kind === 'space' && (
           <>
@@ -139,7 +139,7 @@ export function RequestForm({ kind }: { kind: RequestKind }) {
             {errors.fulfillment && <p className="request-error" role="alert">{errors.fulfillment}</p>}
           </fieldset>
           {form.fulfillment === 'delivery' && (
-            <TextField label={t.address} required autoComplete="street-address" value={form.address} error={errors.address} onChange={(e) => set({ address: e.target.value })} maxLength={300} />
+            <TextField label={t.address} required name="address" autoComplete="street-address" value={form.address} error={errors.address} onChange={(e) => set({ address: e.target.value })} maxLength={300} />
           )}
         </>
       )}
