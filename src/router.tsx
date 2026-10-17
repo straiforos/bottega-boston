@@ -1,5 +1,5 @@
 import { QueryClient } from '@tanstack/react-query';
-import { createRouter, type RouterListener } from '@tanstack/react-router';
+import { createRouter } from '@tanstack/react-router';
 import { routeTree } from './routeTree.gen';
 
 type HistoryState = { __TSR_index?: number } | null;
@@ -19,18 +19,18 @@ export const getRouter = () => {
     scrollRestoration: () => scrollDecision,
     defaultPreloadStaleTime: 0,
   });
-  router.subscribe('onBeforeLoad', ((event: { fromLocation?: { state: HistoryState } | null }) => {
-    const from = event.fromLocation;
+  router.subscribe('onBeforeLoad', (event) => {
+    const from = event.fromLocation as { state: HistoryState } | null | undefined;
     if (!from) {
       // Initial page load: the browser owns the scroll position.
       scrollDecision = false;
       return;
     }
-    const nextIndex = router.latestLocation.state?.__TSR_index ?? 0;
+    const nextIndex = (router.latestLocation.state as HistoryState)?.__TSR_index ?? 0;
     const prevIndex = from.state?.__TSR_index ?? 0;
     // New entry (link click) → scroll to top; back/forward → restore; replace → stay.
-    scrollDecision = nextIndex > prevIndex || nextIndex < prevIndex;
-  }) as RouterListener<never>);
+    scrollDecision = nextIndex !== prevIndex;
+  });
 
   return router;
 };
