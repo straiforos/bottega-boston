@@ -122,33 +122,33 @@ a:focus-visible {
   height: calc(var(--bt-icon-size) * 0.4);
 }
 
-/* Order location chooser */
-.order-dialog {
-  width: min(calc(var(--bt-dialog-width-md) * 2), calc(100% - var(--bt-space-md) * 2));
-  max-height: calc(100vh - var(--bt-space-md) * 2);
-  padding: 0;
-  border-width: var(--bt-border-width);
-  border-style: solid;
-  border-color: var(--bt-terracotta);
-  background: var(--bt-cream);
-  color: var(--bt-ink);
-  box-shadow: var(--bt-shadow-card);
-}
-.order-dialog::backdrop {
-  background: var(--bt-backdrop);
-}
-.order-dialog-body {
+/* Locations section (ordering) */
+.locations-section {
   display: grid;
   gap: var(--bt-space-lg);
-  padding: var(--bt-space-lg);
+  padding-block: var(--bt-space-xl);
+  padding-inline: var(--bt-margin);
+  background: var(--bt-cream);
+  color: var(--bt-ink);
+  scroll-margin-top: var(--bt-space-8);
 }
-.order-dialog-head {
+.locations-head {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: var(--bt-space-md);
 }
-.order-dialog-grid {
+.locations-editor {
+  display: grid;
+  gap: var(--bt-space-md);
+}
+.locations-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bt-space-sm);
+}
+.locations-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--bt-dialog-width-sm)), 1fr));
   gap: var(--bt-space-lg);

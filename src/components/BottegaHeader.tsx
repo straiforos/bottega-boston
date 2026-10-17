@@ -1,16 +1,15 @@
 import { useEffect, useState } from 'react';
-import { createLink } from '@tanstack/react-router';
+import { createLink, useNavigate } from '@tanstack/react-router';
 import { Button, Marquee, SiteHeader } from '@/design-system/bottega-f5161c';
 import { useStaffSession } from '@/hooks/useStaffSession';
 import { staffContent } from '@/content/en/staff';
 import { restaurantContent } from '@/content/en/restaurant';
-import { OrderLocationsDialog } from '@/components/OrderLocationsDialog';
 
 const HeaderLink = createLink('a');
 
 export function BottegaHeader() {
   const [scrolled, setScrolled] = useState(false);
-  const [ordering, setOrdering] = useState(false);
+  const navigate = useNavigate();
   const { isAdmin } = useStaffSession();
 
   useEffect(() => {
@@ -33,7 +32,7 @@ export function BottegaHeader() {
           <Button
             size="sm"
             variant={scrolled ? 'cream' : 'primary'}
-            onClick={() => setOrdering(true)}
+            onClick={() => navigate({ to: '/', hash: 'locations' })}
           >
             {nav.order}
           </Button>
@@ -64,7 +63,6 @@ export function BottegaHeader() {
           </HeaderLink>
         )}
       </SiteHeader>
-      <OrderLocationsDialog open={ordering} onClose={() => setOrdering(false)} />
     </div>
   );
 }

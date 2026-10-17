@@ -43,7 +43,14 @@ export const getRouter = () => {
   router.subscribe('onRendered', () => {
     if (!scrollToTopOnRender) return;
     scrollToTopOnRender = false;
+    // Links to a section (#locations, #events) land on that section; others at the top.
+    const hash = router.state.location.hash;
     window.scrollTo(0, 0);
+    if (!hash) return;
+    // The new page's sections settle over a moment; re-aim a few times.
+    for (const delay of [100, 400, 900]) {
+      window.setTimeout(() => document.getElementById(hash)?.scrollIntoView(), delay);
+    }
   });
 
   return router;

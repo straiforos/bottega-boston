@@ -34,8 +34,7 @@ export const restaurantContent = {
     },
   },
   ordering: {
-    title: 'Pick your Bottega',
-    close: 'Close',
+    title: 'Our locations',
     mapLabel: 'Map of',
     orderFrom: 'Order from',
   },
