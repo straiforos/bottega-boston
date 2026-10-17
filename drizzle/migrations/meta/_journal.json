@@ -64,6 +64,13 @@
       "when": 1792264145691,
       "tag": "0008_events_and_requests",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1792267889234,
+      "tag": "0009_event_locations_array",
+      "breakpoints": true
     }
   ]
 }

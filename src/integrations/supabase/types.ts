@@ -314,6 +314,7 @@ export type Database = {
           id: string
           image_url: string | null
           location_id: string
+          locations: string[]
           published: boolean
           recurrence: Json | null
           starts_at: string
@@ -331,6 +332,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           location_id?: string
+          locations?: string[]
           published?: boolean
           recurrence?: Json | null
           starts_at: string
@@ -348,6 +350,7 @@ export type Database = {
           id?: string
           image_url?: string | null
           location_id?: string
+          locations?: string[]
           published?: boolean
           recurrence?: Json | null
           starts_at?: string
