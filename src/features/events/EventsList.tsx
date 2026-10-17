@@ -8,6 +8,7 @@ import { eventsQueryOptions, upcomingEvents } from '@/lib/events/events-api';
 import { GalleryActionIcon } from '@/features/home/admin/GalleryActionIcon';
 import { useScrollArrows } from '@/features/home/hooks/useScrollArrows';
 import { EventCard } from './EventCard';
+import { EventsLoader } from './EventsLoader';
 
 const RouterButton = createLink(Button);
 const t = eventsContent;
@@ -15,13 +16,14 @@ const t = eventsContent;
 /** Home page events: side-by-side upcoming cards in a scrolling row, plus request buttons and inline staff editing. */
 export function EventsList() {
   const { isAdmin } = useStaffSession();
-  const { data } = useQuery(eventsQueryOptions);
+  const { data, isPending } = useQuery(eventsQueryOptions);
   const upcoming = upcomingEvents(data ?? [], new Date());
   const arrows = useScrollArrows<HTMLDivElement>([upcoming.length, isAdmin]);
 
   return (
     <div className="events-list">
-      {upcoming.length > 0 && (
+      {isPending && <EventsLoader />}
+      {!isPending && upcoming.length > 0 && (
         <div className="events-strip">
           <div className="events-grid" ref={arrows.ref}>
             {upcoming.map((u) => (

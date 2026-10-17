@@ -280,3 +280,46 @@
 .event-editor-page {
   max-width: calc(var(--bt-space-8) * 10);
 }
+/* Loading state: placeholder cards the same shape as the real ones, dome mark breathing. */
+.events-loader {
+  display: grid;
+  gap: var(--bt-space-md);
+}
+.events-loader-card {
+  min-height: calc(var(--bt-space-8) * 4);
+  justify-content: center;
+}
+.events-loader-mark {
+  animation: bt-events-breathe calc(var(--bt-duration) * 14) ease-in-out infinite;
+}
+.events-loader-card:nth-child(2) .events-loader-mark {
+  animation-delay: calc(var(--bt-duration) * 3);
+}
+.events-loader-card:nth-child(3) .events-loader-mark {
+  animation-delay: calc(var(--bt-duration) * 6);
+}
+.events-loader-caption {
+  text-align: center;
+}
+@keyframes bt-events-breathe {
+  0%,
+  100% {
+    opacity: 0.3;
+    transform: scale(0.92);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.08);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .events-loader-mark {
+    animation: none;
+    opacity: 0.55;
+  }
+}
+@media (min-width: 901px) {
+  .events-loader-card {
+    min-height: calc(var(--bt-space-8) * 6.5);
+  }
+}
