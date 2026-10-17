@@ -43,6 +43,13 @@
       "when": 1792127745758,
       "tag": "0005_pasta_club_emails",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1792238803712,
+      "tag": "0006_home_content",
+      "breakpoints": true
     }
   ]
 }

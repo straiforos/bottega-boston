@@ -1,22 +1,83 @@
 import { createLink } from '@tanstack/react-router';
+import { useQuery } from '@tanstack/react-query';
 import { Card, Display, LinkAction, PillLabel, Serif, Stamp } from '@/design-system/bottega-f5161c';
 import { MovingRibbon } from '@/components/media/MovingRibbon';
-import { links } from '@/content/links';
 import { restaurantContent } from '@/content/en/restaurant';
+import { useStaffSession } from '@/hooks/useStaffSession';
+import { cardInk, defaultHomeContent, homeContentQueryOptions, type OfferingCard } from '@/lib/home/home-content';
 import { useOfferingsMotion } from '../hooks/useOfferingsMotion';
+import { CardEditor, RibbonEditor } from '../admin/HomeContentEditors';
 import { MenuHeading } from './MenuHeading';
-import coffee from '@/assets/coffee.asset.json';
-import pasta from '@/assets/pasta-club.asset.json';
-import mercatino from '@/assets/mercatino.jpg.asset.json';
+import { Broken } from './HeroSection';
 
 const MenuLink = createLink(LinkAction);
+const slotClass = ['offering-coffee', 'offering-food', 'offering-market'];
+
+function OfferingLink({ card }: { card: OfferingCard }) {
+  const tone = cardInk(card.variant).link;
+  if (card.linkHref.startsWith('/menu')) {
+    const hash = card.linkHref.split('#')[1];
+    return (
+      <MenuLink to="/menu" hash={hash} tone={tone}>
+        {card.linkLabel}
+      </MenuLink>
+    );
+  }
+  return (
+    <LinkAction href={card.linkHref} tone={tone}>
+      {card.linkLabel}
+    </LinkAction>
+  );
+}
+
+function Offering({ card, index, isAdmin }: { card: OfferingCard; index: number; isAdmin: boolean }) {
+  const ink = cardInk(card.variant).text;
+  const image = <img className="offering-image" src={card.imageUrl} alt={card.imageAlt} loading="lazy" />;
+  const title =
+    card.titleStyle === 'serif' ? (
+      <Serif as="h3" size="lg" tone={ink}>
+        {card.title}
+      </Serif>
+    ) : (
+      <Display as="h3" size="md" tone={ink}>
+        {card.title}
+      </Display>
+    );
+  return (
+    <article id={index === 2 ? 'market' : undefined} className={`offering ${slotClass[index]} home-editable`}>
+      <Card variant={card.variant} shape={card.shape}>
+        {card.shape === 'arch' && image}
+        {title}
+        {card.badge && <PillLabel variant={ink === 'cream' ? 'mustard' : 'forest'}>{card.badge}</PillLabel>}
+        {card.shape === 'rect' && image}
+        {card.subtitle && (
+          <Serif size="sm" tone={ink}>
+            <Broken text={card.subtitle} />
+          </Serif>
+        )}
+        <OfferingLink card={card} />
+      </Card>
+      {card.stamp.trim() && (
+        <div className="catering-stamp">
+          <Stamp size="sm">
+            <Broken text={card.stamp} />
+          </Stamp>
+        </div>
+      )}
+      {isAdmin && <CardEditor index={index} card={card} />}
+    </article>
+  );
+}
 
 export function OfferingsSection() {
   const offeringsRef = useOfferingsMotion();
+  const { data = defaultHomeContent } = useQuery(homeContentQueryOptions);
+  const { isAdmin } = useStaffSession();
   return (
     <div className="offerings-track">
-      <div className="offerings-ribbon">
-        <MovingRibbon text={restaurantContent.home.familyIsLife} />
+      <div className="offerings-ribbon home-editable">
+        <MovingRibbon text={data.ribbon} />
+        {isAdmin && <RibbonEditor text={data.ribbon} />}
       </div>
       <section id="menu" className="offerings-section bt-surface-dark" aria-label="Discover Bottega">
         <div className="offerings-layout">
@@ -27,74 +88,9 @@ export function OfferingsSection() {
             </MenuLink>
           </div>
           <div ref={offeringsRef} className="section-inner offerings">
-            <article className="offering offering-coffee">
-              <Card variant="cream" shape="rect">
-                <div>
-                  <Display as="h3" size="sm" tone="forest">
-                    Coffee + house drinks
-                  </Display>
-                  <Serif size="lg" tone="forest">
-                    & dolci
-                  </Serif>
-                </div>
-                <img
-                  className="offering-image"
-                  src={coffee.url}
-                  alt="A Bottega guest holding a cappuccino and iced coffee"
-                  loading="lazy"
-                />
-                <MenuLink to="/menu" hash="category-8">
-                  Catering menu
-                </MenuLink>
-              </Card>
-              <div className="catering-stamp">
-                <Stamp size="sm">
-                  Catering
-                  <br />
-                  menu
-                </Stamp>
-              </div>
-            </article>
-            <article className="offering offering-food">
-              <Card variant="mustard" shape="arch">
-                <img
-                  className="offering-image"
-                  src={pasta.url}
-                  alt="A woman holding a plate of Bottega pesto pasta"
-                  loading="lazy"
-                />
-                <Display as="h3" size="md" tone="forest">
-                  The food
-                </Display>
-                <Serif size="sm" tone="forest">
-                  Breakfast, lunch, dinner
-                  <br />& everything in between.
-                </Serif>
-                <MenuLink to="/menu">Food menu</MenuLink>
-              </Card>
-            </article>
-            <article id="market" className="offering offering-market">
-              <Card variant="cobalt" shape="rect">
-                <Serif as="h3" size="lg" tone="cream">
-                  Il Mercatino
-                </Serif>
-                <PillLabel variant="mustard">The little market</PillLabel>
-                <img
-                  className="offering-image"
-                  src={mercatino.url}
-                  alt="Inside Il Mercatino at Bottega — shelves of pasta, pantry goods and totes"
-                  loading="lazy"
-                />
-                <Serif size="sm" tone="cream">
-                  A little Bottega.
-                  <br />
-                  To take home.
-                </Serif>
-                <LinkAction href={`mailto:${links.email}?subject=Il%20Mercatino%20inquiry`} tone="mustard">
-                  Explore the market
-                </LinkAction>
-              </Card>
-            </article>
+            {data.cards.map((card, i) => (
+              <Offering key={i} card={card} index={i} isAdmin={isAdmin} />
+            ))}
           </div>
         </div>
       </section>
