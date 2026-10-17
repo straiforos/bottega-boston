@@ -611,3 +611,22 @@
   color: var(--bt-danger);
   border-color: var(--bt-danger);
 }
+
+/* Staff edit buttons float over hero, ribbon and cards without changing layout. */
+.home-editable {
+  position: relative;
+}
+.home-edit-trigger {
+  position: absolute;
+  top: var(--bt-space-sm);
+  left: var(--bt-space-sm);
+  z-index: 3;
+}
+.home-edit-choices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bt-space-sm);
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
