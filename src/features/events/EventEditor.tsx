@@ -1,7 +1,8 @@
 import { useEffect, useId, useState, type FormEvent } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
-import { Button, Checkbox, Display, FileUpload, Radio, TextField, useSnackbar } from '@/design-system/bottega-f5161c';
+import { Button, Checkbox, Display, FileUpload, Radio, TextField } from '@/design-system/bottega-f5161c';
+import { useSnackbar } from '@/design-system/bottega-f5161c/bottega';
 import { eventsContent } from '@/content/en/events';
 import { orderLocations } from '@/content/links';
 import { BottegaHeader } from '@/components/BottegaHeader';

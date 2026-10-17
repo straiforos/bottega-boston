@@ -1,6 +1,7 @@
 import { useId, useMemo, useState, type FormEvent } from 'react';
 import { useServerFn } from '@tanstack/react-start';
-import { Button, Card, Checkbox, Display, Radio, Serif, TextField, useSnackbar } from '@/design-system/bottega-f5161c';
+import { Button, Card, Checkbox, Display, Radio, Serif, TextField } from '@/design-system/bottega-f5161c';
+import { useSnackbar } from '@/design-system/bottega-f5161c/bottega';
 import { eventsContent } from '@/content/en/events';
 import { orderLocations } from '@/content/links';
 import { zonedToUtc } from '@/lib/events/occurrences';
