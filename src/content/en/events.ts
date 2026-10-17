@@ -8,6 +8,7 @@ export const eventsContent = {
   scrollPrev: 'Previous events',
   scrollNext: 'More events',
   nextDates: 'Next dates',
+  loading: 'Loading events…',
   staff: {
     add: 'Add event',
     edit: 'Edit event',
