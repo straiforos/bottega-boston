@@ -29,7 +29,7 @@ export function OrderLocationsDialog({ open, onClose }: OrderLocationsDialogProp
     <dialog
       ref={ref}
       className="order-dialog bt-surface-light"
-      aria-labelledby="order-dialog-title"
+      aria-label={copy.title}
       onCancel={(event) => {
         event.preventDefault();
         onClose();
@@ -41,7 +41,7 @@ export function OrderLocationsDialog({ open, onClose }: OrderLocationsDialogProp
       {open && (
         <div className="order-dialog-body">
           <div className="order-dialog-head">
-            <Display as="h2" size="md" tone="forest" id="order-dialog-title">
+            <Display as="h2" size="md" tone="forest">
               {copy.title}
             </Display>
             <Button size="sm" variant="ghost" onClick={onClose}>
@@ -70,7 +70,7 @@ export function OrderLocationsDialog({ open, onClose }: OrderLocationsDialogProp
                   ))}
                 </address>
                 <LinkAction href={location.orderUrl} tone="forest">
-                  {copy.orderFrom} {location.area} ↗
+                  {copy.orderFrom} {location.area}
                 </LinkAction>
               </article>
             ))}

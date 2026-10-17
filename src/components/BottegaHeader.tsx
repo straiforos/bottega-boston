@@ -4,12 +4,13 @@ import { Button, Marquee, SiteHeader } from '@/design-system/bottega-f5161c';
 import { useStaffSession } from '@/hooks/useStaffSession';
 import { staffContent } from '@/content/en/staff';
 import { restaurantContent } from '@/content/en/restaurant';
-import { links } from '@/content/links';
+import { OrderLocationsDialog } from '@/components/OrderLocationsDialog';
 
 const HeaderLink = createLink('a');
 
 export function BottegaHeader() {
   const [scrolled, setScrolled] = useState(false);
+  const [ordering, setOrdering] = useState(false);
   const { isAdmin } = useStaffSession();
 
   useEffect(() => {
@@ -32,7 +33,7 @@ export function BottegaHeader() {
           <Button
             size="sm"
             variant={scrolled ? 'cream' : 'primary'}
-            onClick={() => window.location.assign(links.order)}
+            onClick={() => setOrdering(true)}
           >
             {nav.order}
           </Button>
@@ -63,6 +64,7 @@ export function BottegaHeader() {
           </HeaderLink>
         )}
       </SiteHeader>
+      <OrderLocationsDialog open={ordering} onClose={() => setOrdering(false)} />
     </div>
   );
 }

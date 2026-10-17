@@ -5,3 +5,22 @@ export const links = {
   phone: '+16172322661',
   legalBase: 'https://ciao724.wixstudio.com/my-site',
 } as const;
+
+export const orderLocations = [
+  {
+    id: 'brookline',
+    name: 'Bottega Fiorentina',
+    area: 'Brookline',
+    lines: ['313B Harvard St.', 'Brookline, MA 02446'],
+    mapQuery: '313B Harvard St, Brookline, MA 02446',
+    orderUrl: 'https://direct.chownow.com/order/18964/locations/27186',
+  },
+  {
+    id: 'boston',
+    name: 'Bottega Del Sud',
+    area: 'Boston',
+    lines: ['645 E 2nd St.', 'Boston, MA 02127'],
+    mapQuery: '645 E 2nd St, Boston, MA 02127',
+    orderUrl: 'https://direct.chownow.com/order/18964/locations/63385',
+  },
+] as const;
