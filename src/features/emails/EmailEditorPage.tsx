@@ -240,8 +240,9 @@ export function EmailEditorPage(props: Props) {
                       </Serif>
                       <div className="email-add">
                         {BLOCK_TYPES.map((type) => (
-                          <Button key={type} size="sm" variant="outline" onClick={() => insert(type)}>
-                            + {t.blockNames[type]}
+                          <Button key={type} size="sm" variant="ghost" onClick={() => insert(type)}>
+                            <EditorIcon kind="plus" size="sm" />
+                            {t.blockNames[type]}
                           </Button>
                         ))}
                       </div>
@@ -263,7 +264,8 @@ export function EmailEditorPage(props: Props) {
                         onRemove={() => setPendingRemove(selectedBlock.id)}
                       />
                       <div className="email-add">
-                        <Button size="sm" variant="outline" onClick={() => duplicate(selectedBlock.id)}>
+                        <Button size="sm" variant="ghost" onClick={() => duplicate(selectedBlock.id)}>
+                          <EditorIcon kind="copy" size="sm" />
                           {t.duplicate}
                         </Button>
                         <Button size="sm" variant="ghost" onClick={() => select(null)}>
