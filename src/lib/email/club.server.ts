@@ -1,9 +1,11 @@
 import { getRequest } from '@tanstack/react-start/server';
-import logoUrl from '@/design-system/bottega-f5161c/bottega/assets/logos/bottega-wordmark.png';
 import { restaurantContent } from '@/content/en/restaurant';
 import type { EmailDraft } from './blocks';
 import { renderEmail, renderPlainText } from './render-email';
 import type { OutgoingEmail } from './resend.server';
+
+/** Inboxes must fetch the logo from a public address; preview and dev origins are private or temporary. */
+export const EMAIL_LOGO_URL = 'https://bottega-delights-site.lovable.app/email/bottega-wordmark.png';
 
 export function siteOrigin() {
   return new URL(getRequest().url).origin;
@@ -15,11 +17,10 @@ export function buildEmail(draft: EmailDraft, to: string, token: string | null, 
   const unsubscribeUrl = token
     ? `${origin}/api/public/unsubscribe?token=${encodeURIComponent(token)}`
     : `${origin}/unsubscribed`;
-  const absoluteLogo = logoUrl.startsWith('http') ? logoUrl : `${origin}${logoUrl}`;
   return {
     to,
     subject: draft.subject,
-    html: renderEmail(draft, { logoUrl: absoluteLogo, siteUrl: origin, unsubscribeUrl, address }),
+    html: renderEmail(draft, { logoUrl: EMAIL_LOGO_URL, siteUrl: origin, unsubscribeUrl, address }),
     text: renderPlainText(draft, unsubscribeUrl),
     unsubscribeUrl,
   };
