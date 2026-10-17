@@ -1,13 +1,11 @@
-import { useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { createLink } from '@tanstack/react-router';
 import { Button } from '@/design-system/bottega-f5161c';
 import { eventsContent } from '@/content/en/events';
 import { useStaffSession } from '@/hooks/useStaffSession';
-import { eventsQueryOptions, upcomingEvents, type BottegaEvent } from '@/lib/events/events-api';
+import { eventsQueryOptions, upcomingEvents } from '@/lib/events/events-api';
 import { GalleryActionIcon } from '@/features/home/admin/GalleryActionIcon';
 import { EventCard } from './EventCard';
-import { EventEditor } from './EventEditor';
 
 const RouterButton = createLink(Button);
 const t = eventsContent;
@@ -16,7 +14,6 @@ const t = eventsContent;
 export function EventsList() {
   const { isAdmin } = useStaffSession();
   const { data } = useQuery(eventsQueryOptions);
-  const [editing, setEditing] = useState<BottegaEvent | null | undefined>(undefined);
   const upcoming = upcomingEvents(data ?? [], new Date());
 
   return (
@@ -27,9 +24,9 @@ export function EventsList() {
             <EventCard key={u.event.id} upcoming={u}>
               {isAdmin && (
                 <div className="event-card-staff">
-                  <Button size="sm" aria-label={`${t.staff.edit}: ${u.event.title}`} onClick={() => setEditing(u.event)}>
+                  <RouterButton size="sm" aria-label={`${t.staff.edit}: ${u.event.title}`} to="/admin/events/$eventId" params={{ eventId: u.event.id }}>
                     <GalleryActionIcon action="edit" />
-                  </Button>
+                  </RouterButton>
                 </div>
               )}
             </EventCard>
@@ -40,10 +37,9 @@ export function EventsList() {
         <RouterButton to="/catering" variant="cream">{t.requestCatering}</RouterButton>
         <RouterButton to="/events/request" variant="accent">{t.bookSpace}</RouterButton>
         {isAdmin && (
-          <Button variant="outline" onClick={() => setEditing(null)}>{t.staff.add}</Button>
+          <RouterButton variant="outline" to="/admin/events/$eventId" params={{ eventId: 'new' }}>{t.staff.add}</RouterButton>
         )}
       </div>
-      {isAdmin && <EventEditor open={editing !== undefined} event={editing ?? null} onClose={() => setEditing(undefined)} />}
     </div>
   );
 }

@@ -11,7 +11,6 @@ import { saveCampaign } from '@/lib/email/club.functions';
 import { deleteEvent, eventsQueryOptions, type BottegaEvent } from '@/lib/events/events-api';
 import { buildEventNewsletter } from '@/lib/events/event-newsletter';
 import { describeRecurrence, upcomingOccurrences } from '@/lib/events/occurrences';
-import { EventEditor } from './EventEditor';
 import { formatWhen } from './EventCard';
 
 const t = eventsContent.staff;
@@ -22,7 +21,6 @@ export function EventsAdminPage() {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { data } = useQuery({ ...eventsQueryOptions, enabled: isAdmin });
-  const [editing, setEditing] = useState<BottegaEvent | null | undefined>(undefined);
   const [removing, setRemoving] = useState<BottegaEvent | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -71,7 +69,7 @@ export function EventsAdminPage() {
           ) : (
             <>
               <div>
-                <Button onClick={() => setEditing(null)}>{t.add}</Button>
+                <Button onClick={() => void navigate({ to: '/admin/events/$eventId', params: { eventId: 'new' } })}>{t.add}</Button>
               </div>
               {error && <p className="request-error" role="alert">{error}</p>}
               {(data ?? []).length === 0 && <p>{t.noEvents}</p>}
@@ -89,7 +87,7 @@ export function EventsAdminPage() {
                       </div>
                       <div className="admin-row-actions">
                         {!event.published && <PillLabel variant="chip-forest">{t.hidden}</PillLabel>}
-                        <Button size="sm" variant="ghost" onClick={() => setEditing(event)}>{eventsContent.staff.edit}</Button>
+                        <Button size="sm" variant="ghost" onClick={() => void navigate({ to: '/admin/events/$eventId', params: { eventId: event.id } })}>{eventsContent.staff.edit}</Button>
                         <Button size="sm" variant="ghost" disabled={busy || !next} onClick={() => emailClub(event)}>{t.emailClub}</Button>
                         <Button size="sm" variant="ghost" onClick={() => setRemoving(event)}>{t.delete}</Button>
                       </div>
@@ -97,7 +95,6 @@ export function EventsAdminPage() {
                   );
                 })}
               </div>
-              <EventEditor open={editing !== undefined} event={editing ?? null} onClose={() => setEditing(undefined)} />
               <Confirmation
                 open={removing !== null}
                 variant="danger"

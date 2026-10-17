@@ -238,3 +238,6 @@
   align-items: center;
   gap: var(--bt-space-sm) var(--bt-space-lg);
 }
+.event-editor-page {
+  max-width: calc(var(--bt-space-8) * 10);
+}
