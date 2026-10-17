@@ -4,6 +4,7 @@ import { SnackbarProvider } from '@/design-system/bottega-f5161c';
 import { RequestForm } from './RequestForm';
 
 vi.mock('@tanstack/react-start', () => ({ useServerFn: () => vi.fn() }));
+vi.mock('@/lib/events/requests.functions', () => ({ submitRequest: vi.fn() }));
 vi.mock('@tanstack/react-query', () => ({ useQuery: () => ({ data: [] }) }));
 vi.mock('@/lib/menu/menu-api', () => ({ menuQueryOptions: {} }));
 vi.mock('@/features/menu/components/DishImage', () => ({ DishImage: () => null }));
