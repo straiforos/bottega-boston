@@ -50,3 +50,52 @@ export function useFormDraft<T>(key: string, value: T, restore: (draft: T) => vo
     }
   };
 }
+
+export const adminDraftKey = (scope: string) => `bottega:admin-draft:${scope}`;
+
+/** Reads a saved draft from storage, or null when missing, expired or unavailable. */
+export function readDraft<T>(key: string): T | null {
+  try {
+    return decodeDraft<T>(window.localStorage.getItem(key), Date.now());
+  } catch {
+    return null;
+  }
+}
+
+export function clearStoredDraft(key: string) {
+  try {
+    window.localStorage.removeItem(key);
+  } catch {
+    /* ignore */
+  }
+}
+
+/** Pure: an admin draft is only worth keeping when it differs from what was loaded. */
+export function isDirty<T>(value: T, baseline: T) {
+  return JSON.stringify(value) !== JSON.stringify(baseline);
+}
+
+/**
+ * Staff editor drafts: restored once on mount, saved only while they differ from the
+ * loaded record (so a stale copy never overrides newer saved content), erased otherwise.
+ */
+export function useAdminDraft<T>(key: string, value: T, baseline: T, restore: (draft: T) => void, enabled = true) {
+  const ready = useRef(false);
+  useEffect(() => {
+    if (!enabled) return;
+    const draft = readDraft<T>(key);
+    if (draft && isDirty(draft, baseline)) restore(draft);
+    ready.current = true;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key, enabled]);
+  useEffect(() => {
+    if (!enabled || !ready.current) return;
+    if (!isDirty(value, baseline)) return clearStoredDraft(key);
+    try {
+      window.localStorage.setItem(key, encodeDraft(value, Date.now()));
+    } catch {
+      /* storage full or unavailable */
+    }
+  }, [key, value, baseline, enabled]);
+  return () => clearStoredDraft(key);
+}
