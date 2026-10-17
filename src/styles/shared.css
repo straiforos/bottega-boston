@@ -108,6 +108,10 @@ a:focus-visible {
   width: calc(var(--bt-icon-size) * 0.35);
   height: calc(var(--bt-icon-size) * 0.35);
 }
+.arrow-icon--md {
+  width: calc(var(--bt-icon-size) * 0.4);
+  height: calc(var(--bt-icon-size) * 0.4);
+}
 .editor-icon {
   display: block;
   flex-shrink: 0;
