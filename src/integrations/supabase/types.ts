@@ -306,6 +306,8 @@ export type Database = {
       }
       events: {
         Row: {
+          card_shape: string
+          card_variant: string
           created_at: string
           description: string
           duration_minutes: number
@@ -321,6 +323,8 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          card_shape?: string
+          card_variant?: string
           created_at?: string
           description?: string
           duration_minutes?: number
@@ -336,6 +340,8 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          card_shape?: string
+          card_variant?: string
           created_at?: string
           description?: string
           duration_minutes?: number
