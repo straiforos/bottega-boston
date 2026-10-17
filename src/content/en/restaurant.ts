@@ -46,12 +46,6 @@ export const restaurantContent = {
     { label: 'Monday to Friday', value: '7:30 am – 9:00 pm' },
     { label: 'Weekends', value: '9:30 am – 9:00 pm' },
   ],
-  legal: [
-    { label: 'Privacy policy', path: 'privecy-policy' },
-    { label: 'Accessibility', path: 'accessibility-statement' },
-    { label: 'Terms & conditions', path: 'terms-and-conditions' },
-    { label: 'Refund policy', path: 'refund-policy' },
-  ],
   media: {
     play: 'Play video',
     pause: 'Pause video',

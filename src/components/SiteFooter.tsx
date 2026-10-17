@@ -71,18 +71,6 @@ export function SiteFooter() {
         <div className="footer-bottom">
           <span>© {new Date().getFullYear()} Bottega. Made with amore.</span>
           <StaffAccess />
-          <div className="legal-links">
-            {restaurantContent.legal.map(({ label, path }) => (
-              <a
-                href={`${links.legalBase}/${path}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                key={path}
-              >
-                {label}
-              </a>
-            ))}
-          </div>
         </div>
       </div>
     </footer>
