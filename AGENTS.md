@@ -11,9 +11,9 @@
 - Render the shared footer once from the `_site` pathless layout route (`src/routes/_site.tsx`) so every guest page gets the same footer automatically; pages never compose SiteFooter themselves.
 - Mark up footer contact details (locations, email, phone, social link) with HTML5 address elements and reset their UA italic in the footer style layer so contact info stays semantic and legible.
 - Give every gallery media a Bottega tomato hairline with hover zoom and a light overlay mask, and drive the gallery video with the same custom play control pattern as the story video (never native controls); respect reduced motion.
-- "Order now" scrolls to the home #locations section (no modal); per-shop ordering URLs are staff-editable inline via home_content key order_locations, https-only — why: crawlable content and one editing surface.
+- "Order now" scrolls to home #locations (no modal); ordering URLs are staff-editable (home_content, https-only) — why: crawlable, one editing surface.
 - Keep route modules declarative and thin; compose page sections from `src/features`, reusable interface pieces from `src/components`, behavior from hooks or pure helpers, and English copy from `src/content/en` so future localization does not require presentation edits.
-- Keep shared, home, and menu styling in their respective imported stylesheets, using only Bottega tokens; verify filtering, scroll math, metadata, and accessibility with Vitest.
+- Style via shared/home/menu stylesheets with Bottega tokens only; test filtering, scroll math, metadata, a11y in Vitest.
 - Menu content lives in Lovable Cloud tables (menu_sections, menu_items); /menu reads them client-side with the bundled menu-data.ts as SSR/placeholder fallback, and admin edits happen inline on /menu (no dashboard) — why: one page for guests and staff, database RLS (has_role admin) is the only write gate.
 - Staff access is Google sign-in restricted by public.staff_allowlist (signup blocked by an auth.users trigger; admin role granted by trigger) — why: no self sign-up, roles never derived from client data.
 - Gallery tiles live in gallery_items (seeded rows reference bundled CDN assets by asset_key) and are edited inline on the home page by staff — why: same single-page, RLS-gated admin pattern as the menu.
