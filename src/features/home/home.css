@@ -621,6 +621,7 @@
   top: var(--bt-space-sm);
   left: var(--bt-space-sm);
   z-index: 1;
+  pointer-events: auto;
 }
 .home-edit-choices {
   display: flex;
