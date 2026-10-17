@@ -108,7 +108,15 @@ a:focus-visible {
   width: calc(var(--bt-icon-size) * 0.35);
   height: calc(var(--bt-icon-size) * 0.35);
 }
-.arrow-icon--md {
+.editor-icon {
+  display: block;
+  flex-shrink: 0;
+}
+.editor-icon--sm {
+  width: calc(var(--bt-icon-size) * 0.35);
+  height: calc(var(--bt-icon-size) * 0.35);
+}
+.editor-icon--md {
   width: calc(var(--bt-icon-size) * 0.4);
   height: calc(var(--bt-icon-size) * 0.4);
 }
