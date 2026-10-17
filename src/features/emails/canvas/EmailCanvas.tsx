@@ -84,10 +84,10 @@ export function EmailCanvas({ html, device, blocks, selectedId, disabled, onSele
                 >
                   <ArrowIcon direction="right" size="sm" />
                 </Button>
-                <Button size="sm" variant="cream" onClick={() => onDuplicate(selected.id)}>
+                <Button size="sm" onClick={() => onDuplicate(selected.id)}>
                   {t.duplicate}
                 </Button>
-                <Button size="sm" variant="cream" onClick={() => onRemove(selected.id)}>
+                <Button size="sm" onClick={() => onRemove(selected.id)}>
                   {t.remove}
                 </Button>
               </div>
