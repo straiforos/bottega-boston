@@ -4,13 +4,13 @@
  * documented deviation — keep in sync if the library's palette changes.
  */
 export const emailTheme = {
-  forest: '#194d33',
-  cream: '#faf6ee',
-  parchment: '#f1ebdd',
+  forest: '#165740',
+  cream: '#fff9ea',
+  parchment: '#f4eedc',
   white: '#ffffff',
-  mustard: '#f8d468',
-  tomato: '#d63426',
-  ink: '#1e1a17',
+  mustard: '#ffd66b',
+  terracotta: '#a2481d',
+  ink: '#0a0a0a',
   muted: '#414942',
   display: "'Barlow Condensed', 'Arial Narrow', Impact, sans-serif",
   serif: "Domine, Georgia, 'Times New Roman', serif",

@@ -39,7 +39,7 @@
   height: calc(100vh - var(--bt-space-8) * 2);
   border-width: var(--bt-border-width);
   border-style: solid;
-  border-color: var(--bt-tomato);
+  border-color: var(--bt-terracotta);
   background: var(--bt-parchment);
 }
 .email-block {
@@ -70,7 +70,7 @@
   height: auto;
   border-width: var(--bt-border-width);
   border-style: solid;
-  border-color: var(--bt-tomato);
+  border-color: var(--bt-terracotta);
 }
 .email-history {
   display: grid;

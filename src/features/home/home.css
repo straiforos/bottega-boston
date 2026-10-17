@@ -319,7 +319,7 @@
   aspect-ratio: 3 / 4;
   overflow: hidden;
   position: relative;
-  border: var(--bt-border-thin) solid var(--bt-tomato-border);
+  border: var(--bt-border-thin) solid var(--bt-terracotta-border);
 }
 .gallery-item img,
 .gallery-item video {
@@ -582,7 +582,7 @@
   background: var(--bt-parchment);
   border-width: var(--bt-border-thin);
   border-style: dashed;
-  border-color: var(--bt-tomato-border);
+  border-color: var(--bt-terracotta-border);
   box-sizing: border-box;
 }
 .gallery-editor-dialog {
