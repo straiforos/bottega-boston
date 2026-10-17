@@ -75,11 +75,6 @@ main {
   border-top: var(--bt-border-thin) solid var(--bt-cream);
   font-size: var(--bt-text-xs);
 }
-.legal-links {
-  display: flex;
-  flex-wrap: wrap;
-  gap: var(--bt-space-md);
-}
 a:focus-visible {
   outline: var(--bt-border-width) solid var(--bt-focus);
   outline-offset: var(--bt-space-xs);
