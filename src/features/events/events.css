@@ -5,10 +5,49 @@
   margin-top: var(--bt-space-lg);
   text-align: start;
 }
+/* One scrolling row of side-by-side cards, like the gallery: extra events never wrap. */
+.events-strip {
+  position: relative;
+}
 .events-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(min(100%, calc(var(--bt-space-8) * 6)), 1fr));
+  grid-auto-flow: column;
+  grid-auto-columns: min(100%, calc(var(--bt-space-8) * 4));
   gap: var(--bt-space-lg);
+  align-items: stretch;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  padding: var(--bt-space-sm);
+  margin: calc(-1 * var(--bt-space-sm));
+}
+.events-grid::-webkit-scrollbar {
+  display: none;
+}
+.events-grid > * {
+  scroll-snap-align: start;
+}
+.events-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+}
+.events-arrow[data-side='prev'] {
+  left: var(--bt-space-sm);
+}
+.events-arrow[data-side='next'] {
+  right: var(--bt-space-sm);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .events-grid {
+    scroll-behavior: smooth;
+  }
+}
+@media (max-width: 900px) {
+  .events-grid {
+    grid-auto-columns: min(100%, calc(var(--bt-space-8) * 5));
+  }
 }
 .event-card {
   position: relative;
