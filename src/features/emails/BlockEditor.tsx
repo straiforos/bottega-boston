@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { Button, Card, FileUpload, PillLabel, TextField } from '@/design-system/bottega-f5161c';
-import { ArrowIcon } from '@/components/ArrowIcon';
+import { EditorIcon } from '@/components/EditorIcon';
 import { clubContent } from '@/content/en/club';
 import { isPlaceholderPhoto, type EmailBlock } from '@/lib/email/blocks';
 import { uploadEmailPhoto } from './upload-email-photo';
