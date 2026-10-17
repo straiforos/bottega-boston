@@ -115,7 +115,9 @@ function EditShell<T>({ label, contentKey, initial, withImage, validate, toData,
   );
 }
 
-const multiline = 'Use a new line where the text should break.';
+const multiline = 'Use | where the text should break onto a new line.';
+const toBar = (text: string) => text.replace(/\n/g, ' | ');
+const fromBar = (text: string) => text.split('|').map((part) => part.trim()).join('\n');
 
 export function HeroEditor({ hero }: { hero: HeroContent }) {
   return (
@@ -142,11 +144,7 @@ export function HeroEditor({ hero }: { hero: HeroContent }) {
 
 function StampField({ value, onChange, disabled }: { value: string; onChange: (v: string) => void; disabled: boolean }) {
   return (
-    <label className="bt-field">
-      <span className="bt-field__label">Stamp text</span>
-      <textarea className="bt-field__input" rows={3} value={value} disabled={disabled} onChange={(e) => onChange(e.target.value)} />
-      <span className="bt-field__hint">{multiline}</span>
-    </label>
+    <TextField label="Stamp text" hint={multiline} value={toBar(value)} disabled={disabled} onChange={(e) => onChange(fromBar(e.target.value))} />
   );
 }
 
@@ -212,11 +210,7 @@ export function CardEditor({ index, card }: { index: number; card: OfferingCard 
           </fieldset>
           <TextField label="Title" value={d.title} disabled={disabled} onChange={(e) => set({ ...d, title: e.target.value })} />
           <TextField label="Label (optional)" value={d.badge} disabled={disabled} onChange={(e) => set({ ...d, badge: e.target.value })} />
-          <label className="bt-field">
-            <span className="bt-field__label">Text</span>
-            <textarea className="bt-field__input" rows={2} value={d.subtitle} disabled={disabled} onChange={(e) => set({ ...d, subtitle: e.target.value })} />
-            <span className="bt-field__hint">{multiline}</span>
-          </label>
+          <TextField label="Text" hint={multiline} value={toBar(d.subtitle)} disabled={disabled} onChange={(e) => set({ ...d, subtitle: fromBar(e.target.value) })} />
           <TextField label="Photo description" value={d.imageAlt} disabled={disabled} onChange={(e) => set({ ...d, imageAlt: e.target.value })} />
           <TextField label="Link label" value={d.linkLabel} disabled={disabled} onChange={(e) => set({ ...d, linkLabel: e.target.value })} />
           <TextField
@@ -229,9 +223,9 @@ export function CardEditor({ index, card }: { index: number; card: OfferingCard 
           <TextField
             label="Stamp (optional)"
             hint="Leave empty for no stamp. Use | for a line break."
-            value={d.stamp.replace(/\n/g, ' | ')}
+            value={toBar(d.stamp)}
             disabled={disabled}
-            onChange={(e) => set({ ...d, stamp: e.target.value.split('|').map((s) => s.trim()).join('\n') })}
+            onChange={(e) => set({ ...d, stamp: fromBar(e.target.value) })}
           />
         </>
       )}
