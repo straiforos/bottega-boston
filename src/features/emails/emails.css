@@ -1,19 +1,4 @@
-/* Pasta Club email editor and staff strip — Bottega tokens only. */
-.club-admin {
-  position: relative;
-  z-index: 2;
-  display: grid;
-  gap: var(--bt-space-sm);
-  padding-block: var(--bt-space-md);
-}
-.club-admin-actions {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: var(--bt-space-md);
-  padding-inline: var(--bt-margin);
-}
+/* Pasta Club email editor — Bottega tokens only. */
 .club-status {
   font-family: var(--bt-font-serif);
   font-size: var(--bt-text-lg);
@@ -23,9 +8,6 @@
   min-height: 100vh;
   background: var(--bt-cream);
   color: var(--bt-ink);
-}
-.email-page-ribbon {
-  padding-top: var(--bt-space-md);
 }
 .email-page-inner {
   display: grid;
@@ -69,6 +51,7 @@
 .email-block-actions,
 .email-add,
 .email-send,
+.email-staff-bar,
 .email-toolbar {
   display: flex;
   flex-wrap: wrap;

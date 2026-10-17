@@ -38,3 +38,4 @@
 - [x] Staff email editor on its own page: block-based WYSIWYG with live preview, test send, send to all, editable welcome email, CSV export, unsubscribe
 - [ ] Verify a sending domain in Resend so emails reach all guests (waiting on the restaurant)
 - [x] Favicon: cream version served to dark-mode browsers, dark version kept for light-mode
+- [x] Drop the "Pasta Club emails" ribbon from the home page (header "Editing" marquee covers it); subscriber count, welcome-email switch and CSV export now live in the email editor toolbar

@@ -1,9 +1,17 @@
 import { useEffect, useMemo, useState } from 'react';
 import { createLink, useNavigate } from '@tanstack/react-router';
 import { useServerFn } from '@tanstack/react-start';
-import { Button, Card, Confirmation, Display, LinkAction, Serif, TextField } from '@/design-system/bottega-f5161c';
+import {
+  Button,
+  Card,
+  Confirmation,
+  Display,
+  LinkAction,
+  PillLabel,
+  Serif,
+  TextField,
+} from '@/design-system/bottega-f5161c';
 import { BottegaHeader } from '@/components/BottegaHeader';
-import { MovingRibbon } from '@/components/media/MovingRibbon';
 import logoUrl from '@/design-system/bottega-f5161c/bottega/assets/logos/bottega-wordmark.png';
 import { clubContent } from '@/content/en/club';
 import { restaurantContent } from '@/content/en/restaurant';
@@ -18,6 +26,7 @@ import {
   type EmailDraft,
 } from '@/lib/email/blocks';
 import {
+  exportSubscribers,
   getClubOverview,
   getWelcomeTemplate,
   saveWelcomeTemplate,
@@ -28,6 +37,7 @@ import { renderEmail } from '@/lib/email/render-email';
 import { BlockEditor } from './BlockEditor';
 
 const BackLink = createLink(LinkAction);
+const EditorLink = createLink(LinkAction);
 const t = clubContent.editor;
 const blockTypes: EmailBlockType[] = ['headline', 'text', 'photo', 'button', 'marquee'];
 const address = restaurantContent.addresses.map((a) => `${a.name}, ${a.lines.join(', ')}`).join(' · ');
@@ -56,6 +66,7 @@ export function EmailEditorPage({ mode }: { mode: 'compose' | 'welcome' }) {
   const save = useServerFn(saveWelcomeTemplate);
   const test = useServerFn(sendTestEmail);
   const send = useServerFn(sendCampaign);
+  const exportList = useServerFn(exportSubscribers);
 
   useEffect(() => {
     if (ready && !user) void navigate({ to: '/' });
@@ -115,13 +126,20 @@ export function EmailEditorPage({ mode }: { mode: 'compose' | 'welcome' }) {
       return t.savedNote;
     });
 
+  const download = async () => {
+    const csv = await exportList();
+    const url = URL.createObjectURL(new Blob([csv], { type: 'text/csv' }));
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'pasta-club.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  };
+
   return (
     <>
       <BottegaHeader />
       <main className="email-page">
-        <div className="email-page-ribbon" role="status">
-          <MovingRibbon text={clubContent.admin.ribbon} variant="tomato" />
-        </div>
         <div className="email-page-inner">
           <BackLink to="/" hash="club">
             {t.back}
@@ -130,6 +148,20 @@ export function EmailEditorPage({ mode }: { mode: 'compose' | 'welcome' }) {
             {mode === 'welcome' ? t.welcomeTitle : t.composeTitle}
           </Display>
           {mode === 'welcome' && <Serif tone="ink">{t.welcomeNote}</Serif>}
+
+          {isAdmin && (
+            <div className="email-staff-bar">
+              {overview && (
+                <PillLabel variant="mustard">{clubContent.admin.subscribers(overview.subscribers)}</PillLabel>
+              )}
+              <EditorLink to={mode === 'compose' ? '/emails/welcome' : '/emails/compose'}>
+                {mode === 'compose' ? clubContent.admin.welcome : clubContent.admin.compose}
+              </EditorLink>
+              <Button size="sm" variant="primary" onClick={() => void download()}>
+                {clubContent.admin.download}
+              </Button>
+            </div>
+          )}
 
           {!isAdmin ? (
             <p>{ready ? t.staffOnly : '…'}</p>
