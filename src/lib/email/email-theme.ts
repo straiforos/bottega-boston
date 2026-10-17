@@ -9,6 +9,7 @@ export const emailTheme = {
   parchment: '#f4eedc',
   white: '#ffffff',
   mustard: '#ffd66b',
+  mustardDeep: '#e8b938',
   terracotta: '#a2481d',
   ink: '#0a0a0a',
   muted: '#414942',
