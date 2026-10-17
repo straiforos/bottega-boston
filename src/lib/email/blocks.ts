@@ -98,6 +98,31 @@ export function moveBlock(blocks: readonly EmailBlock[], id: string, direction: 
   return next;
 }
 
+export function insertBlockAt(blocks: readonly EmailBlock[], index: number, block: EmailBlock): EmailBlock[] {
+  const at = Math.max(0, Math.min(index, blocks.length));
+  return [...blocks.slice(0, at), block, ...blocks.slice(at)];
+}
+
+export function removeBlock(blocks: readonly EmailBlock[], id: string): EmailBlock[] {
+  return blocks.filter((b) => b.id !== id);
+}
+
+/** Copies a block right after itself with a fresh id; returns the list and the copy's id. */
+export function duplicateBlock(blocks: readonly EmailBlock[], id: string): { blocks: EmailBlock[]; id: string | null } {
+  const index = blocks.findIndex((b) => b.id === id);
+  if (index < 0) return { blocks: [...blocks], id: null };
+  const copy = { ...structuredClone(blocks[index]), id: newBlock(blocks[index].type).id } as EmailBlock;
+  return { blocks: insertBlockAt(blocks, index + 1, copy), id: copy.id };
+}
+
+/** The block above/below the selection (clamped); first block when nothing is selected. */
+export function selectNeighbor(blocks: readonly EmailBlock[], id: string | null, direction: -1 | 1): string | null {
+  if (!blocks.length) return null;
+  const index = blocks.findIndex((b) => b.id === id);
+  if (index < 0) return blocks[direction === 1 ? 0 : blocks.length - 1].id;
+  return blocks[Math.max(0, Math.min(blocks.length - 1, index + direction))].id;
+}
+
 export const WELCOME_KEY = 'welcome';
 
 export const defaultWelcome: EmailDraft = {
