@@ -1,7 +1,7 @@
 import { Marquee } from '@/design-system/bottega-f5161c';
 import { RestaurantSketch } from '@/components/RestaurantSketch';
 
-export function SketchMarquee({ text, variant = 'cream' }: { text: string; variant?: 'cream' | 'forest' | 'tomato' }) {
+export function SketchMarquee({ text, variant = 'cream' }: { text: string; variant?: 'cream' | 'forest' | 'terracotta' }) {
   return (
     <Marquee
       text={text}

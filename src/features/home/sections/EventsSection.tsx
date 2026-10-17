@@ -6,7 +6,7 @@ export function EventsSection() {
   return (
     <section id="events" className="section events bt-surface-dark">
       <div className="events-ribbon">
-        <MovingRibbon text={restaurantContent.home.events} variant="tomato" />
+        <MovingRibbon text={restaurantContent.home.events} variant="terracotta" />
       </div>
       <div className="section-inner">
         <div className="events-heading">

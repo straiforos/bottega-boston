@@ -22,7 +22,7 @@ export function BottegaHeader() {
   const nav = restaurantContent.navigation;
   return (
     <div className="shared-header-stack">
-      {isAdmin && <Marquee text={staffContent.editing} variant="tomato" role="status" />}
+      {isAdmin && <Marquee text={staffContent.editing} variant="terracotta" role="status" />}
       <SiteHeader
         variant={scrolled ? 'forest' : 'cream'}
         className="shared-header"
