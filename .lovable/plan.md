@@ -29,6 +29,7 @@ Site Admin
 ```
 
 - **Events**: add or edit an event (title, dates, location, photo, description, Ticket Tailor link, published or hidden). Deleting asks first, with a red button. "Email Pasta Club" opens a new newsletter already filled in with the event photo, details and ticket button, ready to edit and send.
+- **Repeating events**: an event can repeat weekly (on chosen weekdays), every other week, or monthly (for example, "first Friday"), with an optional end date. Guests see the next few dates on one card ("Every Thursday · next: Oct 22"), not a separate card for each date. Staff can skip one date (a holiday) or change the time or ticket link for a single date without changing the rest of the series.
 - **Requests inbox**: filter by type and status (New, Quoted, Booked, Declined). Open a request to see all its details and order lines, change its status, add private staff notes, and reply by email.
 - Staff can also edit events on the home page with the same floating buttons used elsewhere on the site.
 
@@ -39,7 +40,9 @@ Site Admin
 
 ## Technical details
 - Tables (each gets grants and RLS in the same migration):
-  - `events`: published rows readable by everyone; only admins can write (`has_role`).
+  - `events`: published rows readable by everyone; only admins can write (`has_role`). Includes a `recurrence` jsonb (freq weekly/biweekly/monthly, weekdays, monthly nth-weekday, until) and a time zone (America/New_York).
+  - `event_exceptions`: event_id, date, skipped or overrides (time, ticket URL). Same RLS as `events`.
+  - Dates are expanded in a pure helper `src/lib/events/occurrences.ts`, with tests covering weekly, every other week, first Friday, end dates, skipped dates and daylight-saving changes.
   - `event_requests`: kind (catering or space), contact fields, date and time, guests, location, `order_lines` jsonb (menu item id, name, price snapshot, quantity), status, staff_notes. No public read. Inserts only through a server function that checks the input with zod, limits field lengths, checks order items against `menu_items` in the catering section, and rate-limits by email. Admins read and update.
 - Emails use the existing Resend `sendTemplate` with new templates `catering-request-received`, `space-request-received` and `staff-request-alert`, plus the existing `catering-confirmation` group. These are one-off messages, not newsletters.
 - "Email Pasta Club" builds a draft campaign from event blocks with `newBlock`, then sends staff to `/emails/compose?id=…`.
