@@ -113,13 +113,14 @@ export function BlockEditor({ block, first, last, onChange, onMove, onRemove }: 
         <div className="email-block-head">
           <PillLabel variant="chip-forest">{t.blockNames[block.type]}</PillLabel>
           <div className="email-block-actions">
-            <Button size="sm" aria-label={t.moveUp} disabled={first} onClick={() => onMove(-1)}>
-              <ArrowIcon direction="left" size="sm" />
+            <Button size="sm" variant="ghost" aria-label={t.moveUp} disabled={first} onClick={() => onMove(-1)}>
+              <EditorIcon kind="up" size="sm" />
             </Button>
-            <Button size="sm" aria-label={t.moveDown} disabled={last} onClick={() => onMove(1)}>
-              <ArrowIcon direction="right" size="sm" />
+            <Button size="sm" variant="ghost" aria-label={t.moveDown} disabled={last} onClick={() => onMove(1)}>
+              <EditorIcon kind="down" size="sm" />
             </Button>
             <Button size="sm" variant="ghost" onClick={onRemove}>
+              <EditorIcon kind="trash" size="sm" />
               {t.remove}
             </Button>
           </div>
