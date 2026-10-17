@@ -1,7 +1,7 @@
 import { forwardRef, type HTMLAttributes } from "react";
 import { cx } from "../lib/cx";
 
-export type Tone = "forest" | "cream" | "mustard" | "tomato" | "cobalt" | "ink" | "inherit";
+export type Tone = "forest" | "cream" | "mustard" | "terracotta" | "tomato" | "cobalt" | "ink" | "inherit";
 
 export interface DisplayProps extends HTMLAttributes<HTMLHeadingElement> {
   as?: "h1" | "h2" | "h3" | "p";

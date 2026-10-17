@@ -109,7 +109,7 @@ import { Display } from "@/design-system/bottega-f5161c"
 |---|---|---|
 | `as` | h1 · h2 · h3 · p | `—` |
 | `size` | sm · md · lg · xl · hero | `lg` |
-| `tone` | forest · cream · mustard · tomato · cobalt · ink · inherit | `inherit` |
+| `tone` | forest · cream · mustard · terracotta · tomato · cobalt · ink · inherit | `inherit` |
 
 ### FileUpload
 
@@ -188,7 +188,7 @@ import { Marquee } from "@/design-system/bottega-f5161c"
 |---|---|---|
 | `text` | string | `—` |
 | `separator` | any | `✦` |
-| `variant` | cream · forest · tomato | `cream` |
+| `variant` | cream · forest · terracotta · tomato | `cream` |
 | `repeat` | number | `8` |
 
 ### MenuOverlay
@@ -230,7 +230,7 @@ import { PillLabel } from "@/design-system/bottega-f5161c"
 
 | Prop | Type | Default |
 |---|---|---|
-| `variant` | forest · mustard · tomato · cobalt · chip-forest · chip-tomato | `forest` |
+| `variant` | forest · mustard · terracotta · tomato · cobalt · chip-forest · chip-terracotta · chip-tomato | `forest` |
 
 ### Radio
 
@@ -257,7 +257,7 @@ import { Serif } from "@/design-system/bottega-f5161c"
 |---|---|---|
 | `as` | h2 · h3 · h4 · p · span | `—` |
 | `size` | sm · md · lg | `lg` |
-| `tone` | forest · cream · mustard · tomato · cobalt · ink · inherit | `inherit` |
+| `tone` | forest · cream · mustard · terracotta · tomato · cobalt · ink · inherit | `inherit` |
 
 ### SiteHeader
 
@@ -334,7 +334,7 @@ import { WaveRibbon } from "@/design-system/bottega-f5161c"
 |---|---|---|
 | `text` | string | `—` |
 | `separator` | string | `*` |
-| `variant` | mustard · cream · tomato | `mustard` |
+| `variant` | mustard · cream · terracotta · tomato | `mustard` |
 
 
 

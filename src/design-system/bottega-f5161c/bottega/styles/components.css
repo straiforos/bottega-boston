@@ -34,15 +34,16 @@
 .bt-tone--forest { color: var(--bt-ink-brand); }
 .bt-tone--cream { color: var(--bt-cream); }
 .bt-tone--mustard { color: var(--bt-mustard); }
-.bt-tone--tomato { color: var(--bt-ink-accent); }
+.bt-tone--terracotta { color: var(--bt-ink-accent); }
+.bt-tone--tomato { color: var(--bt-ink-danger); }
 .bt-tone--cobalt { color: var(--bt-ink-highlight); }
 .bt-tone--ink { color: var(--bt-body); }
 .bt-tone--inherit { color: inherit; }
 
 .bt-stamp {
   display: inline-grid; place-items: center; text-align: center; aspect-ratio: 1;
-  border-radius: 50%; background: var(--bt-cream); color: var(--bt-tomato);
-  border: var(--bt-border-width) solid var(--bt-tomato); font-family: var(--bt-font-stamp);
+  border-radius: 50%; background: var(--bt-cream); color: var(--bt-terracotta);
+  border: var(--bt-border-width) solid var(--bt-terracotta); font-family: var(--bt-font-stamp);
   font-weight: 800; letter-spacing: var(--bt-tracking-badge); text-transform: uppercase; line-height: 1.05; transform: rotate(-8deg); box-shadow: var(--bt-shadow-stamp);
 }
 .bt-stamp--sm { width: 6rem; padding: var(--bt-space-2); font-size: var(--bt-text-sm); }
@@ -54,6 +55,7 @@
 .bt-marquee { overflow: hidden; border-block: var(--bt-border-thin) solid; white-space: nowrap; height: var(--bt-marquee-height); display: flex; align-items: center; }
 .bt-marquee--cream { background: var(--bt-cream); color: var(--bt-forest); border-color: var(--bt-forest); }
 .bt-marquee--forest { background: var(--bt-forest-dark); color: var(--bt-mustard); border-color: var(--bt-cream); }
+.bt-marquee--terracotta { background: var(--bt-cream); color: var(--bt-forest); border-color: var(--bt-terracotta); }
 .bt-marquee--tomato { background: var(--bt-cream); color: var(--bt-forest); border-color: var(--bt-tomato); }
 .bt-marquee__track { display: inline-flex; gap: var(--bt-space-5); animation: bt-marquee 30s linear infinite; }
 .bt-marquee__item { font-family: var(--bt-font-serif); font-weight: 700; letter-spacing: var(--bt-tracking-ticker); font-size: var(--bt-text-label); text-transform: uppercase; display: inline-flex; gap: var(--bt-space-5); align-items: center; }
@@ -78,9 +80,11 @@
 .bt-pill-label { display: inline-flex; align-items: center; padding: var(--bt-space-1) var(--bt-space-3); border-radius: var(--bt-radius-pill); font-family: var(--bt-font-display); font-size: var(--bt-text-base); font-weight: 700; letter-spacing: var(--bt-tracking-badge); text-transform: uppercase; border: var(--bt-border-thin) solid transparent; }
 .bt-pill-label--forest { background: var(--bt-forest); color: var(--bt-mustard); border-color: var(--bt-border-gold); }
 .bt-pill-label--mustard { background: var(--bt-mustard); color: var(--bt-forest); }
+.bt-pill-label--terracotta { background: var(--bt-terracotta); color: var(--bt-cream); }
 .bt-pill-label--tomato { background: var(--bt-tomato); color: var(--bt-cream); }
 .bt-pill-label--cobalt { background: var(--bt-cobalt); color: var(--bt-white); }
 .bt-pill-label--chip-forest { background: var(--bt-parchment); color: var(--bt-forest); border-color: var(--bt-forest); }
+.bt-pill-label--chip-terracotta { background: var(--bt-parchment); color: var(--bt-terracotta-border); border-color: var(--bt-terracotta); }
 .bt-pill-label--chip-tomato { background: var(--bt-parchment); color: var(--bt-tomato-border); border-color: var(--bt-tomato); }
 
 .bt-field { display: flex; flex-direction: column; gap: var(--bt-space-2); font-family: var(--bt-font-sans); }
@@ -130,7 +134,7 @@
   color: var(--bt-foreground); text-decoration: none; text-transform: uppercase; font-size: var(--bt-text-sm);
   font-weight: 600; padding-block: var(--bt-space-1); border-bottom: var(--bt-border-width) solid transparent;
 }
-.bt-menu-overlay__link.is-active, .bt-menu-overlay__link[aria-current="page"] { border-color: var(--bt-tomato); }
+.bt-menu-overlay__link.is-active, .bt-menu-overlay__link[aria-current="page"] { border-color: var(--bt-terracotta); }
 .bt-menu-overlay__link:focus-visible { outline: 3px solid var(--bt-focus); outline-offset: 2px; }
 .bt-menu-overlay__footer { display: flex; align-items: center; gap: var(--bt-space-5); }
 
@@ -151,7 +155,7 @@
     font-family: var(--bt-font-display); font-size: var(--bt-text-lg); padding-block: var(--bt-space-3);
     border-bottom: var(--bt-border-thin) solid var(--bt-border);
   }
-  .bt-menu-overlay__link.is-active, .bt-menu-overlay__link[aria-current="page"] { color: var(--bt-ink-accent); border-bottom-color: var(--bt-tomato); }
+  .bt-menu-overlay__link.is-active, .bt-menu-overlay__link[aria-current="page"] { color: var(--bt-ink-accent); border-bottom-color: var(--bt-terracotta); }
   .bt-menu-overlay__footer { justify-content: space-between; gap: var(--bt-space-3); padding-top: var(--bt-space-3); }
   .bt-menu-overlay__footer .bt-button { width: auto; }
 }
@@ -184,6 +188,7 @@
 .bt-wave text { font-family: var(--bt-font-display); font-weight: 800; text-transform: uppercase; letter-spacing: 0.02em; }
 .bt-wave--mustard .bt-wave__band { stroke: var(--bt-mustard); } .bt-wave--mustard text { fill: var(--bt-forest); }
 .bt-wave--cream .bt-wave__band { stroke: var(--bt-cream); } .bt-wave--cream text { fill: var(--bt-forest); }
+.bt-wave--terracotta .bt-wave__band { stroke: var(--bt-terracotta); } .bt-wave--terracotta text { fill: var(--bt-cream); }
 .bt-wave--tomato .bt-wave__band { stroke: var(--bt-tomato); } .bt-wave--tomato text { fill: var(--bt-cream); }
 
 .bt-checkbox--inverse input[type="checkbox"]:checked::after { border-color: var(--bt-forest); }
@@ -241,4 +246,4 @@
 .bt-confirmation__body { font-family: var(--bt-font-sans); font-size: var(--bt-text-base); overflow-wrap: anywhere; }
 .bt-confirmation__actions { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: var(--bt-space-2); margin-top: var(--bt-space-5); }
 .bt-confirmation--danger .bt-confirmation__icon { color: var(--bt-danger); border-color: var(--bt-danger); }
-.bt-confirmation--danger .bt-confirmation__confirm { background: var(--bt-danger-container); color: var(--bt-on-danger-container); border-color: var(--bt-danger); }
+.bt-confirmation--danger .bt-confirmation__confirm { background: var(--bt-tomato); color: var(--bt-cream); border-color: var(--bt-tomato-border); }

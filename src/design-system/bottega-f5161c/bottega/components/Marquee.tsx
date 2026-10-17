@@ -6,7 +6,7 @@ export interface MarqueeProps extends HTMLAttributes<HTMLDivElement> {
   text: string;
   /** Optional separator glyph between repeats. */
   separator?: ReactNode;
-  variant?: "cream" | "forest" | "tomato";
+  variant?: "cream" | "forest" | "terracotta" | "tomato";
   repeat?: number;
 }
 

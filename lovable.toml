@@ -1,4 +1,4 @@
 [[libraries]]
-  project_id = "432d9af3-64cc-49a3-92e4-36d8f906a251"
-  slug = "bottega-f5161c"
-  version = "1.2.2"
+project_id = "432d9af3-64cc-49a3-92e4-36d8f906a251"
+version = "1.2.3"
+slug = "bottega-f5161c"

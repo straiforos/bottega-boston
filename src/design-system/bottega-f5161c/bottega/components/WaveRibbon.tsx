@@ -5,7 +5,7 @@ export interface WaveRibbonProps extends Omit<SVGAttributes<SVGSVGElement>, "chi
   /** Phrase repeated along the wave ("Follow us"). */
   text: string;
   separator?: string;
-  variant?: "mustard" | "cream" | "tomato";
+  variant?: "mustard" | "cream" | "terracotta" | "tomato";
 }
 
 const PATH = "M -20 200 C 150 40, 300 40, 450 160 S 750 280, 900 120 S 1150 0, 1220 60";

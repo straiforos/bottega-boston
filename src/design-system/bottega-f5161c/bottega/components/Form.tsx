@@ -72,7 +72,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(function Radio(
 
 export interface PillLabelProps extends HTMLAttributes<HTMLSpanElement> {
   /** Solid fills, or `chip-*` = parchment with a fine border (dietary tags). */
-  variant?: "forest" | "mustard" | "tomato" | "cobalt" | "chip-forest" | "chip-tomato";
+  variant?: "forest" | "mustard" | "terracotta" | "tomato" | "cobalt" | "chip-forest" | "chip-terracotta" | "chip-tomato";
 }
 
 /** Small uppercase tag ("New", "Vegetarian"). */

@@ -7,7 +7,7 @@ export interface CardProps extends HTMLAttributes<HTMLDivElement> {
   elevated?: boolean;
 }
 
-/** Poster-like panel with a tomato hairline border. `arch` gives the rounded-top window shape. */
+/** Poster-like panel with a terracotta hairline border. `arch` gives the rounded-top window shape. */
 export const Card = forwardRef<HTMLDivElement, CardProps>(function Card(
   { variant = "cream", shape = "rect", elevated = false, className, ...props },
   ref,

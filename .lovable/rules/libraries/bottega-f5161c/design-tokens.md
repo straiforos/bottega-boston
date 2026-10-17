@@ -21,6 +21,8 @@ Reference via `var(--name)` in inline styles or CSS.
 | `--bt-white` |
 | `--bt-mustard` |
 | `--bt-mustard-deep` |
+| `--bt-terracotta` |
+| `--bt-terracotta-border` |
 | `--bt-tomato` |
 | `--bt-tomato-border` |
 | `--bt-cobalt` |
@@ -31,13 +33,14 @@ Reference via `var(--name)` in inline styles or CSS.
 | `--bt-surface-container-high` |
 | `--bt-outline` |
 | `--bt-outline-variant` |
-| `--bt-danger` |
 | `--bt-danger-container` |
 | `--bt-on-danger-container` |
 | `--bt-muted` |
 | `--bt-border-thin` |
 | `--bt-backdrop` |
+| `--bt-danger` |
 | `--bt-ink-accent` |
+| `--bt-ink-danger` |
 | `--bt-ink-highlight` |
 
 ## Typography

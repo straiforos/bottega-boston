@@ -2,7 +2,7 @@
   "meta": {
     "name": "Bottega",
     "package": "@ws-cli5ylqvzebyb2b5e4wl/432d9af3-64cc-49a3-92e4-36d8f906a251",
-    "version": "1.2.2",
+    "version": "1.2.3",
     "framework": "react",
     "css_framework": "css-variables",
     "starter_template": "custom_design_system",
@@ -11,7 +11,7 @@
     ],
     "source_type": "local",
     "source_manifest": {
-      "#enrichment": "90b62ee18831d405f7ee61df2b7c61fb0388ffd944e09e5bb937dcc4e1409c4b",
+      "#enrichment": "d85a512788331f31589bbe6dcc3b4e559ec968e7dfe3014c6b8d5203770ca183",
       ".dsignore": "9202e1883820df077bdb3435c29315c4",
       ".gitignore": "6059213806e442947666752f3db6bfdc",
       ".lovable/meta.yaml": "731dc53c4191bd35cabf4a0af7095d7f",
@@ -19,7 +19,7 @@
       ".lovable/plan/add-the-menu-overlay-to-bottega-2026-10-03.md": "bd97829f1335f8cdd21f4ccda3faf9c6",
       ".lovable/plan/composite-responsive-siteheader-2026-10-03.md": "86f0f22c11c0222d331c29873e8e27fa",
       ".lovable/sources.yaml": "30ba92fda13f611b48d1157bbc70a97c",
-      ".lovable/system.md": "938671df377b8065230fbad15e02dfd6",
+      ".lovable/system.md": "3b3f491d409cdfa3c50d2049ffdb2c3e",
       "AGENTS.md": "f602d29a7070807125d7d1a1f24b3859",
       "README.md": "d19675c449605f23c7cfa133c69b398b",
       "bunfig.toml": "25f4c8696b22b0943db7191e0cdf7942",
@@ -33,26 +33,26 @@
       "src/bottega/assets/logos/bottega-logo.png": "2f1ddf64c4925e64c7517ad2c94355f4",
       "src/bottega/assets/logos/bottega-wordmark.png": "4f2f5560d2506735dc1a346346b9d2f9",
       "src/bottega/components/Button.tsx": "e04419032fe70083134e5c9d3a538239",
-      "src/bottega/components/Card.tsx": "ba6113c853585eff98fb1b48a6eb47e2",
+      "src/bottega/components/Card.tsx": "d58d3f4867c13f4eb0b4be5349b7d24b",
       "src/bottega/components/Confirmation.tsx": "d363490ec1562fc5a5b86fedb8d136c2",
       "src/bottega/components/FileUpload.tsx": "0adf300d793259223c40aab32399ab0e",
-      "src/bottega/components/Form.tsx": "fe1dde8147d2740e2ba58a6728fd59cc",
+      "src/bottega/components/Form.tsx": "65a9c3e0e1995418fea9a3c406202ad4",
       "src/bottega/components/LinkAction.tsx": "18a7c30a9cf96ccb49c8d261eff0b571",
       "src/bottega/components/Logo.tsx": "28e25ca711ef396309fcb77af5eed366",
-      "src/bottega/components/Marquee.tsx": "e8f10316ceb0abde9806da350cf00746",
+      "src/bottega/components/Marquee.tsx": "9433166178d4a04f8bee3e36f32733eb",
       "src/bottega/components/MenuOverlay.tsx": "c45f518511f87a9a39fe1eb812522d27",
       "src/bottega/components/MenuToggle.tsx": "e9917f0089dd9cf486c94697c0637bed",
       "src/bottega/components/SiteHeader.tsx": "c45d122399e1b0bcaa9b0998a82f1592",
       "src/bottega/components/Stamp.tsx": "fab48ad4d19d6f132413a4035b65035d",
       "src/bottega/components/ThemeToggle.tsx": "229aaa64efc3e1fc3006f95a0e211960",
-      "src/bottega/components/Typography.tsx": "cb63cf40436e32cbe6175744eeb8bf68",
-      "src/bottega/components/WaveRibbon.tsx": "b4be4f7863e6960ff842de12a407fb42",
+      "src/bottega/components/Typography.tsx": "e8063e5008a7af47d30ec96f145a5568",
+      "src/bottega/components/WaveRibbon.tsx": "4eb9a0ca7e53d2561b128b4887bb3e48",
       "src/bottega/index.ts": "b72a97c4945ff96091e31e6cae7c0953",
       "src/bottega/lib/cx.ts": "7ae105dce8319a6dc3263f679bb79dd7",
       "src/bottega/lib/files.test.ts": "a7083b0f7955fff6f0106d3266cceca7",
       "src/bottega/lib/files.ts": "864d6693af24152e4c2b1b814c57c4c3",
-      "src/bottega/styles/components.css": "93dd72335e47bb346ed9d4194ac625d8",
-      "src/bottega/styles/theme.css": "d6b457c3704f81b32642d891943799cd",
+      "src/bottega/styles/components.css": "8481aec704af9d7580830442aed8c4cc",
+      "src/bottega/styles/theme.css": "89796bce17fe37ddf981f668e13a1a46",
       "src/index.ts": "d6db7a37e55fd28ceedfa8fc5272c699",
       "src/mockup-preview.d.ts": "ae9d81e2b8514e13fd59b5b6bece9a64",
       "src/routeTree.gen.ts": "b493492c3c7229d800131062a1facc31",
@@ -60,9 +60,9 @@
       "src/routes/[__component].preview.$.tsx": "e4bf310e591541d31abf0cfeeb1121a4",
       "src/routes/[__mockup].preview.$.tsx": "5d9f42470848aa60148f20f9580e240e",
       "src/routes/__root.tsx": "32d8c1ee58418654d1dc11b4c488f536",
-      "src/routes/colors.tsx": "c7ca79efbc6b97363ee61e3fab301ea2",
-      "src/routes/components.tsx": "1e9fd871a3766923b7a75edf4a0d00cb",
-      "src/routes/index.tsx": "fce807bc6fac491529cdebfbb37882de",
+      "src/routes/colors.tsx": "442f6079d89c14e1cfc101460472be76",
+      "src/routes/components.tsx": "7eaa6198d066defe75277ba3062a219b",
+      "src/routes/index.tsx": "cdecf5361fbea7a6500cfaca7cb08dc8",
       "src/routes/typography.tsx": "c7eb63c2bfbcd2e5352f6dd2d93a673f",
       "src/showcase/Shell.tsx": "8d16bcd92ff8699d8d33b5ffbf96264e",
       "src/showcase/showcase.css": "5a61e9d679bbf0d3460c78294315dab6",
@@ -77,27 +77,27 @@
     "color": [
       {
         "name": "--bt-forest",
-        "raw": "#194d33",
+        "raw": "#165740",
         "source": "src/bottega/styles/theme.css"
       },
       {
         "name": "--bt-forest-dark",
-        "raw": "#16462e",
+        "raw": "#114432",
         "source": "src/bottega/styles/theme.css"
       },
       {
         "name": "--bt-forest-deep",
-        "raw": "#00361f",
+        "raw": "#0b2e22",
         "source": "src/bottega/styles/theme.css"
       },
       {
         "name": "--bt-cream",
-        "raw": "#faf6ee",
+        "raw": "#fff9ea",
         "source": "src/bottega/styles/theme.css"
       },
       {
         "name": "--bt-parchment",
-        "raw": "#f1ebdd",
+        "raw": "#f4eedc",
         "source": "src/bottega/styles/theme.css"
       },
       {
@@ -107,12 +107,22 @@
       },
       {
         "name": "--bt-mustard",
-        "raw": "#f8d468",
+        "raw": "#ffd66b",
         "source": "src/bottega/styles/theme.css"
       },
       {
         "name": "--bt-mustard-deep",
         "raw": "#e8b938",
+        "source": "src/bottega/styles/theme.css"
+      },
+      {
+        "name": "--bt-terracotta",
+        "raw": "#a2481d",
+        "source": "src/bottega/styles/theme.css"
+      },
+      {
+        "name": "--bt-terracotta-border",
+        "raw": "#863915",
         "source": "src/bottega/styles/theme.css"
       },
       {
@@ -127,12 +137,12 @@
       },
       {
         "name": "--bt-cobalt",
-        "raw": "#1d5bb5",
+        "raw": "#004aad",
         "source": "src/bottega/styles/theme.css"
       },
       {
         "name": "--bt-ink",
-        "raw": "#1e1a17",
+        "raw": "#0a0a0a",
         "source": "src/bottega/styles/theme.css"
       },
       {
@@ -166,11 +176,6 @@
         "source": "src/bottega/styles/theme.css"
       },
       {
-        "name": "--bt-danger",
-        "raw": "#ba1a1a",
-        "source": "src/bottega/styles/theme.css"
-      },
-      {
         "name": "--bt-danger-container",
         "raw": "#ffdad6",
         "source": "src/bottega/styles/theme.css"
@@ -196,7 +201,17 @@
         "source": "src/bottega/styles/theme.css"
       },
       {
+        "name": "--bt-danger",
+        "raw": "#ffb4ab",
+        "source": "src/bottega/styles/theme.css"
+      },
+      {
         "name": "--bt-ink-accent",
+        "raw": "#f0a77f",
+        "source": "src/bottega/styles/theme.css"
+      },
+      {
+        "name": "--bt-ink-danger",
         "raw": "#ff8a7a",
         "source": "src/bottega/styles/theme.css"
       },
@@ -360,7 +375,7 @@
     "shadow": [
       {
         "name": "--bt-shadow-ink",
-        "raw": "rgba(22, 70, 46, 0.9)",
+        "raw": "rgba(17, 68, 50, 0.9)",
         "source": "src/bottega/styles/theme.css"
       },
       {
@@ -370,7 +385,7 @@
       },
       {
         "name": "--bt-shadow-card",
-        "raw": "6px 6px 0 var(--bt-tomato)",
+        "raw": "6px 6px 0 var(--bt-terracotta)",
         "source": "src/bottega/styles/theme.css"
       },
       {
@@ -530,6 +545,7 @@
             "forest",
             "cream",
             "mustard",
+            "terracotta",
             "tomato",
             "cobalt",
             "ink",
@@ -572,6 +588,7 @@
             "forest",
             "cream",
             "mustard",
+            "terracotta",
             "tomato",
             "cobalt",
             "ink",
@@ -628,6 +645,7 @@
           "values": [
             "cream",
             "forest",
+            "terracotta",
             "tomato"
           ],
           "default": "cream"
@@ -775,9 +793,11 @@
           "values": [
             "forest",
             "mustard",
+            "terracotta",
             "tomato",
             "cobalt",
             "chip-forest",
+            "chip-terracotta",
             "chip-tomato"
           ],
           "default": "forest"
@@ -805,6 +825,7 @@
           "values": [
             "mustard",
             "cream",
+            "terracotta",
             "tomato"
           ],
           "default": "mustard"

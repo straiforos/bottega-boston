@@ -5,7 +5,7 @@
 
 # Bottega Design System
 
-Loud, warm, unapologetically Italian trattoria. Think vintage pasta posters: forest green fields, cream paper, mustard and tomato accents, cobalt blocks. Confident, joyful, a bit cheeky ("#PastaIsLife", "Judgment-free and full of carbs").
+Loud, warm, unapologetically Italian trattoria. Think vintage pasta posters: forest green fields, cream paper, burro and terracotta accents, cobalt blocks. Confident, joyful, a bit cheeky ("#PastaIsLife", "Judgment-free and full of carbs").
 
 ## Setup
 Import components from the barrel — importing it also loads the theme and component CSS:
@@ -23,7 +23,7 @@ Fonts are not bundled: add this to the root route head `links`:
 - Full-bleed banner headlines (`#PastaIsLife`, hero panels): `<Display size="hero">` — it owns the hero scale (`--bt-text-hero`, `--bt-tracking-hero`). Never override `font-size` inline to reach hero proportions.
 
 - Buttons and chips are always pills; inputs use `--bt-radius-md`; stamps are circles tilted -6° to -12°. Cards are either sharp rectangles or arches — never generic rounded-corner cards.
-- Tomato is for hairline borders, stamps and errors — never large fills.
+- Terracotta (`--bt-terracotta`) is the decorative accent: hairline borders, stamps, card shadows, active nav — never large fills. Tomato (`--bt-tomato`) is reserved for delete/destructive actions and errors (`Confirmation variant="danger"`, invalid fields).
 - One primary CTA per screen ("Order now"). Keep navigation minimal.
 - Use `SiteHeader` for the complete brand header. It owns the dual logo, semantic navigation, responsive `MenuToggle`, and `MenuOverlay`; do not assemble a parallel header from those parts unless the layout is intentionally custom.
 - Use `Marquee` strips to divide big color blocks; use `Stamp` sparingly (max one per section).
@@ -40,9 +40,9 @@ Fonts are not bundled: add this to the root route head `links`:
 
 ## Theme scopes
 - Theming is token-driven: `:root[data-theme="dark"]` swaps semantic tokens; components never hardcode dark-mode colors.
-- Fixed-color surfaces re-scope tokens so nested content stays legible in either theme: forest/cobalt cards, forest header and forest marquee use the dark scope; cream/white/mustard cards, cream/tomato marquees and stamps use the light scope.
+- Fixed-color surfaces re-scope tokens so nested content stays legible in either theme: forest/cobalt cards, forest header and forest marquee use the dark scope; cream/white/mustard cards, cream/terracotta/tomato marquees and stamps use the light scope.
 - For custom panels with a fixed brand background, add `bt-surface-dark` (forest, cobalt) or `bt-surface-light` (cream, parchment, white) so tones, inputs, controls and logos inside adapt.
-- Text tones `forest`, `tomato`, `cobalt`, `ink` map to adaptive inks (`--bt-ink-brand`, `--bt-ink-accent`, `--bt-ink-highlight`, `--bt-body`) — use them freely on themed backgrounds.
+- Text tones `forest`, `terracotta`, `tomato`, `cobalt`, `ink` map to adaptive inks (`--bt-ink-brand`, `--bt-ink-accent`, `--bt-ink-highlight`, `--bt-body`) — use them freely on themed backgrounds.
 
 
 <!-- END THIRD-PARTY LIBRARY CONTENT: design-system/bottega-f5161c -->

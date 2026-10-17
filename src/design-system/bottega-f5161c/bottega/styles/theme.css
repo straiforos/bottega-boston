@@ -2,18 +2,20 @@
    Brand fonts (Barlow Condensed, Domine, DM Sans) are loaded via a <link> in the document head. */
 :root {
   /* Brand palette */
-  --bt-forest: #194d33;
-  --bt-forest-dark: #16462e;
-  --bt-forest-deep: #00361f;
-  --bt-cream: #faf6ee;
-  --bt-parchment: #f1ebdd;
+  --bt-forest: #165740;
+  --bt-forest-dark: #114432;
+  --bt-forest-deep: #0b2e22;
+  --bt-cream: #fff9ea;
+  --bt-parchment: #f4eedc;
   --bt-white: #ffffff;
-  --bt-mustard: #f8d468;
+  --bt-mustard: #ffd66b;
   --bt-mustard-deep: #e8b938;
-  --bt-tomato: #d63426;
+  --bt-terracotta: #a2481d; /* Bottega Terra — decorative accents */
+  --bt-terracotta-border: #863915;
+  --bt-tomato: #d63426; /* destructive actions & errors only */
   --bt-tomato-border: #ba2619;
-  --bt-cobalt: #1d5bb5;
-  --bt-ink: #1e1a17;
+  --bt-cobalt: #004aad;
+  --bt-ink: #0a0a0a;
 
   /* Surfaces */
   --bt-surface: var(--bt-cream);
@@ -37,11 +39,11 @@
   --bt-on-accent: var(--bt-forest);
   --bt-highlight: var(--bt-cobalt);
   --bt-on-highlight: var(--bt-white);
-  --bt-danger: #ba1a1a;
+  --bt-danger: var(--bt-tomato-border);
   --bt-danger-container: #ffdad6;
   --bt-on-danger-container: #410002;
   --bt-border: var(--bt-forest);
-  --bt-border-accent: var(--bt-tomato);
+  --bt-border-accent: var(--bt-terracotta);
   --bt-border-gold: var(--bt-mustard-deep);
   --bt-muted: #414942;
   --bt-focus: var(--bt-cobalt);
@@ -53,9 +55,10 @@
 
   /* Brand text inks — adapt per surface so tones stay legible */
   --bt-ink-brand: var(--bt-forest);
-  --bt-ink-accent: var(--bt-tomato);
+  --bt-ink-accent: var(--bt-terracotta);
+  --bt-ink-danger: var(--bt-tomato);
   --bt-ink-highlight: var(--bt-cobalt);
-  --bt-shadow-ink: rgba(22, 70, 46, 0.9);
+  --bt-shadow-ink: rgba(17, 68, 50, 0.9);
   --bt-logo-filter: none;
 
   /* Typography */
@@ -113,7 +116,7 @@
   --bt-border-width: 2px;
   --bt-border-thin: 1.5px;
   --bt-shadow-stamp: 3px 3px 0 var(--bt-shadow-ink);
-  --bt-shadow-card: 6px 6px 0 var(--bt-tomato);
+  --bt-shadow-card: 6px 6px 0 var(--bt-terracotta);
   --bt-shadow-hover: 3px 3px 0 var(--bt-shadow-ink);
 
   --bt-marquee-height: 3.25rem;
@@ -146,7 +149,8 @@
   --bt-danger-container: #5c0d0d;
   --bt-on-danger-container: var(--bt-cream);
   --bt-ink-brand: var(--bt-cream);
-  --bt-ink-accent: #ff8a7a;
+  --bt-ink-accent: #f0a77f;
+  --bt-ink-danger: #ff8a7a;
   --bt-ink-highlight: #a9c7ff;
   --bt-shadow-ink: var(--bt-ink);
   --bt-logo-filter: invert(1);
@@ -162,7 +166,7 @@
 }
 
 /* Light scope: fixed light surfaces restore light tokens even inside the dark theme. */
-.bt-surface-light, .bt-card--cream, .bt-card--white, .bt-card--mustard, .bt-marquee--cream, .bt-marquee--tomato, .bt-stamp {
+.bt-surface-light, .bt-card--cream, .bt-card--white, .bt-card--mustard, .bt-marquee--cream, .bt-marquee--tomato, .bt-marquee--terracotta, .bt-stamp {
   --bt-foreground: var(--bt-forest);
   --bt-body: var(--bt-ink);
   --bt-surface: var(--bt-cream);
@@ -172,13 +176,14 @@
   --bt-control: var(--bt-forest);
   --bt-control-fill: var(--bt-forest);
   --bt-on-control: var(--bt-cream);
-  --bt-danger: #ba1a1a;
+  --bt-danger: var(--bt-tomato-border);
   --bt-danger-container: #ffdad6;
   --bt-on-danger-container: #410002;
   --bt-ink-brand: var(--bt-forest);
-  --bt-ink-accent: var(--bt-tomato);
+  --bt-ink-accent: var(--bt-terracotta);
+  --bt-ink-danger: var(--bt-tomato);
   --bt-ink-highlight: var(--bt-cobalt);
-  --bt-shadow-ink: rgba(22, 70, 46, 0.9);
+  --bt-shadow-ink: rgba(17, 68, 50, 0.9);
   --bt-logo-filter: none;
 }
 
