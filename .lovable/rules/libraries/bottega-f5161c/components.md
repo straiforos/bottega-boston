@@ -27,7 +27,7 @@ import { ArchFrame } from "@/design-system/bottega-f5161c"
 import { BottegaMap } from "@/design-system/bottega-f5161c"
 ```
 
-Show the restaurant location on a Google map styled with Bottega tokens; it follows the light/dark theme. Uses the Lovable Google Maps connector key by default.
+Show the restaurant location on a Google map styled with Bottega tokens. Defaults to the site theme; set theme to light or dark to override only the map and scope its children. Uses the Lovable Google Maps connector key by default.
 
 **Props:**
 
@@ -39,6 +39,7 @@ Show the restaurant location on a Google map styled with Bottega tokens; it foll
 | `label` | string | `—` |
 | `apiKey` | string | `—` |
 | `size` | sm · md · lg | `md` |
+| `theme` | any | `auto` |
 | `children` | any | `—` |
 
 **Examples:**
@@ -48,17 +49,81 @@ _Location with card_
 <BottegaMap label="Map showing Bottega" center={{ lat: 41.8986, lng: 12.4769 }} markers={[{ lat: 41.8986, lng: 12.4769, title: "Bottega" }]} />
 ```
 
+_Light map independent of site theme_
+```tsx
+<BottegaMap theme="light" label="Bottega location" center={{ lat: 41.8986, lng: 12.4769 }} />
+```
+
 **Avoid:**
 
 - Do not use the browser key for Places or geocoding.
 - Do not pass hardcoded hex map styles; use bottegaMapStyles().
 - Do not wrap the map in an arch or rounded frame; it is always a sharp terracotta-bordered rectangle.
+- Do not change the root theme to override an individual map; use its theme prop.
+
+### BottegaMapCard
+
+```ts
+import { BottegaMapCard } from "@/design-system/bottega-f5161c"
+```
+
+The inset location card for BottegaMap, built on the Card component. Pass it as the map's child to show the order CTA, name, address, hours and a directions link in the sharp terracotta-framed trattoria style. The order button is the map's call to action: pass orderHref (the ChowNow URL) so the card renders a primary Button; directions stays a secondary link. Keep it in contrast with the map: cream on a dark map, forest or mustard on a light one.
+
+**Props:**
+
+| Prop | Type | Default |
+|---|---|---|
+| `title` | any | `—` |
+| `headingLevel` | h2 · h3 · h4 | `h3` |
+| `eyebrow` | any | `—` |
+| `address` | any | `—` |
+| `hours` | any | `—` |
+| `orderHref` | string | `—` |
+| `orderLabel` | string | `Order now` |
+| `directionsHref` | string | `—` |
+| `directionsLabel` | string | `Get directions` |
+| `variant` | cream · forest · mustard | `cream` |
+| `children` | any | `—` |
+
+**Examples:**
+
+_Map with location card_
+```tsx
+<BottegaMap label="Bottega location" center={{ lat: 41.8986, lng: 12.4769 }}>
+  <BottegaMapCard eyebrow="Visit us" title="Bottega Roma" address="Piazza Navona 1" hours="Open daily 12–23" directionsHref="https://maps.google.com/?q=41.8986,12.4769" />
+</BottegaMap>
+```
+
+_Cream card on a dark map_
+```tsx
+<BottegaMap theme="dark" label="Bottega location" center={{ lat: 41.8986, lng: 12.4769 }}>
+  <BottegaMapCard title="Bottega" hours="Open daily 12–23" />
+</BottegaMap>
+```
+
+_Order button as the map CTA_
+```tsx
+<BottegaMap label="Bottega location" center={{ lat: 41.8986, lng: 12.4769 }}>
+  <BottegaMapCard title="Bottega Roma" address="Piazza Navona 1" hours="Open daily 12–23" orderHref="https://order.chownow.com/bottega" directionsHref="https://maps.google.com/?q=41.8986,12.4769" />
+</BottegaMap>
+```
+
+**Avoid:**
+
+- Do not build a custom absolutely-positioned card over the map; pass BottegaMapCard as a child.
+- Do not round its corners or use an arch; it matches the map's sharp frame.
+- Do not use tomato for the card; it is reserved for errors.
+- Do not build a custom ad-hoc card next to the map; compose BottegaMapCard inside BottegaMap.
+- Do not place a forest card on a dark map; use the cream card so it stands out.
+- Do not make 'Get directions' the primary action; the order button is the map's CTA.
 
 ### Button
 
 ```ts
 import { Button } from "@/design-system/bottega-f5161c"
 ```
+
+Primary action pill; the one main CTA per screen (Order now). Pass href to render as a semantic link for external actions such as ChowNow ordering. With target="_blank" it adds rel="noopener noreferrer" automatically so Firefox COOP cannot block the new tab.
 
 **Props:**
 
@@ -67,6 +132,21 @@ import { Button } from "@/design-system/bottega-f5161c"
 | `variant` | primary · accent · outline · ghost · cream | `primary` |
 | `size` | sm · md · lg | `md` |
 | `width` | auto · full | `auto` |
+| `href` | string | `—` |
+
+**Examples:**
+
+_External order link (ChowNow)_
+```tsx
+<Button variant="primary" href="https://order.chownow.com/bottega" target="_blank" aria-label="Order now (opens in a new tab)">Order now</Button>
+```
+
+**Avoid:**
+
+- Do not wrap an external order link in a <button>; pass href so Button renders a semantic <a>.
+- Do not invent a second order CTA component; reuse Button with href.
+- Do not style the link inline; pick a variant.
+- Do not open a new tab with a raw <a target="_blank"> or a manual rel; Button adds rel="noopener noreferrer" for you.
 
 ### Card
 
@@ -188,11 +268,30 @@ _Typical use_
 import { LinkAction } from "@/design-system/bottega-f5161c"
 ```
 
+Secondary action: underlined condensed caps with a sliding arrow. Use beneath the primary CTA (e.g. Get directions under Order now). With target="_blank" it adds rel="noopener noreferrer" automatically so Firefox COOP cannot block the new tab.
+
 **Props:**
 
 | Prop | Type | Default |
 |---|---|---|
 | `tone` | forest · cream · mustard | `forest` |
+
+**Examples:**
+
+_In-page link_
+```tsx
+<LinkAction href="/menu">See the full menu</LinkAction>
+```
+
+_External directions link_
+```tsx
+<LinkAction href="https://maps.google.com/?q=41.8986,12.4769" target="_blank" aria-label="Get directions (opens in a new tab)">Get directions</LinkAction>
+```
+
+**Avoid:**
+
+- Do not use LinkAction as the main CTA; the primary action is Button.
+- Do not pass rel by hand or build a raw <a target="_blank">; LinkAction adds rel="noopener noreferrer" automatically.
 
 ### Logo
 

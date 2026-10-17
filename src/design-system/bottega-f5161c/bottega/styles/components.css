@@ -1,7 +1,7 @@
 /* Component styles — every value comes from theme.css tokens. */
 .bt-button {
   display: inline-flex; align-items: center; justify-content: center; gap: var(--bt-space-2);
-  font-family: var(--bt-font-display); font-weight: 700; line-height: 1; text-transform: uppercase; letter-spacing: var(--bt-tracking-button);
+  font-family: var(--bt-font-display); font-weight: 700; line-height: 1; text-transform: uppercase; letter-spacing: var(--bt-tracking-button); text-decoration: none;
   border: var(--bt-border-thin) solid transparent; border-radius: var(--bt-radius-pill);
   cursor: pointer; transition: transform var(--bt-duration), background var(--bt-duration), box-shadow var(--bt-duration);
 }
@@ -257,3 +257,12 @@
 .bt-map__fallback { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: var(--bt-space-sm); background: var(--bt-parchment); color: var(--bt-foreground); font-family: var(--bt-font-display); font-size: var(--bt-text-label); letter-spacing: var(--bt-tracking-badge); text-transform: uppercase; }
 .bt-map__pin { width: var(--bt-icon-size); height: var(--bt-icon-size); background: var(--bt-terracotta); border-radius: 50% 50% 50% 0; transform: rotate(-45deg); box-shadow: var(--bt-shadow-stamp); }
 .bt-map__card { position: absolute; left: var(--bt-space-md); bottom: var(--bt-space-md); max-width: min(20rem, calc(100% - 2 * var(--bt-space-md))); }
+/* Layout only — the frame, background and shadow come from the Card component. */
+.bt-map-card { align-items: flex-start; text-align: left; gap: var(--bt-space-sm); padding: var(--bt-space-md); font-family: var(--bt-font-sans); font-size: var(--bt-text-sm); }
+.bt-map-card__eyebrow { margin: 0; font-family: var(--bt-font-display); font-weight: 700; font-size: var(--bt-text-label); letter-spacing: var(--bt-tracking-badge); text-transform: uppercase; color: var(--bt-ink-accent); }
+.bt-map-card__title { margin: 0; font-family: var(--bt-font-serif); font-weight: 700; font-size: var(--bt-text-title); line-height: 1.15; color: var(--bt-ink-brand, currentColor); }
+.bt-map-card__details { display: grid; gap: var(--bt-space-xs); margin: 0; }
+.bt-map-card__details dt { font-family: var(--bt-font-display); font-weight: 700; font-size: var(--bt-text-xs); letter-spacing: var(--bt-tracking-badge); text-transform: uppercase; opacity: 0.75; }
+.bt-map-card__details dd { margin: 0; line-height: 1.45; }
+.bt-map-card__order { margin-top: var(--bt-space-xs); }
+.bt-map-card__directions { margin-top: var(--bt-space-xs); }

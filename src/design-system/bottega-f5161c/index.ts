@@ -3,6 +3,7 @@
 // imports through `@/design-system/{slug}` resolve uniformly.
 
 export { BottegaMap } from "./bottega/components/BottegaMap";
+export { BottegaMapCard } from "./bottega/components/BottegaMapCard";
 export { Button } from "./bottega/components/Button";
 export { ArchFrame, Card } from "./bottega/components/Card";
 export { Confirmation } from "./bottega/components/Confirmation";

@@ -1,5 +1,6 @@
 import { forwardRef, useEffect, useRef, useState, type HTMLAttributes, type ReactNode } from "react";
 import { cx } from "../lib/cx";
+import { resolveMapTheme, type MapTheme } from "../lib/map-theme";
 
 export interface BottegaMapMarker {
   lat: number;
@@ -18,6 +19,8 @@ export interface BottegaMapProps extends HTMLAttributes<HTMLDivElement> {
   /** Browser key. Defaults to the Lovable Google Maps connector key. */
   apiKey?: string;
   size?: "sm" | "md" | "lg";
+  /** Map-only theme override. Defaults to "auto" to follow the site theme. */
+  theme?: MapTheme;
   /** Optional inset card (address, hours, directions link). */
   children?: ReactNode;
 }
@@ -51,10 +54,10 @@ function loadMaps(key: string, channel: string): Promise<GMaps> {
 }
 
 /** Builds the vintage trattoria palette from the active Bottega tokens. */
-export function bottegaMapStyles(el: Element = document.documentElement) {
+export function bottegaMapStyles(el: Element = document.documentElement, theme: MapTheme = "auto") {
   const cs = getComputedStyle(el);
   const t = (n: string) => cs.getPropertyValue(n).trim();
-  const dark = document.documentElement.dataset.theme === "dark";
+  const dark = resolveMapTheme(theme, document.documentElement.dataset.theme) === "dark";
   const land = dark ? t("--bt-forest-deep") : t("--bt-parchment");
   const park = t("--bt-forest");
   const water = dark ? t("--bt-forest-dark") : t("--bt-cobalt");
@@ -92,7 +95,7 @@ export function bottegaMapStyles(el: Element = document.documentElement) {
 
 /** Google map styled as a vintage trattoria print, framed in Bottega style. Syncs with the light/dark theme. */
 export const BottegaMap = forwardRef<HTMLDivElement, BottegaMapProps>(function BottegaMap(
-  { center, zoom = 15, markers = [], label, apiKey, size = "md", children, className, ...props },
+  { center, zoom = 15, markers = [], label, apiKey, size = "md", theme = "auto", children, className, ...props },
   ref,
 ) {
   const canvas = useRef<HTMLDivElement>(null);
@@ -109,20 +112,24 @@ export const BottegaMap = forwardRef<HTMLDivElement, BottegaMapProps>(function B
     loadMaps(key, channel).then((maps) => {
       if (cancelled || !canvas.current) return;
       const map = new maps.Map(canvas.current, {
-        center, zoom, styles: bottegaMapStyles(), clickableIcons: false,
+        center, zoom, styles: bottegaMapStyles(canvas.current, theme), clickableIcons: false,
         disableDefaultUI: true, zoomControl: true, gestureHandling: "cooperative",
       });
       markers.forEach((m) => pins.push(new maps.Marker({ map, position: { lat: m.lat, lng: m.lng }, title: m.title })));
-      observer = new MutationObserver(() => map.setOptions({ styles: bottegaMapStyles() }));
-      observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+      if (theme === "auto") {
+        observer = new MutationObserver(() => {
+          if (canvas.current) map.setOptions({ styles: bottegaMapStyles(canvas.current, theme) });
+        });
+        observer.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+      }
       setStatus("ready");
     }).catch(() => !cancelled && setStatus("unavailable"));
     return () => { cancelled = true; observer?.disconnect(); pins.forEach((p) => p.setMap(null)); };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [key, channel, center.lat, center.lng, zoom, markerKey]);
+  }, [key, channel, center.lat, center.lng, zoom, markerKey, theme]);
 
   return (
-    <div ref={ref} className={cx("bt-map", `bt-map--${size}`, className)} {...props}>
+    <div ref={ref} className={cx("bt-map", `bt-map--${size}`, theme !== "auto" && `bt-surface-${theme}`, className)} {...props} data-theme={theme === "auto" ? undefined : theme}>
       <div ref={canvas} className="bt-map__canvas" role="region" aria-label={label} />
       {status !== "ready" && (
         <div className="bt-map__fallback bt-surface-light" role="status">

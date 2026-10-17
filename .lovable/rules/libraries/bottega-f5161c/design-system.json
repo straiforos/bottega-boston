@@ -2,7 +2,7 @@
   "meta": {
     "name": "Bottega",
     "package": "@ws-cli5ylqvzebyb2b5e4wl/432d9af3-64cc-49a3-92e4-36d8f906a251",
-    "version": "1.3.1",
+    "version": "1.3.2",
     "framework": "react",
     "css_framework": "css-variables",
     "starter_template": "custom_design_system",
@@ -11,7 +11,7 @@
     ],
     "source_type": "local",
     "source_manifest": {
-      "#enrichment": "fd5de76ba82b798836710b4fcc1674a9f7db7d4dc4c3c0d84278c8950a95b8b2",
+      "#enrichment": "5e6370004b048baabbd7bd3f32b429e84da39d203720d2f4bd2618ac309f52cd",
       ".dsignore": "9202e1883820df077bdb3435c29315c4",
       ".gitignore": "6059213806e442947666752f3db6bfdc",
       ".lovable/meta.yaml": "731dc53c4191bd35cabf4a0af7095d7f",
@@ -19,8 +19,8 @@
       ".lovable/plan/add-the-menu-overlay-to-bottega-2026-10-03.md": "bd97829f1335f8cdd21f4ccda3faf9c6",
       ".lovable/plan/composite-responsive-siteheader-2026-10-03.md": "86f0f22c11c0222d331c29873e8e27fa",
       ".lovable/sources.yaml": "30ba92fda13f611b48d1157bbc70a97c",
-      ".lovable/system.md": "6cee3eccf150ab1148efa29898d1927e",
-      "AGENTS.md": "f602d29a7070807125d7d1a1f24b3859",
+      ".lovable/system.md": "bb20db9bfe16b611ea3b3500c49cebd1",
+      "AGENTS.md": "5738ebf37fcc114d9853555338e46fa3",
       "README.md": "d19675c449605f23c7cfa133c69b398b",
       "bunfig.toml": "25f4c8696b22b0943db7191e0cdf7942",
       "eslint.config.js": "07a67437fb1a45ab36d6de0145ff09de",
@@ -28,17 +28,18 @@
       "mockupPreviewPlugin.ts": "70d01fe16b7ca25f16ff6bdb97f08b0b",
       "package.json": "c3e5084e52ab8faa86820d48e652c297",
       "public/favicon.png": "8591d74b97a1a207c1efed1baebaaf3a",
-      "roadmap.md": "460148c94a30e358a85ce7c754606e5b",
+      "roadmap.md": "1e76dc0266470fa1cc02062d9ec1cfc6",
       "src/bottega/assets/icons/noodle-menu.png": "72ebc45c661ec57224f5f63d45584bda",
       "src/bottega/assets/logos/bottega-logo.png": "2f1ddf64c4925e64c7517ad2c94355f4",
       "src/bottega/assets/logos/bottega-wordmark.png": "4f2f5560d2506735dc1a346346b9d2f9",
-      "src/bottega/components/BottegaMap.tsx": "ecd644a1d0d7ea7226d36f6f2dee59cc",
-      "src/bottega/components/Button.tsx": "e04419032fe70083134e5c9d3a538239",
+      "src/bottega/components/BottegaMap.tsx": "7b552dad0c6764564a5287071daea6d4",
+      "src/bottega/components/BottegaMapCard.tsx": "ee9e0dd6293cd192dc9b3a927196f74d",
+      "src/bottega/components/Button.tsx": "57ff17b568beb0dc3c72d79ef8d4b622",
       "src/bottega/components/Card.tsx": "d58d3f4867c13f4eb0b4be5349b7d24b",
       "src/bottega/components/Confirmation.tsx": "d363490ec1562fc5a5b86fedb8d136c2",
       "src/bottega/components/FileUpload.tsx": "0adf300d793259223c40aab32399ab0e",
       "src/bottega/components/Form.tsx": "65a9c3e0e1995418fea9a3c406202ad4",
-      "src/bottega/components/LinkAction.tsx": "18a7c30a9cf96ccb49c8d261eff0b571",
+      "src/bottega/components/LinkAction.tsx": "c768c34f2df9aa78876cce96446575bc",
       "src/bottega/components/Logo.tsx": "28e25ca711ef396309fcb77af5eed366",
       "src/bottega/components/Marquee.tsx": "9433166178d4a04f8bee3e36f32733eb",
       "src/bottega/components/MenuOverlay.tsx": "c45f518511f87a9a39fe1eb812522d27",
@@ -48,11 +49,15 @@
       "src/bottega/components/ThemeToggle.tsx": "229aaa64efc3e1fc3006f95a0e211960",
       "src/bottega/components/Typography.tsx": "e8063e5008a7af47d30ec96f145a5568",
       "src/bottega/components/WaveRibbon.tsx": "4eb9a0ca7e53d2561b128b4887bb3e48",
-      "src/bottega/index.ts": "077abe8c27dde4eb8304329211a58dbd",
+      "src/bottega/index.ts": "f3a6a0b8ee0858f037e5fb67ac4be029",
       "src/bottega/lib/cx.ts": "7ae105dce8319a6dc3263f679bb79dd7",
       "src/bottega/lib/files.test.ts": "a7083b0f7955fff6f0106d3266cceca7",
       "src/bottega/lib/files.ts": "864d6693af24152e4c2b1b814c57c4c3",
-      "src/bottega/styles/components.css": "666cfd33e1ab8b5d2ba8b19ec4e7b62b",
+      "src/bottega/lib/link-rel.test.ts": "4b64470848f6d66b3db836e2fe7c6ccb",
+      "src/bottega/lib/link-rel.ts": "96aac25fd20bb130792fc4ae841d78c7",
+      "src/bottega/lib/map-theme.test.ts": "fc2a529b09ba0f3ee3f85809a7a53e08",
+      "src/bottega/lib/map-theme.ts": "7e59d8cce6828d18eb0a3d96ffbf208c",
+      "src/bottega/styles/components.css": "a8a8d3a28d05b83900b97cd06bb640db",
       "src/bottega/styles/theme.css": "0d5370946b2a093d5f4e0094fc82b54b",
       "src/index.ts": "d6db7a37e55fd28ceedfa8fc5272c699",
       "src/mockup-preview.d.ts": "ae9d81e2b8514e13fd59b5b6bece9a64",
@@ -62,7 +67,7 @@
       "src/routes/[__mockup].preview.$.tsx": "5d9f42470848aa60148f20f9580e240e",
       "src/routes/__root.tsx": "32d8c1ee58418654d1dc11b4c488f536",
       "src/routes/colors.tsx": "442f6079d89c14e1cfc101460472be76",
-      "src/routes/components.tsx": "e37e364c597ad2d2f3959cfbb3ef81e0",
+      "src/routes/components.tsx": "4bd42367d66709b458bb04c7375e9d25",
       "src/routes/index.tsx": "cdecf5361fbea7a6500cfaca7cb08dc8",
       "src/routes/typography.tsx": "c7eb63c2bfbcd2e5352f6dd2d93a673f",
       "src/showcase/Shell.tsx": "8d16bcd92ff8699d8d33b5ffbf96264e",
@@ -524,7 +529,24 @@
             "full"
           ],
           "default": "auto"
+        },
+        {
+          "name": "href",
+          "type": "string"
         }
+      ],
+      "usage": "Primary action pill; the one main CTA per screen (Order now). Pass href to render as a semantic link for external actions such as ChowNow ordering. With target=\"_blank\" it adds rel=\"noopener noreferrer\" automatically so Firefox COOP cannot block the new tab.",
+      "examples": [
+        {
+          "label": "External order link (ChowNow)",
+          "code": "\u003cButton variant=\"primary\" href=\"https://order.chownow.com/bottega\" target=\"_blank\" aria-label=\"Order now (opens in a new tab)\"\u003eOrder now\u003c/Button\u003e"
+        }
+      ],
+      "antipatterns": [
+        "Do not wrap an external order link in a \u003cbutton\u003e; pass href so Button renders a semantic \u003ca\u003e.",
+        "Do not invent a second order CTA component; reuse Button with href.",
+        "Do not style the link inline; pick a variant.",
+        "Do not open a new tab with a raw \u003ca target=\"_blank\"\u003e or a manual rel; Button adds rel=\"noopener noreferrer\" for you."
       ]
     },
     {
@@ -863,6 +885,21 @@
           ],
           "default": "forest"
         }
+      ],
+      "usage": "Secondary action: underlined condensed caps with a sliding arrow. Use beneath the primary CTA (e.g. Get directions under Order now). With target=\"_blank\" it adds rel=\"noopener noreferrer\" automatically so Firefox COOP cannot block the new tab.",
+      "examples": [
+        {
+          "label": "In-page link",
+          "code": "\u003cLinkAction href=\"/menu\"\u003eSee the full menu\u003c/LinkAction\u003e"
+        },
+        {
+          "label": "External directions link",
+          "code": "\u003cLinkAction href=\"https://maps.google.com/?q=41.8986,12.4769\" target=\"_blank\" aria-label=\"Get directions (opens in a new tab)\"\u003eGet directions\u003c/LinkAction\u003e"
+        }
+      ],
+      "antipatterns": [
+        "Do not use LinkAction as the main CTA; the primary action is Button.",
+        "Do not pass rel by hand or build a raw \u003ca target=\"_blank\"\u003e; LinkAction adds rel=\"noopener noreferrer\" automatically."
       ]
     },
     {
@@ -1247,21 +1284,120 @@
           "default": "md"
         },
         {
+          "name": "theme",
+          "type": "any",
+          "default": "auto"
+        },
+        {
           "name": "children",
           "type": "any"
         }
       ],
-      "usage": "Show the restaurant location on a Google map styled with Bottega tokens; it follows the light/dark theme. Uses the Lovable Google Maps connector key by default.",
+      "usage": "Show the restaurant location on a Google map styled with Bottega tokens. Defaults to the site theme; set theme to light or dark to override only the map and scope its children. Uses the Lovable Google Maps connector key by default.",
       "examples": [
         {
           "label": "Location with card",
           "code": "\u003cBottegaMap label=\"Map showing Bottega\" center={{ lat: 41.8986, lng: 12.4769 }} markers={[{ lat: 41.8986, lng: 12.4769, title: \"Bottega\" }]} /\u003e"
+        },
+        {
+          "label": "Light map independent of site theme",
+          "code": "\u003cBottegaMap theme=\"light\" label=\"Bottega location\" center={{ lat: 41.8986, lng: 12.4769 }} /\u003e"
         }
       ],
       "antipatterns": [
         "Do not use the browser key for Places or geocoding.",
         "Do not pass hardcoded hex map styles; use bottegaMapStyles().",
-        "Do not wrap the map in an arch or rounded frame; it is always a sharp terracotta-bordered rectangle."
+        "Do not wrap the map in an arch or rounded frame; it is always a sharp terracotta-bordered rectangle.",
+        "Do not change the root theme to override an individual map; use its theme prop."
+      ]
+    },
+    {
+      "name": "BottegaMapCard",
+      "file": "src/bottega/components/BottegaMapCard",
+      "import_path": "",
+      "props": [
+        {
+          "name": "title",
+          "type": "any",
+          "required": true
+        },
+        {
+          "name": "headingLevel",
+          "type": "enum",
+          "values": [
+            "h2",
+            "h3",
+            "h4"
+          ],
+          "default": "h3"
+        },
+        {
+          "name": "eyebrow",
+          "type": "any"
+        },
+        {
+          "name": "address",
+          "type": "any"
+        },
+        {
+          "name": "hours",
+          "type": "any"
+        },
+        {
+          "name": "orderHref",
+          "type": "string"
+        },
+        {
+          "name": "orderLabel",
+          "type": "string",
+          "default": "Order now"
+        },
+        {
+          "name": "directionsHref",
+          "type": "string"
+        },
+        {
+          "name": "directionsLabel",
+          "type": "string",
+          "default": "Get directions"
+        },
+        {
+          "name": "variant",
+          "type": "enum",
+          "values": [
+            "cream",
+            "forest",
+            "mustard"
+          ],
+          "default": "cream"
+        },
+        {
+          "name": "children",
+          "type": "any"
+        }
+      ],
+      "usage": "The inset location card for BottegaMap, built on the Card component. Pass it as the map's child to show the order CTA, name, address, hours and a directions link in the sharp terracotta-framed trattoria style. The order button is the map's call to action: pass orderHref (the ChowNow URL) so the card renders a primary Button; directions stays a secondary link. Keep it in contrast with the map: cream on a dark map, forest or mustard on a light one.",
+      "examples": [
+        {
+          "label": "Map with location card",
+          "code": "\u003cBottegaMap label=\"Bottega location\" center={{ lat: 41.8986, lng: 12.4769 }}\u003e\n  \u003cBottegaMapCard eyebrow=\"Visit us\" title=\"Bottega Roma\" address=\"Piazza Navona 1\" hours=\"Open daily 12–23\" directionsHref=\"https://maps.google.com/?q=41.8986,12.4769\" /\u003e\n\u003c/BottegaMap\u003e"
+        },
+        {
+          "label": "Cream card on a dark map",
+          "code": "\u003cBottegaMap theme=\"dark\" label=\"Bottega location\" center={{ lat: 41.8986, lng: 12.4769 }}\u003e\n  \u003cBottegaMapCard title=\"Bottega\" hours=\"Open daily 12–23\" /\u003e\n\u003c/BottegaMap\u003e"
+        },
+        {
+          "label": "Order button as the map CTA",
+          "code": "\u003cBottegaMap label=\"Bottega location\" center={{ lat: 41.8986, lng: 12.4769 }}\u003e\n  \u003cBottegaMapCard title=\"Bottega Roma\" address=\"Piazza Navona 1\" hours=\"Open daily 12–23\" orderHref=\"https://order.chownow.com/bottega\" directionsHref=\"https://maps.google.com/?q=41.8986,12.4769\" /\u003e\n\u003c/BottegaMap\u003e"
+        }
+      ],
+      "antipatterns": [
+        "Do not build a custom absolutely-positioned card over the map; pass BottegaMapCard as a child.",
+        "Do not round its corners or use an arch; it matches the map's sharp frame.",
+        "Do not use tomato for the card; it is reserved for errors.",
+        "Do not build a custom ad-hoc card next to the map; compose BottegaMapCard inside BottegaMap.",
+        "Do not place a forest card on a dark map; use the cream card so it stands out.",
+        "Do not make 'Get directions' the primary action; the order button is the map's CTA."
       ]
     }
   ]
