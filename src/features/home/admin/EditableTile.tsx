@@ -100,6 +100,7 @@ export function EditableTile({ item, items }: EditableTileProps) {
       <GalleryEditorDialog open={editing} label={`${staffContent.edit} ${label}`} onCancel={() => setEditing(false)}>
         <TileEditor
           initial={{ alt: item.alt, caption: item.caption }}
+          draftScope={`tile:${item.id}`}
           onCancel={() => setEditing(false)}
           onSave={async (draft, file, onProgress) => {
             await admin.update(item.id, draft, file, onProgress);

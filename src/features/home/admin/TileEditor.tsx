@@ -1,5 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import { Button, Card, FileUpload, TextField } from '@/design-system/bottega-f5161c';
+import { useSnackbar } from '@/design-system/bottega-f5161c/bottega';
+import { adminDraftKey, useAdminDraft } from '@/lib/events/form-draft';
 import { staffContent } from '@/content/en/staff';
 import { validateTileDraft } from '@/lib/gallery/gallery-api';
 import type { TileDraft } from '@/lib/gallery/types';
@@ -10,11 +12,15 @@ interface TileEditorProps {
   requireFile?: boolean;
   onSave: (draft: TileDraft, file: File | null, onProgress: (fraction: number) => void) => Promise<void>;
   onCancel: () => void;
+  /** Unique storage scope so unsaved edits survive an accidental refresh. */
+  draftScope: string;
 }
 
 /** Inline form to edit or add a gallery tile; media is processed in the background before upload. */
-export function TileEditor({ initial, requireFile = false, onSave, onCancel }: TileEditorProps) {
+export function TileEditor({ initial, requireFile = false, onSave, onCancel, draftScope }: TileEditorProps) {
   const [draft, setDraft] = useState<TileDraft>(initial);
+  const { show } = useSnackbar();
+  const clearDraft = useAdminDraft(adminDraftKey(draftScope), draft, initial, setDraft);
   const [file, setFile] = useState<File | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [progress, setProgress] = useState<number | null>(null);
@@ -25,13 +31,20 @@ export function TileEditor({ initial, requireFile = false, onSave, onCancel }: T
     event.preventDefault();
     const problem =
       validateTileDraft(draft) ?? (requireFile && !file ? t.mediaRequired : file ? mediaSizeError(file.size) : null);
-    if (problem) return setError(problem);
+    if (problem) {
+      setError(problem);
+      show({ message: problem, variant: 'danger' });
+      return;
+    }
     setSaving(true);
     setError(null);
     try {
       await onSave(draft, file, (fraction) => setProgress(Math.round(fraction * 100)));
+      clearDraft();
+      show({ message: staffContent.changesSaved, variant: 'success' });
     } catch {
       setError(staffContent.failed);
+      show({ message: staffContent.failed, variant: 'danger' });
       setSaving(false);
       setProgress(null);
     }
@@ -85,7 +98,10 @@ export function TileEditor({ initial, requireFile = false, onSave, onCancel }: T
           <Button type="submit" size="sm" disabled={saving}>
             {status}
           </Button>
-          <Button variant="ghost" size="sm" onClick={onCancel} disabled={saving}>
+          <Button variant="ghost" size="sm" onClick={() => {
+            clearDraft();
+            onCancel();
+          }} disabled={saving}>
             {staffContent.cancel}
           </Button>
         </div>

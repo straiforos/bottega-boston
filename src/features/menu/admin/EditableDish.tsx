@@ -18,6 +18,7 @@ export function EditableDish({ item }: { item: MenuItem }) {
     return (
       <DishEditor
         initial={{ name: item.name, price: item.price, description: item.description, tags: item.tags }}
+        draftScope={`dish:${item.id}`}
         onCancel={() => setEditing(false)}
         onSave={async (draft, photo) => {
           await admin.update(item.id, draft, photo);

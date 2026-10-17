@@ -21,6 +21,7 @@ export function AddTile({ nextSortOrder }: { nextSortOrder: number }) {
         <TileEditor
           initial={{ alt: '', caption: '' }}
           requireFile
+          draftScope="tile:new"
           onCancel={() => setOpen(false)}
           onSave={async (draft, file, onProgress) => {
             if (!file) return;
