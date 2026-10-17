@@ -1,6 +1,6 @@
 # Bottega roadmap
 
-- [ ] Replace catering request dropdowns with visual dish selection and preserve itemized confirmation emails.
+- [x] Replace catering request dropdowns with visual dish selection and preserve itemized confirmation emails.
 
 - [x] Consolidate welcome banners with alternating pasta/lemon icons, keep Pasta Is Life as a marquee, place the matching wave between story and menu, and merge the menu introduction into the animated cards section.
 
