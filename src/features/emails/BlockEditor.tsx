@@ -29,13 +29,13 @@ function RichText({ value, onChange }: { value: string; onChange: (text: string)
   return (
     <div className="bt-field">
       <div className="email-toolbar" role="toolbar" aria-label="Text formatting">
-        <Button size="sm" variant="outline" onClick={() => wrap('**', '**', 'bold text')}>
+        <Button size="sm" variant="ghost" onClick={() => wrap('**', '**', 'bold text')}>
           {t.bold}
         </Button>
-        <Button size="sm" variant="outline" onClick={() => wrap('_', '_', 'italic text')}>
+        <Button size="sm" variant="ghost" onClick={() => wrap('_', '_', 'italic text')}>
           {t.italic}
         </Button>
-        <Button size="sm" variant="outline" onClick={() => wrap('[', '](https://)', 'link text')}>
+        <Button size="sm" variant="ghost" onClick={() => wrap('[', '](https://)', 'link text')}>
           {t.link}
         </Button>
       </div>
