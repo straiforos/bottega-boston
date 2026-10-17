@@ -153,10 +153,3 @@ a:focus-visible {
   gap: var(--bt-space-sm);
   align-content: start;
 }
-.order-location address {
-  font-style: normal;
-}
-.location-card-content {
-  display: grid;
-  gap: var(--bt-space-sm);
-}
