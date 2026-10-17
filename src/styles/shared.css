@@ -23,10 +23,12 @@ main {
   align-items: center;
   gap: var(--bt-space-lg);
 }
+/* Inline glyphs follow the text they sit in, exactly as the library's own
+   link arrow does — the footer sets its body copy to --bt-text-sm. */
 .social-links svg {
   display: block;
-  width: calc(var(--bt-icon-size) * 0.35);
-  height: calc(var(--bt-icon-size) * 0.35);
+  width: var(--bt-text-sm);
+  height: var(--bt-text-sm);
 }
 .mobile-only {
   display: none;
