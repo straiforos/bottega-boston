@@ -66,12 +66,26 @@
 .menu-dish-item {
   min-width: 0;
 }
-.menu-dish-item > img {
+.menu-dish-image {
+  aspect-ratio: 1;
+  overflow: hidden;
+  background: var(--bt-surface-container-low);
+}
+.menu-dish-image img {
   display: block;
   width: 100%;
-  height: auto;
-  aspect-ratio: 1;
+  height: 100%;
   object-fit: cover;
+  opacity: 0;
+  transition: opacity calc(var(--bt-duration) * 3) ease-out;
+}
+.menu-dish-image img.is-loaded {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .menu-dish-image img {
+    transition: none;
+  }
 }
 .menu-dish-heading {
   display: grid;
