@@ -117,7 +117,7 @@ function EditShell<T>({ label, contentKey, initial, withImage, validate, toData,
               <Button type="submit" size="sm" disabled={saving}>
                 {saving ? (progress !== null && progress < 100 ? `Preparing photo… ${progress}%` : staffContent.saving) : staffContent.save}
               </Button>
-              <Button variant="ghost" size="sm" onClick={() => setOpen(false)} disabled={saving}>
+              <Button variant="ghost" size="sm" onClick={() => { clearStoredDraft(key); setOpen(false); }} disabled={saving}>
                 {staffContent.cancel}
               </Button>
             </div>
