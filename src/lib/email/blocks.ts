@@ -1,5 +1,9 @@
 import { z } from 'zod';
 
+/** Where "Order now" buttons in email templates point by default: the site's locations section. */
+export const ORDER_NOW_URL = 'https://bottega-delights-site.lovable.app/#locations';
+
+
 /** Building blocks staff compose emails from. Text uses **bold**, _italic_ and [label](https://link). */
 const photoFields = { url: z.string().url().max(2000), alt: z.string().max(200) };
 
@@ -80,7 +84,7 @@ export function newBlock(type: EmailBlockType): EmailBlock {
     case 'columns':
       return { id, type, left: { url: PLACEHOLDER_PHOTO, alt: '' }, right: { url: PLACEHOLDER_PHOTO, alt: '' } };
     case 'button':
-      return { id, type, label: 'Order now', url: 'https://' };
+      return { id, type, label: 'Order now', url: ORDER_NOW_URL };
     case 'marquee':
       return { id, type, text: 'Pasta is life' };
     case 'divider':
@@ -136,7 +140,7 @@ export const defaultWelcome: EmailDraft = {
       text: 'Grazie for joining! You’re now first in line for **events**, **menu launches** and _special offers_ from Bottega.\n\nJudgment-free and full of carbs — that’s a promise.',
     },
     { id: 'w3', type: 'marquee', text: 'Pasta is life' },
-    { id: 'w4', type: 'button', label: 'Order now', url: 'https://direct.chownow.com/order/18964/locations/27186' },
+    { id: 'w4', type: 'button', label: 'Order now', url: ORDER_NOW_URL },
     { id: 'w5', type: 'text', text: 'See you at the table,\nThe Bottega family' },
   ],
 };
