@@ -8,9 +8,9 @@ const HomeLink = createLink(LinkAction);
 export const Route = createFileRoute('/_site/unsubscribed')({
   head: () => ({
     meta: [
-      { title: 'Unsubscribed — Bottega Pasta Club' },
+      { title: 'Unsubscribed | Bottega Pasta Club' },
       { name: 'description', content: 'You have left the Bottega Pasta Club email list.' },
-      { property: 'og:title', content: 'Unsubscribed — Bottega Pasta Club' },
+      { property: 'og:title', content: 'Unsubscribed | Bottega Pasta Club' },
       { property: 'og:description', content: 'You have left the Bottega Pasta Club email list.' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary' },

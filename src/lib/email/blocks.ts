@@ -137,7 +137,7 @@ export const defaultWelcome: EmailDraft = {
     {
       id: 'w2',
       type: 'text',
-      text: 'Grazie for joining! You’re now first in line for **events**, **menu launches** and _special offers_ from Bottega.\n\nJudgment-free and full of carbs — that’s a promise.',
+      text: 'Grazie for joining! You’re now first in line for **events**, **menu launches** and _special offers_ from Bottega.\n\nJudgment-free and full of carbs. That’s a promise.',
     },
     { id: 'w3', type: 'marquee', text: 'Pasta is life' },
     { id: 'w4', type: 'button', label: 'Order now', url: ORDER_NOW_URL },

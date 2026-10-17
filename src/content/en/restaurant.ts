@@ -23,7 +23,7 @@ export const restaurantContent = {
   },
   metadata: {
     home: {
-      title: 'Bottega — Buonissima. Semplice. Italian.',
+      title: 'Bottega | Buonissima. Semplice. Italian.',
       description:
         'Welcome to Bottega Pasta Club. Meet, eat, and celebrate life with pasta, coffee, and a little Italian joy in Brookline and Boston.',
       socialDescription: 'Judgment-free and full of carbs. Discover Bottega’s menu, Pasta Club, and Italian market.',

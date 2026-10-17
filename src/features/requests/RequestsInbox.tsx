@@ -116,7 +116,7 @@ function RequestDetail({ row, onClose, onSaved }: { row: Row; onClose: () => voi
     [r.location, location?.name ?? row.location_id],
     [r.guests, row.guests ? String(row.guests) : ''],
     [r.eventType, row.event_type],
-    [r.fulfillment, row.fulfillment ? `${row.fulfillment}${row.address ? ` — ${row.address}` : ''}` : ''],
+    [r.fulfillment, row.fulfillment ? `${row.fulfillment}${row.address ? `, ${row.address}` : ''}` : ''],
     [r.dietary, row.dietary],
     [r.notes, row.notes],
     [t.received, new Date(row.created_at).toLocaleString()],

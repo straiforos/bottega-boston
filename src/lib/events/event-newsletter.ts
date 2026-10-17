@@ -7,7 +7,7 @@ const SITE = 'https://bottega-delights-site.lovable.app';
 export function buildEventNewsletter(event: BottegaEvent, dates: readonly string[], repeats: string | null): EmailDraft {
   const blocks: EmailBlock[] = [{ id: 'e1', type: 'headline', text: event.title }];
   if (event.imageUrl) blocks.push({ id: 'e2', type: 'photo', url: event.imageUrl, alt: event.title });
-  const when = repeats ? `**${repeats}** — next: ${dates.join(', ')}` : `**${dates[0] ?? ''}**`;
+  const when = repeats ? `**${repeats}**, next: ${dates.join(', ')}` : `**${dates[0] ?? ''}**`;
   blocks.push({ id: 'e3', type: 'text', text: [when, event.description].filter(Boolean).join('\n\n') });
   blocks.push({
     id: 'e4',

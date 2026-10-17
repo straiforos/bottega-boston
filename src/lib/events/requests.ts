@@ -127,7 +127,7 @@ export const formatMoney = (n: number) => `$${n.toFixed(2)}`;
 
 export function describeLines(lines: readonly OrderLine[]) {
   return lines
-    .map((l) => `${l.quantity} × ${l.name}${l.option ? ` (${l.option})` : ''}${l.unitPrice != null ? ` — ${formatMoney(l.unitPrice * l.quantity)}` : ''}`)
+    .map((l) => `${l.quantity} × ${l.name}${l.option ? ` (${l.option})` : ''}${l.unitPrice != null ? `: ${formatMoney(l.unitPrice * l.quantity)}` : ''}`)
     .join('\n');
 }
 

@@ -25,7 +25,7 @@ export const staffContent = {
     photo: 'Photo',
     browse: 'Choose photo',
     photoRejected: 'That file isn’t a photo.',
-    photoHint: 'Any phone photo up to 100 MB — we resize it for fast loading',
+    photoHint: 'Any phone photo up to 100 MB. We resize it for fast loading',
   },
   gallery: {
     editing: 'Editing the gallery',
@@ -42,7 +42,7 @@ export const staffContent = {
     browse: 'Choose file',
     mediaRequired: 'Choose a photo or video for the new tile.',
     rejected: 'That file isn’t a photo or video.',
-    hint: 'Photos and videos up to 500 MB — we make small, standard and high-quality versions for fast loading. Keep this tab open while it prepares.',
+    hint: 'Photos and videos up to 500 MB. We make small, standard and high-quality versions for fast loading. Keep this tab open while it prepares.',
     preparing: (kind: 'photo' | 'video', percent: number) => `Preparing ${kind}… ${percent}%`,
     uploading: 'Uploading…',
   },

@@ -85,7 +85,7 @@ export const defaultHomeContent: HomeContent = {
       badge: 'The little market',
       subtitle: 'A little Bottega.\nTo take home.',
       imageUrl: mercatino.url,
-      imageAlt: 'Inside Il Mercatino at Bottega — shelves of pasta, pantry goods and totes',
+      imageAlt: 'Inside Il Mercatino at Bottega: shelves of pasta, pantry goods and totes',
       linkLabel: 'Explore the market',
       linkHref: `mailto:${links.email}?subject=Il%20Mercatino%20inquiry`,
       stamp: '',

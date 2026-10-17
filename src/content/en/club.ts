@@ -1,5 +1,5 @@
 export const clubContent = {
-  joined: 'Benvenuti! You’re in — check your inbox for a welcome email.',
+  joined: 'Benvenuti! You’re in! Check your inbox for a welcome email.',
   already: 'You’re already in the Pasta Club. Grazie!',
   failed: 'That didn’t go through. Please try again.',
   joining: 'Joining…',
