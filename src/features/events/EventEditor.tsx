@@ -25,11 +25,11 @@ const f = t.fields;
 
 function toDraft(e: BottegaEvent | null): EventDraft {
   return e
-    ? { ...e, ticketUrl: e.ticketUrl ?? '' }
+    ? { ...e, ticketUrl: e.ticketUrl ?? '', locationIds: [...e.locationIds] }
     : {
         title: '',
         description: '',
-        locationId: 'brookline',
+        locationIds: ['brookline'],
         imageUrl: null,
         startsAt: '',
         durationMinutes: 120,
@@ -154,9 +154,15 @@ function EventForm({ event, onClose }: { event: BottegaEvent | null; onClose: ()
       <fieldset className="request-choice">
         <legend className="bt-field__label">{f.location}</legend>
         {orderLocations.map((l) => (
-          <Radio key={l.id} name="event-location" checked={draft.locationId === l.id} onChange={() => set({ locationId: l.id })}>
+          <Checkbox
+            key={l.id}
+            checked={draft.locationIds.includes(l.id)}
+            onChange={(e) =>
+              set({ locationIds: e.target.checked ? [...draft.locationIds, l.id] : draft.locationIds.filter((id) => id !== l.id) })
+            }
+          >
             {l.name}
-          </Radio>
+          </Checkbox>
         ))}
       </fieldset>
       <div className="request-grid">

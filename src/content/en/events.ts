@@ -26,7 +26,7 @@ export const eventsContent = {
     fields: {
       title: 'Title',
       description: 'Description',
-      location: 'Location',
+      location: 'Locations',
       start: 'First date and start time',
       end: 'End time',
       endHint: 'An end time earlier than the start means after midnight',

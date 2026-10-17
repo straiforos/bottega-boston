@@ -17,7 +17,7 @@ export interface BottegaEvent {
   readonly id: string;
   readonly title: string;
   readonly description: string;
-  readonly locationId: string;
+  readonly locationIds: readonly string[];
   readonly imageUrl: string | null;
   readonly startsAt: string;
   readonly durationMinutes: number;
@@ -69,7 +69,7 @@ async function fetchEvents(): Promise<BottegaEvent[]> {
     id: row.id,
     title: row.title,
     description: row.description,
-    locationId: row.location_id,
+    locationIds: (row.locations?.length ? row.locations : row.location_id ? [row.location_id] : []) as string[],
     imageUrl: row.image_url,
     startsAt: row.starts_at,
     durationMinutes: row.duration_minutes,
@@ -91,7 +91,7 @@ export const eventsQueryOptions = queryOptions({ queryKey: ['events'], queryFn: 
 export interface EventDraft {
   title: string;
   description: string;
-  locationId: string;
+  locationIds: string[];
   imageUrl: string | null;
   startsAt: string;
   durationMinutes: number;
@@ -103,6 +103,7 @@ export interface EventDraft {
 export function validateEvent(d: EventDraft): string | null {
   if (!d.title.trim()) return 'Add a title.';
   if (d.title.length > 120) return 'Keep the title under 120 characters.';
+  if (!d.locationIds.length) return 'Pick at least one location.';
   if (d.description.length > 2000) return 'Keep the description under 2000 characters.';
   if (Number.isNaN(new Date(d.startsAt).getTime())) return 'Pick a start date and time.';
   if (d.durationMinutes < 15 || d.durationMinutes > 24 * 60) return 'Length must be between 15 minutes and 24 hours.';
@@ -114,7 +115,8 @@ export function validateEvent(d: EventDraft): string | null {
 const toRow = (d: EventDraft) => ({
   title: d.title.trim(),
   description: d.description.trim(),
-  location_id: d.locationId,
+  locations: d.locationIds,
+  location_id: d.locationIds[0] ?? 'brookline',
   image_url: d.imageUrl,
   starts_at: d.startsAt,
   duration_minutes: d.durationMinutes,

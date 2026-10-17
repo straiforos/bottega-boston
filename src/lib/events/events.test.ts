@@ -51,7 +51,7 @@ describe('occurrences', () => {
 describe('upcoming events', () => {
   it('hides past and unpublished events', () => {
     const ev = (id: string, over: Partial<BottegaEvent>): BottegaEvent => ({
-      ...base(), id, title: id, description: '', locationId: 'brookline', imageUrl: null, published: true, exceptions: [], ...over,
+      ...base(), id, title: id, description: '', locationIds: ['brookline'], imageUrl: null, published: true, exceptions: [], ...over,
     });
     const list = upcomingEvents([ev('past', {}), ev('hidden', { published: false, startsAt: '2027-01-01T00:00:00Z' }), ev('soon', { startsAt: '2026-12-01T00:00:00Z' })], now);
     expect(list.map((u) => u.event.id)).toEqual(['soon']);
