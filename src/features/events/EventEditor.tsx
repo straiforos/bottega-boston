@@ -168,7 +168,7 @@ function EventForm({ event, onClose }: { event: BottegaEvent | null; onClose: ()
       )}
 
       <TextField label={f.tickets} hint={f.ticketsHint} type="url" value={draft.ticketUrl} onChange={(e) => set({ ticketUrl: e.target.value })} />
-      <FileUpload label={f.photo} buttonLabel={f.browse} accept="image/*" onFilesChange={(files: File[]) => setFile(files[0] ?? null)} />
+      <FileUpload label={f.photo} browseLabel={f.browse} accept="image/*" multiple={false} size="sm" files={file ? [file] : []} onFilesChange={(files: File[]) => setFile(files[0] ?? null)} />
       <Checkbox checked={draft.published} onChange={(e) => set({ published: e.target.checked })}>
         {f.published}
       </Checkbox>
