@@ -2,7 +2,7 @@ import { useRef, useState } from 'react';
 import { Button, Card, FileUpload, PillLabel, TextField } from '@/design-system/bottega-f5161c';
 import { ArrowIcon } from '@/components/ArrowIcon';
 import { clubContent } from '@/content/en/club';
-import type { EmailBlock } from '@/lib/email/blocks';
+import { isPlaceholderPhoto, type EmailBlock } from '@/lib/email/blocks';
 import { uploadEmailPhoto } from './upload-email-photo';
 
 const t = clubContent.editor;
@@ -52,12 +52,16 @@ function RichText({ value, onChange }: { value: string; onChange: (text: string)
   );
 }
 
+type Photo = { url: string; alt: string };
+
 function PhotoFields({
   block,
   onChange,
+  label = t.blockNames.photo,
 }: {
-  block: Extract<EmailBlock, { type: 'photo' }>;
-  onChange: BlockEditorProps['onChange'];
+  block: Photo;
+  onChange: (photo: Photo) => void;
+  label?: string;
 }) {
   const [status, setStatus] = useState<string | null>(null);
   const [error, setError] = useState<string | undefined>();
@@ -75,12 +79,12 @@ function PhotoFields({
       setStatus(null);
     }
   };
-  const hasPhoto = !block.url.includes('example.com');
+  const hasPhoto = !isPlaceholderPhoto(block.url);
   return (
     <>
       {hasPhoto && <img className="email-photo-thumb" src={block.url} alt="" />}
       <FileUpload
-        label={t.blockNames.photo}
+        label={label}
         multiple={false}
         size="sm"
         browseLabel={t.photoUpload}
@@ -135,7 +139,21 @@ export function BlockEditor({ block, first, last, onChange, onMove, onRemove }: 
           />
         )}
         {block.type === 'text' && <RichText value={block.text} onChange={(text) => onChange({ ...block, text })} />}
-        {block.type === 'photo' && <PhotoFields block={block} onChange={onChange} />}
+        {block.type === 'photo' && <PhotoFields block={block} onChange={(p) => onChange({ ...block, ...p })} />}
+        {block.type === 'columns' && (
+          <>
+            <PhotoFields
+              label={t.leftPhoto}
+              block={block.left}
+              onChange={(left) => onChange({ ...block, left })}
+            />
+            <PhotoFields
+              label={t.rightPhoto}
+              block={block.right}
+              onChange={(right) => onChange({ ...block, right })}
+            />
+          </>
+        )}
         {block.type === 'button' && (
           <>
             <TextField
