@@ -36,3 +36,4 @@
 - [x] Pasta Club signup saves subscribers and sends an automatic welcome email (Resend)
 - [x] Staff email editor on its own page: block-based WYSIWYG with live preview, test send, send to all, editable welcome email, CSV export, unsubscribe
 - [ ] Verify a sending domain in Resend so emails reach all guests (waiting on the restaurant)
+- [x] Favicon: cream version served to dark-mode browsers, dark version kept for light-mode

@@ -38,7 +38,11 @@ function payload(email: OutgoingEmail) {
 }
 
 async function post(path: string, body: unknown) {
-  const response = await fetch(`${GATEWAY_URL}${path}`, { method: 'POST', headers: headers(), body: JSON.stringify(body) });
+  const response = await fetch(`${GATEWAY_URL}${path}`, {
+    method: 'POST',
+    headers: headers(),
+    body: JSON.stringify(body),
+  });
   if (!response.ok) {
     const errorBody = await response.text();
     console.error(`Resend request failed [${response.status}]: ${errorBody}`);

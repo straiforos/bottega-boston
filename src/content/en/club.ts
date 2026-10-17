@@ -37,16 +37,17 @@ export const clubContent = {
     testSent: (to: string) => `Test sent to ${to}.`,
     send: 'Send to all subscribers',
     confirmTitle: 'Send this email?',
-    confirmBody: (n: number) => `It goes to ${n} Pasta Club ${n === 1 ? 'member' : 'members'} right away. This can’t be undone.`,
-    sent: (n: number, failed: number) => `Sent to ${n} ${n === 1 ? 'member' : 'members'}${failed ? `, ${failed} failed` : ''}.`,
+    confirmBody: (n: number) =>
+      `It goes to ${n} Pasta Club ${n === 1 ? 'member' : 'members'} right away. This can’t be undone.`,
+    sent: (n: number, failed: number) =>
+      `Sent to ${n} ${n === 1 ? 'member' : 'members'}${failed ? `, ${failed} failed` : ''}.`,
     save: 'Save welcome email',
     savedNote: 'Welcome email saved.',
     working: 'Working…',
     history: 'Past emails',
     noHistory: 'Nothing sent yet.',
     staffOnly: 'Sign in as Bottega staff to edit emails.',
-    domainNote:
-      'Until a sending domain is verified in Resend, emails only reach the Resend account owner.',
+    domainNote: 'Until a sending domain is verified in Resend, emails only reach the Resend account owner.',
   },
   unsubscribed: {
     title: 'You’re off the list.',
