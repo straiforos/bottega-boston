@@ -45,7 +45,7 @@ function Offering({ card, index, isAdmin }: { card: OfferingCard; index: number;
     );
   return (
     <article id={index === 2 ? 'market' : undefined} className={`offering ${slotClass[index]} home-editable`}>
-      <Card variant={card.variant} shape={card.shape} className={card.shape === 'arch' ? undefined : undefined}>
+      <Card variant={card.variant} shape={card.shape}>
         {card.shape === 'arch' && image}
         {title}
         {card.badge && <PillLabel variant={ink === 'cream' ? 'mustard' : 'forest'}>{card.badge}</PillLabel>}
