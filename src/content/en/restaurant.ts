@@ -33,6 +33,12 @@ export const restaurantContent = {
         'Find your next Bottega favorite. Browse the complete Italian menu and catering selection with illustrative dish images.',
     },
   },
+  ordering: {
+    title: 'Pick your Bottega',
+    close: 'Close',
+    mapLabel: 'Map of',
+    orderFrom: 'Order from',
+  },
   addresses: [
     { name: 'Bottega Fioretina', lines: ['313B Harvard St.', 'Brookline, MA 02446'] },
     { name: 'Bottega Del Sud', lines: ['645 E 2nd St.', 'Boston, MA 02127'] },
