@@ -41,3 +41,5 @@
 - [x] Drop the "Pasta Club emails" ribbon from the home page (header "Editing" marquee covers it); subscriber count, welcome-email switch and CSV export now live in the email editor toolbar
 - [x] Order now jumps to a Locations section on the home page (maps, addresses, staff-editable ordering links)
 - [x] Use canonical BottegaMap with geocoded pins and connect Google Maps; live rendering requires checking on the authorized site.
+
+- [x] Dark-green Locations section with built-in map inset cards containing addresses and Order now links; verified cards and destinations locally (map rendering requires authorized host).
