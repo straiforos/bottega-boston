@@ -27,6 +27,7 @@ export function SocialSection() {
               <GalleryTile key={item.id} item={item} />
             ),
           )}
+          {isAdmin && <AddTile nextSortOrder={(items.at(-1)?.sortOrder ?? 0) + 1} />}
         </div>
         {arrows.canPrev && (
           <span className="gallery-arrow" data-side="prev">
@@ -43,7 +44,6 @@ export function SocialSection() {
           </span>
         )}
       </div>
-      {isAdmin && <AddTile nextSortOrder={(items.at(-1)?.sortOrder ?? 0) + 1} />}
     </section>
   );
 }

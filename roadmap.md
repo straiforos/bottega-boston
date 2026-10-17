@@ -32,6 +32,7 @@
 - [x] Inline gallery editing for staff on the home page (edit/add/delete/reorder photos and videos)
 - [x] Background in-browser (WebAssembly) processing of gallery photos and videos into small/standard/high-quality versions, with connection-aware video sources, covers and lazy loading
 - [x] Gallery is one sideways-scrolling row with arrow buttons (no wrapping)
+- [x] Integrate gallery editing: in-tile controls and a trailing add slot, with unchanged gallery height; verified staff save/read-back, add/cancel, and touch controls.
 - [x] Gallery move and scroll arrows use a solid arrow shape in the design system's filled button style so they read clearly
 - [x] Pasta Club signup saves subscribers and sends an automatic welcome email (Resend)
 - [x] Staff email editor on its own page: block-based WYSIWYG with live preview, test send, send to all, editable welcome email, CSV export, unsubscribe
