@@ -16,6 +16,7 @@ const whenBounds = requestDateBounds();
 /** Guest form for catering orders or event-space bookings. */
 export function RequestForm({ kind }: { kind: RequestKind }) {
   const send = useServerFn(submitRequest);
+  const { show } = useSnackbar();
   const [form, setForm] = useState({
     name: '',
     email: '',
@@ -72,16 +73,19 @@ export function RequestForm({ kind }: { kind: RequestKind }) {
       for (const issue of parsed.error.issues) next[String(issue.path[0])] ??= issue.message;
       if (withCatering && kind === 'space' && lines.length === 0) next.lines = 'Add at least one tray.';
       setErrors(next);
+      show({ message: t.needsAttention, variant: 'danger' });
       return;
     }
     if (withCatering && lines.length === 0) {
       setErrors({ lines: 'Add at least one tray.' });
+      show({ message: t.needsAttention, variant: 'danger' });
       return;
     }
     if (!captcha) {
       setErrors({});
       setFailure('Please complete the human check.');
       setStatus('failed');
+      show({ message: 'Please complete the human check.', variant: 'danger' });
       return;
     }
     setErrors({});
