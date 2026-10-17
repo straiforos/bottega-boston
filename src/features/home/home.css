@@ -620,7 +620,7 @@
   position: absolute;
   top: var(--bt-space-sm);
   left: var(--bt-space-sm);
-  z-index: 3;
+  z-index: 1;
 }
 .home-edit-choices {
   display: flex;

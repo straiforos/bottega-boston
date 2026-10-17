@@ -21,7 +21,6 @@ export function HeroSection() {
   return (
     <section className="hero home-editable" aria-label="Welcome to Bottega">
       <img className="hero-photo" src={hero.imageUrl} alt={hero.imageAlt} fetchPriority="high" />
-      {isAdmin && <HeroEditor hero={hero} />}
       <div className="hero-copy bt-surface-light">
         <div className="hero-headline">
           {hero.showStamp && (
@@ -43,6 +42,7 @@ export function HeroSection() {
           </Display>
         </div>
       </div>
+      {isAdmin && <HeroEditor hero={hero} />}
     </section>
   );
 }
