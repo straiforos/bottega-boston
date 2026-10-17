@@ -22,8 +22,8 @@ export function HomePage() {
         <EventsSection />
         <SketchMarquee text={restaurantContent.home.pastaIsLife} variant="forest" />
         <SocialSection />
-        <LocationsSection />
         <ClubSection />
+        <LocationsSection />
       </main>
     </>
   );

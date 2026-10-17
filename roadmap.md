@@ -39,4 +39,4 @@
 - [ ] Verify a sending domain in Resend so emails reach all guests (waiting on the restaurant)
 - [x] Favicon: cream version served to dark-mode browsers, dark version kept for light-mode
 - [x] Drop the "Pasta Club emails" ribbon from the home page (header "Editing" marquee covers it); subscriber count, welcome-email switch and CSV export now live in the email editor toolbar
-- [x] Order now opens a location chooser (Brookline / Boston) with a Google map pin each and the matching ChowNow ordering link
+- [x] Order now jumps to a Locations section on the home page (maps, addresses, staff-editable ordering links)
