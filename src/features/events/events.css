@@ -8,6 +8,7 @@
 /* One scrolling row of side-by-side cards, like the gallery: extra events never wrap. */
 .events-strip {
   position: relative;
+  min-width: 0;
 }
 .events-grid {
   display: grid;
