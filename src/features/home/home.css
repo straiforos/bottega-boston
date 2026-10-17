@@ -504,6 +504,7 @@
   }
   .club {
     padding-top: var(--bt-space-8);
+    padding-bottom: var(--bt-space-xl);
   }
   .club-ribbon {
     top: calc(-1 * var(--bt-space-lg));
