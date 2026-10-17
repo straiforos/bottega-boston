@@ -37,6 +37,7 @@ export const restaurantContent = {
     title: 'Our locations',
     mapLabel: 'Map of',
     orderFrom: 'Order from',
+    orderNow: 'Order now',
   },
   addresses: [
     { name: 'Bottega Fioretina', lines: ['313B Harvard St.', 'Brookline, MA 02446'] },

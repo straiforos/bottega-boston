@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { BottegaMap, Button, Display, LinkAction, TextField } from '@/design-system/bottega-f5161c';
+import { BottegaMap, Button, Card, Display, LinkAction, TextField } from '@/design-system/bottega-f5161c';
 import { restaurantContent } from '@/content/en/restaurant';
 import { links, orderLocations } from '@/content/links';
 import { useStaffSession } from '@/hooks/useStaffSession';
@@ -80,9 +80,9 @@ export function LocationsSection() {
   }));
 
   return (
-    <section id="locations" className="locations-section bt-surface-light" aria-labelledby="locations-title">
+    <section id="locations" className="locations-section bt-surface-dark" aria-labelledby="locations-title">
       <div className="locations-head">
-        <Display as="h2" size="lg" tone="forest" id="locations-title">
+        <Display as="h2" size="lg" tone="cream" id="locations-title">
           {copy.title}
         </Display>
         {isAdmin && !editing && (
@@ -99,27 +99,26 @@ export function LocationsSection() {
               label={`${copy.mapLabel} ${location.name}`}
               center={location.coordinates}
               markers={[{ ...location.coordinates, title: location.name }]}
-              size="md"
-            />
-            <Display as="h3" size="sm" tone="forest">
-              {location.name}
-            </Display>
-            <address>
-              {location.lines.map((line) => (
-                <span key={line}>
-                  {line}
-                  <br />
-                </span>
-              ))}
-            </address>
-            <LinkAction
-              href={urls[location.id] ?? location.orderUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              tone="forest"
+              size="lg"
             >
-              {copy.orderFrom} {location.area}
-            </LinkAction>
+              <Card variant="forest">
+                <div className="location-card-content">
+                  <Display as="h3" size="sm" tone="cream">{location.name}</Display>
+                  <address>
+                    {location.lines.map((line) => <span key={line}>{line}<br /></span>)}
+                  </address>
+                  <LinkAction
+                    href={urls[location.id] ?? location.orderUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    tone="cream"
+                    aria-label={`Order now from ${location.area}`}
+                  >
+                    {copy.orderNow}
+                  </LinkAction>
+                </div>
+              </Card>
+            </BottegaMap>
           </article>
         ))}
       </div>
