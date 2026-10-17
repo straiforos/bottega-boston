@@ -10,7 +10,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-      { title: 'Bottega — Pasta is life PROBE' },
+      { title: 'Bottega — Pasta is life' },
       { name: 'description', content: 'Meet, eat, and celebrate life at Bottega.' },
       { property: 'og:title', content: 'Bottega — Pasta is life' },
       { property: 'og:description', content: 'Meet, eat, and celebrate life at Bottega.' },
