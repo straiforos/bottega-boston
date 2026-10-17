@@ -10,7 +10,7 @@
 - Render the shared footer once from the `_site` pathless layout route (`src/routes/_site.tsx`) so every guest page gets the same footer automatically; pages never compose SiteFooter themselves.
 - Mark up footer contact details (locations, email, phone, social link) with HTML5 address elements and reset their UA italic in the footer style layer so contact info stays semantic and legible.
 - Give every gallery media a Bottega tomato hairline with hover zoom and a light overlay mask, and drive the gallery video with the same custom play control pattern as the story video (never native controls); respect reduced motion.
-- "Order now" scrolls to #locations; staff edits https URLs in home_content. BottegaMap pins and inset address/order cards keep locations crawlable and library-styled.
+- "Order now" scrolls to #locations through `scrollToSection` (`src/lib/scroll-to-section.ts`), which clears the sticky header; staff edits https URLs in home_content. BottegaMap pins and inset cards keep locations crawlable.
 - Keep route modules declarative and thin; compose page sections from `src/features`, reusable interface pieces from `src/components`, behavior from hooks or pure helpers, and English copy from `src/content/en` so future localization does not require presentation edits.
 - Style via shared/home/menu stylesheets with Bottega tokens only; test filtering, scroll math, metadata, a11y in Vitest.
 - Menu content lives in public menu_sections/menu_items, read client-side with bundled menu-data.ts as SSR fallback; inline editing on /menu only, RLS `has_role admin` as the sole write gate; the filter follows the URL hash (`selectionForMenuHash`), applied after hydration, a rail click outranking it.
