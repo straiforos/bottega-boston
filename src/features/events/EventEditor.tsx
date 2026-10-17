@@ -38,6 +38,27 @@ function toDraft(e: BottegaEvent | null): EventDraft {
       };
 }
 
+const toMinutes = (hhmm: string) => {
+  const [h, m] = hhmm.split(':').map(Number);
+  return (h || 0) * 60 + (m || 0);
+};
+
+/** End clock time shown for a start like 2026-10-17T18:00 and a length in minutes. */
+export function endTimeFor(start: string, durationMinutes: number): string {
+  const time = start.split('T')[1];
+  if (!time) return '';
+  const total = (toMinutes(time) + durationMinutes) % 1440;
+  return `${String(Math.floor(total / 60)).padStart(2, '0')}:${String(total % 60).padStart(2, '0')}`;
+}
+
+/** Minutes from the start time to an end clock time; an earlier end means after midnight. */
+export function durationUntil(start: string, end: string): number {
+  const time = start.split('T')[1];
+  if (!time || !end) return 0;
+  const diff = toMinutes(end) - toMinutes(time);
+  return diff > 0 ? diff : diff + 1440;
+}
+
 const toLocalInput = (iso: string) => (iso ? `${localDate(new Date(iso), EVENT_TZ)}T${localTime(new Date(iso), EVENT_TZ)}` : '');
 
 /** Staff page for adding or changing an event, its repeat pattern and single dates. */
@@ -139,7 +160,14 @@ function EventForm({ event, onClose }: { event: BottegaEvent | null; onClose: ()
       </fieldset>
       <div className="request-grid">
         <TextField label={f.start} required type="datetime-local" value={when} onChange={(e) => setWhen(e.target.value)} />
-        <TextField label={f.duration} type="number" min={15} max={1440} step={15} value={draft.durationMinutes} onChange={(e) => set({ durationMinutes: Number(e.target.value) || 0 })} />
+        <TextField
+          label={f.end}
+          hint={f.endHint}
+          required
+          type="time"
+          value={endTimeFor(when, draft.durationMinutes)}
+          onChange={(e) => set({ durationMinutes: durationUntil(when, e.target.value) })}
+        />
       </div>
 
       <fieldset className="request-choice">
