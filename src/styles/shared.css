@@ -33,10 +33,6 @@ main {
 }
 .shared-header {
   gap: var(--bt-space-lg);
-  transition:
-    background-color var(--bt-duration) ease,
-    color var(--bt-duration) ease,
-    border-color var(--bt-duration) ease;
 }
 /* The library's lockup logo is taller than its own box — the dome mark is
    1.5x the logo height and bottom-aligned — so the spire reaches up into the
