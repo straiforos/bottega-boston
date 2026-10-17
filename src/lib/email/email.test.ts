@@ -6,7 +6,7 @@ const opts = {
   logoUrl: 'https://x/logo.png',
   siteUrl: 'https://x',
   unsubscribeUrl: 'https://x/u?token=abc',
-  address: 'A',
+  locations: [{ name: 'A', lines: ['1 St.'] }],
 };
 
 describe('email rendering', () => {
