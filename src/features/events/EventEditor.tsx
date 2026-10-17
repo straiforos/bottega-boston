@@ -5,6 +5,7 @@ import { Button, Checkbox, Display, FileUpload, Radio, TextField } from '@/desig
 import { eventsContent } from '@/content/en/events';
 import { orderLocations } from '@/content/links';
 import { BottegaHeader } from '@/components/BottegaHeader';
+import { EditorIcon } from '@/components/EditorIcon';
 import { clubContent } from '@/content/en/club';
 import { useStaffSession } from '@/hooks/useStaffSession';
 import { uploadTileMedia } from '@/lib/gallery/gallery-api';
@@ -219,6 +220,22 @@ function EventForm({ event, onClose }: { event: BottegaEvent | null; onClose: ()
       )}
 
       <TextField label={f.tickets} hint={f.ticketsHint} type="url" value={draft.ticketUrl} onChange={(e) => set({ ticketUrl: e.target.value })} />
+      {draft.imageUrl && !file && (
+        <div className="event-editor-photo">
+          <img className="event-editor-photo-preview" src={draft.imageUrl} alt={draft.title} />
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            disabled={saving}
+            aria-label={f.removePhoto}
+            title={f.removePhoto}
+            onClick={() => set({ imageUrl: null })}
+          >
+            <EditorIcon kind="trash" />
+          </Button>
+        </div>
+      )}
       <FileUpload label={f.photo} browseLabel={f.browse} accept="image/*" multiple={false} size="sm" files={file ? [file] : []} onFilesChange={(files: File[]) => setFile(files[0] ?? null)} />
       <Checkbox checked={draft.published} onChange={(e) => set({ published: e.target.checked })}>
         {f.published}

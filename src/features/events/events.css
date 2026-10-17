@@ -104,6 +104,17 @@
   gap: var(--bt-space-sm);
   justify-content: flex-end;
 }
+.event-editor-photo {
+  display: flex;
+  align-items: center;
+  gap: var(--bt-space-md);
+}
+.event-editor-photo-preview {
+  display: block;
+  width: var(--bt-upload-preview-size);
+  height: var(--bt-upload-preview-size);
+  object-fit: contain;
+}
 .event-weekdays,
 .request-choice {
   display: flex;
