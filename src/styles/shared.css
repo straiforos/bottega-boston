@@ -33,10 +33,6 @@ main {
 }
 .shared-header {
   gap: var(--bt-space-lg);
-  transition:
-    background-color var(--bt-duration) ease,
-    color var(--bt-duration) ease,
-    border-color var(--bt-duration) ease;
 }
 /* The library's lockup logo is taller than its own box — the dome mark is
    1.5x the logo height and bottom-aligned — so the spire reaches up into the
@@ -123,8 +119,8 @@ a:focus-visible {
   gap: var(--bt-space-lg);
   padding-block: var(--bt-space-xl);
   padding-inline: var(--bt-margin);
-  background: var(--bt-forest-deep);
-  color: var(--bt-cream);
+  background: var(--bt-cream);
+  color: var(--bt-ink);
   scroll-margin-top: var(--bt-space-8);
 }
 .locations-head {
@@ -152,11 +148,4 @@ a:focus-visible {
   display: grid;
   gap: var(--bt-space-sm);
   align-content: start;
-}
-.order-location address {
-  font-style: normal;
-}
-.location-card-content {
-  display: grid;
-  gap: var(--bt-space-sm);
 }
