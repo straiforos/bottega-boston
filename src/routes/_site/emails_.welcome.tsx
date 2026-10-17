@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { EmailEditorPage } from '@/features/emails/EmailEditorPage';
 
-export const Route = createFileRoute('/_site/emails/welcome')({
+export const Route = createFileRoute('/_site/emails_/welcome')({
   head: () => ({
     meta: [
       { title: 'Welcome email — Bottega staff' },

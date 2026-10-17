@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { EmailsWorkspace } from '@/features/emails/EmailsWorkspace';
 
-export const Route = createFileRoute('/_site/emails/')({
+export const Route = createFileRoute('/_site/emails')({
   head: () => ({
     meta: [
       { title: 'Pasta Club emails — Bottega staff' },
