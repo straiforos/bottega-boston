@@ -5,6 +5,7 @@ import { Button, Checkbox, Display, FileUpload, Radio, TextField } from '@/desig
 import { eventsContent } from '@/content/en/events';
 import { orderLocations } from '@/content/links';
 import { BottegaHeader } from '@/components/BottegaHeader';
+import { EditorIcon } from '@/components/EditorIcon';
 import { clubContent } from '@/content/en/club';
 import { useStaffSession } from '@/hooks/useStaffSession';
 import { uploadTileMedia } from '@/lib/gallery/gallery-api';
@@ -231,9 +232,7 @@ function EventForm({ event, onClose }: { event: BottegaEvent | null; onClose: ()
             title={f.removePhoto}
             onClick={() => set({ imageUrl: null })}
           >
-            <svg className="editor-icon editor-icon--sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
-              <path d="M6 6l12 12M18 6L6 18" />
-            </svg>
+            <EditorIcon kind="trash" />
           </Button>
         </div>
       )}
