@@ -17,6 +17,8 @@ import { Route as Char91__componentChar93PreviewSplatRouteImport } from './route
 import { Route as Char91__mockupChar93PreviewSplatRouteImport } from './routes/[__mockup].preview.$'
 import { Route as SiteEmailsComposeRouteImport } from './routes/_site/emails.compose'
 import { Route as SiteEmailsWelcomeRouteImport } from './routes/_site/emails.welcome'
+import { Route as ApiPublicResendWebhookRouteImport } from './routes/api/public/resend-webhook'
+import { Route as ApiPublicSendScheduledRouteImport } from './routes/api/public/send-scheduled'
 import { Route as ApiPublicUnsubscribeRouteImport } from './routes/api/public/unsubscribe'
 
 const SiteRoute = SiteRouteImport.update({
@@ -60,6 +62,16 @@ const SiteEmailsWelcomeRoute = SiteEmailsWelcomeRouteImport.update({
   path: '/emails/welcome',
   getParentRoute: () => SiteRoute,
 } as any)
+const ApiPublicResendWebhookRoute = ApiPublicResendWebhookRouteImport.update({
+  id: '/api/public/resend-webhook',
+  path: '/api/public/resend-webhook',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiPublicSendScheduledRoute = ApiPublicSendScheduledRouteImport.update({
+  id: '/api/public/send-scheduled',
+  path: '/api/public/send-scheduled',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicUnsubscribeRoute = ApiPublicUnsubscribeRouteImport.update({
   id: '/api/public/unsubscribe',
   path: '/api/public/unsubscribe',
@@ -74,6 +86,8 @@ export interface FileRoutesByFullPath {
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
   '/emails/compose': typeof SiteEmailsComposeRoute
   '/emails/welcome': typeof SiteEmailsWelcomeRoute
+  '/api/public/resend-webhook': typeof ApiPublicResendWebhookRoute
+  '/api/public/send-scheduled': typeof ApiPublicSendScheduledRoute
   '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
 }
 export interface FileRoutesByTo {
@@ -84,6 +98,8 @@ export interface FileRoutesByTo {
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
   '/emails/compose': typeof SiteEmailsComposeRoute
   '/emails/welcome': typeof SiteEmailsWelcomeRoute
+  '/api/public/resend-webhook': typeof ApiPublicResendWebhookRoute
+  '/api/public/send-scheduled': typeof ApiPublicSendScheduledRoute
   '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
 }
 export interface FileRoutesById {
@@ -96,6 +112,8 @@ export interface FileRoutesById {
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
   '/_site/emails/compose': typeof SiteEmailsComposeRoute
   '/_site/emails/welcome': typeof SiteEmailsWelcomeRoute
+  '/api/public/resend-webhook': typeof ApiPublicResendWebhookRoute
+  '/api/public/send-scheduled': typeof ApiPublicSendScheduledRoute
   '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
 }
 export interface FileRouteTypes {
@@ -108,6 +126,8 @@ export interface FileRouteTypes {
     | '/__mockup/preview/$'
     | '/emails/compose'
     | '/emails/welcome'
+    | '/api/public/resend-webhook'
+    | '/api/public/send-scheduled'
     | '/api/public/unsubscribe'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -118,6 +138,8 @@ export interface FileRouteTypes {
     | '/__mockup/preview/$'
     | '/emails/compose'
     | '/emails/welcome'
+    | '/api/public/resend-webhook'
+    | '/api/public/send-scheduled'
     | '/api/public/unsubscribe'
   id:
     | '__root__'
@@ -129,6 +151,8 @@ export interface FileRouteTypes {
     | '/__mockup/preview/$'
     | '/_site/emails/compose'
     | '/_site/emails/welcome'
+    | '/api/public/resend-webhook'
+    | '/api/public/send-scheduled'
     | '/api/public/unsubscribe'
   fileRoutesById: FileRoutesById
 }
@@ -136,6 +160,8 @@ export interface RootRouteChildren {
   SiteRoute: typeof SiteRouteWithChildren
   Char91__componentChar93PreviewSplatRoute: typeof Char91__componentChar93PreviewSplatRoute
   Char91__mockupChar93PreviewSplatRoute: typeof Char91__mockupChar93PreviewSplatRoute
+  ApiPublicResendWebhookRoute: typeof ApiPublicResendWebhookRoute
+  ApiPublicSendScheduledRoute: typeof ApiPublicSendScheduledRoute
   ApiPublicUnsubscribeRoute: typeof ApiPublicUnsubscribeRoute
 }
 
@@ -197,6 +223,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteEmailsWelcomeRouteImport
       parentRoute: typeof SiteRoute
     }
+    '/api/public/resend-webhook': {
+      id: '/api/public/resend-webhook'
+      path: '/api/public/resend-webhook'
+      fullPath: '/api/public/resend-webhook'
+      preLoaderRoute: typeof ApiPublicResendWebhookRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/public/send-scheduled': {
+      id: '/api/public/send-scheduled'
+      path: '/api/public/send-scheduled'
+      fullPath: '/api/public/send-scheduled'
+      preLoaderRoute: typeof ApiPublicSendScheduledRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/api/public/unsubscribe': {
       id: '/api/public/unsubscribe'
       path: '/api/public/unsubscribe'
@@ -230,6 +270,8 @@ const rootRouteChildren: RootRouteChildren = {
   Char91__componentChar93PreviewSplatRoute:
     Char91__componentChar93PreviewSplatRoute,
   Char91__mockupChar93PreviewSplatRoute: Char91__mockupChar93PreviewSplatRoute,
+  ApiPublicResendWebhookRoute: ApiPublicResendWebhookRoute,
+  ApiPublicSendScheduledRoute: ApiPublicSendScheduledRoute,
   ApiPublicUnsubscribeRoute: ApiPublicUnsubscribeRoute,
 }
 export const routeTree = rootRouteImport
