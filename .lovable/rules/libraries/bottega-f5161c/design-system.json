@@ -2,7 +2,7 @@
   "meta": {
     "name": "Bottega",
     "package": "@ws-cli5ylqvzebyb2b5e4wl/432d9af3-64cc-49a3-92e4-36d8f906a251",
-    "version": "1.3.6",
+    "version": "1.4.0",
     "framework": "react",
     "css_framework": "css-variables",
     "starter_template": "custom_design_system",
@@ -11,16 +11,17 @@
     ],
     "source_type": "local",
     "source_manifest": {
-      "#enrichment": "38aa16eadebb9319d5601fc5b4c5c0a55291b9eb0134b39763f55be95f578337",
+      "#enrichment": "4baa11baabff10f37fa0e627b2eeb308f0fa9238023d2c88c7d7d388986cb5f1",
       ".dsignore": "9202e1883820df077bdb3435c29315c4",
       ".gitignore": "6059213806e442947666752f3db6bfdc",
       ".lovable/meta.yaml": "731dc53c4191bd35cabf4a0af7095d7f",
       ".lovable/plan/add-the-hamburger-menu-to-bottega-2026-10-03.md": "e098ed9349bfea17cf054ff65ee3ae67",
       ".lovable/plan/add-the-menu-overlay-to-bottega-2026-10-03.md": "bd97829f1335f8cdd21f4ccda3faf9c6",
       ".lovable/plan/composite-responsive-siteheader-2026-10-03.md": "86f0f22c11c0222d331c29873e8e27fa",
+      ".lovable/plan/snackbar-messages-for-bottega-2026-10-17.md": "37bd7465f5bf9f85c10d216ea2a3c1bc",
       ".lovable/sources.yaml": "30ba92fda13f611b48d1157bbc70a97c",
-      ".lovable/system.md": "9da4813d0d8881c5c9ec1bfebeccc9b6",
-      "AGENTS.md": "d35f4b43889e77714b53ecfddd0a7451",
+      ".lovable/system.md": "fde8f002f94d16255939b74ceb2dfccc",
+      "AGENTS.md": "dddbc60bd94f54d2cfbb099fca27ad23",
       "README.md": "d19675c449605f23c7cfa133c69b398b",
       "bunfig.toml": "25f4c8696b22b0943db7191e0cdf7942",
       "eslint.config.js": "07a67437fb1a45ab36d6de0145ff09de",
@@ -28,7 +29,7 @@
       "mockupPreviewPlugin.ts": "70d01fe16b7ca25f16ff6bdb97f08b0b",
       "package.json": "c3e5084e52ab8faa86820d48e652c297",
       "public/favicon.png": "8591d74b97a1a207c1efed1baebaaf3a",
-      "roadmap.md": "3ab8f924284b6dfcc463e89f058431dd",
+      "roadmap.md": "98ba49b622ec8455714eeaacb3511dde",
       "src/bottega/assets/icons/noodle-menu.png": "72ebc45c661ec57224f5f63d45584bda",
       "src/bottega/assets/logos/bottega-logo.png": "2f1ddf64c4925e64c7517ad2c94355f4",
       "src/bottega/assets/logos/bottega-wordmark.png": "4f2f5560d2506735dc1a346346b9d2f9",
@@ -47,11 +48,12 @@
       "src/bottega/components/MenuSubmenu.tsx": "e07823fea49713d660e5baac091e0a84",
       "src/bottega/components/MenuToggle.tsx": "e9917f0089dd9cf486c94697c0637bed",
       "src/bottega/components/SiteHeader.tsx": "c45d122399e1b0bcaa9b0998a82f1592",
+      "src/bottega/components/Snackbar.tsx": "17b503bba02494d2f858d762ff56c7cf",
       "src/bottega/components/Stamp.tsx": "fab48ad4d19d6f132413a4035b65035d",
       "src/bottega/components/ThemeToggle.tsx": "229aaa64efc3e1fc3006f95a0e211960",
       "src/bottega/components/Typography.tsx": "e8063e5008a7af47d30ec96f145a5568",
       "src/bottega/components/WaveRibbon.tsx": "4eb9a0ca7e53d2561b128b4887bb3e48",
-      "src/bottega/index.ts": "138b865324f07c279caff5b6d1e2a280",
+      "src/bottega/index.ts": "eae8b07de67d62d6e3c743bffe36c9d5",
       "src/bottega/lib/cx.ts": "7ae105dce8319a6dc3263f679bb79dd7",
       "src/bottega/lib/files.test.ts": "a7083b0f7955fff6f0106d3266cceca7",
       "src/bottega/lib/files.ts": "864d6693af24152e4c2b1b814c57c4c3",
@@ -59,8 +61,10 @@
       "src/bottega/lib/link-rel.ts": "96aac25fd20bb130792fc4ae841d78c7",
       "src/bottega/lib/map-theme.test.ts": "fc2a529b09ba0f3ee3f85809a7a53e08",
       "src/bottega/lib/map-theme.ts": "7e59d8cce6828d18eb0a3d96ffbf208c",
-      "src/bottega/styles/components.css": "1f5346f267a45a501942d47423de5a50",
-      "src/bottega/styles/theme.css": "cae5192e9e815780cd23ee74f1b422cd",
+      "src/bottega/lib/snackbar-queue.test.ts": "f356675c16529599580dea25f43b14fb",
+      "src/bottega/lib/snackbar-queue.ts": "9cbdf98fbd08be19dfe93d5a2e4231be",
+      "src/bottega/styles/components.css": "6495fbc4e93939b2e0d0a812190e14a3",
+      "src/bottega/styles/theme.css": "c23ae4c2e60ef7a25a3da20cb6a0ce49",
       "src/index.ts": "d6db7a37e55fd28ceedfa8fc5272c699",
       "src/mockup-preview.d.ts": "ae9d81e2b8514e13fd59b5b6bece9a64",
       "src/routeTree.gen.ts": "b493492c3c7229d800131062a1facc31",
@@ -69,7 +73,7 @@
       "src/routes/[__mockup].preview.$.tsx": "5d9f42470848aa60148f20f9580e240e",
       "src/routes/__root.tsx": "32d8c1ee58418654d1dc11b4c488f536",
       "src/routes/colors.tsx": "442f6079d89c14e1cfc101460472be76",
-      "src/routes/components.tsx": "ed1a686cc8a37574eecf8b3cb456aab2",
+      "src/routes/components.tsx": "4f5bc8e177eeffd938a738d8087ff4d4",
       "src/routes/index.tsx": "cdecf5361fbea7a6500cfaca7cb08dc8",
       "src/routes/typography.tsx": "c7eb63c2bfbcd2e5352f6dd2d93a673f",
       "src/showcase/Shell.tsx": "8d16bcd92ff8699d8d33b5ffbf96264e",
@@ -401,6 +405,11 @@
         "name": "--bt-shadow-hover",
         "raw": "3px 3px 0 var(--bt-shadow-ink)",
         "source": "src/bottega/styles/theme.css"
+      },
+      {
+        "name": "--bt-shadow-danger",
+        "raw": "6px 6px 0 var(--bt-ink)",
+        "source": "src/bottega/styles/theme.css"
       }
     ],
     "other": [
@@ -497,6 +506,16 @@
       {
         "name": "--bt-submenu-width",
         "raw": "14rem",
+        "source": "src/bottega/styles/theme.css"
+      },
+      {
+        "name": "--bt-snackbar-width",
+        "raw": "26rem",
+        "source": "src/bottega/styles/theme.css"
+      },
+      {
+        "name": "--bt-duration-snackbar",
+        "raw": "240ms",
         "source": "src/bottega/styles/theme.css"
       }
     ]
@@ -1172,6 +1191,10 @@
         {
           "label": "Controlled submenu",
           "code": "\u003cMenuSubmenu label=\"Locations\" open={open} onOpenChange={setOpen}\u003e\u003cMenuLink href=\"/roma\"\u003eRoma\u003c/MenuLink\u003e\u003c/MenuSubmenu\u003e"
+        },
+        {
+          "label": "Nested submenus",
+          "code": "\u003cMenuSubmenu label=\"Discover Bottega\"\u003e\u003cMenuLink href=\"/about\"\u003eOur kitchen\u003c/MenuLink\u003e\u003cMenuSubmenu label=\"Locations\"\u003e\u003cMenuLink href=\"/roma\"\u003eRoma\u003c/MenuLink\u003e\u003cMenuSubmenu label=\"Roma districts\"\u003e\u003cMenuLink href=\"/trastevere\"\u003eTrastevere\u003c/MenuLink\u003e\u003cMenuLink href=\"/prati\"\u003ePrati\u003c/MenuLink\u003e\u003c/MenuSubmenu\u003e\u003cMenuLink href=\"/milano\"\u003eMilano\u003c/MenuLink\u003e\u003c/MenuSubmenu\u003e\u003c/MenuSubmenu\u003e"
         }
       ],
       "antipatterns": [
@@ -1493,6 +1516,69 @@
         "Do not build a custom ad-hoc card next to the map; compose BottegaMapCard inside BottegaMap.",
         "Do not place a forest card on a dark map; use the cream card so it stands out.",
         "Do not make 'Get directions' the primary action; the order button is the map's CTA."
+      ]
+    },
+    {
+      "name": "Snackbar",
+      "file": "src/bottega/components/Snackbar",
+      "import_path": "",
+      "props": [
+        {
+          "name": "children",
+          "type": "any",
+          "required": true
+        },
+        {
+          "name": "variant",
+          "type": "enum",
+          "values": [
+            "default",
+            "success",
+            "info",
+            "danger"
+          ],
+          "default": "default"
+        },
+        {
+          "name": "action",
+          "type": "any"
+        },
+        {
+          "name": "onDismiss",
+          "type": "function"
+        },
+        {
+          "name": "dismissLabel",
+          "type": "string",
+          "default": "Dismiss message"
+        }
+      ],
+      "usage": "Brief, non-blocking feedback after an action (saved, sent, removed). Wrap the app once in SnackbarProvider and call useSnackbar().show({ message, variant, action, duration }). Auto-closes after 5s (duration: null keeps it open), pauses on hover/focus, max 3 stacked.",
+      "examples": [
+        {
+          "label": "Success with Undo",
+          "code": "const { show } = useSnackbar();\nshow({ message: \"Reservation saved.\", variant: \"success\", action: { label: \"Undo\", onClick: undo } });"
+        }
+      ],
+      "antipatterns": [
+        "Do not use a snackbar to ask for a decision on a destructive action; use Confirmation variant=\"danger\".",
+        "Do not use the danger (tomato) variant for neutral or decorative messages.",
+        "Do not add more than one action, or build ad-hoc toast components; use Snackbar."
+      ]
+    },
+    {
+      "name": "SnackbarProvider",
+      "file": "src/bottega/components/Snackbar",
+      "import_path": "",
+      "props": [
+        {
+          "name": "children",
+          "type": "any"
+        },
+        {
+          "name": "max",
+          "type": "number"
+        }
       ]
     }
   ]

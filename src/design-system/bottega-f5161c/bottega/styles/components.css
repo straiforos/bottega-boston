@@ -299,3 +299,35 @@
 .bt-map-card__details dd { margin: 0; line-height: 1.45; }
 .bt-map-card__order { margin-top: var(--bt-space-xs); }
 .bt-map-card__directions { margin-top: var(--bt-space-xs); }
+
+/* Snackbar */
+.bt-snackbar-region {
+  position: fixed; z-index: 60; left: 50%; bottom: var(--bt-space-4); transform: translateX(-50%);
+  display: flex; flex-direction: column; gap: var(--bt-space-2);
+  width: min(var(--bt-snackbar-width), calc(100vw - 2 * var(--bt-space-4)));
+  pointer-events: none;
+}
+@media (min-width: 900px) { .bt-snackbar-region { left: var(--bt-space-5); transform: none; bottom: var(--bt-space-5); } }
+.bt-snackbar {
+  box-sizing: border-box; pointer-events: auto; display: flex; align-items: center; gap: var(--bt-space-3);
+  width: 100%; padding: var(--bt-space-3) var(--bt-space-4);
+  background: var(--bt-surface); color: var(--bt-body);
+  border: var(--bt-border-width) solid var(--bt-terracotta); border-radius: var(--bt-radius-none);
+  box-shadow: var(--bt-shadow-card); font-family: var(--bt-font-sans); font-size: var(--bt-text-base);
+  animation: bt-snackbar-in var(--bt-duration-snackbar) ease-out;
+}
+.bt-snackbar--success { background: var(--bt-forest); color: var(--bt-mustard); }
+.bt-snackbar--info { background: var(--bt-cobalt); color: var(--bt-cream); }
+.bt-snackbar--danger { background: var(--bt-tomato); color: var(--bt-cream); border-color: var(--bt-tomato-border); box-shadow: var(--bt-shadow-danger); }
+.bt-snackbar__message { flex: 1; min-width: 0; }
+.bt-snackbar__action, .bt-snackbar__close {
+  flex: none; background: none; border: 0; color: inherit; cursor: pointer;
+  font-family: var(--bt-font-display); font-weight: 800; text-transform: uppercase; letter-spacing: 0.06em;
+  font-size: var(--bt-text-base); padding: var(--bt-space-1) var(--bt-space-2);
+}
+.bt-snackbar__action { text-decoration: underline; text-underline-offset: 3px; }
+.bt-snackbar__close { font-size: var(--bt-text-lg); line-height: 1; }
+.bt-snackbar__action:focus-visible, .bt-snackbar__close:focus-visible { outline: 3px solid currentColor; outline-offset: 2px; }
+@keyframes bt-snackbar-in { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .bt-snackbar { animation: bt-snackbar-fade var(--bt-duration-snackbar) linear; } }
+@keyframes bt-snackbar-fade { from { opacity: 0; } to { opacity: 1; } }

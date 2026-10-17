@@ -38,3 +38,4 @@ export { FileUpload, type FileUploadProps } from "./components/FileUpload";
 export { Confirmation, type ConfirmationProps } from "./components/Confirmation";
 export { BottegaMap, bottegaMapStyles, type BottegaMapProps, type BottegaMapMarker } from "./components/BottegaMap";
 export { BottegaMapCard, type BottegaMapCardProps } from "./components/BottegaMapCard";
+export { Snackbar, SnackbarProvider, useSnackbar, type SnackbarProps, type SnackbarProviderProps, type SnackbarOptions, type SnackbarAction, type SnackbarVariant, type SnackbarContextValue } from "./components/Snackbar";

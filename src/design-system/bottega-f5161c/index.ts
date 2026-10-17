@@ -17,6 +17,7 @@ export { MenuOverlay } from "./bottega/components/MenuOverlay";
 export { MenuSubmenu } from "./bottega/components/MenuSubmenu";
 export { MenuToggle } from "./bottega/components/MenuToggle";
 export { SiteHeader } from "./bottega/components/SiteHeader";
+export { Snackbar, SnackbarProvider } from "./bottega/components/Snackbar";
 export { Stamp } from "./bottega/components/Stamp";
 export { ThemeToggle } from "./bottega/components/ThemeToggle";
 export { Display, Serif } from "./bottega/components/Typography";

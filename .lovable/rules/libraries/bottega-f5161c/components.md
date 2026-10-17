@@ -403,6 +403,11 @@ _Controlled submenu_
 <MenuSubmenu label="Locations" open={open} onOpenChange={setOpen}><MenuLink href="/roma">Roma</MenuLink></MenuSubmenu>
 ```
 
+_Nested submenus_
+```tsx
+<MenuSubmenu label="Discover Bottega"><MenuLink href="/about">Our kitchen</MenuLink><MenuSubmenu label="Locations"><MenuLink href="/roma">Roma</MenuLink><MenuSubmenu label="Roma districts"><MenuLink href="/trastevere">Trastevere</MenuLink><MenuLink href="/prati">Prati</MenuLink></MenuSubmenu><MenuLink href="/milano">Milano</MenuLink></MenuSubmenu></MenuSubmenu>
+```
+
 **Avoid:**
 
 - Do not make the disclosure label both a link and button; provide an All menu child destination.
@@ -484,6 +489,51 @@ import { SiteHeader } from "@/design-system/bottega-f5161c"
 | `menuLabel` | string | `Menu` |
 | `closeLabel` | string | `Close` |
 | `variant` | cream · forest | `cream` |
+
+### Snackbar
+
+```ts
+import { Snackbar } from "@/design-system/bottega-f5161c"
+```
+
+Brief, non-blocking feedback after an action (saved, sent, removed). Wrap the app once in SnackbarProvider and call useSnackbar().show({ message, variant, action, duration }). Auto-closes after 5s (duration: null keeps it open), pauses on hover/focus, max 3 stacked.
+
+**Props:**
+
+| Prop | Type | Default |
+|---|---|---|
+| `children` | any | `—` |
+| `variant` | default · success · info · danger | `default` |
+| `action` | any | `—` |
+| `onDismiss` | function | `—` |
+| `dismissLabel` | string | `Dismiss message` |
+
+**Examples:**
+
+_Success with Undo_
+```tsx
+const { show } = useSnackbar();
+show({ message: "Reservation saved.", variant: "success", action: { label: "Undo", onClick: undo } });
+```
+
+**Avoid:**
+
+- Do not use a snackbar to ask for a decision on a destructive action; use Confirmation variant="danger".
+- Do not use the danger (tomato) variant for neutral or decorative messages.
+- Do not add more than one action, or build ad-hoc toast components; use Snackbar.
+
+### SnackbarProvider
+
+```ts
+import { SnackbarProvider } from "@/design-system/bottega-f5161c"
+```
+
+**Props:**
+
+| Prop | Type | Default |
+|---|---|---|
+| `children` | any | `—` |
+| `max` | number | `—` |
 
 ### Stamp
 

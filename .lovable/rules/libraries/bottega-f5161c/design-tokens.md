@@ -103,6 +103,7 @@ Reference via `var(--name)` in inline styles or CSS.
 | `--bt-shadow-stamp` |
 | `--bt-shadow-card` |
 | `--bt-shadow-hover` |
+| `--bt-shadow-danger` |
 
 ## Other
 
@@ -129,6 +130,8 @@ Reference via `var(--name)` in inline styles or CSS.
 | `--bt-map-height-lg` |
 | `--bt-duration` |
 | `--bt-submenu-width` |
+| `--bt-snackbar-width` |
+| `--bt-duration-snackbar` |
 
 
 

@@ -64,5 +64,8 @@ Fonts are not bundled: add this to the root route head `links`:
 - The order button is the map's CTA: pass `orderHref` (the ChowNow URL) so `BottegaMapCard` renders a primary `Button`; "Get directions" stays a secondary link beneath it.
 - Keep the inset card in contrast with the map: on a dark map use the cream card (the default), on a light map a forest or mustard card. Never sink a forest card into a dark map.
 
+## Snackbar messages
+Use `SnackbarProvider` once around the app and `useSnackbar().show({ message, variant, action, duration })` for short, non-blocking feedback. Variants: default, success (forest), info (cobalt), danger (tomato — errors only). At most one action (e.g. Undo). Never use a snackbar to confirm a destructive action — that is `Confirmation variant="danger"`. Do not build custom toasts or install toast libraries.
+
 
 <!-- END THIRD-PARTY LIBRARY CONTENT: design-system/bottega-f5161c -->
