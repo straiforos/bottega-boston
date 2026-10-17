@@ -154,10 +154,10 @@ export function EmailEditorPage({ mode }: { mode: 'compose' | 'welcome' }) {
               {overview && (
                 <PillLabel variant="mustard">{clubContent.admin.subscribers(overview.subscribers)}</PillLabel>
               )}
-              <EditorLink to={mode === 'compose' ? '/emails/welcome' : '/emails/compose'} tone="mustard">
+              <EditorLink to={mode === 'compose' ? '/emails/welcome' : '/emails/compose'}>
                 {mode === 'compose' ? clubContent.admin.welcome : clubContent.admin.compose}
               </EditorLink>
-              <Button size="sm" variant="outline" onClick={() => void download()}>
+              <Button size="sm" variant="primary" onClick={() => void download()}>
                 {clubContent.admin.download}
               </Button>
             </div>
