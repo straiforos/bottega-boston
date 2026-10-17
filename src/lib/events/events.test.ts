@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { describeRecurrence, nthWeekdayOfMonth, upcomingOccurrences, zonedToUtc, type EventSchedule } from './occurrences';
 import { isTicketTailorUrl, maskPhone, orderTotal, parsePriceOptions, priceOrder, requestDateBounds, requestSchema } from './requests';
-import { upcomingEvents, type BottegaEvent } from './events-api';
+import { upcomingEvents, validateEvent, type BottegaEvent, type EventDraft } from './events-api';
 
 const tz = 'America/New_York';
 const base = (over: Partial<EventSchedule> = {}): EventSchedule => ({
@@ -51,10 +51,31 @@ describe('occurrences', () => {
 describe('upcoming events', () => {
   it('hides past and unpublished events', () => {
     const ev = (id: string, over: Partial<BottegaEvent>): BottegaEvent => ({
-      ...base(), id, title: id, description: '', locationId: 'brookline', imageUrl: null, published: true, exceptions: [], ...over,
+      ...base(), id, title: id, description: '', locationIds: ['brookline'], imageUrl: null, published: true, exceptions: [], ...over,
     });
     const list = upcomingEvents([ev('past', {}), ev('hidden', { published: false, startsAt: '2027-01-01T00:00:00Z' }), ev('soon', { startsAt: '2026-12-01T00:00:00Z' })], now);
     expect(list.map((u) => u.event.id)).toEqual(['soon']);
+  });
+});
+
+describe('event validation', () => {
+  const draft = (over: Partial<EventDraft>): EventDraft => ({
+    title: 'A Night in Napoli',
+    description: '',
+    locationIds: ['brookline'],
+    imageUrl: null,
+    startsAt: zonedToUtc('2026-11-01', '18:00', tz).toISOString(),
+    durationMinutes: 120,
+    ticketUrl: '',
+    published: true,
+    recurrence: null,
+    ...over,
+  });
+  it('accepts an event at every location', () => {
+    expect(validateEvent(draft({ locationIds: ['brookline', 'boston'] }))).toBeNull();
+  });
+  it('requires at least one location', () => {
+    expect(validateEvent(draft({ locationIds: [] }))).toBe('Pick at least one location.');
   });
 });
 

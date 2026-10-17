@@ -16,7 +16,7 @@ export function EventCard({ upcoming, children }: { upcoming: UpcomingEvent; chi
   const { event, next, repeats } = upcoming;
   const [ticketsOpen, setTicketsOpen] = useState(false);
   const ticketUrl = next[0]?.ticketUrl;
-  const location = orderLocations.find((l) => l.id === event.locationId);
+  const locationNames = orderLocations.filter((l) => event.locationIds.includes(l.id)).map((l) => l.name);
 
   return (
     <Card variant="cream" elevated className="event-card bt-surface-light">
@@ -27,7 +27,7 @@ export function EventCard({ upcoming, children }: { upcoming: UpcomingEvent; chi
         <Serif as="h3" size="md" tone="forest">{event.title}</Serif>
         <p className="event-card-when">
           <time dateTime={next[0].startsAt}>{formatWhen(next[0].startsAt, event.timezone)}</time>
-          {location && ` · ${location.name}`}
+          {locationNames.length > 0 && ` · ${locationNames.join(' · ')}`}
         </p>
         {event.description && <p>{event.description}</p>}
         {repeats && next.length > 1 && (
