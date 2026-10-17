@@ -47,8 +47,10 @@ export const getRouter = () => {
     const hash = router.state.location.hash;
     window.scrollTo(0, 0);
     if (!hash) return;
-    // Wait for the new page's sections to lay out before jumping.
-    window.setTimeout(() => document.getElementById(hash)?.scrollIntoView(), 100);
+    // The new page's sections settle over a moment; re-aim a few times.
+    for (const delay of [100, 400, 900]) {
+      window.setTimeout(() => document.getElementById(hash)?.scrollIntoView(), delay);
+    }
   });
 
   return router;
