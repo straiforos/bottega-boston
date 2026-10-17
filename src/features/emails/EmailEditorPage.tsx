@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { createLink, useNavigate } from '@tanstack/react-router';
 import { useServerFn } from '@tanstack/react-start';
 import { Button, Confirmation, Display, LinkAction, PillLabel, Serif, TextField } from '@/design-system/bottega-f5161c';
@@ -7,7 +7,15 @@ import logoUrl from '@/design-system/bottega-f5161c/bottega/assets/logos/bottega
 import { clubContent } from '@/content/en/club';
 import { restaurantContent } from '@/content/en/restaurant';
 import { useStaffSession } from '@/hooks/useStaffSession';
-import { BLOCK_TYPES, moveBlock, newBlock, validateDraft, type EmailBlock, type EmailDraft } from '@/lib/email/blocks';
+import {
+  BLOCK_TYPES,
+  duplicateBlock,
+  insertBlockAt,
+  moveBlock,
+  newBlock,
+  removeBlock,
+  selectNeighbor,
+  validateDraft, type EmailBlock, type EmailDraft } from '@/lib/email/blocks';
 import {
   getCampaign,
   getTemplate,
@@ -19,6 +27,7 @@ import {
 } from '@/lib/email/club.functions';
 import { renderEmail } from '@/lib/email/render-email';
 import { BlockEditor } from './BlockEditor';
+import { EmailCanvas } from './canvas/EmailCanvas';
 
 const BackLink = createLink(LinkAction);
 const t = clubContent.editor;
@@ -48,6 +57,9 @@ export function EmailEditorPage(props: Props) {
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
   const [confirming, setConfirming] = useState(false);
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [insertAt, setInsertAt] = useState<number | null>(null);
+  const [pendingRemove, setPendingRemove] = useState<string | null>(null);
 
   const loadWorkspace = useServerFn(getWorkspace);
   const loadCampaign = useServerFn(getCampaign);
@@ -85,9 +97,49 @@ export function EmailEditorPage(props: Props) {
   }, [isAdmin, templateKey, initialCampaign, loadWorkspace, loadTemplate, loadCampaign]);
 
   const html = useMemo(
-    () => renderEmail(draft, { logoUrl, siteUrl: '#', unsubscribeUrl: '#', locations: restaurantContent.addresses }),
+    () =>
+      renderEmail(draft, {
+        logoUrl,
+        siteUrl: '#',
+        unsubscribeUrl: '#',
+        locations: restaurantContent.addresses,
+        editor: true,
+      }),
     [draft],
   );
+
+  const select = useCallback((id: string | null) => {
+    setSelectedId(id);
+    setInsertAt(null);
+  }, []);
+  const move = (id: string, dir: -1 | 1) => setDraft((d) => ({ ...d, blocks: moveBlock(d.blocks, id, dir) }));
+  const duplicate = (id: string) => {
+    const r = duplicateBlock(draft.blocks, id);
+    setDraft({ ...draft, blocks: r.blocks });
+    select(r.id);
+  };
+  const insert = (type: EmailBlock['type']) => {
+    const block = newBlock(type);
+    setDraft((d) => ({ ...d, blocks: insertBlockAt(d.blocks, insertAt ?? d.blocks.length, block) }));
+    select(block.id);
+  };
+  const confirmRemove = () => {
+    if (!pendingRemove) return;
+    setDraft((d) => ({ ...d, blocks: removeBlock(d.blocks, pendingRemove) }));
+    if (selectedId === pendingRemove) select(null);
+    setPendingRemove(null);
+  };
+  const onKey = useCallback(
+    (key: string) => {
+      if (key === 'Escape') select(null);
+      else if (key === 'ArrowUp' || key === 'ArrowDown')
+        setSelectedId((id) => selectNeighbor(draft.blocks, id, key === 'ArrowUp' ? -1 : 1));
+      else if ((key === 'Delete' || key === 'Backspace') && selectedId) setPendingRemove(selectedId);
+    },
+    [draft.blocks, selectedId, select],
+  );
+  const selectedIndex = draft.blocks.findIndex((b) => b.id === selectedId);
+  const selectedBlock = selectedIndex >= 0 ? draft.blocks[selectedIndex] : null;
 
   const updateBlock = (block: EmailBlock) =>
     setDraft((d) => ({ ...d, blocks: d.blocks.map((b) => (b.id === block.id ? block : b)) }));
@@ -180,6 +232,50 @@ export function EmailEditorPage(props: Props) {
                       ))}
                     </div>
                   )}
+                  <p className="bt-field__hint">{t.canvasHint}</p>
+                  {insertAt !== null ? (
+                    <>
+                      <Serif as="h2" size="sm" tone="forest">
+                        {t.insertTitle}
+                      </Serif>
+                      <div className="email-add">
+                        {BLOCK_TYPES.map((type) => (
+                          <Button key={type} size="sm" variant="outline" onClick={() => insert(type)}>
+                            + {t.blockNames[type]}
+                          </Button>
+                        ))}
+                      </div>
+                      <div className="email-add">
+                        <Button size="sm" variant="ghost" onClick={() => setInsertAt(null)}>
+                          {t.cancelInsert}
+                        </Button>
+                      </div>
+                    </>
+                  ) : selectedBlock ? (
+                    <>
+                      <BlockEditor
+                        key={selectedBlock.id}
+                        block={selectedBlock}
+                        first={selectedIndex === 0}
+                        last={selectedIndex === draft.blocks.length - 1}
+                        onChange={updateBlock}
+                        onMove={(dir) => move(selectedBlock.id, dir)}
+                        onRemove={() => setPendingRemove(selectedBlock.id)}
+                      />
+                      <div className="email-add">
+                        <Button size="sm" variant="outline" onClick={() => duplicate(selectedBlock.id)}>
+                          {t.duplicate}
+                        </Button>
+                        <Button size="sm" variant="ghost" onClick={() => select(null)}>
+                          {t.deselect}
+                        </Button>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <Serif as="h2" size="sm" tone="forest">
+                        {t.emailSettings}
+                      </Serif>
                   {props.mode === 'template' && (
                     <TextField
                       label={t.templateName}
@@ -199,29 +295,23 @@ export function EmailEditorPage(props: Props) {
                     value={draft.preheader}
                     onChange={(e) => setDraft({ ...draft, preheader: e.target.value })}
                   />
-                  {draft.blocks.map((block, index) => (
-                    <BlockEditor
-                      key={block.id}
-                      block={block}
-                      first={index === 0}
-                      last={index === draft.blocks.length - 1}
-                      onChange={updateBlock}
-                      onMove={(dir) => setDraft((d) => ({ ...d, blocks: moveBlock(d.blocks, block.id, dir) }))}
-                      onRemove={() => setDraft((d) => ({ ...d, blocks: d.blocks.filter((b) => b.id !== block.id) }))}
-                    />
-                  ))}
-                  <div className="email-add">
-                    {BLOCK_TYPES.map((type) => (
-                      <Button
-                        key={type}
-                        size="sm"
-                        variant="outline"
-                        onClick={() => setDraft((d) => ({ ...d, blocks: [...d.blocks, newBlock(type)] }))}
-                      >
-                        + {t.blockNames[type]}
-                      </Button>
-                    ))}
-                  </div>
+                      <div className="email-add">
+                        {BLOCK_TYPES.map((type) => (
+                          <Button
+                            key={type}
+                            size="sm"
+                            variant="outline"
+                            onClick={() => {
+                              setInsertAt(draft.blocks.length);
+                              insert(type);
+                            }}
+                          >
+                            + {t.blockNames[type]}
+                          </Button>
+                        ))}
+                      </div>
+                    </>
+                  )}
                 </fieldset>
                 {error && (
                   <p className="bt-field__hint bt-field__hint--error" role="alert">
@@ -295,11 +385,18 @@ export function EmailEditorPage(props: Props) {
                     ))}
                   </div>
                 </div>
-                <iframe
-                  className={`email-preview-frame email-preview-frame--${device}`}
-                  title={t.preview}
-                  srcDoc={html}
-                  sandbox=""
+                <EmailCanvas
+                  html={html}
+                  device={device}
+                  blocks={draft.blocks}
+                  selectedId={selectedId}
+                  disabled={locked}
+                  onSelect={select}
+                  onKey={onKey}
+                  onMove={move}
+                  onDuplicate={duplicate}
+                  onRemove={setPendingRemove}
+                  onInsert={setInsertAt}
                 />
               </section>
             </div>
@@ -315,6 +412,17 @@ export function EmailEditorPage(props: Props) {
           onConfirm={() => void doSend()}
         >
           {t.confirmBody(workspace?.subscribers ?? 0)}
+        </Confirmation>
+        <Confirmation
+          open={pendingRemove !== null}
+          variant="danger"
+          title={t.removeTitle}
+          confirmLabel={t.remove}
+          cancelLabel={w.cancel}
+          onCancel={() => setPendingRemove(null)}
+          onConfirm={confirmRemove}
+        >
+          {t.removeBody}
         </Confirmation>
       </main>
     </>
