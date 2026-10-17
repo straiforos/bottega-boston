@@ -49,6 +49,11 @@
   .events-grid {
     grid-auto-columns: min(100%, calc(var(--bt-space-8) * 5));
   }
+  /* Full-width swipeable cards: the floating arrows would cover the artwork,
+     and the peeking next card already signals the row scrolls. */
+  .events-arrow {
+    display: none;
+  }
 }
 .event-card {
   position: relative;
