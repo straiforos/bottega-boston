@@ -1,6 +1,7 @@
 export const links = {
   order: 'https://ciao724.wixstudio.com/my-site/online-ordering',
   instagram: 'https://www.instagram.com/eatbottega/',
+  facebook: 'https://www.facebook.com/EATBOTTEGA/',
   email: 'ciao@eatbottega.com',
   phone: '+16172322661',
 } as const;

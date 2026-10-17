@@ -1,4 +1,5 @@
 import { Display, LinkAction, Logo } from '@/design-system/bottega-f5161c';
+import { FacebookIcon } from '@/components/FacebookIcon';
 import { InstagramIcon } from '@/components/InstagramIcon';
 import { StaffAccess } from '@/components/StaffAccess';
 import { restaurantContent } from '@/content/en/restaurant';
@@ -19,6 +20,9 @@ export function SiteFooter() {
             <address className="social-links">
               <a href={links.instagram} target="_blank" rel="noopener noreferrer" aria-label="Bottega on Instagram">
                 <InstagramIcon />
+              </a>
+              <a href={links.facebook} target="_blank" rel="noopener noreferrer" aria-label="Bottega on Facebook">
+                <FacebookIcon />
               </a>
             </address>
           </div>

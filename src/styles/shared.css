@@ -23,6 +23,11 @@ main {
   align-items: center;
   gap: var(--bt-space-lg);
 }
+.social-links svg {
+  display: block;
+  width: calc(var(--bt-icon-size) * 0.35);
+  height: calc(var(--bt-icon-size) * 0.35);
+}
 .mobile-only {
   display: none;
 }
