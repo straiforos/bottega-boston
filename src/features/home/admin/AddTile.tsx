@@ -13,21 +13,21 @@ export function AddTile({ nextSortOrder }: { nextSortOrder: number }) {
 
   return (
     <div className="gallery-cell gallery-add">
-        <Button variant="primary" onClick={() => setOpen(true)}>
-          <GalleryActionIcon action="add" />
-          {staffContent.gallery.add}
-        </Button>
+      <Button variant="primary" onClick={() => setOpen(true)}>
+        <GalleryActionIcon action="add" />
+        {staffContent.gallery.add}
+      </Button>
       <GalleryEditorDialog open={open} label={staffContent.gallery.add} onCancel={() => setOpen(false)}>
-      <TileEditor
-        initial={{ alt: '', caption: '' }}
-        requireFile
-        onCancel={() => setOpen(false)}
-        onSave={async (draft, file, onProgress) => {
-          if (!file) return;
-          await admin.create(draft, file, nextSortOrder, onProgress);
-          setOpen(false);
-        }}
-      />
+        <TileEditor
+          initial={{ alt: '', caption: '' }}
+          requireFile
+          onCancel={() => setOpen(false)}
+          onSave={async (draft, file, onProgress) => {
+            if (!file) return;
+            await admin.create(draft, file, nextSortOrder, onProgress);
+            setOpen(false);
+          }}
+        />
       </GalleryEditorDialog>
     </div>
   );
