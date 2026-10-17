@@ -162,7 +162,7 @@
 .bt-menu-overlay--submenu[hidden] { display: none; }
 .bt-menu-overlay--submenu > .bt-menu-overlay__links { display: flex; flex-direction: column; }
 .bt-menu-overlay--submenu .bt-menu-overlay__link { padding-block: var(--bt-space-2); overflow-wrap: anywhere; }
-.bt-menu-overlay--submenu .bt-menu-overlay--submenu { position: static; width: 100%; max-width: 100%; box-shadow: none; }
+.bt-menu-overlay--submenu .bt-menu-overlay--submenu { position: static; width: 100%; max-width: 100%; padding: 0; background: transparent; border: 0; box-shadow: none; }
 @media (prefers-reduced-motion: reduce) { .bt-menu-submenu__chevron { transition: none; } }
 
 @media (max-width: 1100px) {
