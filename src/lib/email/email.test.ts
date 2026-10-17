@@ -105,3 +105,33 @@ describe('Resend webhook', () => {
     expect(eventEffect('email.opened')?.subscriberStatus).toBeUndefined();
   });
 });
+
+import { describe as d2, expect as e2, it as i2 } from 'vitest';
+import { duplicateBlock, insertBlockAt, removeBlock, selectNeighbor, defaultWelcome as dw } from './blocks';
+import { renderEmail as re } from './render-email';
+
+d2('canvas helpers', () => {
+  const blocks = dw.blocks;
+  i2('inserts at an index', () => {
+    e2(insertBlockAt(blocks, 1, { id: 'x', type: 'divider' }).map((b) => b.id).slice(0, 3)).toEqual(['w1', 'x', 'w2']);
+  });
+  i2('removes by id', () => {
+    e2(removeBlock(blocks, 'w2').some((b) => b.id === 'w2')).toBe(false);
+  });
+  i2('duplicates right after with a new id', () => {
+    const r = duplicateBlock(blocks, 'w1');
+    e2(r.blocks[1]).toMatchObject({ type: 'headline', text: blocks[0].type === 'headline' ? blocks[0].text : '' });
+    e2(r.id).not.toBe('w1');
+    e2(r.blocks[1].id).toBe(r.id);
+  });
+  i2('selects neighbours, clamped', () => {
+    e2(selectNeighbor(blocks, 'w1', -1)).toBe('w1');
+    e2(selectNeighbor(blocks, 'w1', 1)).toBe('w2');
+    e2(selectNeighbor(blocks, null, 1)).toBe('w1');
+  });
+  i2('sent emails never carry editor markup', () => {
+    const opts = { logoUrl: 'https://x/l.png', siteUrl: 'https://x', unsubscribeUrl: 'https://x/u', locations: [] };
+    e2(re(dw, opts)).not.toMatch(/data-bt-anchor|<script/);
+    e2(re(dw, { ...opts, editor: true })).toMatch(/data-bt-anchor="w1"/);
+  });
+});

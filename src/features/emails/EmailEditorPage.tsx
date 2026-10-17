@@ -302,7 +302,6 @@ export function EmailEditorPage(props: Props) {
                             size="sm"
                             variant="outline"
                             onClick={() => {
-                              setInsertAt(draft.blocks.length);
                               insert(type);
                             }}
                           >
