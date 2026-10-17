@@ -150,6 +150,10 @@
 
 /* Interactive canvas: overlays sit over the preview iframe; positions come from measured block geometry. */
 .email-canvas {
+  display: grid;
+  gap: var(--bt-space-sm);
+}
+.email-canvas-stage {
   position: relative;
   display: grid;
 }
@@ -184,34 +188,21 @@
   outline-width: calc(var(--bt-border-width) * 2);
   outline-style: solid;
 }
+/* Block actions live in a bar above the preview so they never cover the email itself. */
 .email-canvas-bar,
-.email-canvas-insert {
-  position: absolute;
-  pointer-events: auto;
+.email-canvas-tools {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: var(--bt-space-sm);
 }
-/* Label and actions sit in a bar just above the block so they never cover its content. */
 .email-canvas-bar {
-  bottom: 100%;
-  inset-inline: 0;
   justify-content: space-between;
-  padding-block-end: var(--bt-space-xs);
-}
-.email-canvas-tools {
-  display: flex;
-  gap: var(--bt-space-xs);
 }
 .email-canvas-insert {
+  position: absolute;
+  pointer-events: auto;
   left: var(--bt-space-md);
-}
-.email-canvas-insert--above {
-  top: 0;
-  transform: translateY(-50%);
-  left: auto;
-  right: var(--bt-space-md);
-  display: none;
 }
 .email-canvas-insert--below {
   bottom: 0;
