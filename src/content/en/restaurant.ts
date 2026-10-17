@@ -16,7 +16,8 @@ export const restaurantContent = {
     menu: 'Menu',
     events: 'Come hang out',
     order: 'Order now ↗',
-    emailBuilder: 'Email builder',
+    siteAdmin: 'Site Admin',
+    emails: 'Emails',
   },
   metadata: {
     home: {

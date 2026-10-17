@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { createLink, useNavigate } from '@tanstack/react-router';
+import { createLink, useNavigate, useSearch } from '@tanstack/react-router';
 import { useServerFn } from '@tanstack/react-start';
 import { Button, Card, Confirmation, Display, LinkAction, PillLabel, Serif, TextField } from '@/design-system/bottega-f5161c';
 import { BottegaHeader } from '@/components/BottegaHeader';
@@ -28,7 +28,7 @@ const date = (iso: string | null) => (iso ? new Date(iso).toLocaleString() : '')
 export function EmailsWorkspace() {
   const { isAdmin, ready } = useStaffSession();
   const navigate = useNavigate();
-  const [tab, setTab] = useState<Tab>('newsletters');
+  const tab: Tab = useSearch({ from: '/_site/emails' }).tab ?? 'newsletters';
   const [data, setData] = useState<Workspace | null>(null);
   const [error, setError] = useState<string | null>(null);
   const load = useServerFn(getWorkspace);
@@ -57,19 +57,10 @@ export function EmailsWorkspace() {
             <p>{ready ? clubContent.editor.staffOnly : '…'}</p>
           ) : (
             <>
-              <div className="email-staff-bar" role="tablist" aria-label={w.title}>
-                {(Object.keys(w.tabs) as Tab[]).map((key) => (
-                  <Button
-                    key={key}
-                    role="tab"
-                    size="sm"
-                    aria-selected={tab === key}
-                    variant={tab === key ? 'primary' : 'ghost'}
-                    onClick={() => setTab(key)}
-                  >
-                    {w.tabs[key]}
-                  </Button>
-                ))}
+              <div className="email-staff-bar">
+                <Serif as="h2" size="sm" tone="forest">
+                  {w.tabs[tab]}
+                </Serif>
                 {data && <PillLabel variant="mustard">{clubContent.admin.subscribers(data.subscribers)}</PillLabel>}
               </div>
               {error && (
@@ -77,7 +68,7 @@ export function EmailsWorkspace() {
                   {error}
                 </p>
               )}
-              <div role="tabpanel">
+              <div>
                 {tab === 'newsletters' && <Newsletters data={data} onChange={refresh} />}
                 {tab === 'templates' && <Templates data={data} onChange={refresh} />}
                 {tab === 'subscribers' && <Subscribers />}
