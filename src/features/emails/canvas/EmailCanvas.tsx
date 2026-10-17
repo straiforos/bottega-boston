@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { Button } from '@/design-system/bottega-f5161c';
-import { ArrowIcon } from '@/components/ArrowIcon';
+import { EditorIcon } from '@/components/EditorIcon';
 import { clubContent } from '@/content/en/club';
 import type { EmailBlock } from '@/lib/email/blocks';
 
