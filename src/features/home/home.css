@@ -290,6 +290,21 @@
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
+  touch-action: pan-x pan-y;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
+}
+@media (max-width: 900px) {
+  /* Bigger tiles on touch screens, with the next one peeking. */
+  .gallery {
+    grid-auto-columns: 45%;
+    scroll-snap-type: x proximity;
+  }
+}
+@media (max-width: 600px) {
+  .gallery {
+    grid-auto-columns: 75%;
+  }
 }
 .gallery::-webkit-scrollbar {
   display: none;

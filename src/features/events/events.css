@@ -19,6 +19,9 @@
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
+  touch-action: pan-x pan-y;
+  overscroll-behavior-x: contain;
+  -webkit-overflow-scrolling: touch;
   padding: var(--bt-space-sm);
   margin: calc(-1 * var(--bt-space-sm));
 }
@@ -47,12 +50,9 @@
 }
 @media (max-width: 900px) {
   .events-grid {
-    grid-auto-columns: min(100%, calc(var(--bt-space-8) * 5));
-  }
-  /* Full-width swipeable cards: the floating arrows would cover the artwork,
-     and the peeking next card already signals the row scrolls. */
-  .events-arrow {
-    display: none;
+    /* Leave the next card peeking so the row reads as swipeable. */
+    grid-auto-columns: min(85%, calc(var(--bt-space-8) * 5));
+    scroll-snap-type: x proximity;
   }
 }
 .event-card {
