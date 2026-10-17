@@ -1,9 +1,9 @@
 # App architecture
 
-- Compose the single-page restaurant experience at the index route using the attached Bottega components and canonical CSS; preserve the library-owned appearance.
-- Keep original uploaded and downloaded media in CDN pointer imports; do not embed raw binary copies in app source.
+- Compose the index restaurant page with attached Bottega components and canonical CSS, preserving vendor appearance.
+- Keep app media in CDN pointer imports, not raw binaries. Store unsaved staff files as IndexedDB Blobs keyed by editor draft; expire with drafts and clear on save/cancel so refresh preserves uploads.
 - Keep offering cards aligned and animate their wrappers with scroll-linked sequential reveals inside a pinned (sticky) track on desktop so the section holds until all cards land; rise and fall track scroll position and reverse; preserve library component appearance and respect reduced motion so updates remain compatible and content stays accessible.
-- Use a wrapper layout for the overlapping club ribbon; library components retain their own appearance so design-system updates remain compatible.
+- Overlap the club ribbon through wrapper layout, preserving library appearance for updates.
 - Compose alternating sketch separators around the library marquee and keep the home menu introduction inside the pinned offerings section to avoid duplicate section headings.
 - Keep the real menu in a dedicated /menu route with source-derived structured data and individual illustrative image imports; home menu actions use a TanStack createLink wrapper around LinkAction without editing vendor components.
 - Compose both page headers through BottegaHeader using the library's separate mark and wordmark variants and router-aware LinkAction navigation so branding and navigation remain consistent.

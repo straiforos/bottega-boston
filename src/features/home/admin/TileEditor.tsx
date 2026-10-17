@@ -2,6 +2,7 @@ import { useState, type FormEvent } from 'react';
 import { Button, Card, FileUpload, TextField } from '@/design-system/bottega-f5161c';
 import { useSnackbar } from '@/design-system/bottega-f5161c/bottega';
 import { adminDraftKey, useAdminDraft } from '@/lib/events/form-draft';
+import { useMediaDraft } from '@/lib/events/media-draft';
 import { staffContent } from '@/content/en/staff';
 import { validateTileDraft } from '@/lib/gallery/gallery-api';
 import type { TileDraft } from '@/lib/gallery/types';
@@ -21,7 +22,7 @@ export function TileEditor({ initial, requireFile = false, onSave, onCancel, dra
   const [draft, setDraft] = useState<TileDraft>(initial);
   const { show } = useSnackbar();
   const clearDraft = useAdminDraft(adminDraftKey(draftScope), draft, initial, setDraft);
-  const [file, setFile] = useState<File | null>(null);
+  const { file, setFile, clearMedia, ready: mediaReady } = useMediaDraft(adminDraftKey(draftScope), () => show({ message: staffContent.mediaDraftFailed, variant: 'danger' }));
   const [error, setError] = useState<string | null>(null);
   const [progress, setProgress] = useState<number | null>(null);
   const [saving, setSaving] = useState(false);
@@ -41,6 +42,7 @@ export function TileEditor({ initial, requireFile = false, onSave, onCancel, dra
     try {
       await onSave(draft, file, (fraction) => setProgress(Math.round(fraction * 100)));
       clearDraft();
+      await clearMedia();
       show({ message: staffContent.changesSaved, variant: 'success' });
     } catch {
       setError(staffContent.failed);
@@ -72,7 +74,7 @@ export function TileEditor({ initial, requireFile = false, onSave, onCancel, dra
           onFilesChange={(files) => setFile(files[0] ?? null)}
           onReject={() => setError(t.rejected)}
           error={file ? (mediaSizeError(file.size) ?? undefined) : undefined}
-          disabled={saving}
+          disabled={saving || !mediaReady}
         >
           {t.hint}
         </FileUpload>
@@ -95,11 +97,12 @@ export function TileEditor({ initial, requireFile = false, onSave, onCancel, dra
           </p>
         )}
         <div className="gallery-editor-actions" aria-live="polite">
-          <Button type="submit" size="sm" disabled={saving}>
+          <Button type="submit" size="sm" disabled={saving || !mediaReady}>
             {status}
           </Button>
           <Button variant="ghost" size="sm" onClick={() => {
             clearDraft();
+            void clearMedia();
             onCancel();
           }} disabled={saving}>
             {staffContent.cancel}
