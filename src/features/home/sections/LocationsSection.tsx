@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Button, Display, LinkAction, TextField } from '@/design-system/bottega-f5161c';
+import { BottegaMap, Button, Display, LinkAction, TextField } from '@/design-system/bottega-f5161c';
 import { restaurantContent } from '@/content/en/restaurant';
 import { links, orderLocations } from '@/content/links';
 import { useStaffSession } from '@/hooks/useStaffSession';
@@ -11,11 +11,6 @@ import {
   saveOrderUrls,
   type OrderUrls,
 } from '@/lib/home/order-locations';
-
-/** Keyless Google Maps embed centered on the address with a pin. */
-export function mapEmbedUrl(address: string) {
-  return `https://maps.google.com/maps?q=${encodeURIComponent(address)}&z=15&output=embed`;
-}
 
 /** Staff-only form to change each shop's ordering link. */
 function OrderUrlsEditor({ urls, onDone }: { urls: OrderUrls; onDone: () => void }) {
@@ -100,12 +95,11 @@ export function LocationsSection() {
       <div className="locations-grid">
         {orderLocations.map((location) => (
           <article key={location.id} className="order-location">
-            <iframe
-              className="order-location-map"
-              title={`${copy.mapLabel} ${location.name}`}
-              src={mapEmbedUrl(location.mapQuery)}
-              loading="lazy"
-              referrerPolicy="no-referrer-when-downgrade"
+            <BottegaMap
+              label={`${copy.mapLabel} ${location.name}`}
+              center={location.coordinates}
+              markers={[{ ...location.coordinates, title: location.name }]}
+              size="md"
             />
             <Display as="h3" size="sm" tone="forest">
               {location.name}

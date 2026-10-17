@@ -156,10 +156,3 @@ a:focus-visible {
 .order-location address {
   font-style: normal;
 }
-.order-location-map {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  border-width: var(--bt-border-thin);
-  border-style: solid;
-  border-color: var(--bt-forest);
-}
