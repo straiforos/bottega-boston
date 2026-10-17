@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
-import { Button, PillLabel } from '@/design-system/bottega-f5161c';
+import { Button } from '@/design-system/bottega-f5161c';
 import { ArrowIcon } from '@/components/ArrowIcon';
 import { clubContent } from '@/content/en/club';
 import type { EmailBlock } from '@/lib/email/blocks';
@@ -27,7 +27,19 @@ interface Props {
 }
 
 /** The live email as an editing surface: the iframe reports block geometry, overlays draw Bottega controls on top. */
-export function EmailCanvas({ html, device, blocks, selectedId, disabled, onSelect, onKey, onMove, onDuplicate, onRemove, onInsert }: Props) {
+export function EmailCanvas({
+  html,
+  device,
+  blocks,
+  selectedId,
+  disabled,
+  onSelect,
+  onKey,
+  onMove,
+  onDuplicate,
+  onRemove,
+  onInsert,
+}: Props) {
   const frame = useRef<HTMLIFrameElement>(null);
   const [rects, setRects] = useState<Rect[]>([]);
   const [scrollY, setScrollY] = useState(0);
@@ -57,54 +69,70 @@ export function EmailCanvas({ html, device, blocks, selectedId, disabled, onSele
 
   return (
     <div className={`email-canvas email-canvas--${device}`}>
-      <iframe
-        ref={frame}
-        className={`email-preview-frame email-preview-frame--${device}`}
-        title={t.preview}
-        srcDoc={html}
-        sandbox="allow-scripts"
-      />
       {!disabled && (
-        <div className="email-canvas-layer" aria-hidden={!selected}>
-          {hovered && <div className="email-canvas-box email-canvas-box--hover" style={place(hovered)} />}
-          {selected && selectedBlock && (
-            <div className="email-canvas-box email-canvas-box--selected" style={place(selected)}>
-              <div className="email-canvas-label">
-                <PillLabel variant="chip-forest">{t.blockNames[selectedBlock.type]}</PillLabel>
-              </div>
-              <div className="email-canvas-tools">
-                <Button size="sm" aria-label={t.moveUp} disabled={indexOf(selected.id) === 0} onClick={() => onMove(selected.id, -1)}>
-                  <ArrowIcon direction="left" size="sm" />
-                </Button>
-                <Button
-                  size="sm"
-                  aria-label={t.moveDown}
-                  disabled={indexOf(selected.id) === blocks.length - 1}
-                  onClick={() => onMove(selected.id, 1)}
-                >
-                  <ArrowIcon direction="right" size="sm" />
-                </Button>
-                <Button size="sm" onClick={() => onDuplicate(selected.id)}>
-                  {t.duplicate}
-                </Button>
-                <Button size="sm" onClick={() => onRemove(selected.id)}>
-                  {t.remove}
-                </Button>
-              </div>
-              <div className="email-canvas-insert email-canvas-insert--above">
-                <Button size="sm" variant="accent" aria-label={t.insertAbove} onClick={() => onInsert(indexOf(selected.id))}>
-                  +
-                </Button>
-              </div>
-              <div className="email-canvas-insert email-canvas-insert--below">
-                <Button size="sm" variant="accent" aria-label={t.insertBelow} onClick={() => onInsert(indexOf(selected.id) + 1)}>
-                  +
-                </Button>
-              </div>
-            </div>
-          )}
+        <div className="email-canvas-bar" aria-label={t.blocks} role="toolbar">
+          <div className="email-canvas-tools">
+            <Button
+              size="sm"
+              aria-label={t.moveUp}
+              disabled={!selected || indexOf(selectedId!) === 0}
+              onClick={() => onMove(selectedId!, -1)}
+            >
+              <ArrowIcon direction="left" size="sm" />
+            </Button>
+            <Button
+              size="sm"
+              aria-label={t.moveDown}
+              disabled={!selected || indexOf(selectedId!) === blocks.length - 1}
+              onClick={() => onMove(selectedId!, 1)}
+            >
+              <ArrowIcon direction="right" size="sm" />
+            </Button>
+            <Button size="sm" disabled={!selected} onClick={() => onDuplicate(selectedId!)}>
+              {t.duplicate}
+            </Button>
+            <Button size="sm" disabled={!selected} onClick={() => onRemove(selectedId!)}>
+              {t.removeShort}
+            </Button>
+            <Button
+              size="sm"
+              variant="accent"
+              aria-label={t.insertAbove}
+              onClick={() => onInsert(indexOf(selectedId!))}
+            >
+              + {t.above}
+            </Button>
+          </div>
         </div>
       )}
+      <div className="email-canvas-stage">
+        <iframe
+          ref={frame}
+          className={`email-preview-frame email-preview-frame--${device}`}
+          title={t.preview}
+          srcDoc={html}
+          sandbox="allow-scripts"
+        />
+        {!disabled && (
+          <div className="email-canvas-layer" aria-hidden={!selected}>
+            {hovered && <div className="email-canvas-box email-canvas-box--hover" style={place(hovered)} />}
+            {selected && selectedBlock && (
+              <div className="email-canvas-box email-canvas-box--selected" style={place(selected)}>
+                <div className="email-canvas-insert email-canvas-insert--below">
+                  <Button
+                    size="sm"
+                    variant="accent"
+                    aria-label={t.insertBelow}
+                    onClick={() => onInsert(indexOf(selected.id) + 1)}
+                  >
+                    + {t.below}
+                  </Button>
+                </div>
+              </div>
+            )}
+          </div>
+        )}
+      </div>
       <p className="email-canvas-live" role="status" aria-live="polite">
         {selectedBlock ? t.selected(t.blockNames[selectedBlock.type]) : ''}
       </p>
