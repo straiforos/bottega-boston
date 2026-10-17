@@ -72,6 +72,8 @@ export const eventsContent = {
     dietary: 'Dietary needs',
     notes: 'Anything else?',
     order: 'Your order',
+    trayCategories: 'Catering categories',
+    orderSummary: 'Order summary',
     addItem: 'Add to order',
     item: 'Tray',
     pickItem: 'Choose a tray',

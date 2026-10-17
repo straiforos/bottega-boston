@@ -1,10 +1,12 @@
-import { useId, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Button, Serif } from '@/design-system/bottega-f5161c';
 import { eventsContent } from '@/content/en/events';
 import { menuQueryOptions } from '@/lib/menu/menu-api';
 import { menuSections as bundledMenu } from '@/lib/menu-data';
 import { formatMoney, orderTotal, parsePriceOptions, type OrderLine, type OrderLineInput } from '@/lib/events/requests';
+import { EditorIcon } from '@/components/EditorIcon';
+import { OrderTrayCard } from './OrderTrayCard';
 
 const t = eventsContent.requests;
 
@@ -23,11 +25,8 @@ export function OrderPicker({ lines, onChange, error }: Props) {
   }, [data]);
   const items = useMemo(() => new Map(catalog.flatMap((s) => s.items.map((i) => [i.id, i] as const))), [catalog]);
 
-  const [itemId, setItemId] = useState('');
-  const [option, setOption] = useState('');
-  const [quantity, setQuantity] = useState(1);
-  const ids = { item: useId(), size: useId(), qty: useId() };
-  const options = itemId ? parsePriceOptions(items.get(itemId)?.price ?? '') : [];
+  const [sectionId, setSectionId] = useState<string | null>(null);
+  const section = catalog.find((s) => s.id === sectionId) ?? catalog[0];
 
   const priced: OrderLine[] = lines.map((l) => {
     const item = items.get(l.itemId);
@@ -35,75 +34,37 @@ export function OrderPicker({ lines, onChange, error }: Props) {
     return { ...l, name: item?.name ?? l.itemId, unitPrice: opt?.amount ?? null };
   });
 
-  const add = () => {
-    if (!itemId) return;
-    const chosen = options.length > 1 ? option : (options[0]?.label ?? '');
-    if (options.length > 1 && !chosen) return;
-    const existing = lines.findIndex((l) => l.itemId === itemId && l.option === chosen);
+  const add = ({ itemId, option, quantity }: OrderLineInput) => {
+    const existing = lines.findIndex((l) => l.itemId === itemId && l.option === option);
     const next =
       existing >= 0
         ? lines.map((l, i) => (i === existing ? { ...l, quantity: Math.min(50, l.quantity + quantity) } : l))
-        : [...lines, { itemId, option: chosen, quantity }];
+        : [...lines, { itemId, option, quantity }];
     onChange(next);
-    setItemId('');
-    setOption('');
-    setQuantity(1);
   };
 
   return (
     <fieldset className="request-order">
       <legend className="bt-field__label">{t.order}</legend>
-      <div className="request-order-add">
-        <div className="bt-field">
-          <label className="bt-field__label" htmlFor={ids.item}>{t.item}</label>
-          <select
-            id={ids.item}
-            className="bt-input"
-            value={itemId}
-            onChange={(e) => {
-              setItemId(e.target.value);
-              setOption('');
-            }}
-          >
-            <option value="">{t.pickItem}</option>
-            {catalog.map((s) => (
-              <optgroup key={s.id} label={s.name}>
-                {s.items.map((i) => (
-                  <option key={i.id} value={i.id}>{`${i.name} — ${i.price}`}</option>
-                ))}
-              </optgroup>
-            ))}
-          </select>
-        </div>
-        {options.length > 1 && (
-          <div className="bt-field">
-            <label className="bt-field__label" htmlFor={ids.size}>{t.size}</label>
-            <select id={ids.size} className="bt-input" value={option} onChange={(e) => setOption(e.target.value)}>
-              <option value="">{t.size}</option>
-              {options.map((o) => (
-                <option key={o.label} value={o.label}>
-                  {o.amount != null ? `${o.label} ${formatMoney(o.amount)}` : o.label}
-                </option>
-              ))}
-            </select>
-          </div>
-        )}
-        <div className="bt-field">
-          <label className="bt-field__label" htmlFor={ids.qty}>{t.quantity}</label>
-          <input
-            id={ids.qty}
-            className="bt-input"
-            type="number"
-            min={1}
-            max={50}
-            value={quantity}
-            onChange={(e) => setQuantity(Math.max(1, Math.min(50, Number(e.target.value) || 1)))}
-          />
-        </div>
-        <Button type="button" variant="outline" size="sm" onClick={add} disabled={!itemId || (options.length > 1 && !option)}>
-          {t.addItem}
-        </Button>
+      <div className="request-catalog-categories" role="group" aria-label={t.trayCategories}>
+        {catalog.map((category) => (
+          <Button key={category.id} type="button" variant={section?.id === category.id ? 'primary' : 'outline'} size="sm"
+            aria-pressed={section?.id === category.id} onClick={() => setSectionId(category.id)}>
+            {category.name}
+          </Button>
+        ))}
       </div>
+      {section && (
+        <section className="request-catalog-section" aria-label={section.name}>
+          <Serif as="h3" size="md" tone="forest">{section.name}</Serif>
+          {section.note && <p className="request-muted">{section.note}</p>}
+          <div className="request-catalog-grid">
+            {section.items.map((item) => <OrderTrayCard key={item.id} item={item} onAdd={add} />)}
+          </div>
+        </section>
+      )}
+      <Serif as="h3" size="sm" tone="forest">{t.orderSummary}</Serif>
+      <div aria-live="polite" aria-atomic="true">
       {priced.length === 0 ? (
         <p className="request-muted">{t.empty}</p>
       ) : (
@@ -115,8 +76,8 @@ export function OrderPicker({ lines, onChange, error }: Props) {
                 {l.option ? ` (${l.option})` : ''}
               </span>
               <span>{l.unitPrice != null ? formatMoney(l.unitPrice * l.quantity) : ''}</span>
-              <Button type="button" variant="ghost" size="sm" onClick={() => onChange(lines.filter((_, i) => i !== index))}>
-                {t.remove}
+              <Button type="button" variant="outline" size="sm" aria-label={`${t.remove}: ${l.name}${l.option ? ` (${l.option})` : ''}`} onClick={() => onChange(lines.filter((_, i) => i !== index))}>
+                <EditorIcon kind="trash" />
               </Button>
             </li>
           ))}
@@ -128,6 +89,7 @@ export function OrderPicker({ lines, onChange, error }: Props) {
           <p className="request-muted">{t.totalNote}</p>
         </div>
       )}
+      </div>
       {error && <p className="request-error" role="alert">{error}</p>}
     </fieldset>
   );
