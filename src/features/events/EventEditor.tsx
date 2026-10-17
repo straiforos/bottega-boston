@@ -231,7 +231,7 @@ function EventForm({ event, onClose }: { event: BottegaEvent | null; onClose: ()
             title={f.removePhoto}
             onClick={() => set({ imageUrl: null })}
           >
-            <svg className="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+            <svg className="editor-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
               <path d="M6 6l12 12M18 6L6 18" />
             </svg>
           </Button>
