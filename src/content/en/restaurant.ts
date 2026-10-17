@@ -18,6 +18,8 @@ export const restaurantContent = {
     order: 'Order now ↗',
     siteAdmin: 'Site Admin',
     emails: 'Emails',
+    adminEvents: 'Events',
+    adminRequests: 'Requests',
   },
   metadata: {
     home: {

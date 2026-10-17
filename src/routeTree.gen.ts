@@ -17,6 +17,8 @@ import { Route as SiteMenuRouteImport } from './routes/_site/menu'
 import { Route as SiteUnsubscribedRouteImport } from './routes/_site/unsubscribed'
 import { Route as Char91__componentChar93PreviewSplatRouteImport } from './routes/[__component].preview.$'
 import { Route as Char91__mockupChar93PreviewSplatRouteImport } from './routes/[__mockup].preview.$'
+import { Route as SiteAdminEventsRouteImport } from './routes/_site/admin.events'
+import { Route as SiteAdminRequestsRouteImport } from './routes/_site/admin.requests'
 import { Route as SiteEmailsComposeRouteImport } from './routes/_site/emails_.compose'
 import { Route as SiteEmailsWelcomeRouteImport } from './routes/_site/emails_.welcome'
 import { Route as SiteEventsRequestRouteImport } from './routes/_site/events.request'
@@ -66,6 +68,16 @@ const Char91__mockupChar93PreviewSplatRoute =
     path: '/__mockup/preview/$',
     getParentRoute: () => rootRouteImport,
   } as any)
+const SiteAdminEventsRoute = SiteAdminEventsRouteImport.update({
+  id: '/admin/events',
+  path: '/admin/events',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteAdminRequestsRoute = SiteAdminRequestsRouteImport.update({
+  id: '/admin/requests',
+  path: '/admin/requests',
+  getParentRoute: () => SiteRoute,
+} as any)
 const SiteEmailsComposeRoute = SiteEmailsComposeRouteImport.update({
   id: '/emails_/compose',
   path: '/emails/compose',
@@ -110,6 +122,8 @@ export interface FileRoutesByFullPath {
   '/unsubscribed': typeof SiteUnsubscribedRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
+  '/admin/events': typeof SiteAdminEventsRoute
+  '/admin/requests': typeof SiteAdminRequestsRoute
   '/emails/compose': typeof SiteEmailsComposeRoute
   '/emails/welcome': typeof SiteEmailsWelcomeRoute
   '/events/request': typeof SiteEventsRequestRoute
@@ -126,6 +140,8 @@ export interface FileRoutesByTo {
   '/': typeof SiteIndexRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
+  '/admin/events': typeof SiteAdminEventsRoute
+  '/admin/requests': typeof SiteAdminRequestsRoute
   '/emails/compose': typeof SiteEmailsComposeRoute
   '/emails/welcome': typeof SiteEmailsWelcomeRoute
   '/events/request': typeof SiteEventsRequestRoute
@@ -144,6 +160,8 @@ export interface FileRoutesById {
   '/_site/': typeof SiteIndexRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
+  '/_site/admin/events': typeof SiteAdminEventsRoute
+  '/_site/admin/requests': typeof SiteAdminRequestsRoute
   '/_site/emails_/compose': typeof SiteEmailsComposeRoute
   '/_site/emails_/welcome': typeof SiteEmailsWelcomeRoute
   '/_site/events/request': typeof SiteEventsRequestRoute
@@ -162,6 +180,8 @@ export interface FileRouteTypes {
     | '/unsubscribed'
     | '/__component/preview/$'
     | '/__mockup/preview/$'
+    | '/admin/events'
+    | '/admin/requests'
     | '/emails/compose'
     | '/emails/welcome'
     | '/events/request'
@@ -178,6 +198,8 @@ export interface FileRouteTypes {
     | '/'
     | '/__component/preview/$'
     | '/__mockup/preview/$'
+    | '/admin/events'
+    | '/admin/requests'
     | '/emails/compose'
     | '/emails/welcome'
     | '/events/request'
@@ -195,6 +217,8 @@ export interface FileRouteTypes {
     | '/_site/'
     | '/__component/preview/$'
     | '/__mockup/preview/$'
+    | '/_site/admin/events'
+    | '/_site/admin/requests'
     | '/_site/emails_/compose'
     | '/_site/emails_/welcome'
     | '/_site/events/request'
@@ -271,6 +295,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof Char91__mockupChar93PreviewSplatRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_site/admin/events': {
+      id: '/_site/admin/events'
+      path: '/admin/events'
+      fullPath: '/admin/events'
+      preLoaderRoute: typeof SiteAdminEventsRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/admin/requests': {
+      id: '/_site/admin/requests'
+      path: '/admin/requests'
+      fullPath: '/admin/requests'
+      preLoaderRoute: typeof SiteAdminRequestsRouteImport
+      parentRoute: typeof SiteRoute
+    }
     '/_site/emails_/compose': {
       id: '/_site/emails_/compose'
       path: '/emails/compose'
@@ -329,6 +367,8 @@ interface SiteRouteChildren {
   SiteMenuRoute: typeof SiteMenuRoute
   SiteUnsubscribedRoute: typeof SiteUnsubscribedRoute
   SiteIndexRoute: typeof SiteIndexRoute
+  SiteAdminEventsRoute: typeof SiteAdminEventsRoute
+  SiteAdminRequestsRoute: typeof SiteAdminRequestsRoute
   SiteEmailsComposeRoute: typeof SiteEmailsComposeRoute
   SiteEmailsWelcomeRoute: typeof SiteEmailsWelcomeRoute
   SiteEventsRequestRoute: typeof SiteEventsRequestRoute
@@ -341,6 +381,8 @@ const SiteRouteChildren: SiteRouteChildren = {
   SiteMenuRoute: SiteMenuRoute,
   SiteUnsubscribedRoute: SiteUnsubscribedRoute,
   SiteIndexRoute: SiteIndexRoute,
+  SiteAdminEventsRoute: SiteAdminEventsRoute,
+  SiteAdminRequestsRoute: SiteAdminRequestsRoute,
   SiteEmailsComposeRoute: SiteEmailsComposeRoute,
   SiteEmailsWelcomeRoute: SiteEmailsWelcomeRoute,
   SiteEventsRequestRoute: SiteEventsRequestRoute,
