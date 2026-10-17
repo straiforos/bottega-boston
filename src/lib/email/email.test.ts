@@ -45,3 +45,58 @@ describe('email drafts', () => {
     expect(chunk(Array.from({ length: 250 }), 100).map((g) => g.length)).toEqual([100, 100, 50]);
   });
 });
+
+import { applyVariables, newBlock } from './blocks';
+import { toWaypointDocument } from './render-email';
+import { eventEffect, verifySvixSignature } from './webhook';
+
+describe('templates and Waypoint documents', () => {
+  it('fills {{fields}} and keeps unknown ones', () => {
+    const d = applyVariables(
+      { subject: 'Hi {{guest_name}}', preheader: '{{x}}', blocks: [{ id: 'a', type: 'text', text: 'For {{guest_count}}' }] },
+      { guest_name: 'Ana', guest_count: '12' },
+    );
+    expect(d.subject).toBe('Hi Ana');
+    expect(d.preheader).toBe('{{x}}');
+    expect(d.blocks[0]).toMatchObject({ text: 'For 12' });
+  });
+  it('escapes HTML typed into a fill-in field', () => {
+    const d = applyVariables({ subject: 's', preheader: '', blocks: [{ id: 'a', type: 'headline', text: '{{n}}' }] }, { n: '<b>' });
+    expect(renderEmail(d, opts)).toContain('&lt;b&gt;');
+  });
+  it('wraps blocks in the Bottega header and footer', () => {
+    const doc = toWaypointDocument(defaultWelcome, opts) as Record<string, { data: { childrenIds?: string[] } }>;
+    const ids = doc.root.data.childrenIds!;
+    expect(ids[0]).toBe('header');
+    expect(ids.at(-1)).toBe('footer');
+  });
+  it('blocks sending with a placeholder photo', () => {
+    expect(validateDraft({ ...defaultWelcome, blocks: [newBlock('columns')] })).toMatch(/picture/);
+  });
+});
+
+describe('Resend webhook', () => {
+  const secret = 'whsec_' + btoa('test-secret-key');
+  async function sign(id: string, ts: string, body: string) {
+    const key = await crypto.subtle.importKey('raw', new TextEncoder().encode('test-secret-key'), { name: 'HMAC', hash: 'SHA-256' }, false, ['sign']);
+    const mac = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(`${id}.${ts}.${body}`));
+    return 'v1,' + btoa(String.fromCharCode(...new Uint8Array(mac)));
+  }
+  it('accepts a correctly signed delivery', async () => {
+    const signature = await sign('msg_1', '1000', '{}');
+    expect(await verifySvixSignature({ secret, id: 'msg_1', timestamp: '1000', signature, body: '{}', nowSeconds: 1000 })).toBe(true);
+  });
+  it('rejects a tampered body', async () => {
+    const signature = await sign('msg_1', '1000', '{}');
+    expect(await verifySvixSignature({ secret, id: 'msg_1', timestamp: '1000', signature, body: '{"x":1}', nowSeconds: 1000 })).toBe(false);
+  });
+  it('rejects deliveries older than five minutes', async () => {
+    const signature = await sign('msg_1', '1000', '{}');
+    expect(await verifySvixSignature({ secret, id: 'msg_1', timestamp: '1000', signature, body: '{}', nowSeconds: 1301 })).toBe(false);
+  });
+  it('marks bounced and spam-reporting addresses', () => {
+    expect(eventEffect('email.bounced')?.subscriberStatus).toBe('bounced');
+    expect(eventEffect('email.complained')?.subscriberStatus).toBe('complained');
+    expect(eventEffect('email.opened')?.subscriberStatus).toBeUndefined();
+  });
+});
