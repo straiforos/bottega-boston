@@ -1,4 +1,5 @@
-import { useEffect, useId, useState, type FormEvent } from 'react';
+import { useEffect, useId, useMemo, useState, type FormEvent } from 'react';
+import { staffContent } from '@/content/en/staff';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from '@tanstack/react-router';
 import { Button, Checkbox, Display, FileUpload, Radio, TextField } from '@/design-system/bottega-f5161c';
@@ -268,7 +269,7 @@ function EventForm({ event, onClose }: { event: BottegaEvent | null; onClose: ()
 
       {error && <p className="request-error" role="alert">{error}</p>}
       <div className="event-editor-actions">
-        <Button type="button" variant="ghost" onClick={onClose} disabled={saving}>{t.cancel}</Button>
+        <Button type="button" variant="ghost" onClick={() => { clearDraft(); onClose(); }} disabled={saving}>{t.cancel}</Button>
         <Button type="submit" disabled={saving}>{saving ? t.saving : t.save}</Button>
       </div>
     </form>

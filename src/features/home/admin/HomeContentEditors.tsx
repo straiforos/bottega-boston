@@ -1,4 +1,6 @@
 import { useState, type FormEvent, type ReactNode } from 'react';
+import { useSnackbar } from '@/design-system/bottega-f5161c/bottega';
+import { adminDraftKey, clearStoredDraft, isDirty, readDraft, useAdminDraft } from '@/lib/events/form-draft';
 import { useQueryClient } from '@tanstack/react-query';
 import { Button, Card, Checkbox, FileUpload, Radio, TextField } from '@/design-system/bottega-f5161c';
 import { staffContent } from '@/content/en/staff';
@@ -42,9 +44,13 @@ function EditShell<T>({ label, contentKey, initial, withImage, validate, toData,
   const [saving, setSaving] = useState(false);
   const [progress, setProgress] = useState<number | null>(null);
   const queryClient = useQueryClient();
+  const { show } = useSnackbar();
+  const key = adminDraftKey(`home:${contentKey}`);
+  useAdminDraft(key, draft, initial, () => {}, open);
 
   const start = () => {
-    setDraft(initial);
+    const saved = readDraft<T>(key);
+    setDraft(saved && isDirty(saved, initial) ? saved : initial);
     setFile(null);
     setError(null);
     setOpen(true);
@@ -53,16 +59,23 @@ function EditShell<T>({ label, contentKey, initial, withImage, validate, toData,
   const submit = async (event: FormEvent) => {
     event.preventDefault();
     const problem = validate(draft);
-    if (problem) return setError(problem);
+    if (problem) {
+      setError(problem);
+      show({ message: problem, variant: 'danger' });
+      return;
+    }
     setSaving(true);
     setError(null);
     try {
       const url = file ? await uploadImage(contentKey, file, (f) => setProgress(Math.round(f * 100))) : null;
       await saveHomeContent(contentKey, toData(draft, url));
       await queryClient.invalidateQueries({ queryKey: homeContentQueryOptions.queryKey });
+      clearStoredDraft(key);
+      show({ message: staffContent.changesSaved, variant: 'success' });
       setOpen(false);
     } catch {
       setError(staffContent.failed);
+      show({ message: staffContent.failed, variant: 'danger' });
     } finally {
       setSaving(false);
       setProgress(null);
