@@ -4,7 +4,9 @@ import { requireSupabaseAuth } from '@/integrations/supabase/auth-middleware';
 import type { Json } from '@/integrations/supabase/types';
 import { chunk, defaultWelcome, emailDraftSchema, WELCOME_KEY, type EmailDraft } from './blocks';
 
-type AuthedSupabase = { rpc: (fn: 'has_role', args: { _user_id: string; _role: 'admin' }) => PromiseLike<{ data: unknown; error: unknown }> };
+type AuthedSupabase = {
+  rpc: (fn: 'has_role', args: { _user_id: string; _role: 'admin' }) => PromiseLike<{ data: unknown; error: unknown }>;
+};
 
 async function assertAdmin(supabase: AuthedSupabase, userId: string) {
   const { data, error } = await supabase.rpc('has_role', { _user_id: userId, _role: 'admin' });
@@ -57,7 +59,10 @@ export const joinClub = createServerFn({ method: 'POST' })
           .eq('key', WELCOME_KEY)
           .maybeSingle();
         await sendOne(buildEmail(toDraft(template), data.email, row.unsubscribe_token, siteOrigin()));
-        await supabaseAdmin.from('club_subscribers').update({ welcome_sent_at: new Date().toISOString() }).eq('id', row.id);
+        await supabaseAdmin
+          .from('club_subscribers')
+          .update({ welcome_sent_at: new Date().toISOString() })
+          .eq('id', row.id);
       } catch (sendError) {
         console.error('Welcome email failed', sendError);
       }

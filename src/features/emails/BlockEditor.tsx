@@ -52,7 +52,13 @@ function RichText({ value, onChange }: { value: string; onChange: (text: string)
   );
 }
 
-function PhotoFields({ block, onChange }: { block: Extract<EmailBlock, { type: 'photo' }>; onChange: BlockEditorProps['onChange'] }) {
+function PhotoFields({
+  block,
+  onChange,
+}: {
+  block: Extract<EmailBlock, { type: 'photo' }>;
+  onChange: BlockEditorProps['onChange'];
+}) {
   const [status, setStatus] = useState<string | null>(null);
   const [error, setError] = useState<string | undefined>();
   const pick = async (files: File[]) => {
@@ -86,7 +92,12 @@ function PhotoFields({ block, onChange }: { block: Extract<EmailBlock, { type: '
       >
         {status ? `Preparing photo… ${status}` : 'We resize it so it loads fast in inboxes'}
       </FileUpload>
-      <TextField label={t.photoAlt} required value={block.alt} onChange={(e) => onChange({ ...block, alt: e.target.value })} />
+      <TextField
+        label={t.photoAlt}
+        required
+        value={block.alt}
+        onChange={(e) => onChange({ ...block, alt: e.target.value })}
+      />
     </>
   );
 }
@@ -110,16 +121,28 @@ export function BlockEditor({ block, first, last, onChange, onMove, onRemove }: 
           </div>
         </div>
         {block.type === 'headline' && (
-          <TextField label={t.blockNames.headline} value={block.text} onChange={(e) => onChange({ ...block, text: e.target.value })} />
+          <TextField
+            label={t.blockNames.headline}
+            value={block.text}
+            onChange={(e) => onChange({ ...block, text: e.target.value })}
+          />
         )}
         {block.type === 'marquee' && (
-          <TextField label={t.blockNames.marquee} value={block.text} onChange={(e) => onChange({ ...block, text: e.target.value })} />
+          <TextField
+            label={t.blockNames.marquee}
+            value={block.text}
+            onChange={(e) => onChange({ ...block, text: e.target.value })}
+          />
         )}
         {block.type === 'text' && <RichText value={block.text} onChange={(text) => onChange({ ...block, text })} />}
         {block.type === 'photo' && <PhotoFields block={block} onChange={onChange} />}
         {block.type === 'button' && (
           <>
-            <TextField label={t.buttonLabel} value={block.label} onChange={(e) => onChange({ ...block, label: e.target.value })} />
+            <TextField
+              label={t.buttonLabel}
+              value={block.label}
+              onChange={(e) => onChange({ ...block, label: e.target.value })}
+            />
             <TextField
               label={t.buttonUrl}
               type="url"

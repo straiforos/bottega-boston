@@ -63,14 +63,16 @@ export function EmailEditorPage({ mode }: { mode: 'compose' | 'welcome' }) {
 
   useEffect(() => {
     if (!isAdmin) return;
-    void loadOverview().then(setOverview).catch(() => undefined);
-    if (mode === 'welcome') void loadWelcome().then(setDraft).catch(() => undefined);
+    void loadOverview()
+      .then(setOverview)
+      .catch(() => undefined);
+    if (mode === 'welcome')
+      void loadWelcome()
+        .then(setDraft)
+        .catch(() => undefined);
   }, [isAdmin, mode, loadOverview, loadWelcome]);
 
-  const html = useMemo(
-    () => renderEmail(draft, { logoUrl, siteUrl: '#', unsubscribeUrl: '#', address }),
-    [draft],
-  );
+  const html = useMemo(() => renderEmail(draft, { logoUrl, siteUrl: '#', unsubscribeUrl: '#', address }), [draft]);
 
   const updateBlock = (block: EmailBlock) =>
     setDraft((d) => ({ ...d, blocks: d.blocks.map((b) => (b.id === block.id ? block : b)) }));

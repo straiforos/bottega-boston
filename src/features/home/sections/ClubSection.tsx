@@ -26,7 +26,13 @@ export function ClubSection() {
   };
 
   const message =
-    state === 'joined' ? clubContent.joined : state === 'already' ? clubContent.already : state === 'failed' ? clubContent.failed : null;
+    state === 'joined'
+      ? clubContent.joined
+      : state === 'already'
+        ? clubContent.already
+        : state === 'failed'
+          ? clubContent.failed
+          : null;
 
   return (
     <section id="club" className="club bt-surface-dark">

@@ -9,9 +9,7 @@ export function siteOrigin() {
   return new URL(getRequest().url).origin;
 }
 
-const address = restaurantContent.addresses
-  .map((a) => `${a.name}, ${a.lines.join(', ')}`)
-  .join(' · ');
+const address = restaurantContent.addresses.map((a) => `${a.name}, ${a.lines.join(', ')}`).join(' · ');
 
 export function buildEmail(draft: EmailDraft, to: string, token: string | null, origin: string): OutgoingEmail {
   const unsubscribeUrl = token

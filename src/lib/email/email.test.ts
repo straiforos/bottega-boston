@@ -2,7 +2,12 @@ import { describe, expect, it } from 'vitest';
 import { chunk, defaultWelcome, moveBlock, validateDraft } from './blocks';
 import { renderEmail, renderRichText } from './render-email';
 
-const opts = { logoUrl: 'https://x/logo.png', siteUrl: 'https://x', unsubscribeUrl: 'https://x/u?token=abc', address: 'A' };
+const opts = {
+  logoUrl: 'https://x/logo.png',
+  siteUrl: 'https://x',
+  unsubscribeUrl: 'https://x/u?token=abc',
+  address: 'A',
+};
 
 describe('email rendering', () => {
   it('escapes HTML typed by staff', () => {
@@ -30,7 +35,11 @@ describe('email drafts', () => {
     expect(validateDraft(draft)).toMatch(/link/);
   });
   it('moves a block down one place', () => {
-    expect(moveBlock(defaultWelcome.blocks, 'w1', 1).map((b) => b.id).slice(0, 2)).toEqual(['w2', 'w1']);
+    expect(
+      moveBlock(defaultWelcome.blocks, 'w1', 1)
+        .map((b) => b.id)
+        .slice(0, 2),
+    ).toEqual(['w2', 'w1']);
   });
   it('sends in batches of at most 100', () => {
     expect(chunk(Array.from({ length: 250 }), 100).map((g) => g.length)).toEqual([100, 100, 50]);
