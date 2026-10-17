@@ -80,8 +80,14 @@ describe('useScrollArrows', () => {
 
   it('still shows the back arrow when a padded row has a whole card left to reveal', () => {
     const el = mount(EVENTS, 240);
-    scrollTo(el, EVENTS, 13);
+    scrollTo(el, EVENTS, 256);
     expect(shown(el).canPrev).toBe(true);
+  });
+
+  it('treats a pixel of dead padding as the end of the track', () => {
+    const el = mount(EVENTS, 240);
+    scrollTo(el, EVENTS, 12.5);
+    expect(shown(el).canPrev).toBe(false);
   });
 
   it('keeps an unpadded row retiring its arrows at the true edges', () => {
