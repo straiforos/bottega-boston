@@ -123,8 +123,8 @@ a:focus-visible {
   gap: var(--bt-space-lg);
   padding-block: var(--bt-space-xl);
   padding-inline: var(--bt-margin);
-  background: var(--bt-forest-deep);
-  color: var(--bt-cream);
+  background: var(--bt-cream);
+  color: var(--bt-ink);
   scroll-margin-top: var(--bt-space-8);
 }
 .locations-head {
