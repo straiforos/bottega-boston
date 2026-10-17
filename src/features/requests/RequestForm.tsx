@@ -4,12 +4,13 @@ import { Button, Card, Checkbox, Display, Radio, Serif, TextField } from '@/desi
 import { eventsContent } from '@/content/en/events';
 import { orderLocations } from '@/content/links';
 import { zonedToUtc } from '@/lib/events/occurrences';
-import { requestSchema, type OrderLineInput, type RequestKind } from '@/lib/events/requests';
+import { maskPhone, requestDateBounds, requestSchema, type OrderLineInput, type RequestKind } from '@/lib/events/requests';
 import { submitRequest } from '@/lib/events/requests.functions';
 import { OrderPicker } from './OrderPicker';
 import { Turnstile } from './Turnstile';
 
 const t = eventsContent.requests;
+const whenBounds = requestDateBounds();
 
 /** Guest form for catering orders or event-space bookings. */
 export function RequestForm({ kind }: { kind: RequestKind }) {
@@ -103,8 +104,8 @@ export function RequestForm({ kind }: { kind: RequestKind }) {
       <div className="request-grid">
         <TextField label={t.name} required autoComplete="name" value={form.name} error={errors.name} onChange={(e) => set({ name: e.target.value })} maxLength={100} />
         <TextField label={t.email} required type="email" autoComplete="email" value={form.email} error={errors.email} onChange={(e) => set({ email: e.target.value })} maxLength={254} />
-        <TextField label={t.phone} required type="tel" autoComplete="tel" value={form.phone} error={errors.phone} onChange={(e) => set({ phone: e.target.value })} maxLength={40} />
-        <TextField label={t.when} required type="datetime-local" value={form.when} error={errors.requestedFor} onChange={(e) => set({ when: e.target.value })} />
+        <TextField label={t.phone} required type="tel" autoComplete="tel" inputMode="tel" value={form.phone} error={errors.phone} onChange={(e) => set({ phone: maskPhone(e.target.value) })} maxLength={20} />
+        <TextField label={t.when} required type="datetime-local" min={whenBounds.min} max={whenBounds.max} value={form.when} error={errors.requestedFor} onChange={(e) => set({ when: e.target.value })} />
         {kind === 'space' && (
           <>
             <TextField label={t.guests} required type="number" min={1} max={500} value={form.guests} error={errors.guests} onChange={(e) => set({ guests: e.target.value })} />
