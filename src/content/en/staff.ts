@@ -4,7 +4,7 @@ export const staffContent = {
   signedInAs: (email: string) => `Signed in as ${email}`,
   notListed: 'This Google account isn’t on the Bottega staff list.',
   signInFailed: 'Sign in didn’t work. Please try again.',
-  editing: 'Editing the menu',
+  editing: 'Editing',
   edit: 'Edit',
   delete: 'Delete',
   confirmDeleteTitle: 'Delete this dish?',

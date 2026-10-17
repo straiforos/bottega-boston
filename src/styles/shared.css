@@ -26,11 +26,13 @@ main {
 .mobile-only {
   display: none;
 }
-.shared-header {
-  gap: var(--bt-space-lg);
+.shared-header-stack {
   position: sticky;
   top: 0;
   z-index: 10;
+}
+.shared-header {
+  gap: var(--bt-space-lg);
   transition:
     background-color var(--bt-duration) ease,
     color var(--bt-duration) ease,
