@@ -1,5 +1,6 @@
 /* Component styles — every value comes from theme.css tokens. */
 .bt-button {
+  box-sizing: border-box;
   display: inline-flex; align-items: center; justify-content: center; gap: var(--bt-space-2);
   font-family: var(--bt-font-display); font-weight: 700; line-height: 1; text-transform: uppercase; letter-spacing: var(--bt-tracking-button); text-decoration: none;
   border: var(--bt-border-thin) solid transparent; border-radius: var(--bt-radius-pill);
@@ -62,7 +63,7 @@
 @keyframes bt-marquee { to { transform: translateX(-50%); } }
 @media (prefers-reduced-motion: reduce) { .bt-marquee__track { animation: none; } }
 
-.bt-card { position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--bt-space-3); padding: var(--bt-space-5); border: var(--bt-border-width) solid var(--bt-border-accent); }
+.bt-card { box-sizing: border-box; position: relative; display: flex; flex-direction: column; align-items: center; text-align: center; gap: var(--bt-space-3); padding: var(--bt-space-5); border: var(--bt-border-width) solid var(--bt-border-accent); }
 .bt-card--cream { background: var(--bt-cream); color: var(--bt-forest); }
 .bt-card--mustard { background: var(--bt-mustard); color: var(--bt-forest); }
 .bt-card--cobalt { background: var(--bt-cobalt); color: var(--bt-white); }

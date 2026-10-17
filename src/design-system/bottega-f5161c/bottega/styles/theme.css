@@ -1,5 +1,10 @@
 /* Bottega — Retro Italian Trattoria tokens.
    Brand fonts (Barlow Condensed, Domine, DM Sans) are loaded via a <link> in the document head. */
+
+/* Box-model baseline: padding and border count toward width/height, so a
+   width: 100% control (e.g. .bt-button--full) never spills past its container. */
+*, *::before, *::after { box-sizing: border-box; }
+
 :root {
   /* Brand palette */
   --bt-forest: #165740;
