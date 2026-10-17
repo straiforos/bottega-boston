@@ -20,6 +20,8 @@
 
 .bt-display { font-family: var(--bt-font-display); font-weight: 700; text-transform: uppercase; line-height: 1.05; letter-spacing: 0.01em; }
 .bt-display--xl { font-size: var(--bt-text-display); font-weight: 800; line-height: 0.95; letter-spacing: 0.02em; }
+.bt-display--hero { font-size: var(--bt-text-hero); font-weight: 800; line-height: 0.9; letter-spacing: var(--bt-tracking-hero); }
+
 .bt-display--lg { font-size: var(--bt-text-3xl); }
 .bt-display--md { font-size: var(--bt-text-2xl); }
 .bt-display--sm { font-size: var(--bt-text-xl); line-height: 1.15; letter-spacing: 0.02em; }

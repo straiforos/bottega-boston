@@ -60,6 +60,7 @@ Reference via `var(--name)` in inline styles or CSS.
 | `--bt-text-2xl` |
 | `--bt-text-3xl` |
 | `--bt-text-display` |
+| `--bt-text-hero` |
 
 ## Spacing
 
@@ -110,6 +111,7 @@ Reference via `var(--name)` in inline styles or CSS.
 | `--bt-tracking-button` |
 | `--bt-tracking-ticker` |
 | `--bt-tracking-badge` |
+| `--bt-tracking-hero` |
 | `--bt-gutter` |
 | `--bt-marquee-height` |
 | `--bt-upload-min-height` |

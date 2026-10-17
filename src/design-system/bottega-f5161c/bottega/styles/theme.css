@@ -75,10 +75,13 @@
   --bt-text-2xl: 2.5rem;    /* headline-lg */
   --bt-text-3xl: 3.5rem;    /* headline-xl, hero mobile */
   --bt-text-display: 5.5rem;/* display-hero */
+  --bt-text-hero: clamp(3.5rem, 11vw, 11rem); /* display-hero-xl — banner headlines, 2× display */
 
   --bt-tracking-button: 0.08em;
   --bt-tracking-ticker: 0.12em;
   --bt-tracking-badge: 0.04em;
+  --bt-tracking-hero: 0; /* hero headlines sit tight at massive sizes */
+
 
   /* Spacing */
   --bt-space-xs: 0.375rem;

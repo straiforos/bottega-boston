@@ -20,6 +20,8 @@ Fonts are not bundled: add this to the root route head `links`:
 - Use `--bt-*` CSS variables only. Never write raw hex/rgb or pixel spacing. See `design-tokens.md`.
 - No ad-hoc inline styles for color/typography — use component `variant`, `tone` and `size` props.
 - Headlines: `Display` (Barlow Condensed 700/800, uppercase). Titles, marquees: `Serif` (Domine). Body: DM Sans in espresso ink.
+- Full-bleed banner headlines (`#PastaIsLife`, hero panels): `<Display size="hero">` — it owns the hero scale (`--bt-text-hero`, `--bt-tracking-hero`). Never override `font-size` inline to reach hero proportions.
+
 - Buttons and chips are always pills; inputs use `--bt-radius-md`; stamps are circles tilted -6° to -12°. Cards are either sharp rectangles or arches — never generic rounded-corner cards.
 - Tomato is for hairline borders, stamps and errors — never large fills.
 - One primary CTA per screen ("Order now"). Keep navigation minimal.

@@ -5,7 +5,7 @@ export type Tone = "forest" | "cream" | "mustard" | "tomato" | "cobalt" | "ink" 
 
 export interface DisplayProps extends HTMLAttributes<HTMLHeadingElement> {
   as?: "h1" | "h2" | "h3" | "p";
-  size?: "sm" | "md" | "lg" | "xl";
+  size?: "sm" | "md" | "lg" | "xl" | "hero";
   tone?: Tone;
 }
 

@@ -108,7 +108,7 @@ import { Display } from "@/design-system/bottega-f5161c"
 | Prop | Type | Default |
 |---|---|---|
 | `as` | h1 · h2 · h3 · p | `—` |
-| `size` | sm · md · lg · xl | `lg` |
+| `size` | sm · md · lg · xl · hero | `lg` |
 | `tone` | forest · cream · mustard · tomato · cobalt · ink · inherit | `inherit` |
 
 ### FileUpload

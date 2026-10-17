@@ -2,7 +2,7 @@
   "meta": {
     "name": "Bottega",
     "package": "@ws-cli5ylqvzebyb2b5e4wl/432d9af3-64cc-49a3-92e4-36d8f906a251",
-    "version": "1.2.1",
+    "version": "1.2.2",
     "framework": "react",
     "css_framework": "css-variables",
     "starter_template": "custom_design_system",
@@ -11,7 +11,7 @@
     ],
     "source_type": "local",
     "source_manifest": {
-      "#enrichment": "b5a629ffca55df5dfc759d66bda2b3c4fa2734f037f9c6402c416957a66df134",
+      "#enrichment": "90b62ee18831d405f7ee61df2b7c61fb0388ffd944e09e5bb937dcc4e1409c4b",
       ".dsignore": "9202e1883820df077bdb3435c29315c4",
       ".gitignore": "6059213806e442947666752f3db6bfdc",
       ".lovable/meta.yaml": "731dc53c4191bd35cabf4a0af7095d7f",
@@ -19,7 +19,7 @@
       ".lovable/plan/add-the-menu-overlay-to-bottega-2026-10-03.md": "bd97829f1335f8cdd21f4ccda3faf9c6",
       ".lovable/plan/composite-responsive-siteheader-2026-10-03.md": "86f0f22c11c0222d331c29873e8e27fa",
       ".lovable/sources.yaml": "30ba92fda13f611b48d1157bbc70a97c",
-      ".lovable/system.md": "c93c4b072d1e55e6866a8331114f2601",
+      ".lovable/system.md": "938671df377b8065230fbad15e02dfd6",
       "AGENTS.md": "f602d29a7070807125d7d1a1f24b3859",
       "README.md": "d19675c449605f23c7cfa133c69b398b",
       "bunfig.toml": "25f4c8696b22b0943db7191e0cdf7942",
@@ -28,7 +28,7 @@
       "mockupPreviewPlugin.ts": "70d01fe16b7ca25f16ff6bdb97f08b0b",
       "package.json": "c3e5084e52ab8faa86820d48e652c297",
       "public/favicon.png": "8591d74b97a1a207c1efed1baebaaf3a",
-      "roadmap.md": "8fe99b97e8c6e0c5864d9d0c8a4d02c3",
+      "roadmap.md": "460148c94a30e358a85ce7c754606e5b",
       "src/bottega/assets/icons/noodle-menu.png": "72ebc45c661ec57224f5f63d45584bda",
       "src/bottega/assets/logos/bottega-logo.png": "2f1ddf64c4925e64c7517ad2c94355f4",
       "src/bottega/assets/logos/bottega-wordmark.png": "4f2f5560d2506735dc1a346346b9d2f9",
@@ -45,14 +45,14 @@
       "src/bottega/components/SiteHeader.tsx": "c45d122399e1b0bcaa9b0998a82f1592",
       "src/bottega/components/Stamp.tsx": "fab48ad4d19d6f132413a4035b65035d",
       "src/bottega/components/ThemeToggle.tsx": "229aaa64efc3e1fc3006f95a0e211960",
-      "src/bottega/components/Typography.tsx": "afecd6dd65289c2b29b162ae965bdf50",
+      "src/bottega/components/Typography.tsx": "cb63cf40436e32cbe6175744eeb8bf68",
       "src/bottega/components/WaveRibbon.tsx": "b4be4f7863e6960ff842de12a407fb42",
-      "src/bottega/index.ts": "ca26c520ec904e60777edcad50d1e3a0",
+      "src/bottega/index.ts": "b72a97c4945ff96091e31e6cae7c0953",
       "src/bottega/lib/cx.ts": "7ae105dce8319a6dc3263f679bb79dd7",
       "src/bottega/lib/files.test.ts": "a7083b0f7955fff6f0106d3266cceca7",
       "src/bottega/lib/files.ts": "864d6693af24152e4c2b1b814c57c4c3",
-      "src/bottega/styles/components.css": "cf5a082089ba480884468c946edcf4fc",
-      "src/bottega/styles/theme.css": "1ea95bbbc9990e4db29f815c18f40e8b",
+      "src/bottega/styles/components.css": "93dd72335e47bb346ed9d4194ac625d8",
+      "src/bottega/styles/theme.css": "d6b457c3704f81b32642d891943799cd",
       "src/index.ts": "d6db7a37e55fd28ceedfa8fc5272c699",
       "src/mockup-preview.d.ts": "ae9d81e2b8514e13fd59b5b6bece9a64",
       "src/routeTree.gen.ts": "b493492c3c7229d800131062a1facc31",
@@ -61,9 +61,9 @@
       "src/routes/[__mockup].preview.$.tsx": "5d9f42470848aa60148f20f9580e240e",
       "src/routes/__root.tsx": "32d8c1ee58418654d1dc11b4c488f536",
       "src/routes/colors.tsx": "c7ca79efbc6b97363ee61e3fab301ea2",
-      "src/routes/components.tsx": "a9d6b0b59d17a6cc12fc0c8bd9169fef",
+      "src/routes/components.tsx": "1e9fd871a3766923b7a75edf4a0d00cb",
       "src/routes/index.tsx": "fce807bc6fac491529cdebfbb37882de",
-      "src/routes/typography.tsx": "e2efa3afd45331f883294e97e1ae2684",
+      "src/routes/typography.tsx": "c7eb63c2bfbcd2e5352f6dd2d93a673f",
       "src/showcase/Shell.tsx": "8d16bcd92ff8699d8d33b5ffbf96264e",
       "src/showcase/showcase.css": "5a61e9d679bbf0d3460c78294315dab6",
       "src/styles.css": "fccca7064393320dc09155a76de03886",
@@ -318,6 +318,11 @@
         "name": "--bt-text-display",
         "raw": "5.5rem",
         "source": "src/bottega/styles/theme.css"
+      },
+      {
+        "name": "--bt-text-hero",
+        "raw": "clamp(3.5rem, 11vw, 11rem)",
+        "source": "src/bottega/styles/theme.css"
       }
     ],
     "radius": [
@@ -393,6 +398,11 @@
       {
         "name": "--bt-tracking-badge",
         "raw": "0.04em",
+        "source": "src/bottega/styles/theme.css"
+      },
+      {
+        "name": "--bt-tracking-hero",
+        "raw": "0",
         "source": "src/bottega/styles/theme.css"
       },
       {
@@ -508,7 +518,8 @@
             "sm",
             "md",
             "lg",
-            "xl"
+            "xl",
+            "hero"
           ],
           "default": "lg"
         },

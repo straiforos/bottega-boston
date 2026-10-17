@@ -1,5 +1,21 @@
+/**
+ * Bottega Design System — library entry point.
+ *
+ * Importing this module loads the theme and component styles. Brand fonts are
+ * NOT bundled: the consuming app must load them once in its document head
+ * (a <link> tag, never a CSS @import). In a TanStack Start app, add these to
+ * the root route's head() links:
+ *
+ *   { rel: "preconnect", href: "https://fonts.googleapis.com" },
+ *   { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+ *   { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Domine:wght@400;700&family=DM+Sans:wght@400;500;700&display=swap" },
+ *
+ * Without them the type tokens fall back to system fonts.
+ * See .lovable/system.md (attached with this library) for the same setup note.
+ */
 import "./styles/theme.css";
 import "./styles/components.css";
+
 
 export { Button, type ButtonProps } from "./components/Button";
 export { Display, Serif, type DisplayProps, type SerifProps, type Tone } from "./components/Typography";
