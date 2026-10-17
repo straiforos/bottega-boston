@@ -81,7 +81,7 @@ export function EventEditorPage({ eventId }: { eventId: string }) {
       <main className="email-page">
         <div className="email-page-inner event-editor-page">
           <div>
-            <Button variant="outline" size="sm" onClick={close}>{t.backToEvents}</Button>
+            <Button variant="ghost" size="sm" onClick={close}>{t.backToEvents}</Button>
           </div>
           <Display as="h1" size="lg" tone="forest">{isNew ? t.add : t.edit}</Display>
           {!isAdmin || (!isNew && isPending) ? (
