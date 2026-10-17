@@ -28,7 +28,13 @@ export interface RenderOptions {
   logoUrl: string;
   siteUrl: string;
   unsubscribeUrl: string;
-  address: string;
+  locations: readonly EmailLocation[];
+}
+
+/** A shop's postal address. The footer links each one itself so mail clients never auto-link it in their own blue. */
+export interface EmailLocation {
+  name: string;
+  lines: readonly string[];
 }
 
 type Doc = Record<string, unknown>;
@@ -41,6 +47,13 @@ const image = (url: string, alt: string, padding = pad(12, 32)) => ({
   type: 'Image',
   data: { style: { padding }, props: { url, alt, contentAlignment: 'middle' } },
 });
+
+const fullAddress = (location: EmailLocation) => `${location.name}, ${location.lines.join(', ')}`;
+const mapsUrl = (location: EmailLocation) =>
+  `https://maps.google.com/?q=${encodeURIComponent(`${location.name} ${location.lines.join(' ')}`)}`;
+/** An explicit anchor: clients only impose their blue underline on text they linkify themselves. */
+const addressLink = (location: EmailLocation) =>
+  `<a href="${escapeHtml(mapsUrl(location))}" style="color:${t.mustardDeep};text-decoration:none;">${escapeHtml(fullAddress(location))}</a>`;
 
 /** Bottega blocks → Waypoint document blocks (one or more ids per block). */
 function toWaypoint(block: EmailBlock, doc: Doc): string[] {
@@ -121,7 +134,7 @@ export function toWaypointDocument(draft: EmailDraft, options: RenderOptions): T
   );
   const body = draft.blocks.flatMap((b) => toWaypoint(b, doc));
   doc.footer = html(
-    `<div style="background:${t.forest};padding:24px 32px;font-family:${t.sans};font-size:13px;line-height:1.6;color:${t.cream};"><span style="font-family:${t.serif};color:${t.mustard};font-size:16px;">#PastaIsLife</span><br>${escapeHtml(options.address)}<br>You’re receiving this because you joined the Bottega Pasta Club. <a href="${escapeHtml(options.unsubscribeUrl)}" style="color:${t.mustard};">Unsubscribe</a></div>`,
+    `<div style="background:${t.forest};padding:24px 32px;font-family:${t.sans};font-size:13px;line-height:1.6;color:${t.cream};"><span style="font-family:${t.serif};color:${t.mustard};font-size:16px;">#PastaIsLife</span><br>${options.locations.map(addressLink).join('<br>')}<br>You’re receiving this because you joined the Bottega Pasta Club. <a href="${escapeHtml(options.unsubscribeUrl)}" style="color:${t.mustard};">Unsubscribe</a></div>`,
     pad(24, 0),
   );
   doc.root = {

@@ -23,7 +23,6 @@ import { BlockEditor } from './BlockEditor';
 const BackLink = createLink(LinkAction);
 const t = clubContent.editor;
 const w = clubContent.workspace;
-const address = restaurantContent.addresses.map((a) => `${a.name}, ${a.lines.join(', ')}`).join(' · ');
 
 const blankCampaign: EmailDraft = {
   subject: '',
@@ -85,7 +84,10 @@ export function EmailEditorPage(props: Props) {
         .catch((e: Error) => setError(e.message));
   }, [isAdmin, templateKey, initialCampaign, loadWorkspace, loadTemplate, loadCampaign]);
 
-  const html = useMemo(() => renderEmail(draft, { logoUrl, siteUrl: '#', unsubscribeUrl: '#', address }), [draft]);
+  const html = useMemo(
+    () => renderEmail(draft, { logoUrl, siteUrl: '#', unsubscribeUrl: '#', locations: restaurantContent.addresses }),
+    [draft],
+  );
 
   const updateBlock = (block: EmailBlock) =>
     setDraft((d) => ({ ...d, blocks: d.blocks.map((b) => (b.id === block.id ? block : b)) }));
