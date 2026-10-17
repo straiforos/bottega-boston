@@ -332,7 +332,7 @@ export function EmailEditorPage(props: Props) {
                       </Button>
                     ) : (
                       <>
-                        <Button variant="outline" disabled={busy} onClick={() => void doSaveDraft()}>
+                        <Button variant="ghost" disabled={busy} onClick={() => void doSaveDraft()}>
                           {t.saveDraft}
                         </Button>
                         <Button
@@ -358,7 +358,7 @@ export function EmailEditorPage(props: Props) {
                       onChange={(e) => setScheduleAt(e.target.value)}
                     />
                     <Button
-                      variant="outline"
+                      variant="ghost"
                       disabled={busy || !scheduleAt}
                       onClick={() => void doSaveDraft(new Date(scheduleAt).toISOString())}
                     >
