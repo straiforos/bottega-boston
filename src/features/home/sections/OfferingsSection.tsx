@@ -24,7 +24,7 @@ function OfferingLink({ card }: { card: OfferingCard }) {
     );
   }
   return (
-    <LinkAction href={card.linkHref} tone={tone}>
+    <LinkAction href={card.linkHref} target="_blank" rel="noopener noreferrer" tone={tone}>
       {card.linkLabel}
     </LinkAction>
   );

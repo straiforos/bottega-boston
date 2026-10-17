@@ -118,7 +118,12 @@ export function LocationsSection() {
                 </span>
               ))}
             </address>
-            <LinkAction href={urls[location.id] ?? location.orderUrl} tone="forest">
+            <LinkAction
+              href={urls[location.id] ?? location.orderUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              tone="forest"
+            >
               {copy.orderFrom} {location.area}
             </LinkAction>
           </article>
