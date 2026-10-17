@@ -24,6 +24,11 @@ describe('email rendering', () => {
   it('always includes the unsubscribe link', () => {
     expect(renderEmail(defaultWelcome, opts)).toContain('https://x/u?token=abc');
   });
+  it('links footer addresses in mustard deep, not the client default blue', () => {
+    const html = renderEmail(defaultWelcome, opts);
+    expect(html).toContain('href="https://maps.google.com/?q=A%201%20St."');
+    expect(html).toContain('style="color:#e8b938;text-decoration:none;"');
+  });
 });
 
 describe('email drafts', () => {
