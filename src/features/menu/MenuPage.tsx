@@ -1,8 +1,11 @@
 import { Button, Display, Marquee, PillLabel, Serif } from '@/design-system/bottega-f5161c';
 import { BottegaHeader } from '@/components/BottegaHeader';
+import { useEffect } from 'react';
+import { useLocation } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
 import { menuSections as fallbackMenu } from '@/lib/menu-data';
 import { menuQueryOptions } from '@/lib/menu/menu-api';
+import { scrollToSection } from '@/lib/scroll-to-section';
 import { useStaffSession } from '@/hooks/useStaffSession';
 import { AddDish } from './admin/AddDish';
 import { EditableDish } from './admin/EditableDish';
@@ -29,7 +32,8 @@ function scrollToResults() {
 export function MenuPage() {
   const { data: menuSections = fallbackMenu } = useQuery(menuQueryOptions);
   const { isAdmin } = useStaffSession();
-  const baseFilters = useMenuFilters(menuSections);
+  const { hash } = useLocation();
+  const baseFilters = useMenuFilters(menuSections, hash);
   const filters = {
     ...baseFilters,
     setSelection: (value: string) => {
@@ -41,6 +45,15 @@ export function MenuPage() {
       scrollToResults();
     },
   };
+
+  // A link into a section (the catering trays) has to land on that section, even
+  // though the filter that reveals it only settles once the page is live.
+  useEffect(() => {
+    if (!baseFilters.appliedHash) return;
+    for (const delay of [0, 200]) {
+      window.setTimeout(() => scrollToSection(baseFilters.appliedHash), delay);
+    }
+  }, [baseFilters.appliedHash]);
   const rail = useMenuFilterRail();
   return (
     <>
