@@ -46,7 +46,7 @@ export const Route = createFileRoute('/api/public/resend-webhook')({
         });
         if (dup) return new Response('ok'); // already processed this delivery
 
-        const update: Record<string, string> = {};
+        const update: { status?: string; opened_at?: string; clicked_at?: string } = {};
         if (effect.sendStatus) update.status = effect.sendStatus;
         if (effect.event === 'opened') update.opened_at = occurredAt;
         if (effect.event === 'clicked') update.clicked_at = occurredAt;
