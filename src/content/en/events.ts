@@ -33,6 +33,7 @@ export const eventsContent = {
       tickets: 'Ticket Tailor link',
       ticketsHint: 'Optional. Paste the event or box office link from Ticket Tailor',
       photo: 'Photo',
+      removePhoto: 'Remove photo',
       browse: 'Choose photo',
       published: 'Show on the website',
       repeat: 'Repeats',

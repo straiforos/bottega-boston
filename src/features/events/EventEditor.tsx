@@ -219,6 +219,24 @@ function EventForm({ event, onClose }: { event: BottegaEvent | null; onClose: ()
       )}
 
       <TextField label={f.tickets} hint={f.ticketsHint} type="url" value={draft.ticketUrl} onChange={(e) => set({ ticketUrl: e.target.value })} />
+      {draft.imageUrl && !file && (
+        <div className="event-editor-photo">
+          <img className="event-editor-photo-preview" src={draft.imageUrl} alt={draft.title} />
+          <Button
+            type="button"
+            variant="ghost"
+            size="sm"
+            disabled={saving}
+            aria-label={f.removePhoto}
+            title={f.removePhoto}
+            onClick={() => set({ imageUrl: null })}
+          >
+            <svg className="ui-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true">
+              <path d="M6 6l12 12M18 6L6 18" />
+            </svg>
+          </Button>
+        </div>
+      )}
       <FileUpload label={f.photo} browseLabel={f.browse} accept="image/*" multiple={false} size="sm" files={file ? [file] : []} onFilesChange={(files: File[]) => setFile(files[0] ?? null)} />
       <Checkbox checked={draft.published} onChange={(e) => set({ published: e.target.checked })}>
         {f.published}
