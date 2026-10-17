@@ -49,7 +49,7 @@ export function EventCard({ upcoming, children }: { upcoming: UpcomingEvent; chi
               <Button variant="ghost" href={ticketUrl} target="_blank" aria-label={`${t.ticketsNewTab} (opens in a new tab)`}>
                 {t.ticketsNewTab}
               </Button>
-              <Button variant="outline" onClick={() => setTicketsOpen(false)}>{t.close}</Button>
+              <Button variant="ghost" onClick={() => setTicketsOpen(false)}>{t.close}</Button>
             </div>
           </div>
         </GalleryEditorDialog>

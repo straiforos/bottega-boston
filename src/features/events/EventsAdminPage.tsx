@@ -89,8 +89,8 @@ export function EventsAdminPage() {
                       </div>
                       <div className="admin-row-actions">
                         {!event.published && <PillLabel variant="chip-forest">{t.hidden}</PillLabel>}
-                        <Button size="sm" variant="outline" onClick={() => setEditing(event)}>{eventsContent.staff.edit}</Button>
-                        <Button size="sm" variant="outline" disabled={busy || !next} onClick={() => emailClub(event)}>{t.emailClub}</Button>
+                        <Button size="sm" variant="ghost" onClick={() => setEditing(event)}>{eventsContent.staff.edit}</Button>
+                        <Button size="sm" variant="ghost" disabled={busy || !next} onClick={() => emailClub(event)}>{t.emailClub}</Button>
                         <Button size="sm" variant="ghost" onClick={() => setRemoving(event)}>{t.delete}</Button>
                       </div>
                     </Card>
