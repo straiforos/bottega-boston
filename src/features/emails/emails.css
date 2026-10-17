@@ -9,7 +9,7 @@
   background: var(--bt-cream);
   color: var(--bt-ink);
 }
-.email-page {
+.email-page-inner {
   display: grid;
   gap: var(--bt-space-md);
   padding: var(--bt-space-lg) var(--bt-margin) var(--bt-space-8);
