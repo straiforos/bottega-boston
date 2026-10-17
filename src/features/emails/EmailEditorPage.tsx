@@ -150,7 +150,7 @@ export function EmailEditorPage({ mode }: { mode: 'compose' | 'welcome' }) {
           {mode === 'welcome' && <Serif tone="ink">{t.welcomeNote}</Serif>}
 
           {isAdmin && (
-            <div className="email-toolbar">
+            <div className="email-staff-bar">
               {overview && (
                 <PillLabel variant="mustard">{clubContent.admin.subscribers(overview.subscribers)}</PillLabel>
               )}

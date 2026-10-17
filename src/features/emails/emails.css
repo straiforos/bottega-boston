@@ -51,6 +51,7 @@
 .email-block-actions,
 .email-add,
 .email-send,
+.email-staff-bar,
 .email-toolbar {
   display: flex;
   flex-wrap: wrap;
