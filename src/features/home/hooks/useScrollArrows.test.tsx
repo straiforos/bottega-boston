@@ -41,6 +41,7 @@ function mount(geom: typeof EVENTS, scrollLeft: number) {
 }
 
 beforeEach(() => {
+  seen = { canPrev: false, canNext: false };
   class Observer {
     observe() {}
     unobserve() {}
@@ -50,6 +51,7 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+  cleanup();
   vi.unstubAllGlobals();
   vi.restoreAllMocks();
 });
