@@ -31,7 +31,7 @@ export function OrderTrayCard({ item, onAdd }: { item: MenuItem; onAdd: (line: O
         )}
         <TextField label={t.quantity} aria-label={`${t.quantity} for ${item.name}`} type="number" min={1} max={50} value={quantity}
           onChange={(event) => setQuantity(Math.max(1, Math.min(50, Math.floor(Number(event.target.value)) || 1)))} />
-        <Button type="button" variant="outline" size="sm" aria-label={`${t.addItem}: ${item.name}`}
+        <Button type="button" variant="primary" size="sm" aria-label={`${t.addItem}: ${item.name}`}
           onClick={() => onAdd({ itemId: item.id, option: chosen?.label ?? '', quantity })}>
           <EditorIcon kind="plus" />{t.addItem}
         </Button>
