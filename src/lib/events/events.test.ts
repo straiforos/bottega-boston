@@ -89,7 +89,7 @@ describe('phone mask', () => {
   });
   it('keeps partial numbers free of trailing separators', () => {
     expect(maskPhone('617555')).toBe('(617) 555');
-    expect(maskPhone('6175551234')).toBe('(617) 555-1234');
+    expect(maskPhone('617555123')).toBe('(617) 555-123');
   });
   it('captures an extension', () => {
     expect(maskPhone('6175551234x77')).toBe('(617) 555-1234 x77');
