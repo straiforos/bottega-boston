@@ -6,9 +6,9 @@ export const Route = createFileRoute('/_site/emails_/compose')({
   validateSearch: z.object({ id: z.string().uuid().optional() }),
   head: () => ({
     meta: [
-      { title: 'Compose Pasta Club email — Bottega staff' },
+      { title: 'Compose Pasta Club email | Bottega staff' },
       { name: 'description', content: 'Staff editor for Bottega Pasta Club emails.' },
-      { property: 'og:title', content: 'Compose Pasta Club email — Bottega staff' },
+      { property: 'og:title', content: 'Compose Pasta Club email | Bottega staff' },
       { property: 'og:description', content: 'Staff editor for Bottega Pasta Club emails.' },
       { property: 'og:type', content: 'website' },
       { name: 'twitter:card', content: 'summary' },

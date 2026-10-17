@@ -66,7 +66,7 @@ export const submitRequest = createServerFn({ method: 'POST' })
       .select('id', { count: 'exact', head: true })
       .eq('email', data.email)
       .gte('created_at', since);
-    if ((count ?? 0) >= MAX_PER_HOUR) throw new Error('You’ve sent a few requests already — we’ll be in touch soon.');
+    if ((count ?? 0) >= MAX_PER_HOUR) throw new Error('You’ve sent a few requests already. We’ll be in touch soon.');
 
     let lines: OrderLine[] = [];
     if (data.lines.length) {

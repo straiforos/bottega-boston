@@ -84,7 +84,7 @@ export function EventsAdminPage() {
                         <Serif as="h2" size="sm" tone="forest">{event.title}</Serif>
                         <p className="request-muted">
                           {describeRecurrence(event.recurrence) ?? ''}
-                          {next ? ` ${formatWhen(next.startsAt, event.timezone)}` : ' —'}
+                          {next ? ` ${formatWhen(next.startsAt, event.timezone)}` : ' No upcoming dates'}
                         </p>
                       </div>
                       <div className="admin-row-actions">

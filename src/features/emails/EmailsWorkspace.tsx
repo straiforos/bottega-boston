@@ -101,7 +101,7 @@ function Newsletters({ data, onChange }: { data: Workspace | null; onChange: () 
                   {w.status[c.status] ?? c.status}
                 </PillLabel>
                 <Serif as="h2" size="sm" tone="forest">
-                  {c.subject || '—'}
+                  {c.subject || '(No subject)'}
                 </Serif>
                 <span className="bt-field__hint">
                   {c.status === 'sent'
@@ -295,7 +295,7 @@ function Analytics({ data }: { data: Workspace | null }) {
             <ul>
               {report.topLinks.map((l) => (
                 <li key={l.url}>
-                  {l.url} — {l.count}
+                  {l.url}: {l.count}
                 </li>
               ))}
             </ul>
