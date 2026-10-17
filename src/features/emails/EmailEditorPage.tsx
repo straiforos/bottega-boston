@@ -1,7 +1,16 @@
 import { useEffect, useMemo, useState } from 'react';
 import { createLink, useNavigate } from '@tanstack/react-router';
 import { useServerFn } from '@tanstack/react-start';
-import { Button, Card, Confirmation, Display, LinkAction, PillLabel, Serif, TextField } from '@/design-system/bottega-f5161c';
+import {
+  Button,
+  Card,
+  Confirmation,
+  Display,
+  LinkAction,
+  PillLabel,
+  Serif,
+  TextField,
+} from '@/design-system/bottega-f5161c';
 import { BottegaHeader } from '@/components/BottegaHeader';
 import logoUrl from '@/design-system/bottega-f5161c/bottega/assets/logos/bottega-wordmark.png';
 import { clubContent } from '@/content/en/club';
