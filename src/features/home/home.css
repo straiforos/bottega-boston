@@ -593,6 +593,7 @@
   border: 0;
   background: var(--bt-background);
   color: var(--bt-body);
+  pointer-events: auto;
 }
 .gallery-editor-dialog::backdrop {
   background: var(--bt-backdrop);
@@ -621,6 +622,7 @@
   top: var(--bt-space-sm);
   left: var(--bt-space-sm);
   z-index: 1;
+  pointer-events: auto;
 }
 .home-edit-choices {
   display: flex;
