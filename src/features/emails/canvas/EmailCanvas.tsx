@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
-import { Button, PillLabel } from '@/design-system/bottega-f5161c';
+import { Button } from '@/design-system/bottega-f5161c';
 import { ArrowIcon } from '@/components/ArrowIcon';
 import { clubContent } from '@/content/en/club';
 import type { EmailBlock } from '@/lib/email/blocks';
@@ -69,37 +69,36 @@ export function EmailCanvas({
 
   return (
     <div className={`email-canvas email-canvas--${device}`}>
-      {!disabled && selected && selectedBlock && (
+      {!disabled && (
         <div className="email-canvas-bar" aria-label={t.blocks} role="toolbar">
-          <PillLabel variant="chip-forest">{t.blockNames[selectedBlock.type]}</PillLabel>
           <div className="email-canvas-tools">
             <Button
               size="sm"
               aria-label={t.moveUp}
-              disabled={indexOf(selected.id) === 0}
-              onClick={() => onMove(selected.id, -1)}
+              disabled={!selected || indexOf(selectedId!) === 0}
+              onClick={() => onMove(selectedId!, -1)}
             >
               <ArrowIcon direction="left" size="sm" />
             </Button>
             <Button
               size="sm"
               aria-label={t.moveDown}
-              disabled={indexOf(selected.id) === blocks.length - 1}
-              onClick={() => onMove(selected.id, 1)}
+              disabled={!selected || indexOf(selectedId!) === blocks.length - 1}
+              onClick={() => onMove(selectedId!, 1)}
             >
               <ArrowIcon direction="right" size="sm" />
             </Button>
-            <Button size="sm" onClick={() => onDuplicate(selected.id)}>
+            <Button size="sm" disabled={!selected} onClick={() => onDuplicate(selectedId!)}>
               {t.duplicate}
             </Button>
-            <Button size="sm" onClick={() => onRemove(selected.id)}>
+            <Button size="sm" disabled={!selected} onClick={() => onRemove(selectedId!)}>
               {t.removeShort}
             </Button>
             <Button
               size="sm"
               variant="accent"
               aria-label={t.insertAbove}
-              onClick={() => onInsert(indexOf(selected.id))}
+              onClick={() => onInsert(indexOf(selectedId!))}
             >
               + {t.above}
             </Button>

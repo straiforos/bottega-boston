@@ -197,12 +197,12 @@
   gap: var(--bt-space-sm);
 }
 .email-canvas-bar {
-  justify-content: space-between;
+  justify-content: flex-start;
 }
 .email-canvas-insert {
   position: absolute;
   pointer-events: auto;
-  left: var(--bt-space-md);
+  right: var(--bt-space-md);
 }
 .email-canvas-insert--below {
   bottom: 0;
