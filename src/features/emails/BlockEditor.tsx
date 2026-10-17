@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react';
 import { Button, Card, FileUpload, PillLabel, TextField } from '@/design-system/bottega-f5161c';
-import { ArrowIcon } from '@/components/ArrowIcon';
+import { EditorIcon } from '@/components/EditorIcon';
 import { clubContent } from '@/content/en/club';
 import { isPlaceholderPhoto, type EmailBlock } from '@/lib/email/blocks';
 import { uploadEmailPhoto } from './upload-email-photo';
@@ -29,13 +29,13 @@ function RichText({ value, onChange }: { value: string; onChange: (text: string)
   return (
     <div className="bt-field">
       <div className="email-toolbar" role="toolbar" aria-label="Text formatting">
-        <Button size="sm" variant="outline" onClick={() => wrap('**', '**', 'bold text')}>
+        <Button size="sm" variant="ghost" onClick={() => wrap('**', '**', 'bold text')}>
           {t.bold}
         </Button>
-        <Button size="sm" variant="outline" onClick={() => wrap('_', '_', 'italic text')}>
+        <Button size="sm" variant="ghost" onClick={() => wrap('_', '_', 'italic text')}>
           {t.italic}
         </Button>
-        <Button size="sm" variant="outline" onClick={() => wrap('[', '](https://)', 'link text')}>
+        <Button size="sm" variant="ghost" onClick={() => wrap('[', '](https://)', 'link text')}>
           {t.link}
         </Button>
       </div>
@@ -113,13 +113,14 @@ export function BlockEditor({ block, first, last, onChange, onMove, onRemove }: 
         <div className="email-block-head">
           <PillLabel variant="chip-forest">{t.blockNames[block.type]}</PillLabel>
           <div className="email-block-actions">
-            <Button size="sm" aria-label={t.moveUp} disabled={first} onClick={() => onMove(-1)}>
-              <ArrowIcon direction="left" size="sm" />
+            <Button size="sm" variant="ghost" aria-label={t.moveUp} disabled={first} onClick={() => onMove(-1)}>
+              <EditorIcon kind="up" size="sm" />
             </Button>
-            <Button size="sm" aria-label={t.moveDown} disabled={last} onClick={() => onMove(1)}>
-              <ArrowIcon direction="right" size="sm" />
+            <Button size="sm" variant="ghost" aria-label={t.moveDown} disabled={last} onClick={() => onMove(1)}>
+              <EditorIcon kind="down" size="sm" />
             </Button>
             <Button size="sm" variant="ghost" onClick={onRemove}>
+              <EditorIcon kind="trash" size="sm" />
               {t.remove}
             </Button>
           </div>

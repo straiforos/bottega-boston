@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { Button } from '@/design-system/bottega-f5161c';
-import { ArrowIcon } from '@/components/ArrowIcon';
+import { EditorIcon } from '@/components/EditorIcon';
 import { clubContent } from '@/content/en/club';
 import type { EmailBlock } from '@/lib/email/blocks';
 
@@ -74,33 +74,38 @@ export function EmailCanvas({
           <div className="email-canvas-tools">
             <Button
               size="sm"
+              variant="ghost"
               aria-label={t.moveUp}
               disabled={!selected || indexOf(selectedId!) === 0}
               onClick={() => onMove(selectedId!, -1)}
             >
-              <ArrowIcon direction="left" size="sm" />
+              <EditorIcon kind="up" size="sm" />
             </Button>
             <Button
               size="sm"
+              variant="ghost"
               aria-label={t.moveDown}
               disabled={!selected || indexOf(selectedId!) === blocks.length - 1}
               onClick={() => onMove(selectedId!, 1)}
             >
-              <ArrowIcon direction="right" size="sm" />
+              <EditorIcon kind="down" size="sm" />
             </Button>
-            <Button size="sm" disabled={!selected} onClick={() => onDuplicate(selectedId!)}>
+            <Button size="sm" variant="ghost" disabled={!selected} onClick={() => onDuplicate(selectedId!)}>
+              <EditorIcon kind="copy" size="sm" />
               {t.duplicate}
             </Button>
-            <Button size="sm" disabled={!selected} onClick={() => onRemove(selectedId!)}>
+            <Button size="sm" variant="ghost" disabled={!selected} onClick={() => onRemove(selectedId!)}>
+              <EditorIcon kind="trash" size="sm" />
               {t.removeShort}
             </Button>
             <Button
               size="sm"
-              variant="accent"
+              variant="ghost"
               aria-label={t.insertAbove}
               onClick={() => onInsert(indexOf(selectedId!))}
             >
-              + {t.above}
+              <EditorIcon kind="plus" size="sm" />
+              {t.above}
             </Button>
           </div>
         </div>
@@ -118,14 +123,15 @@ export function EmailCanvas({
             {hovered && <div className="email-canvas-box email-canvas-box--hover" style={place(hovered)} />}
             {selected && selectedBlock && (
               <div className="email-canvas-box email-canvas-box--selected" style={place(selected)}>
-                <div className="email-canvas-insert email-canvas-insert--below">
+                  <div className="email-canvas-insert email-canvas-insert--below">
                   <Button
                     size="sm"
-                    variant="accent"
+                    variant="ghost"
                     aria-label={t.insertBelow}
                     onClick={() => onInsert(indexOf(selected.id) + 1)}
                   >
-                    + {t.below}
+                    <EditorIcon kind="plus" size="sm" />
+                    {t.below}
                   </Button>
                 </div>
               </div>

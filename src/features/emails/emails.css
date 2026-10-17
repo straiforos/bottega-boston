@@ -199,6 +199,10 @@
 .email-canvas-bar {
   justify-content: flex-start;
 }
+/* The insert control floats over the live email, so it carries its own cream fill to stay legible on any block. */
+.email-canvas-insert .bt-button {
+  background: var(--bt-cream);
+}
 .email-canvas-insert {
   position: absolute;
   pointer-events: auto;
