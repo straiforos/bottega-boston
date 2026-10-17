@@ -6,7 +6,7 @@
 export const emailTheme = {
   forest: '#165740',
   cream: '#fff9ea',
-  parchment: '#f1ebdd',
+  parchment: '#f4eedc',
   white: '#ffffff',
   mustard: '#ffd66b',
   terracotta: '#a2481d',
