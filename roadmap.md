@@ -1,5 +1,7 @@
 # Bottega roadmap
 
+- [x] Make event cards fill the available phone and tablet width and grow proportionally on desktop; sample-event layout and arrows verified from narrow phones through desktop.
+
 - [ ] Restore selected staff photos and videos from browser blob storage after refresh, with cleanup and failure feedback.
 
 - [x] Replace catering request dropdowns with visual dish selection and preserve itemized confirmation emails.
