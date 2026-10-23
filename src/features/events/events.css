@@ -13,7 +13,7 @@
 .events-grid {
   display: grid;
   grid-auto-flow: column;
-  grid-auto-columns: min(100%, calc(var(--bt-space-8) * 4));
+  grid-auto-columns: calc((100% - var(--bt-space-lg) * 2) / 3);
   gap: var(--bt-space-lg);
   align-items: stretch;
   overflow-x: auto;
@@ -50,14 +50,17 @@
 }
 @media (max-width: 900px) {
   .events-grid {
-    /* Leave the next card peeking so the row reads as swipeable. */
-    grid-auto-columns: min(85%, calc(var(--bt-space-8) * 5));
+    /* Each phone or tablet card fills the available track width. */
+    grid-auto-columns: 100%;
     scroll-snap-type: x proximity;
   }
 }
 .event-card {
   position: relative;
   display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  min-width: 0;
+  max-width: 100%;
   align-content: start;
 }
 .event-card-photo {
@@ -67,6 +70,8 @@
 }
 .event-card-body {
   display: grid;
+  min-width: 0;
+  overflow-wrap: anywhere;
   gap: var(--bt-space-sm);
   justify-items: start;
   padding: var(--bt-space-md);
