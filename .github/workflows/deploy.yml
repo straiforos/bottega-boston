@@ -169,6 +169,11 @@ jobs:
           bunx wrangler secret bulk /tmp/bottega-secrets.json --config dist/server/wrangler.json
           rm -f /tmp/bottega-secrets.json
 
+      - name: Clear conflicting apex DNS
+        run: node scripts/clear-apex-dns-for-workers.mjs
+        env:
+          ZONE_NAME: bottega.boston
+
       - name: Attach custom domain
         working-directory: infra/cloudflare
         run: |
