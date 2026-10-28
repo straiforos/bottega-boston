@@ -4,22 +4,22 @@ overview: "Rewrite the site off Supabase and Lovable onto Cloudflare only: a sta
 todos:
   - id: sqlite-schema
     content: Port migrations 0000-0009 to D1 SQLite without auth, storage, or row-level policies
-    status: pending
+    status: completed
   - id: google-session
     content: Replace Lovable and Supabase auth with a Google OAuth session cookie checked against staff_allowlist
-    status: pending
+    status: completed
   - id: r2-uploads
     content: Move menu, gallery, email, and bundled media uploads to R2 using the S3 endpoint, access key, and secret
-    status: pending
+    status: completed
   - id: mail-cron
     content: Call Resend directly and schedule send-scheduled from wrangler.jsonc
-    status: pending
+    status: completed
   - id: static-shells
     content: Prerender the public routes so visitors are served static assets
-    status: pending
+    status: completed
   - id: github-action
     content: Add a GitHub Action that builds on main and deploys with Wrangler
-    status: pending
+    status: completed
 isProject: false
 ---
 

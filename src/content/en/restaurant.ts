@@ -1,4 +1,8 @@
 export const restaurantContent = {
+  comingSoon: {
+    message: 'Coming soon. For the live site and ordering, visit',
+    linkLabel: 'eatbottega.com',
+  },
   home: {
     welcome: 'Benvenuti',
     pastaIsLife: 'Pasta is life',

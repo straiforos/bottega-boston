@@ -4,6 +4,13 @@ data "cloudflare_zone" "site" {
   }
 }
 
+# 301 http → https for the whole zone (Edge Certificates → Always Use HTTPS).
+resource "cloudflare_zone_setting" "always_use_https" {
+  zone_id    = data.cloudflare_zone.site.id
+  setting_id = "always_use_https"
+  value      = "on"
+}
+
 resource "cloudflare_d1_database" "bottega" {
   account_id = var.cloudflare_account_id
   name       = var.d1_name
