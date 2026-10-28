@@ -1,10 +1,14 @@
 import { AwsClient } from 'aws4fetch';
 import { env } from 'cloudflare:workers';
 
+/** Must match wrangler.jsonc r2_buckets.bucket_name / OpenTofu r2_bucket_name. */
+const R2_BUCKET = 'bottega-media';
+
 function s3() {
   const accessKeyId = env.S3_ACCESS_KEY_ID;
   const secretAccessKey = env.S3_SECRET_ACCESS_KEY;
-  const endpoint = env.S3_ENDPOINT?.replace(/\/+$/, '');
+  // Account endpoint only — never include the bucket (path-style puts it in the URL).
+  const endpoint = env.S3_ENDPOINT?.replace(/\/+$/, '').replace(/\/bottega-media$/i, '');
   if (!accessKeyId || !secretAccessKey || !endpoint) {
     throw new Error('R2 S3 credentials are not configured');
   }
@@ -26,19 +30,21 @@ export function publicMediaUrl(key: string) {
 /** Signs a time-limited PUT so the browser can upload straight to R2. */
 export async function createPresignedPut(key: string, contentType: string, expiresSeconds = 600) {
   const { client, endpoint } = s3();
-  const url = new URL(`${endpoint}/${key}`);
+  const objectKey = key.replace(/^\/+/, '');
+  const url = new URL(`${endpoint}/${R2_BUCKET}/${objectKey}`);
   url.searchParams.set('X-Amz-Expires', String(expiresSeconds));
   const signed = await client.sign(
     new Request(url, {
       method: 'PUT',
       headers: { 'Content-Type': contentType },
     }),
-    { aws: { signQuery: true } },
+    // allHeaders: Content-Type must be in the signature or the browser PUT 403s.
+    { aws: { signQuery: true, allHeaders: true } },
   );
   return {
     uploadUrl: signed.url,
-    publicUrl: publicMediaUrl(key),
-    key,
+    publicUrl: publicMediaUrl(objectKey),
+    key: objectKey,
     headers: { 'Content-Type': contentType },
   };
 }

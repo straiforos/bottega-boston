@@ -21,6 +21,29 @@ resource "cloudflare_r2_bucket" "media" {
   name       = var.r2_bucket_name
 }
 
+# Browser preflight (OPTIONS) for staff presigned PUTs from the site origin.
+resource "cloudflare_r2_bucket_cors" "media" {
+  account_id  = var.cloudflare_account_id
+  bucket_name = cloudflare_r2_bucket.media.name
+
+  rules = [
+    {
+      id = "staff-browser-uploads"
+      allowed = {
+        origins = [
+          "https://${var.zone_name}",
+          "http://localhost:3000",
+          "http://127.0.0.1:3000",
+        ]
+        methods = ["PUT", "GET", "HEAD"]
+        headers = ["Content-Type"]
+      }
+      expose_headers  = ["ETag"]
+      max_age_seconds = 3600
+    }
+  ]
+}
+
 # Requires the Worker script to already exist (wrangler deploy first).
 resource "cloudflare_workers_custom_domain" "apex" {
   count = var.manage_dns ? 1 : 0

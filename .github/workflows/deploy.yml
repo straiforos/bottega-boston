@@ -109,7 +109,8 @@ jobs:
           tofu apply -input=false -auto-approve -var='manage_dns=false' \
             -target=cloudflare_zone_setting.always_use_https \
             -target=cloudflare_d1_database.bottega \
-            -target=cloudflare_r2_bucket.media
+            -target=cloudflare_r2_bucket.media \
+            -target=cloudflare_r2_bucket_cors.media
 
       - name: Render Wrangler config
         working-directory: infra/cloudflare

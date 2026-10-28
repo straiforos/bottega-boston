@@ -39,7 +39,8 @@ tofu init -reconfigure \
 tofu apply -var='manage_dns=false' \
   -target=cloudflare_zone_setting.always_use_https \
   -target=cloudflare_d1_database.bottega \
-  -target=cloudflare_r2_bucket.media
+  -target=cloudflare_r2_bucket.media \
+  -target=cloudflare_r2_bucket_cors.media
 # After wrangler deploy (idempotent once the domain exists):
 node ../../scripts/ensure-workers-apex.mjs
 tofu apply -var='manage_dns=true'
