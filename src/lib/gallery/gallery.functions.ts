@@ -4,15 +4,18 @@ import { z } from 'zod';
 import { requireStaffSession } from '@/integrations/auth/session-middleware';
 import { db, schema } from '@/lib/db';
 import type { Json } from '@/lib/json';
+import { isSafeMediaUrl } from '@/lib/media-url';
 import { buildGalleryItems, validateTileDraft } from './gallery-shared';
+
+const safeUrl = z.string().max(2000).refine(isSafeMediaUrl, 'Media URL must be https:// or a site path');
 
 const mediaSchema = z
   .object({
     media_type: z.enum(['image', 'video']),
     asset_key: z.null(),
-    media_url: z.string(),
-    poster_url: z.string().nullable(),
-    variants: z.array(z.object({ key: z.string(), url: z.string(), width: z.number() })),
+    media_url: safeUrl,
+    poster_url: safeUrl.nullable(),
+    variants: z.array(z.object({ key: z.string(), url: safeUrl, width: z.number() })),
   })
   .optional();
 

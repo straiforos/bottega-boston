@@ -146,6 +146,7 @@ jobs:
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
           GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
           GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+          SESSION_SECRET: ${{ secrets.SESSION_SECRET }}
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           RESEND_WEBHOOK_SECRET: ${{ secrets.RESEND_WEBHOOK_SECRET }}
           S3_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY_ID }}
@@ -161,6 +162,7 @@ jobs:
             "CRON_SECRET",
             "GOOGLE_CLIENT_ID",
             "GOOGLE_CLIENT_SECRET",
+            "SESSION_SECRET",
             "RESEND_API_KEY",
             "RESEND_WEBHOOK_SECRET",
             "S3_ACCESS_KEY_ID",

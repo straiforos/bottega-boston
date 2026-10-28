@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { useServerFn } from '@tanstack/react-start';
-import { getTurnstileSiteKey } from '@/lib/events/requests.functions';
+import { getTurnstileSiteKey } from '@/lib/turnstile.server';
 
 type TurnstileApi = {
   render: (el: HTMLElement, opts: Record<string, unknown>) => string;

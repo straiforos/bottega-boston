@@ -1,4 +1,5 @@
-import { env } from 'cloudflare:workers';
+import { bufferToBase64Url, base64UrlToBytes, hmacSha256, timingSafeEqual } from './crypto';
+import { sessionSigningSecret } from './secrets';
 
 const COOKIE = 'bottega_staff';
 const MAX_AGE_SECONDS = 60 * 60 * 24 * 14;
@@ -8,35 +9,8 @@ export interface StaffIdentity {
   exp: number;
 }
 
-function secret() {
-  const value = env.GOOGLE_CLIENT_SECRET;
-  if (!value) throw new Error('GOOGLE_CLIENT_SECRET is not configured');
-  return value;
-}
-
 async function hmac(message: string) {
-  const key = await crypto.subtle.importKey(
-    'raw',
-    new TextEncoder().encode(secret()),
-    { name: 'HMAC', hash: 'SHA-256' },
-    false,
-    ['sign'],
-  );
-  const sig = await crypto.subtle.sign('HMAC', key, new TextEncoder().encode(message));
-  return bufferToBase64Url(sig);
-}
-
-function bufferToBase64Url(buffer: ArrayBuffer) {
-  const bytes = new Uint8Array(buffer);
-  let binary = '';
-  for (const b of bytes) binary += String.fromCharCode(b);
-  return btoa(binary).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-}
-
-function base64UrlToBytes(value: string) {
-  const padded = value.replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((value.length + 3) % 4);
-  const binary = atob(padded);
-  return Uint8Array.from(binary, (c) => c.charCodeAt(0));
+  return hmacSha256(sessionSigningSecret(), message);
 }
 
 export async function signSession(email: string): Promise<string> {
@@ -51,10 +25,7 @@ export async function verifySession(token: string | undefined | null): Promise<S
   const [body, signature] = token.split('.');
   if (!body || !signature) return null;
   const expected = await hmac(body);
-  if (expected.length !== signature.length) return null;
-  let mismatch = 0;
-  for (let i = 0; i < expected.length; i += 1) mismatch |= expected.charCodeAt(i) ^ signature.charCodeAt(i);
-  if (mismatch !== 0) return null;
+  if (!timingSafeEqual(expected, signature)) return null;
   try {
     const json = new TextDecoder().decode(base64UrlToBytes(body));
     const payload = JSON.parse(json) as StaffIdentity;

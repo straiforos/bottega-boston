@@ -1,11 +1,11 @@
 import { createServerFn } from '@tanstack/react-start';
 import { and, desc, eq, gte, inArray, like } from 'drizzle-orm';
 import { z } from 'zod';
-import { env } from 'cloudflare:workers';
 import { requireStaffSession } from '@/integrations/auth/session-middleware';
 import { db, schema } from '@/lib/db';
 import type { Json } from '@/lib/json';
 import type { EmailDraft } from '@/lib/email/blocks';
+import { getTurnstileSiteKey, verifyTurnstile } from '@/lib/turnstile.server';
 import {
   describeLines,
   formatMoney,
@@ -16,6 +16,8 @@ import {
   requestSchema,
   type OrderLine,
 } from './requests';
+
+export { getTurnstileSiteKey };
 
 const STAFF_INBOX = 'ciao@eatbottega.com';
 const MAX_PER_HOUR = 3;
@@ -42,22 +44,6 @@ const staffFallback: EmailDraft = {
     },
   ],
 };
-
-async function verifyTurnstile(token: string | undefined): Promise<boolean> {
-  const secret = env.TURNSTILE_SECRET_KEY;
-  if (!secret || !token) return false;
-  const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
-    method: 'POST',
-    body: new URLSearchParams({ secret, response: token }),
-  });
-  const out = (await res.json().catch(() => ({}))) as { success?: boolean };
-  return out.success === true;
-}
-
-/** Public: the Turnstile site key (publishable) for the request forms. */
-export const getTurnstileSiteKey = createServerFn({ method: 'GET' }).handler(async () => ({
-  siteKey: env.TURNSTILE_SITE_KEY ?? '',
-}));
 
 /** Public: a guest asks for catering or the event space. Saved for staff, then confirmed by email. */
 export const submitRequest = createServerFn({ method: 'POST' })

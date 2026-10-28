@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { env } from 'cloudflare:workers';
+import { createOAuthState } from '@/lib/auth/oauth-state';
 import { publicOrigin } from '@/lib/auth/public-origin';
 
 function safeReturnTo(value: string | null) {
@@ -18,7 +19,7 @@ export const Route = createFileRoute('/api/auth/google')({
         if (!clientId) return new Response('Google sign-in is not configured', { status: 500 });
 
         const redirectUri = `${publicOrigin(url)}/api/auth/callback`;
-        const state = btoa(JSON.stringify({ returnTo })).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+        const { state, setCookie } = await createOAuthState(returnTo);
         const auth = new URL('https://accounts.google.com/o/oauth2/v2/auth');
         auth.searchParams.set('client_id', clientId);
         auth.searchParams.set('redirect_uri', redirectUri);
@@ -26,7 +27,13 @@ export const Route = createFileRoute('/api/auth/google')({
         auth.searchParams.set('scope', 'openid email profile');
         auth.searchParams.set('prompt', 'select_account');
         auth.searchParams.set('state', state);
-        return Response.redirect(auth.toString(), 302);
+        return new Response(null, {
+          status: 302,
+          headers: {
+            Location: auth.toString(),
+            'Set-Cookie': setCookie,
+          },
+        });
       },
     },
   },

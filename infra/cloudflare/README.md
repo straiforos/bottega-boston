@@ -53,7 +53,7 @@ CI builds that same account endpoint from `CLOUDFLARE_ACCOUNT_ID` (must be the a
 | Concern | Where it lives |
 | --- | --- |
 | Worker build + deploy | `.github/workflows/deploy.yml` + Wrangler |
-| Worker secrets | GitHub Actions secrets → `wrangler secret bulk` |
+| Worker secrets | GitHub Actions secrets → `wrangler secret bulk` (include `SESSION_SECRET` for cookie/OAuth HMAC) |
 | R2 S3 access key pair | Cloudflare dashboard → R2 API tokens → GitHub `S3_*` |
 | Google OAuth / Turnstile / Maps allowlists | Those product dashboards (`bottega.boston`) |
 | Resend domain DNS (`bottega.boston`) | `scripts/setup-resend-domain.mjs` / Actions “Setup Resend domain DNS”; webhook URL in Resend dashboard |

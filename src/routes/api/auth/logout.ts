@@ -1,17 +1,15 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { clearSessionCookieHeader } from '@/lib/auth/session';
+import { publicOrigin } from '@/lib/auth/public-origin';
 
 export const Route = createFileRoute('/api/auth/logout')({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const referer = request.headers.get('referer');
-        const fallback = new URL('/', request.url).toString();
-        const location = referer && new URL(referer).origin === new URL(request.url).origin ? referer : fallback;
         return new Response(null, {
           status: 303,
           headers: {
-            Location: location,
+            Location: `${publicOrigin(new URL(request.url))}/`,
             'Set-Cookie': clearSessionCookieHeader(),
           },
         });
@@ -20,7 +18,7 @@ export const Route = createFileRoute('/api/auth/logout')({
         return new Response(null, {
           status: 302,
           headers: {
-            Location: new URL('/', request.url).toString(),
+            Location: `${publicOrigin(new URL(request.url))}/`,
             'Set-Cookie': clearSessionCookieHeader(),
           },
         });

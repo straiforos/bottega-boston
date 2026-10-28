@@ -4,6 +4,8 @@ declare namespace Cloudflare {
     MEDIA: R2Bucket;
     GOOGLE_CLIENT_ID: string;
     GOOGLE_CLIENT_SECRET: string;
+    /** Dedicated HMAC secret for staff cookies and OAuth state (falls back to GOOGLE_CLIENT_SECRET). */
+    SESSION_SECRET: string;
     RESEND_API_KEY: string;
     RESEND_WEBHOOK_SECRET: string;
     CRON_SECRET: string;

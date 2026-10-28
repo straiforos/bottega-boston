@@ -1,9 +1,15 @@
 import { createServerFn } from '@tanstack/react-start';
 import { z } from 'zod';
 import { requireStaffSession } from '@/integrations/auth/session-middleware';
+import { isAllowedUploadKey } from './upload-keys';
 
 const requestSchema = z.object({
-  key: z.string().min(1).max(500).regex(/^[a-zA-Z0-9/_.:-]+$/),
+  key: z
+    .string()
+    .min(1)
+    .max(500)
+    .regex(/^[a-zA-Z0-9/_.:-]+$/)
+    .refine(isAllowedUploadKey, 'Upload key must be under menu-images/ or gallery-media/'),
   contentType: z.string().min(1).max(120),
 });
 

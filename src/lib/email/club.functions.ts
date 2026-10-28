@@ -1,9 +1,10 @@
 import { createServerFn } from '@tanstack/react-start';
-import { and, desc, eq, inArray, isNotNull, like } from 'drizzle-orm';
+import { and, desc, eq, gte, inArray, isNotNull, like } from 'drizzle-orm';
 import { z } from 'zod';
 import { requireStaffSession } from '@/integrations/auth/session-middleware';
 import { db, schema } from '@/lib/db';
 import type { Json } from '@/lib/json';
+import { verifyTurnstile } from '@/lib/turnstile.server';
 import { defaultWelcome, emailDraftSchema, WELCOME_KEY, type EmailDraft } from './blocks';
 
 function toDraft(row: { subject: string; preheader: string; blocks: unknown } | null, fallback: EmailDraft): EmailDraft {
@@ -13,13 +14,35 @@ function toDraft(row: { subject: string; preheader: string; blocks: unknown } | 
 
 const idSchema = z.string().uuid();
 const keySchema = z.string().regex(/^[a-z0-9-]{1,60}$/);
+const MAX_JOINS_PER_HOUR = 3;
 
 /** Public: a guest joins the Pasta Club. Sends the welcome email once. */
 export const joinClub = createServerFn({ method: 'POST' })
   .inputValidator((input: unknown) =>
-    z.object({ email: z.string().trim().toLowerCase().email().max(254), consent: z.literal(true) }).parse(input),
+    z
+      .object({
+        email: z.string().trim().toLowerCase().email().max(254),
+        consent: z.literal(true),
+        turnstileToken: z.string().max(4096).optional(),
+        website: z.string().max(200).optional(),
+      })
+      .parse(input),
   )
   .handler(async ({ data }) => {
+    if (data.website) return { status: 'joined' as const };
+    if (!(await verifyTurnstile(data.turnstileToken))) {
+      throw new Error('Please complete the human check and try again.');
+    }
+
+    const since = new Date(Date.now() - 3_600_000).toISOString();
+    const recent = await db()
+      .select({ id: schema.clubSubscribers.id })
+      .from(schema.clubSubscribers)
+      .where(and(eq(schema.clubSubscribers.email, data.email), gte(schema.clubSubscribers.consentAt, since)));
+    if (recent.length >= MAX_JOINS_PER_HOUR) {
+      throw new Error('You’ve tried a few times already. Check your inbox or try again later.');
+    }
+
     const existing = await db().query.clubSubscribers.findFirst({
       where: (t, { eq: eqFn }) => eqFn(t.email, data.email),
     });

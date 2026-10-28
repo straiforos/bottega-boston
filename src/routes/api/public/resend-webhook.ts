@@ -31,7 +31,13 @@ export const Route = createFileRoute('/api/public/resend-webhook')({
         });
         if (!ok || !deliveryId) return new Response('Invalid signature', { status: 401 });
 
-        const parsed = payloadSchema.safeParse(JSON.parse(body));
+        let json: unknown;
+        try {
+          json = JSON.parse(body);
+        } catch {
+          return new Response('ok');
+        }
+        const parsed = payloadSchema.safeParse(json);
         if (!parsed.success) return new Response('ok');
         const effect = eventEffect(parsed.data.type);
         if (!effect) return new Response('ok');

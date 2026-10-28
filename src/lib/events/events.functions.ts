@@ -1,7 +1,9 @@
 import { createServerFn } from '@tanstack/react-start';
+import { getRequest } from '@tanstack/react-start/server';
 import { and, eq } from 'drizzle-orm';
 import { z } from 'zod';
 import { requireStaffSession } from '@/integrations/auth/session-middleware';
+import { staffFromRequest } from '@/lib/auth/staff';
 import { db, schema } from '@/lib/db';
 import type { Json } from '@/lib/json';
 import { parseRecurrence, type BottegaEvent, type EventDraft } from './events-shared';
@@ -55,7 +57,10 @@ function mapEvent(
 }
 
 export const fetchEvents = createServerFn({ method: 'GET' }).handler(async () => {
-  const rows = await db().select().from(schema.events);
+  const staff = await staffFromRequest(getRequest());
+  const rows = staff
+    ? await db().select().from(schema.events)
+    : await db().select().from(schema.events).where(eq(schema.events.published, true));
   const exceptions = await db().select().from(schema.eventExceptions);
   const byEvent = new Map<string, typeof exceptions>();
   for (const ex of exceptions) {

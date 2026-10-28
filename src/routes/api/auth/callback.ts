@@ -1,21 +1,9 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { env } from 'cloudflare:workers';
+import { clearOauthNonceCookieHeader, verifyOAuthState } from '@/lib/auth/oauth-state';
 import { publicOrigin } from '@/lib/auth/public-origin';
 import { isStaffEmail } from '@/lib/auth/staff';
 import { sessionCookieHeader, signSession } from '@/lib/auth/session';
-
-function decodeState(state: string | null): string {
-  if (!state) return '/';
-  try {
-    const padded = state.replace(/-/g, '+').replace(/_/g, '/') + '==='.slice((state.length + 3) % 4);
-    const parsed = JSON.parse(atob(padded)) as { returnTo?: string };
-    const returnTo = parsed.returnTo ?? '/';
-    if (!returnTo.startsWith('/') || returnTo.startsWith('//')) return '/';
-    return returnTo;
-  } catch {
-    return '/';
-  }
-}
 
 /** Exchanges the Google code, checks staff_allowlist, sets the session cookie. */
 export const Route = createFileRoute('/api/auth/callback')({
@@ -25,10 +13,21 @@ export const Route = createFileRoute('/api/auth/callback')({
         const url = new URL(request.url);
         const origin = publicOrigin(url);
         const code = url.searchParams.get('code');
-        const returnTo = decodeState(url.searchParams.get('state'));
-        const fail = (reason: 'not_listed' | 'failed') =>
-          Response.redirect(`${origin}${returnTo}${returnTo.includes('?') ? '&' : '?'}staff_error=${reason}`, 302);
+        const returnTo = await verifyOAuthState(url.searchParams.get('state'), request);
+        const clearOauth = clearOauthNonceCookieHeader();
 
+        const redirect = (path: string, cookies: string[]) => {
+          const headers = new Headers({ Location: `${origin}${path}` });
+          for (const cookie of cookies) headers.append('Set-Cookie', cookie);
+          return new Response(null, { status: 302, headers });
+        };
+
+        const fail = (reason: 'not_listed' | 'failed') => {
+          const path = returnTo ?? '/';
+          return redirect(`${path}${path.includes('?') ? '&' : '?'}staff_error=${reason}`, [clearOauth]);
+        };
+
+        if (!returnTo) return fail('failed');
         if (!code) return fail('failed');
         const clientId = env.GOOGLE_CLIENT_ID;
         const clientSecret = env.GOOGLE_CLIENT_SECRET;
@@ -59,13 +58,7 @@ export const Route = createFileRoute('/api/auth/callback')({
         if (!(await isStaffEmail(email))) return fail('not_listed');
 
         const token = await signSession(email);
-        return new Response(null, {
-          status: 302,
-          headers: {
-            Location: `${origin}${returnTo}`,
-            'Set-Cookie': sessionCookieHeader(token),
-          },
-        });
+        return redirect(returnTo, [sessionCookieHeader(token), clearOauth]);
       },
     },
   },

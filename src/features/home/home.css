@@ -448,6 +448,13 @@
   gap: var(--bt-space-md);
   margin-top: var(--bt-space-lg);
 }
+.club-hp {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
 @media (max-width: 900px) {
   .hero-copy {
     bottom: var(--bt-space-lg);
