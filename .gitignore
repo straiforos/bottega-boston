@@ -48,3 +48,6 @@ infra/cloudflare/override.tf.json
 
 # Lovable sandbox workspace directory
 .workspace/
+
+# Local exports (Supabase storage dumps, etc.)
+export/
