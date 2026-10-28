@@ -59,12 +59,17 @@ function readVideoSize(file: File): Promise<{ width: number; height: number }> {
   });
 }
 
+/** Match package.json @ffmpeg/core; CDN keeps the 30MB wasm out of Workers assets. */
+const FFMPEG_CORE_CDN = 'https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.10/dist/esm';
+
 async function processVideo(file: File, onProgress: Progress): Promise<ProcessedMedia> {
-  const [{ FFmpeg }, { fetchFile }, coreURL, wasmURL] = await Promise.all([
+  const [{ FFmpeg }, { fetchFile, toBlobURL }] = await Promise.all([
     import('@ffmpeg/ffmpeg'),
     import('@ffmpeg/util'),
-    import('@ffmpeg/core?url').then((m) => m.default),
-    import('@ffmpeg/core/wasm?url').then((m) => m.default),
+  ]);
+  const [coreURL, wasmURL] = await Promise.all([
+    toBlobURL(`${FFMPEG_CORE_CDN}/ffmpeg-core.js`, 'text/javascript'),
+    toBlobURL(`${FFMPEG_CORE_CDN}/ffmpeg-core.wasm`, 'application/wasm'),
   ]);
   const { width, height } = await readVideoSize(file);
   const specs = renditionsFor(width, height);
