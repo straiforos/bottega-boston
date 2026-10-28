@@ -1,17 +1,19 @@
 #!/usr/bin/env node
 /**
- * Uploads ./export/supabase-storage/{menu-images,gallery-media}/** into R2
- * bucket bottega-media, preserving object keys (same prefixes the app uses).
+ * Uploads a local export tree into R2 bottega-media, preserving relative keys.
  *
- * Requires: CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID
+ * ENV:
+ *   EXPORT_ROOT  relative dir under the repo (default: export/supabase-storage)
+ *   R2_BUCKET    (default: bottega-media)
+ *   CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID
  */
-import { readdir, readFile, stat } from 'node:fs/promises';
+import { readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { spawn } from 'node:child_process';
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
-const exportRoot = path.join(root, 'export/supabase-storage');
+const exportRoot = path.resolve(root, process.env.EXPORT_ROOT ?? 'export/supabase-storage');
 const bucket = process.env.R2_BUCKET ?? 'bottega-media';
 
 const token = process.env.CLOUDFLARE_API_TOKEN?.trim();

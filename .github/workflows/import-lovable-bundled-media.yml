@@ -1,0 +1,36 @@
+name: Import Lovable bundled media to R2
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: import-lovable-bundled-media
+  cancel-in-progress: false
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install
+        run: bun install --frozen-lockfile
+
+      - name: Download from Lovable CDN
+        env:
+          LOVABLE_SITE_ORIGIN: https://bottega-delights-site.lovable.app
+        run: node scripts/export-lovable-bundled-assets.mjs
+
+      - name: Upload to R2 bottega-media
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          EXPORT_ROOT: export/bundled-media
+        run: node scripts/upload-export-to-r2.mjs
