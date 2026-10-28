@@ -16,10 +16,11 @@ env:
   CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
   CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
   TF_VAR_cloudflare_account_id: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-  # OpenTofu S3 backend → R2 (account endpoint only; bucket hostnames break TLS)
+  # OpenTofu S3 backend → R2
   AWS_ACCESS_KEY_ID: ${{ secrets.S3_ACCESS_KEY_ID }}
   AWS_SECRET_ACCESS_KEY: ${{ secrets.S3_SECRET_ACCESS_KEY }}
   AWS_EC2_METADATA_DISABLED: 'true'
+  TF_STATE_BUCKET: bottega-tfstate
 
 jobs:
   deploy:
@@ -43,29 +44,67 @@ jobs:
 
       - name: Ensure Terraform state bucket
         run: |
-          # Idempotent: succeed whether the bucket is new or already present.
-          if bunx wrangler r2 bucket create bottega-tfstate; then
-            echo "Created R2 bucket bottega-tfstate"
-          else
-            echo "bottega-tfstate already exists (or create returned non-zero); continuing"
+          set +e
+          OUT="$(bunx wrangler r2 bucket create "${TF_STATE_BUCKET}" 2>&1)"
+          CODE=$?
+          set -e
+          printf '%s\n' "$OUT"
+          if [ "$CODE" -eq 0 ]; then
+            echo "Created R2 bucket ${TF_STATE_BUCKET}"
+            exit 0
           fi
+          if printf '%s' "$OUT" | grep -qiE 'already exists|A bucket with that name already exists'; then
+            echo "${TF_STATE_BUCKET} already exists; continuing"
+            exit 0
+          fi
+          if printf '%s' "$OUT" | grep -q '10042'; then
+            echo "::error::R2 is not enabled on this Cloudflare account (API 10042)."
+            echo "Open https://dash.cloudflare.com → Storage & databases → R2 → Overview"
+            echo "and complete Add R2 subscription (payment method required; free tier is \$0)."
+            exit 1
+          fi
+          echo "::error::Failed to create R2 bucket ${TF_STATE_BUCKET} (exit $CODE)"
+          exit 1
+
+      - name: Probe R2 S3 endpoint TLS
+        run: |
+          ACCOUNT_ID="${CLOUDFLARE_ACCOUNT_ID:?CLOUDFLARE_ACCOUNT_ID secret required}"
+          # Prefer the dashboard S3 endpoint secret when it is already the account host.
+          RAW="${{ secrets.S3_ENDPOINT }}"
+          RAW="${RAW%/}"
+          if [[ "$RAW" =~ ^https://[a-f0-9]{32}\.r2\.cloudflarestorage\.com$ ]]; then
+            ENDPOINT="$RAW"
+          else
+            ENDPOINT="https://${ACCOUNT_ID}.r2.cloudflarestorage.com"
+          fi
+          echo "R2_S3_ENDPOINT=${ENDPOINT}" >> "$GITHUB_ENV"
+          echo "Probing ${ENDPOINT}"
+          set +e
+          CURL_OUT="$(curl -sS -o /dev/null -w '%{http_code}' --connect-timeout 10 --max-time 20 "${ENDPOINT}/" 2>&1)"
+          CURL_CODE=$?
+          set -e
+          if [ "$CURL_CODE" -ne 0 ]; then
+            echo "::error::R2 S3 endpoint TLS/connect failed (${CURL_OUT})."
+            echo "Confirm CLOUDFLARE_ACCOUNT_ID is the account id from dash.cloudflare.com / R2 Overview"
+            echo "(not an R2 access key id). Fresh R2 subscriptions sometimes need hours for the"
+            echo "per-account cert; curl -vI ${ENDPOINT} should return HTTP 4xx once ready."
+            exit 1
+          fi
+          echo "R2 S3 endpoint reachable (HTTP ${CURL_OUT})"
 
       - name: OpenTofu init
         working-directory: infra/cloudflare
         run: |
-          ACCOUNT_ID="${CLOUDFLARE_ACCOUNT_ID:?CLOUDFLARE_ACCOUNT_ID secret required}"
-          # Must be https://<accountid>.r2.cloudflarestorage.com — not a bucket
-          # subdomain and not S3_ENDPOINT if that value is virtual-hosted or Spaces.
-          ENDPOINT="https://${ACCOUNT_ID}.r2.cloudflarestorage.com"
-          echo "Using R2 state endpoint ${ENDPOINT}"
-          export AWS_ENDPOINT_URL_S3="${ENDPOINT}"
+          export AWS_ENDPOINT_URL_S3="${R2_S3_ENDPOINT}"
           tofu init -input=false -reconfigure \
-            -backend-config="endpoints={s3=\"${ENDPOINT}\"}" \
+            -backend-config="endpoints={s3=\"${R2_S3_ENDPOINT}\"}" \
             -backend-config="use_path_style=true"
 
       - name: Provision D1 and R2
         working-directory: infra/cloudflare
-        run: tofu apply -input=false -auto-approve -var='manage_dns=false'
+        run: |
+          export AWS_ENDPOINT_URL_S3="${R2_S3_ENDPOINT}"
+          tofu apply -input=false -auto-approve -var='manage_dns=false'
 
       - name: Render Wrangler config
         working-directory: infra/cloudflare
@@ -128,6 +167,5 @@ jobs:
       - name: Attach custom domain
         working-directory: infra/cloudflare
         run: |
-          ENDPOINT="https://${CLOUDFLARE_ACCOUNT_ID}.r2.cloudflarestorage.com"
-          export AWS_ENDPOINT_URL_S3="${ENDPOINT}"
+          export AWS_ENDPOINT_URL_S3="${R2_S3_ENDPOINT}"
           tofu apply -input=false -auto-approve -var='manage_dns=true'

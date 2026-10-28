@@ -14,14 +14,14 @@ The Worker script, cron, secrets, and SQL migrations stay in Wrangler / GitHub A
 
 1. Zone `bottega.boston` already on Cloudflare (nameservers delegated).
 2. API token (`CLOUDFLARE_API_TOKEN`) with Account: D1 Edit, Workers R2 Storage Edit, Workers Scripts Edit; Zone: Workers Routes / DNS Edit for that zone.
-3. R2 S3 API token in GitHub as `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, `S3_ENDPOINT` (also used by the Worker for presigned uploads).
+3. R2 S3 API token in GitHub as `S3_ACCESS_KEY_ID`, `S3_SECRET_ACCESS_KEY`, and account endpoint as `S3_ENDPOINT` (`https://<accountid>.r2.cloudflarestorage.com` — also used by the Worker for presigned uploads).
 4. [OpenTofu](https://opentofu.org/) ≥ 1.6 locally if you apply by hand.
 
 ## Local apply
 
 ```bash
 export CLOUDFLARE_API_TOKEN=…
-export AWS_ACCESS_KEY_ID=…          # R2 S3 access key (account or bucket token)
+export AWS_ACCESS_KEY_ID=…          # R2 S3 access key
 export AWS_SECRET_ACCESS_KEY=…
 # Account endpoint only — never https://<bucket>.<account>.r2.cloudflarestorage.com
 export AWS_ENDPOINT_URL_S3=https://<accountid>.r2.cloudflarestorage.com
@@ -38,7 +38,7 @@ tofu apply -var='manage_dns=false'
 tofu apply -var='manage_dns=true'
 ```
 
-CI derives that same account endpoint from `CLOUDFLARE_ACCOUNT_ID`. It does **not** use `S3_ENDPOINT` for Terraform state, because that secret is often a bucket URL or a non-R2 host and R2’s TLS cert only covers `*.r2.cloudflarestorage.com`.
+CI builds that same account endpoint from `CLOUDFLARE_ACCOUNT_ID` (must be the account id from the dashboard URL / R2 Overview, not an R2 access key id). If `tofu init` fails with `tls: handshake failure`, the per-account S3 cert may still be provisioning — confirm with `curl -vI "$AWS_ENDPOINT_URL_S3"` and wait or open a Cloudflare ticket.
 
 ## Not in this stack
 

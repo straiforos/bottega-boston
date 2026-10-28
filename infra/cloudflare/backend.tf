@@ -1,9 +1,8 @@
-# State lives in R2 (S3-compatible). Bucket `bottega-tfstate` is created by the
-# deploy workflow before `tofu init` if it does not already exist.
+# State lives in R2 via the S3-compatible API. Bucket `bottega-tfstate` is
+# created by the deploy workflow before `tofu init` if it does not exist.
 #
 # Credentials: R2 S3 tokens as AWS_ACCESS_KEY_ID / AWS_SECRET_ACCESS_KEY.
-# Endpoint must be passed at init time as:
-#   endpoints = { s3 = "https://<ACCOUNT_ID>.r2.cloudflarestorage.com" }
+# Endpoint (passed at init): https://<ACCOUNT_ID>.r2.cloudflarestorage.com
 # Path-style is required: virtual-hosted bucket hostnames fail TLS on R2.
 terraform {
   backend "s3" {
