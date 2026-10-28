@@ -4,7 +4,6 @@ import { z } from 'zod';
 import { requireStaffSession } from '@/integrations/auth/session-middleware';
 import { db, schema } from '@/lib/db';
 import type { Json } from '@/lib/json';
-import { verifyTurnstile } from '@/lib/turnstile.server';
 import { defaultWelcome, emailDraftSchema, WELCOME_KEY, type EmailDraft } from './blocks';
 
 function toDraft(row: { subject: string; preheader: string; blocks: unknown } | null, fallback: EmailDraft): EmailDraft {
@@ -30,6 +29,7 @@ export const joinClub = createServerFn({ method: 'POST' })
   )
   .handler(async ({ data }) => {
     if (data.website) return { status: 'joined' as const };
+    const { verifyTurnstile } = await import('@/lib/turnstile.server');
     if (!(await verifyTurnstile(data.turnstileToken))) {
       throw new Error('Please complete the human check and try again.');
     }

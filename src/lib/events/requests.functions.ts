@@ -1,11 +1,11 @@
 import { createServerFn } from '@tanstack/react-start';
 import { and, desc, eq, gte, inArray, like } from 'drizzle-orm';
 import { z } from 'zod';
+import { env } from 'cloudflare:workers';
 import { requireStaffSession } from '@/integrations/auth/session-middleware';
 import { db, schema } from '@/lib/db';
 import type { Json } from '@/lib/json';
 import type { EmailDraft } from '@/lib/email/blocks';
-import { getTurnstileSiteKey, verifyTurnstile } from '@/lib/turnstile.server';
 import {
   describeLines,
   formatMoney,
@@ -17,10 +17,13 @@ import {
   type OrderLine,
 } from './requests';
 
-export { getTurnstileSiteKey };
-
 const STAFF_INBOX = 'ciao@eatbottega.com';
 const MAX_PER_HOUR = 3;
+
+/** Public: the Turnstile site key (publishable) for guest forms. */
+export const getTurnstileSiteKey = createServerFn({ method: 'GET' }).handler(async () => ({
+  siteKey: env.TURNSTILE_SITE_KEY ?? '',
+}));
 
 const guestFallback = (kind: 'catering' | 'space'): EmailDraft => ({
   subject: kind === 'catering' ? 'We got your Bottega catering request' : 'We got your Bottega event request',
@@ -50,6 +53,7 @@ export const submitRequest = createServerFn({ method: 'POST' })
   .inputValidator((input: unknown) => requestSchema.parse(input))
   .handler(async ({ data }) => {
     if (data.website) return { ok: true as const };
+    const { verifyTurnstile } = await import('@/lib/turnstile.server');
     if (!(await verifyTurnstile(data.turnstileToken))) throw new Error('Please complete the human check and try again.');
 
     const since = new Date(Date.now() - 3_600_000).toISOString();
