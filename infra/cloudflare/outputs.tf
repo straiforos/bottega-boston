@@ -18,3 +18,7 @@ output "zone_id" {
 output "site_hostname" {
   value = var.zone_name
 }
+
+output "www_hostname" {
+  value = "www.${var.zone_name}"
+}

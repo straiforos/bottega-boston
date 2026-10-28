@@ -32,6 +32,7 @@ resource "cloudflare_r2_bucket_cors" "media" {
       allowed = {
         origins = [
           "https://${var.zone_name}",
+          "https://www.${var.zone_name}",
           "http://localhost:3000",
           "http://127.0.0.1:3000",
         ]
@@ -52,5 +53,16 @@ resource "cloudflare_workers_custom_domain" "apex" {
   zone_id    = data.cloudflare_zone.site.id
   zone_name  = var.zone_name
   hostname   = var.zone_name
+  service    = var.worker_name
+}
+
+# www hits the same Worker; the Worker 301s to the apex (SITE_ORIGIN).
+resource "cloudflare_workers_custom_domain" "www" {
+  count = var.manage_dns ? 1 : 0
+
+  account_id = var.cloudflare_account_id
+  zone_id    = data.cloudflare_zone.site.id
+  zone_name  = var.zone_name
+  hostname   = "www.${var.zone_name}"
   service    = var.worker_name
 }

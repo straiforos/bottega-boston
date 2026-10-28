@@ -38,26 +38,6 @@ main {
   top: 0;
   z-index: 10;
 }
-.coming-soon-banner {
-  background: var(--bt-tomato);
-  color: var(--bt-cream);
-  text-align: center;
-  padding: var(--bt-space-sm) var(--bt-margin);
-}
-.coming-soon-banner__text {
-  margin: 0;
-  font-size: var(--bt-text-sm);
-  line-height: 1.4;
-}
-.coming-soon-banner__link {
-  color: inherit;
-  font-weight: 600;
-  text-decoration: underline;
-  text-underline-offset: 0.15em;
-}
-.coming-soon-banner__link:hover {
-  text-decoration-thickness: 0.12em;
-}
 .shared-header {
   gap: var(--bt-space-lg);
 }

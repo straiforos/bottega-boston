@@ -175,14 +175,15 @@ jobs:
           bunx wrangler secret bulk /tmp/bottega-secrets.json --config dist/server/wrangler.json
           rm -f /tmp/bottega-secrets.json
 
-      # Skip DNS deletes when the apex is already a Workers custom domain (avoids flap).
-      - name: Ensure apex Workers domain
+      # Skip DNS deletes when apex/www are already Workers custom domains (avoids flap).
+      - name: Ensure apex and www Workers domains
         run: node scripts/ensure-workers-apex.mjs
         env:
           ZONE_NAME: bottega.boston
           WORKER_NAME: bottega-boston
+          HOSTNAMES: bottega.boston,www.bottega.boston
 
-      - name: Attach custom domain
+      - name: Attach custom domains
         working-directory: infra/cloudflare
         run: |
           export AWS_ENDPOINT_URL_S3="${R2_S3_ENDPOINT}"

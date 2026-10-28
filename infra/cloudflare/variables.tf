@@ -29,6 +29,6 @@ variable "r2_bucket_name" {
 
 variable "manage_dns" {
   type        = bool
-  description = "When true, attach the apex hostname to the Worker as a custom domain."
+  description = "When true, attach apex and www hostnames to the Worker as custom domains."
   default     = true
 }

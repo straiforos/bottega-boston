@@ -5,7 +5,7 @@ Declares account resources the Worker binds to:
 - D1 database `bottega`
 - R2 bucket `bottega-media`
 - Zone setting **Always Use HTTPS** (`always_use_https = on`)
-- Workers custom domain `bottega.boston` (after the script exists)
+- Workers custom domains `bottega.boston` and `www.bottega.boston` (after the script exists; Worker 301s www → apex)
 
 State is stored in R2 bucket `bottega-tfstate` (S3 backend). The deploy workflow creates that bucket if missing, then applies this stack on every push to `main`.
 
@@ -41,7 +41,7 @@ tofu apply -var='manage_dns=false' \
   -target=cloudflare_d1_database.bottega \
   -target=cloudflare_r2_bucket.media \
   -target=cloudflare_r2_bucket_cors.media
-# After wrangler deploy (idempotent once the domain exists):
+# After wrangler deploy (idempotent once the domains exist):
 node ../../scripts/ensure-workers-apex.mjs
 tofu apply -var='manage_dns=true'
 ```

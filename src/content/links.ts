@@ -1,7 +1,5 @@
 export const links = {
   order: 'https://ciao724.wixstudio.com/my-site/online-ordering',
-  /** Current public site while bottega.boston is still coming online. */
-  liveSite: 'https://eatbottega.com',
   instagram: 'https://www.instagram.com/eatbottega/',
   facebook: 'https://www.facebook.com/EATBOTTEGA/',
   email: 'ciao@eatbottega.com',

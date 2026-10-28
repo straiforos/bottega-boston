@@ -7,8 +7,8 @@
   "vars": {
     "SITE_ORIGIN": "https://bottega.boston"
   },
-  // Custom domain is owned by OpenTofu (infra/cloudflare). Keep routes empty in git;
-  // CI attaches bottega.boston after the Worker script exists.
+  // Custom domains are owned by OpenTofu (infra/cloudflare). Keep routes empty in git;
+  // CI attaches bottega.boston and www.bottega.boston after the Worker script exists.
   "triggers": {
     "crons": ["*/5 * * * *"]
   },
