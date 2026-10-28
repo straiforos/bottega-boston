@@ -120,6 +120,21 @@ jobs:
           CLOUDFLARE_INCLUDE_PROCESS_ENV: 'true'
         run: bun run build
 
+      - name: Patch deploy Wrangler config
+        run: WRANGLER_CONFIG_MODE=dist D1_DATABASE_ID="$D1_DATABASE_ID" node scripts/render-wrangler-config.mjs
+
+      - name: Apply D1 migrations
+        run: bunx wrangler d1 migrations apply bottega --remote --config wrangler.ci.json
+
+      - name: Deploy Worker
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # Vite + @cloudflare/vite-plugin emit a no_bundle Worker under dist/server.
+          # Deploy that artifact — do not rebundle src/worker.ts (TanStack virtual imports).
+          command: deploy --config dist/server/wrangler.json
+
       - name: Write Worker secrets
         env:
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
@@ -151,18 +166,8 @@ jobs:
           ]
           print(json.dumps({k: os.environ[k] for k in keys if os.environ.get(k)}))
           PY
-          bunx wrangler secret bulk /tmp/bottega-secrets.json --config wrangler.ci.json
+          bunx wrangler secret bulk /tmp/bottega-secrets.json --config dist/server/wrangler.json
           rm -f /tmp/bottega-secrets.json
-
-      - name: Apply D1 migrations
-        run: bunx wrangler d1 migrations apply bottega --remote --config wrangler.ci.json
-
-      - name: Deploy Worker
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy --config wrangler.ci.json
 
       - name: Attach custom domain
         working-directory: infra/cloudflare
