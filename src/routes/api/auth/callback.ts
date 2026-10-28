@@ -1,5 +1,6 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { env } from 'cloudflare:workers';
+import { publicOrigin } from '@/lib/auth/public-origin';
 import { isStaffEmail } from '@/lib/auth/staff';
 import { sessionCookieHeader, signSession } from '@/lib/auth/session';
 
@@ -22,10 +23,11 @@ export const Route = createFileRoute('/api/auth/callback')({
     handlers: {
       GET: async ({ request }) => {
         const url = new URL(request.url);
+        const origin = publicOrigin(url);
         const code = url.searchParams.get('code');
         const returnTo = decodeState(url.searchParams.get('state'));
         const fail = (reason: 'not_listed' | 'failed') =>
-          Response.redirect(`${url.origin}${returnTo}${returnTo.includes('?') ? '&' : '?'}staff_error=${reason}`, 302);
+          Response.redirect(`${origin}${returnTo}${returnTo.includes('?') ? '&' : '?'}staff_error=${reason}`, 302);
 
         if (!code) return fail('failed');
         const clientId = env.GOOGLE_CLIENT_ID;
@@ -39,7 +41,7 @@ export const Route = createFileRoute('/api/auth/callback')({
             code,
             client_id: clientId,
             client_secret: clientSecret,
-            redirect_uri: `${url.origin}/api/auth/callback`,
+            redirect_uri: `${origin}/api/auth/callback`,
             grant_type: 'authorization_code',
           }),
         });
@@ -60,7 +62,7 @@ export const Route = createFileRoute('/api/auth/callback')({
         return new Response(null, {
           status: 302,
           headers: {
-            Location: `${url.origin}${returnTo}`,
+            Location: `${origin}${returnTo}`,
             'Set-Cookie': sessionCookieHeader(token),
           },
         });
