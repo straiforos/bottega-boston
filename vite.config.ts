@@ -6,10 +6,10 @@ import { tanstackStart } from '@tanstack/react-start/plugin/vite';
 import viteReact from '@vitejs/plugin-react';
 import { mockupPreviewPlugin } from './mockupPreviewPlugin';
 
-export default defineConfig(({ command }) => {
-  // Cloudflare Workers plugin only on build (produces the worker output);
-  // the workerd runtime isn't available for the plain Vite dev server.
-  const useCloudflare = command === 'build';
+export default defineConfig(({ command, isPreview }) => {
+  // Build emits the Worker; preview (including TanStack prerender) needs the
+  // same plugin so Miniflare serves HTML. Plain `vite dev` stays without it.
+  const useCloudflare = command === 'build' || !!isPreview;
 
   return {
     server: {
@@ -30,12 +30,28 @@ export default defineConfig(({ command }) => {
       tsConfigPaths({ projects: ['./tsconfig.json'] }),
       ...(useCloudflare ? [cloudflare({ viteEnvironment: { name: 'ssr' } })] : []),
       tanstackStart({
-        // Static prerender is off until TanStack Start can load the Cloudflare
-        // Vite SSR entry (cloudflare: scheme / server.js vs index.js). Pages
-        // still SSR on the Worker at request time.
+        // Static HTML shells for guest pages (served as assets; Worker still SSR
+        // staff/API). Filter keeps admin, email studio, and API out of the crawl.
         prerender: {
-          enabled: false,
+          enabled: true,
+          crawlLinks: true,
+          failOnError: true,
+          filter: ({ path }) =>
+            !path.includes('#') &&
+            !path.startsWith('/admin') &&
+            !path.startsWith('/emails') &&
+            !path.startsWith('/api') &&
+            !path.startsWith('/media') &&
+            !path.includes('__mockup') &&
+            !path.includes('__component'),
         },
+        pages: [
+          { path: '/' },
+          { path: '/menu' },
+          { path: '/catering' },
+          { path: '/events/request' },
+          { path: '/unsubscribed' },
+        ],
       }),
       viteReact(),
     ],
