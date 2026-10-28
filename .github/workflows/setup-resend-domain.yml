@@ -1,0 +1,24 @@
+name: Setup Resend domain DNS
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: setup-resend-domain
+  cancel-in-progress: false
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Register bottega.boston with Resend + Cloudflare DNS
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          ZONE_NAME: bottega.boston
+        run: node scripts/setup-resend-domain.mjs

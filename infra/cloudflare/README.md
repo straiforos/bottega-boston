@@ -4,6 +4,7 @@ Declares account resources the Worker binds to:
 
 - D1 database `bottega`
 - R2 bucket `bottega-media`
+- Zone setting **Always Use HTTPS** (`always_use_https = on`)
 - Workers custom domain `bottega.boston` (after the script exists)
 
 State is stored in R2 bucket `bottega-tfstate` (S3 backend). The deploy workflow creates that bucket if missing, then applies this stack on every push to `main`.
@@ -48,4 +49,4 @@ CI builds that same account endpoint from `CLOUDFLARE_ACCOUNT_ID` (must be the a
 | Worker secrets | GitHub Actions secrets → `wrangler secret bulk` |
 | R2 S3 access key pair | Cloudflare dashboard → R2 API tokens → GitHub `S3_*` |
 | Google OAuth / Turnstile / Maps allowlists | Those product dashboards (`bottega.boston`) |
-| Resend domain + webhook URL | Resend dashboard |
+| Resend domain DNS (`bottega.boston`) | `scripts/setup-resend-domain.mjs` / Actions “Setup Resend domain DNS”; webhook URL in Resend dashboard |

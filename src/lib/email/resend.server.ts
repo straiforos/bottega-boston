@@ -2,8 +2,8 @@ import { env } from 'cloudflare:workers';
 
 const RESEND_URL = 'https://api.resend.com';
 
-/** Sender used until a domain is verified in Resend; change after verifying the restaurant domain. */
-export const EMAIL_FROM = 'Bottega Pasta Club <onboarding@resend.dev>';
+/** Verified sending domain on Resend (DNS: scripts/setup-resend-domain.mjs). */
+export const EMAIL_FROM = 'Bottega Pasta Club <club@bottega.boston>';
 
 export interface OutgoingEmail {
   to: string;
