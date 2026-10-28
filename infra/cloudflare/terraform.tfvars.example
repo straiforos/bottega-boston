@@ -1,0 +1,8 @@
+cloudflare_account_id = "your-account-id"
+zone_name             = "bottega.boston"
+worker_name           = "bottega-boston"
+d1_name               = "bottega"
+r2_bucket_name        = "bottega-media"
+# First apply: false until the Worker script exists, then true (CI does both).
+manage_dns            = false
+

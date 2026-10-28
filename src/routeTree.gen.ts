@@ -15,6 +15,7 @@ import { Route as SiteCateringRouteImport } from './routes/_site/catering'
 import { Route as SiteEmailsRouteImport } from './routes/_site/emails'
 import { Route as SiteMenuRouteImport } from './routes/_site/menu'
 import { Route as SiteUnsubscribedRouteImport } from './routes/_site/unsubscribed'
+import { Route as MediaSplatRouteImport } from './routes/media.$'
 import { Route as Char91__componentChar93PreviewSplatRouteImport } from './routes/[__component].preview.$'
 import { Route as Char91__mockupChar93PreviewSplatRouteImport } from './routes/[__mockup].preview.$'
 import { Route as SiteAdminEventsRouteImport } from './routes/_site/admin.events'
@@ -22,6 +23,10 @@ import { Route as SiteAdminRequestsRouteImport } from './routes/_site/admin.requ
 import { Route as SiteEmailsComposeRouteImport } from './routes/_site/emails_.compose'
 import { Route as SiteEmailsWelcomeRouteImport } from './routes/_site/emails_.welcome'
 import { Route as SiteEventsRequestRouteImport } from './routes/_site/events.request'
+import { Route as ApiAuthCallbackRouteImport } from './routes/api/auth/callback'
+import { Route as ApiAuthGoogleRouteImport } from './routes/api/auth/google'
+import { Route as ApiAuthLogoutRouteImport } from './routes/api/auth/logout'
+import { Route as ApiAuthMeRouteImport } from './routes/api/auth/me'
 import { Route as ApiPublicResendWebhookRouteImport } from './routes/api/public/resend-webhook'
 import { Route as ApiPublicSendScheduledRouteImport } from './routes/api/public/send-scheduled'
 import { Route as ApiPublicUnsubscribeRouteImport } from './routes/api/public/unsubscribe'
@@ -56,6 +61,11 @@ const SiteUnsubscribedRoute = SiteUnsubscribedRouteImport.update({
   id: '/unsubscribed',
   path: '/unsubscribed',
   getParentRoute: () => SiteRoute,
+} as any)
+const MediaSplatRoute = MediaSplatRouteImport.update({
+  id: '/media/$',
+  path: '/media/$',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const Char91__componentChar93PreviewSplatRoute =
   Char91__componentChar93PreviewSplatRouteImport.update({
@@ -94,6 +104,26 @@ const SiteEventsRequestRoute = SiteEventsRequestRouteImport.update({
   path: '/events/request',
   getParentRoute: () => SiteRoute,
 } as any)
+const ApiAuthCallbackRoute = ApiAuthCallbackRouteImport.update({
+  id: '/api/auth/callback',
+  path: '/api/auth/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAuthGoogleRoute = ApiAuthGoogleRouteImport.update({
+  id: '/api/auth/google',
+  path: '/api/auth/google',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAuthLogoutRoute = ApiAuthLogoutRouteImport.update({
+  id: '/api/auth/logout',
+  path: '/api/auth/logout',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ApiAuthMeRoute = ApiAuthMeRouteImport.update({
+  id: '/api/auth/me',
+  path: '/api/auth/me',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ApiPublicResendWebhookRoute = ApiPublicResendWebhookRouteImport.update({
   id: '/api/public/resend-webhook',
   path: '/api/public/resend-webhook',
@@ -126,6 +156,7 @@ export interface FileRoutesByFullPath {
   '/emails': typeof SiteEmailsRoute
   '/menu': typeof SiteMenuRoute
   '/unsubscribed': typeof SiteUnsubscribedRoute
+  '/media/$': typeof MediaSplatRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
   '/admin/events': typeof SiteAdminEventsRoute
@@ -133,6 +164,10 @@ export interface FileRoutesByFullPath {
   '/emails/compose': typeof SiteEmailsComposeRoute
   '/emails/welcome': typeof SiteEmailsWelcomeRoute
   '/events/request': typeof SiteEventsRequestRoute
+  '/api/auth/callback': typeof ApiAuthCallbackRoute
+  '/api/auth/google': typeof ApiAuthGoogleRoute
+  '/api/auth/logout': typeof ApiAuthLogoutRoute
+  '/api/auth/me': typeof ApiAuthMeRoute
   '/api/public/resend-webhook': typeof ApiPublicResendWebhookRoute
   '/api/public/send-scheduled': typeof ApiPublicSendScheduledRoute
   '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
@@ -144,6 +179,7 @@ export interface FileRoutesByTo {
   '/emails': typeof SiteEmailsRoute
   '/menu': typeof SiteMenuRoute
   '/unsubscribed': typeof SiteUnsubscribedRoute
+  '/media/$': typeof MediaSplatRoute
   '/': typeof SiteIndexRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
@@ -152,6 +188,10 @@ export interface FileRoutesByTo {
   '/emails/compose': typeof SiteEmailsComposeRoute
   '/emails/welcome': typeof SiteEmailsWelcomeRoute
   '/events/request': typeof SiteEventsRequestRoute
+  '/api/auth/callback': typeof ApiAuthCallbackRoute
+  '/api/auth/google': typeof ApiAuthGoogleRoute
+  '/api/auth/logout': typeof ApiAuthLogoutRoute
+  '/api/auth/me': typeof ApiAuthMeRoute
   '/api/public/resend-webhook': typeof ApiPublicResendWebhookRoute
   '/api/public/send-scheduled': typeof ApiPublicSendScheduledRoute
   '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
@@ -165,6 +205,7 @@ export interface FileRoutesById {
   '/_site/emails': typeof SiteEmailsRoute
   '/_site/menu': typeof SiteMenuRoute
   '/_site/unsubscribed': typeof SiteUnsubscribedRoute
+  '/media/$': typeof MediaSplatRoute
   '/_site/': typeof SiteIndexRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
@@ -173,6 +214,10 @@ export interface FileRoutesById {
   '/_site/emails_/compose': typeof SiteEmailsComposeRoute
   '/_site/emails_/welcome': typeof SiteEmailsWelcomeRoute
   '/_site/events/request': typeof SiteEventsRequestRoute
+  '/api/auth/callback': typeof ApiAuthCallbackRoute
+  '/api/auth/google': typeof ApiAuthGoogleRoute
+  '/api/auth/logout': typeof ApiAuthLogoutRoute
+  '/api/auth/me': typeof ApiAuthMeRoute
   '/api/public/resend-webhook': typeof ApiPublicResendWebhookRoute
   '/api/public/send-scheduled': typeof ApiPublicSendScheduledRoute
   '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
@@ -187,6 +232,7 @@ export interface FileRouteTypes {
     | '/emails'
     | '/menu'
     | '/unsubscribed'
+    | '/media/$'
     | '/__component/preview/$'
     | '/__mockup/preview/$'
     | '/admin/events'
@@ -194,6 +240,10 @@ export interface FileRouteTypes {
     | '/emails/compose'
     | '/emails/welcome'
     | '/events/request'
+    | '/api/auth/callback'
+    | '/api/auth/google'
+    | '/api/auth/logout'
+    | '/api/auth/me'
     | '/api/public/resend-webhook'
     | '/api/public/send-scheduled'
     | '/api/public/unsubscribe'
@@ -205,6 +255,7 @@ export interface FileRouteTypes {
     | '/emails'
     | '/menu'
     | '/unsubscribed'
+    | '/media/$'
     | '/'
     | '/__component/preview/$'
     | '/__mockup/preview/$'
@@ -213,6 +264,10 @@ export interface FileRouteTypes {
     | '/emails/compose'
     | '/emails/welcome'
     | '/events/request'
+    | '/api/auth/callback'
+    | '/api/auth/google'
+    | '/api/auth/logout'
+    | '/api/auth/me'
     | '/api/public/resend-webhook'
     | '/api/public/send-scheduled'
     | '/api/public/unsubscribe'
@@ -225,6 +280,7 @@ export interface FileRouteTypes {
     | '/_site/emails'
     | '/_site/menu'
     | '/_site/unsubscribed'
+    | '/media/$'
     | '/_site/'
     | '/__component/preview/$'
     | '/__mockup/preview/$'
@@ -233,6 +289,10 @@ export interface FileRouteTypes {
     | '/_site/emails_/compose'
     | '/_site/emails_/welcome'
     | '/_site/events/request'
+    | '/api/auth/callback'
+    | '/api/auth/google'
+    | '/api/auth/logout'
+    | '/api/auth/me'
     | '/api/public/resend-webhook'
     | '/api/public/send-scheduled'
     | '/api/public/unsubscribe'
@@ -242,8 +302,13 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   SiteRoute: typeof SiteRouteWithChildren
+  MediaSplatRoute: typeof MediaSplatRoute
   Char91__componentChar93PreviewSplatRoute: typeof Char91__componentChar93PreviewSplatRoute
   Char91__mockupChar93PreviewSplatRoute: typeof Char91__mockupChar93PreviewSplatRoute
+  ApiAuthCallbackRoute: typeof ApiAuthCallbackRoute
+  ApiAuthGoogleRoute: typeof ApiAuthGoogleRoute
+  ApiAuthLogoutRoute: typeof ApiAuthLogoutRoute
+  ApiAuthMeRoute: typeof ApiAuthMeRoute
   ApiPublicResendWebhookRoute: typeof ApiPublicResendWebhookRoute
   ApiPublicSendScheduledRoute: typeof ApiPublicSendScheduledRoute
   ApiPublicUnsubscribeRoute: typeof ApiPublicUnsubscribeRoute
@@ -293,6 +358,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteUnsubscribedRouteImport
       parentRoute: typeof SiteRoute
     }
+    '/media/$': {
+      id: '/media/$'
+      path: '/media/$'
+      fullPath: '/media/$'
+      preLoaderRoute: typeof MediaSplatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/__component/preview/$': {
       id: '/__component/preview/$'
       path: '/__component/preview/$'
@@ -341,6 +413,34 @@ declare module '@tanstack/react-router' {
       fullPath: '/events/request'
       preLoaderRoute: typeof SiteEventsRequestRouteImport
       parentRoute: typeof SiteRoute
+    }
+    '/api/auth/callback': {
+      id: '/api/auth/callback'
+      path: '/api/auth/callback'
+      fullPath: '/api/auth/callback'
+      preLoaderRoute: typeof ApiAuthCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/auth/google': {
+      id: '/api/auth/google'
+      path: '/api/auth/google'
+      fullPath: '/api/auth/google'
+      preLoaderRoute: typeof ApiAuthGoogleRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/auth/logout': {
+      id: '/api/auth/logout'
+      path: '/api/auth/logout'
+      fullPath: '/api/auth/logout'
+      preLoaderRoute: typeof ApiAuthLogoutRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/api/auth/me': {
+      id: '/api/auth/me'
+      path: '/api/auth/me'
+      fullPath: '/api/auth/me'
+      preLoaderRoute: typeof ApiAuthMeRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/api/public/resend-webhook': {
       id: '/api/public/resend-webhook'
@@ -414,9 +514,14 @@ const SiteRouteWithChildren = SiteRoute._addFileChildren(SiteRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   SiteRoute: SiteRouteWithChildren,
+  MediaSplatRoute: MediaSplatRoute,
   Char91__componentChar93PreviewSplatRoute:
     Char91__componentChar93PreviewSplatRoute,
   Char91__mockupChar93PreviewSplatRoute: Char91__mockupChar93PreviewSplatRoute,
+  ApiAuthCallbackRoute: ApiAuthCallbackRoute,
+  ApiAuthGoogleRoute: ApiAuthGoogleRoute,
+  ApiAuthLogoutRoute: ApiAuthLogoutRoute,
+  ApiAuthMeRoute: ApiAuthMeRoute,
   ApiPublicResendWebhookRoute: ApiPublicResendWebhookRoute,
   ApiPublicSendScheduledRoute: ApiPublicSendScheduledRoute,
   ApiPublicUnsubscribeRoute: ApiPublicUnsubscribeRoute,
@@ -424,13 +529,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

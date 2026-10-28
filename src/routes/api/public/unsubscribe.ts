@@ -1,16 +1,20 @@
 import { createFileRoute } from '@tanstack/react-router';
+import { eq } from 'drizzle-orm';
 
 const tokenPattern = /^[0-9a-f-]{36}$/i;
 
 async function unsubscribe(request: Request) {
   const token = new URL(request.url).searchParams.get('token') ?? '';
   if (!tokenPattern.test(token)) return false;
-  const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
-  await supabaseAdmin
-    .from('club_subscribers')
-    .update({ unsubscribed_at: new Date().toISOString(), status: 'unsubscribed' })
-    .eq('unsubscribe_token', token)
-    .is('unsubscribed_at', null);
+  const { db, schema } = await import('@/lib/db');
+  const row = await db().query.clubSubscribers.findFirst({
+    where: (t, { eq: eqFn }) => eqFn(t.unsubscribeToken, token),
+  });
+  if (!row || row.unsubscribedAt) return true;
+  await db()
+    .update(schema.clubSubscribers)
+    .set({ unsubscribedAt: new Date().toISOString(), status: 'unsubscribed' })
+    .where(eq(schema.clubSubscribers.id, row.id));
   return true;
 }
 

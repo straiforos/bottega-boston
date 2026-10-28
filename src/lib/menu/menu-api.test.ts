@@ -1,6 +1,5 @@
-import { describe, expect, it, vi } from 'vitest';
-vi.mock('@/integrations/supabase/client', () => ({ supabase: {} }));
-import { buildMenuSections, validateDishDraft } from './menu-api';
+import { describe, expect, it } from 'vitest';
+import { buildMenuSections, validateDishDraft } from './menu-shared';
 
 describe('menu admin rules', () => {
   it('rejects a dish without a name', () => {

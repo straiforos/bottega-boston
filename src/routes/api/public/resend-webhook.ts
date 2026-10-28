@@ -1,5 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
+import { eq } from 'drizzle-orm';
 import { z } from 'zod';
+import { env } from 'cloudflare:workers';
 import { eventEffect, verifySvixSignature } from '@/lib/email/webhook';
 
 const payloadSchema = z.object({
@@ -16,7 +18,7 @@ export const Route = createFileRoute('/api/public/resend-webhook')({
   server: {
     handlers: {
       POST: async ({ request }) => {
-        const secret = process.env['RESEND_WEBHOOK_SECRET'];
+        const secret = env.RESEND_WEBHOOK_SECRET;
         if (!secret) return new Response('Not configured', { status: 500 });
         const body = await request.text();
         const deliveryId = request.headers.get('svix-id');
@@ -34,34 +36,38 @@ export const Route = createFileRoute('/api/public/resend-webhook')({
         const effect = eventEffect(parsed.data.type);
         if (!effect) return new Response('ok');
 
-        const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
+        const { db, schema } = await import('@/lib/db');
         const resendId = parsed.data.data.email_id;
         const occurredAt = parsed.data.created_at ?? new Date().toISOString();
-        const { error: dup } = await supabaseAdmin.from('email_events').insert({
-          delivery_id: deliveryId,
-          resend_id: resendId,
-          type: effect.event,
-          url: parsed.data.data.click?.link ?? null,
-          occurred_at: occurredAt,
-        });
-        if (dup) return new Response('ok'); // already processed this delivery
+        try {
+          await db().insert(schema.emailEvents).values({
+            id: crypto.randomUUID(),
+            deliveryId,
+            resendId,
+            type: effect.event,
+            url: parsed.data.data.click?.link ?? null,
+            occurredAt,
+          });
+        } catch {
+          return new Response('ok'); // already processed this delivery
+        }
 
-        const update: { status?: string; opened_at?: string; clicked_at?: string } = {};
+        const update: { status?: string; openedAt?: string; clickedAt?: string } = {};
         if (effect.sendStatus) update.status = effect.sendStatus;
-        if (effect.event === 'opened') update.opened_at = occurredAt;
-        if (effect.event === 'clicked') update.clicked_at = occurredAt;
+        if (effect.event === 'opened') update.openedAt = occurredAt;
+        if (effect.event === 'clicked') update.clickedAt = occurredAt;
         if (Object.keys(update).length) {
-          const { data: send } = await supabaseAdmin
-            .from('email_sends')
-            .update(update)
-            .eq('resend_id', resendId)
-            .select('subscriber_id')
-            .maybeSingle();
-          if (effect.subscriberStatus && send?.subscriber_id) {
-            await supabaseAdmin
-              .from('club_subscribers')
-              .update({ status: effect.subscriberStatus })
-              .eq('id', send.subscriber_id);
+          const updated = await db()
+            .update(schema.emailSends)
+            .set(update)
+            .where(eq(schema.emailSends.resendId, resendId))
+            .returning({ subscriberId: schema.emailSends.subscriberId });
+          const subscriberId = updated[0]?.subscriberId;
+          if (effect.subscriberStatus && subscriberId) {
+            await db()
+              .update(schema.clubSubscribers)
+              .set({ status: effect.subscriberStatus })
+              .where(eq(schema.clubSubscribers.id, subscriberId));
           }
         }
         return new Response('ok');

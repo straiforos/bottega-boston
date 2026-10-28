@@ -1,6 +1,8 @@
-const GATEWAY_URL = 'https://connector-gateway.lovable.dev/resend';
+import { env } from 'cloudflare:workers';
 
-/** Sender used until a domain is verified in Resend; change to e.g. "Bottega <ciao@eatbottega.com>" after verifying. */
+const RESEND_URL = 'https://api.resend.com';
+
+/** Sender used until a domain is verified in Resend; change after verifying the restaurant domain. */
 export const EMAIL_FROM = 'Bottega Pasta Club <onboarding@resend.dev>';
 
 export interface OutgoingEmail {
@@ -12,14 +14,11 @@ export interface OutgoingEmail {
 }
 
 function headers() {
-  const lovableKey = process.env['LOVABLE_API_KEY'];
-  const resendKey = process.env['RESEND_API_KEY'];
-  if (!lovableKey) throw new Error('LOVABLE_API_KEY is not configured');
+  const resendKey = env.RESEND_API_KEY;
   if (!resendKey) throw new Error('RESEND_API_KEY is not configured');
   return {
     'Content-Type': 'application/json',
-    Authorization: `Bearer ${lovableKey}`,
-    'X-Connection-Api-Key': resendKey,
+    Authorization: `Bearer ${resendKey}`,
   };
 }
 
@@ -38,7 +37,7 @@ function payload(email: OutgoingEmail) {
 }
 
 async function post(path: string, body: unknown) {
-  const response = await fetch(`${GATEWAY_URL}${path}`, {
+  const response = await fetch(`${RESEND_URL}${path}`, {
     method: 'POST',
     headers: headers(),
     body: JSON.stringify(body),

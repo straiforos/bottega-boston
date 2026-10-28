@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { cardInk, defaultHomeContent, mergeHomeContent, validateCard, validateHero } from './home-content';
+import { cardInk, defaultHomeContent, mergeHomeContent, validateCard, validateHero } from './home-shared';
 
 describe('home content', () => {
   it('keeps exactly three cards', () => {

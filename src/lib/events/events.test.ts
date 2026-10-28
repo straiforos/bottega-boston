@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { describeRecurrence, nthWeekdayOfMonth, upcomingOccurrences, zonedToUtc, type EventSchedule } from './occurrences';
 import { isTicketTailorUrl, maskPhone, orderTotal, parsePriceOptions, priceOrder, requestDateBounds, requestSchema } from './requests';
-import { upcomingEvents, validateEvent, type BottegaEvent, type EventDraft } from './events-api';
+import { upcomingEvents, validateEvent, type BottegaEvent, type EventDraft } from './events-shared';
 
 const tz = 'America/New_York';
 const base = (over: Partial<EventSchedule> = {}): EventSchedule => ({

@@ -1,11 +1,19 @@
 import { z } from 'zod';
 
-/** Where "Order now" buttons in email templates point by default: the site's locations section. */
-export const ORDER_NOW_URL = 'https://bottega-delights-site.lovable.app/#locations';
+/** Where "Order now" buttons point by default. Relative; send path prefixes the request host. */
+export const ORDER_NOW_URL = '/#locations';
 
+export function isSafeLink(url: string) {
+  const value = url.trim();
+  return /^(https?:\/\/|mailto:)/i.test(value) || /^\/(?!\/)/.test(value);
+}
 
 /** Building blocks staff compose emails from. Text uses **bold**, _italic_ and [label](https://link). */
-const photoFields = { url: z.string().url().max(2000), alt: z.string().max(200) };
+const photoUrl = z
+  .string()
+  .max(2000)
+  .refine((value) => isSafeLink(value), 'Photo needs a / or https:// link');
+const photoFields = { url: photoUrl, alt: z.string().max(200) };
 
 export const emailBlockSchema = z.discriminatedUnion('type', [
   z.object({ id: z.string().max(40), type: z.literal('headline'), text: z.string().max(140) }),
@@ -49,10 +57,6 @@ export const emailDraftSchema = z.object({
 
 export type EmailDraft = z.infer<typeof emailDraftSchema>;
 
-export function isSafeLink(url: string) {
-  return /^(https?:\/\/|mailto:)/i.test(url.trim());
-}
-
 const PLACEHOLDER_PHOTO = 'https://example.com/photo.jpg';
 export const isPlaceholderPhoto = (url: string) => url === PLACEHOLDER_PHOTO;
 
@@ -62,7 +66,7 @@ export function validateDraft(draft: EmailDraft): string | null {
   if (!parsed.success) return parsed.error.issues[0]?.message ?? 'Check the email and try again.';
   for (const block of draft.blocks) {
     if (block.type === 'button' && (!block.label.trim() || !isSafeLink(block.url)))
-      return 'Every button needs a label and a link starting with https://';
+      return 'Every button needs a label and a link starting with / or https://';
     const photos = block.type === 'photo' ? [block] : block.type === 'columns' ? [block.left, block.right] : [];
     for (const photo of photos) {
       if (isPlaceholderPhoto(photo.url)) return 'Choose a picture for every photo block.';

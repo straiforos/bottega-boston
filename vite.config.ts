@@ -4,26 +4,16 @@ import tsConfigPaths from 'vite-tsconfig-paths';
 import { cloudflare } from '@cloudflare/vite-plugin';
 import { tanstackStart } from '@tanstack/react-start/plugin/vite';
 import viteReact from '@vitejs/plugin-react';
-import { componentTagger } from 'lovable-tagger';
-import { mockupPreviewPlugin } from './mockupPreviewPlugin';
 
-export default defineConfig(({ command, mode }) => {
+export default defineConfig(({ command }) => {
   // Cloudflare Workers plugin only on build (produces the worker output);
-  // the workerd runtime isn't available for the dev server.
+  // the workerd runtime isn't available for the plain Vite dev server.
   const useCloudflare = command === 'build';
 
   return {
     server: {
       host: '::',
       port: 8080,
-      // Local dev only: serve CDN-managed media through the preview host.
-      // Ignored in production builds, where the platform serves /__l5e itself.
-      proxy: {
-        '/__l5e/assets-v1': {
-          target: 'https://id-preview--122eb82d-0dcb-4681-bbd6-9e6446b687c2.lovable.app',
-          changeOrigin: true,
-        },
-      },
     },
     // ffmpeg.wasm spawns its own worker; pre-bundling breaks its worker URL.
     optimizeDeps: { exclude: ['@ffmpeg/ffmpeg', '@ffmpeg/util'] },
@@ -34,12 +24,23 @@ export default defineConfig(({ command, mode }) => {
       },
     },
     plugins: [
-      mockupPreviewPlugin({ designSystemPolling: true }),
       tsConfigPaths({ projects: ['./tsconfig.json'] }),
       ...(useCloudflare ? [cloudflare({ viteEnvironment: { name: 'ssr' } })] : []),
-      tanstackStart(),
+      tanstackStart({
+        pages: [
+          { path: '/' },
+          { path: '/menu' },
+          { path: '/catering' },
+          { path: '/events/request' },
+          { path: '/unsubscribed' },
+        ],
+        prerender: {
+          enabled: true,
+          crawlLinks: false,
+          failOnError: true,
+        },
+      }),
       viteReact(),
-      ...(mode === 'development' ? [componentTagger()] : []),
     ],
   };
 });

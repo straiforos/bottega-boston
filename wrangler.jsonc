@@ -1,7 +1,30 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "tanstack-start-app",
+  "name": "bottega-boston",
   "compatibility_date": "2025-09-24",
   "compatibility_flags": ["nodejs_compat"],
-  "main": "@tanstack/react-start/server-entry",
+  "main": "src/worker.ts",
+  "vars": {
+    "SITE_ORIGIN": "https://bottega.boston"
+  },
+  // Custom domain is owned by OpenTofu (infra/cloudflare). Keep routes empty in git;
+  // CI attaches bottega.boston after the Worker script exists.
+  "triggers": {
+    "crons": ["*/5 * * * *"]
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "bottega",
+      // database_id is injected at deploy time from OpenTofu output (see wrangler.ci.json).
+      "database_id": "00000000-0000-0000-0000-000000000000",
+      "migrations_dir": "drizzle/d1"
+    }
+  ],
+  "r2_buckets": [
+    {
+      "binding": "MEDIA",
+      "bucket_name": "bottega-media"
+    }
+  ]
 }

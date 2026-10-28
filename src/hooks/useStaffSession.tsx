@@ -1,9 +1,11 @@
 import { createContext, useContext, useEffect, useState, type ReactNode } from 'react';
-import type { User } from '@supabase/supabase-js';
-import { supabase } from '@/integrations/supabase/client';
+
+export interface StaffUser {
+  email: string;
+}
 
 export interface StaffSession {
-  user: User | null;
+  user: StaffUser | null;
   isAdmin: boolean;
   ready: boolean;
 }
@@ -11,37 +13,30 @@ export interface StaffSession {
 const initial: StaffSession = { user: null, isAdmin: false, ready: false };
 const StaffSessionContext = createContext<StaffSession>(initial);
 
-/** Single auth listener for the app; resolves whether the database grants the user admin. */
+/** Single auth listener for the app; session comes from the Worker cookie. */
 export function StaffSessionProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<StaffSession>(initial);
 
   useEffect(() => {
     let active = true;
-    const resolve = async (user: User | null) => {
-      if (!user) {
+    const load = async () => {
+      try {
+        const res = await fetch('/api/auth/me', { credentials: 'same-origin' });
+        if (!res.ok) throw new Error('session');
+        const data = (await res.json()) as { email: string | null; isAdmin: boolean };
+        if (!active) return;
+        setState({
+          user: data.email ? { email: data.email } : null,
+          isAdmin: data.isAdmin === true,
+          ready: true,
+        });
+      } catch {
         if (active) setState({ user: null, isAdmin: false, ready: true });
-        return;
       }
-      // Retry transient failures so a slow check never looks like "not on the staff list".
-      for (let attempt = 0; attempt < 3; attempt += 1) {
-        const { data, error } = await supabase.rpc('has_role', { _user_id: user.id, _role: 'admin' });
-        if (!error) {
-          if (active) setState({ user, isAdmin: data === true, ready: true });
-          return;
-        }
-        await new Promise((done) => setTimeout(done, 500 * (attempt + 1)));
-      }
-      // Still unknown: keep the session and stay non-admin rather than signing staff out.
-      if (active) setState({ user, isAdmin: false, ready: false });
     };
-    supabase.auth.getUser().then(({ data }) => resolve(data.user));
-    const { data: sub } = supabase.auth.onAuthStateChange((event, session) => {
-      if (event !== 'SIGNED_IN' && event !== 'SIGNED_OUT' && event !== 'USER_UPDATED') return;
-      void resolve(session?.user ?? null);
-    });
+    void load();
     return () => {
       active = false;
-      sub.subscription.unsubscribe();
     };
   }, []);
 

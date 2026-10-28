@@ -22,6 +22,18 @@ src/.generated/
 # Wrangler / Cloudflare
 .wrangler/
 .dev.vars
+wrangler.ci.json
+
+# OpenTofu / Terraform
+infra/cloudflare/.terraform/
+infra/cloudflare/*.tfstate
+infra/cloudflare/*.tfstate.*
+infra/cloudflare/.terraform.lock.hcl
+infra/cloudflare/terraform.tfvars
+infra/cloudflare/crash.log
+infra/cloudflare/override.tf
+infra/cloudflare/override.tf.json
+
 
 # Editor directories and files
 .vscode/*

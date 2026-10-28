@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
 import { LinkAction } from '@/design-system/bottega-f5161c';
-import { lovable } from '@/integrations/lovable';
-import { supabase } from '@/integrations/supabase/client';
 import { staffContent } from '@/content/en/staff';
 import { useStaffSession } from '@/hooks/useStaffSession';
 
@@ -11,39 +9,42 @@ export function StaffAccess() {
   const [notice, setNotice] = useState<string | null>(null);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.hash.slice(1) || window.location.search);
-    if (params.get('error_description')) setNotice(staffContent.notListed);
+    const params = new URLSearchParams(window.location.search);
+    const error = params.get('staff_error');
+    if (error === 'not_listed') setNotice(staffContent.notListed);
+    if (error === 'failed') setNotice(staffContent.signInFailed);
   }, []);
 
   useEffect(() => {
-    if (ready && user && !isAdmin) {
-      setNotice(staffContent.notListed);
-      void supabase.auth.signOut();
-    }
+    if (ready && user && !isAdmin) setNotice(staffContent.notListed);
   }, [ready, user, isAdmin]);
 
-  const signIn = async () => {
+  const signIn = () => {
     setNotice(null);
-    const result = await lovable.auth.signInWithOAuth('google', {
-      redirect_uri: `${window.location.origin}${window.location.pathname}`,
-    });
-    if (result.error) {
-      setNotice(/staff list/i.test(result.error.message) ? staffContent.notListed : staffContent.signInFailed);
-    }
+    const returnTo = `${window.location.pathname}${window.location.search}${window.location.hash}` || '/';
+    window.location.href = `/api/auth/google?returnTo=${encodeURIComponent(returnTo)}`;
+  };
+
+  const signOut = () => {
+    const form = document.createElement('form');
+    form.method = 'POST';
+    form.action = '/api/auth/logout';
+    document.body.appendChild(form);
+    form.submit();
   };
 
   return (
     <div className="staff-access" aria-live="polite">
       {user && isAdmin ? (
         <>
-          <span>{staffContent.signedInAs(user.email ?? '')}</span>
+          <span>{staffContent.signedInAs(user.email)}</span>
           <LinkAction
             href="#"
             role="button"
             tone="cream"
             onClick={(event) => {
               event.preventDefault();
-              void supabase.auth.signOut();
+              signOut();
             }}
           >
             {staffContent.signOut}
@@ -56,7 +57,7 @@ export function StaffAccess() {
           tone="cream"
           onClick={(event) => {
             event.preventDefault();
-            void signIn();
+            signIn();
           }}
         >
           {staffContent.signIn}

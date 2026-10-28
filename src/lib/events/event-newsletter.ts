@@ -1,8 +1,6 @@
 import type { EmailBlock, EmailDraft } from '@/lib/email/blocks';
 import type { BottegaEvent } from './events-api';
 
-const SITE = 'https://bottega-delights-site.lovable.app';
-
 /** Pure: a ready-to-edit Pasta Club newsletter announcing an event. */
 export function buildEventNewsletter(event: BottegaEvent, dates: readonly string[], repeats: string | null): EmailDraft {
   const blocks: EmailBlock[] = [{ id: 'e1', type: 'headline', text: event.title }];
@@ -13,7 +11,7 @@ export function buildEventNewsletter(event: BottegaEvent, dates: readonly string
     id: 'e4',
     type: 'button',
     label: event.ticketUrl ? 'Get tickets' : 'See our events',
-    url: event.ticketUrl ?? `${SITE}/#events`,
+    url: event.ticketUrl ?? '/#events',
   });
   blocks.push({ id: 'e5', type: 'marquee', text: 'Come hang out with us' });
   return { subject: event.title.slice(0, 150), preheader: (repeats ?? dates[0] ?? '').slice(0, 200), blocks };

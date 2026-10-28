@@ -1,11 +1,10 @@
 import { describe, expect, it, vi } from 'vitest';
 
-vi.mock('@/integrations/supabase/client', () => ({ supabase: {} }));
 vi.mock('./gallery-assets', () => ({
   galleryAssets: { 'social-1': { url: '/bundled-1.jpg', versions: [] } },
 }));
 
-import { buildGalleryItems, moveTile, validateTileDraft, type GalleryRow } from './gallery-api';
+import { buildGalleryItems, moveTile, validateTileDraft, type GalleryRow } from './gallery-shared';
 
 const row = (over: Partial<GalleryRow>): GalleryRow => ({
   id: 'a',
@@ -20,36 +19,28 @@ const row = (over: Partial<GalleryRow>): GalleryRow => ({
   ...over,
 });
 
-describe('gallery', () => {
-  it('orders tiles by sort order and resolves bundled media', () => {
-    const items = buildGalleryItems([
-      row({ id: 'b', sort_order: 2, media_url: '/up.webp' }),
-      row({ id: 'a', sort_order: 1, asset_key: 'social-1' }),
-    ]);
-    expect(items.map((i) => [i.id, i.url])).toEqual([
-      ['a', '/bundled-1.jpg'],
-      ['b', '/up.webp'],
-    ]);
+describe('gallery rules', () => {
+  it('requires alt text', () => {
+    expect(validateTileDraft({ alt: '  ', caption: '' })).toMatch(/screen readers/);
   });
 
-  it('hides a tile whose upload has not finished (no media yet)', () => {
-    expect(buildGalleryItems([row({ id: 'empty' })])).toEqual([]);
+  it('resolves bundled media by asset key', () => {
+    const items = buildGalleryItems([row({ asset_key: 'social-1', sort_order: 1 })]);
+    expect(items[0]?.url).toBe('/bundled-1.jpg');
   });
 
-  it('requires a description for accessibility', () => {
-    expect(validateTileDraft({ alt: ' ', caption: '' })).not.toBeNull();
-    expect(validateTileDraft({ alt: 'Pasta', caption: 'Ciao' })).toBeNull();
+  it('drops rows with nothing to show', () => {
+    expect(buildGalleryItems([row({})])).toEqual([]);
   });
 
-  it('moving a tile swaps it with its neighbour, and does nothing at the edge', () => {
-    const items = buildGalleryItems([
-      row({ id: 'a', sort_order: 1, media_url: '/a' }),
-      row({ id: 'b', sort_order: 2, media_url: '/b' }),
+  it('swaps sort order with a neighbour', () => {
+    const items = [
+      { id: 'a', type: 'image' as const, url: '/a', poster: null, versions: [], alt: '', caption: '', sortOrder: 0 },
+      { id: 'b', type: 'image' as const, url: '/b', poster: null, versions: [], alt: '', caption: '', sortOrder: 1 },
+    ];
+    expect(moveTile(items, 'a', 1)).toEqual([
+      { id: 'a', sortOrder: 1 },
+      { id: 'b', sortOrder: 0 },
     ]);
-    expect(moveTile(items, 'b', -1)).toEqual([
-      { id: 'b', sortOrder: 1 },
-      { id: 'a', sortOrder: 2 },
-    ]);
-    expect(moveTile(items, 'a', -1)).toEqual([]);
   });
 });

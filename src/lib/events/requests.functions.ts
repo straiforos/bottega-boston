@@ -1,7 +1,10 @@
 import { createServerFn } from '@tanstack/react-start';
+import { and, desc, eq, gte, inArray, like } from 'drizzle-orm';
 import { z } from 'zod';
-import { requireSupabaseAuth } from '@/integrations/supabase/auth-middleware';
-import type { Json } from '@/integrations/supabase/types';
+import { env } from 'cloudflare:workers';
+import { requireStaffSession } from '@/integrations/auth/session-middleware';
+import { db, schema } from '@/lib/db';
+import type { Json } from '@/lib/json';
 import type { EmailDraft } from '@/lib/email/blocks';
 import {
   describeLines,
@@ -32,12 +35,16 @@ const staffFallback: EmailDraft = {
   preheader: '{{event_date}} · {{location}}',
   blocks: [
     { id: 's1', type: 'headline', text: 'New {{kind}} request' },
-    { id: 's2', type: 'text', text: '**{{guest_name}}** · {{guest_email}} · {{guest_phone}}\n\n**When:** {{event_date}}\n**Where:** {{location}}\n\n{{summary}}' },
+    {
+      id: 's2',
+      type: 'text',
+      text: '**{{guest_name}}** · {{guest_email}} · {{guest_phone}}\n\n**When:** {{event_date}}\n**Where:** {{location}}\n\n{{summary}}',
+    },
   ],
 };
 
 async function verifyTurnstile(token: string | undefined): Promise<boolean> {
-  const secret = process.env.TURNSTILE_SECRET_KEY;
+  const secret = env.TURNSTILE_SECRET_KEY;
   if (!secret || !token) return false;
   const res = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
     method: 'POST',
@@ -49,7 +56,7 @@ async function verifyTurnstile(token: string | undefined): Promise<boolean> {
 
 /** Public: the Turnstile site key (publishable) for the request forms. */
 export const getTurnstileSiteKey = createServerFn({ method: 'GET' }).handler(async () => ({
-  siteKey: process.env.TURNSTILE_SITE_KEY ?? '',
+  siteKey: env.TURNSTILE_SITE_KEY ?? '',
 }));
 
 /** Public: a guest asks for catering or the event space. Saved for staff, then confirmed by email. */
@@ -58,49 +65,49 @@ export const submitRequest = createServerFn({ method: 'POST' })
   .handler(async ({ data }) => {
     if (data.website) return { ok: true as const };
     if (!(await verifyTurnstile(data.turnstileToken))) throw new Error('Please complete the human check and try again.');
-    const { supabaseAdmin } = await import('@/integrations/supabase/client.server');
 
     const since = new Date(Date.now() - 3_600_000).toISOString();
-    const { count } = await supabaseAdmin
-      .from('event_requests')
-      .select('id', { count: 'exact', head: true })
-      .eq('email', data.email)
-      .gte('created_at', since);
-    if ((count ?? 0) >= MAX_PER_HOUR) throw new Error('You’ve sent a few requests already. We’ll be in touch soon.');
+    const recent = await db()
+      .select({ id: schema.eventRequests.id })
+      .from(schema.eventRequests)
+      .where(and(eq(schema.eventRequests.email, data.email), gte(schema.eventRequests.createdAt, since)));
+    if (recent.length >= MAX_PER_HOUR) throw new Error('You’ve sent a few requests already. We’ll be in touch soon.');
 
     let lines: OrderLine[] = [];
     if (data.lines.length) {
-      const { data: sections } = await supabaseAdmin.from('menu_sections').select('id').ilike('name', 'Catering%');
-      const { data: items } = await supabaseAdmin
-        .from('menu_items')
-        .select('id, name, price')
-        .in('section_id', (sections ?? []).map((s) => s.id));
-      lines = priceOrder(data.lines, new Map((items ?? []).map((i) => [i.id, i])));
+      const sections = await db()
+        .select({ id: schema.menuSections.id })
+        .from(schema.menuSections)
+        .where(like(schema.menuSections.name, 'Catering%'));
+      const sectionIds = sections.map((s) => s.id);
+      const items = sectionIds.length
+        ? await db()
+            .select({ id: schema.menuItems.id, name: schema.menuItems.name, price: schema.menuItems.price })
+            .from(schema.menuItems)
+            .where(inArray(schema.menuItems.sectionId, sectionIds))
+        : [];
+      lines = priceOrder(data.lines, new Map(items.map((i) => [i.id, i])));
     }
 
-    const { data: row, error } = await supabaseAdmin
-      .from('event_requests')
-      .insert({
+    const id = crypto.randomUUID();
+    await db()
+      .insert(schema.eventRequests)
+      .values({
+        id,
         kind: data.kind,
         name: data.name,
         email: data.email,
         phone: data.phone,
-        location_id: data.locationId,
-        requested_for: data.requestedFor,
+        locationId: data.locationId,
+        requestedFor: data.requestedFor,
         guests: data.guests,
-        event_type: data.eventType,
+        eventType: data.eventType,
         fulfillment: data.fulfillment,
         address: data.address,
         dietary: data.dietary,
         notes: data.notes,
-        order_lines: lines as unknown as Json,
-      })
-      .select('id')
-      .single();
-    if (error || !row) {
-      console.error('Request insert failed', error);
-      throw new Error('That didn’t go through. Please try again.');
-    }
+        orderLines: lines as unknown as Json,
+      });
 
     try {
       const { siteOrigin } = await import('@/lib/email/club.server');
@@ -115,8 +122,12 @@ export const submitRequest = createServerFn({ method: 'POST' })
       const summary = [
         data.guests ? `Guests: ${data.guests}` : '',
         data.eventType ? `Event: ${plainForEmail(data.eventType)}` : '',
-        data.fulfillment ? `${data.fulfillment === 'delivery' ? 'Delivery to' : 'Pickup'} ${plainForEmail(data.address)}` : '',
-        lines.length ? `Order:\n${plainForEmail(describeLines(lines))}\nEstimated total: ${formatMoney(orderTotal(lines))}` : '',
+        data.fulfillment
+          ? `${data.fulfillment === 'delivery' ? 'Delivery to' : 'Pickup'} ${plainForEmail(data.address)}`
+          : '',
+        lines.length
+          ? `Order:\n${plainForEmail(describeLines(lines))}\nEstimated total: ${formatMoney(orderTotal(lines))}`
+          : '',
         data.dietary ? `Dietary needs: ${plainForEmail(data.dietary)}` : '',
         data.notes ? `Notes: ${plainForEmail(data.notes)}` : '',
       ]
@@ -135,8 +146,8 @@ export const submitRequest = createServerFn({ method: 'POST' })
       const origin = siteOrigin();
       const guestKey = data.kind === 'catering' ? 'catering-request-received' : 'space-request-received';
       await Promise.allSettled([
-        sendTemplate(supabaseAdmin, { key: guestKey, to: data.email, variables }, origin, guestFallback(data.kind)),
-        sendTemplate(supabaseAdmin, { key: 'staff-request-alert', to: STAFF_INBOX, variables }, origin, staffFallback),
+        sendTemplate({ key: guestKey, to: data.email, variables }, origin, guestFallback(data.kind)),
+        sendTemplate({ key: 'staff-request-alert', to: STAFF_INBOX, variables }, origin, staffFallback),
       ]);
     } catch (sendError) {
       console.error('Request emails failed', sendError);
@@ -144,40 +155,43 @@ export const submitRequest = createServerFn({ method: 'POST' })
     return { ok: true as const };
   });
 
-async function assertAdmin(supabase: { rpc: (...a: never[]) => unknown }, userId: string) {
-  const { data, error } = await (supabase.rpc as unknown as (
-    fn: 'has_role',
-    a: { _user_id: string; _role: 'admin' },
-  ) => Promise<{ data: unknown; error: unknown }>)('has_role', { _user_id: userId, _role: 'admin' });
-  if (error || data !== true) throw new Error('Only Bottega staff can do that.');
-}
-
 export const listRequests = createServerFn({ method: 'GET' })
-  .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => {
-    await assertAdmin(context.supabase, context.userId);
-    const { data, error } = await context.supabase
-      .from('event_requests')
-      .select('*')
-      .order('created_at', { ascending: false })
-      .limit(500);
-    if (error) throw new Error('Couldn’t load requests.');
-    return data.map((r) => ({ ...r, order_lines: (r.order_lines ?? []) as unknown as OrderLine[] }));
+  .middleware([requireStaffSession])
+  .handler(async () => {
+    const data = await db().select().from(schema.eventRequests).orderBy(desc(schema.eventRequests.createdAt)).limit(500);
+    return data.map((r) => ({
+      id: r.id,
+      kind: r.kind,
+      name: r.name,
+      email: r.email,
+      phone: r.phone,
+      location_id: r.locationId,
+      requested_for: r.requestedFor,
+      guests: r.guests,
+      event_type: r.eventType,
+      fulfillment: r.fulfillment,
+      address: r.address,
+      dietary: r.dietary,
+      notes: r.notes,
+      order_lines: (r.orderLines ?? []) as OrderLine[],
+      status: r.status,
+      staff_notes: r.staffNotes,
+      created_at: r.createdAt,
+      updated_at: r.updatedAt,
+    }));
   });
 
 export const updateRequest = createServerFn({ method: 'POST' })
-  .middleware([requireSupabaseAuth])
+  .middleware([requireStaffSession])
   .inputValidator((input: unknown) =>
     z
       .object({ id: z.string().uuid(), status: z.enum(REQUEST_STATUSES), staffNotes: z.string().max(5000) })
       .parse(input),
   )
-  .handler(async ({ data, context }) => {
-    await assertAdmin(context.supabase, context.userId);
-    const { error } = await context.supabase
-      .from('event_requests')
-      .update({ status: data.status, staff_notes: data.staffNotes, updated_at: new Date().toISOString() })
-      .eq('id', data.id);
-    if (error) throw new Error('Couldn’t save the request.');
+  .handler(async ({ data }) => {
+    await db()
+      .update(schema.eventRequests)
+      .set({ status: data.status, staffNotes: data.staffNotes, updatedAt: new Date().toISOString() })
+      .where(eq(schema.eventRequests.id, data.id));
     return { ok: true };
   });

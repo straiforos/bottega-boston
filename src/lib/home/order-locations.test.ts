@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { defaultOrderUrls, isValidOrderUrl, mergeOrderUrls } from './order-locations';
+import { defaultOrderUrls, isValidOrderUrl, mergeOrderUrls } from './order-locations-shared';
 
 describe('order locations', () => {
   it('uses stored URLs for known locations', () => {
