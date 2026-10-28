@@ -21,19 +21,24 @@ The Worker script, cron, secrets, and SQL migrations stay in Wrangler / GitHub A
 
 ```bash
 export CLOUDFLARE_API_TOKEN=…
-export AWS_ACCESS_KEY_ID=…          # R2 S3 access key
+export AWS_ACCESS_KEY_ID=…          # R2 S3 access key (account or bucket token)
 export AWS_SECRET_ACCESS_KEY=…
+# Account endpoint only — never https://<bucket>.<account>.r2.cloudflarestorage.com
 export AWS_ENDPOINT_URL_S3=https://<accountid>.r2.cloudflarestorage.com
 
 # Once: state bucket
 bunx wrangler r2 bucket create bottega-tfstate
 
 cp terraform.tfvars.example terraform.tfvars   # set cloudflare_account_id
-tofu init -backend-config="endpoints={s3=\"$AWS_ENDPOINT_URL_S3\"}"
+tofu init -reconfigure \
+  -backend-config="endpoints={s3=\"$AWS_ENDPOINT_URL_S3\"}" \
+  -backend-config="use_path_style=true"
 tofu apply -var='manage_dns=false'
 # After wrangler deploy:
 tofu apply -var='manage_dns=true'
 ```
+
+CI derives that same account endpoint from `CLOUDFLARE_ACCOUNT_ID`. It does **not** use `S3_ENDPOINT` for Terraform state, because that secret is often a bucket URL or a non-R2 host and R2’s TLS cert only covers `*.r2.cloudflarestorage.com`.
 
 ## Not in this stack
 
