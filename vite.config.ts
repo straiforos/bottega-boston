@@ -4,6 +4,7 @@ import tsConfigPaths from 'vite-tsconfig-paths';
 import { cloudflare } from '@cloudflare/vite-plugin';
 import { tanstackStart } from '@tanstack/react-start/plugin/vite';
 import viteReact from '@vitejs/plugin-react';
+import { mockupPreviewPlugin } from './mockupPreviewPlugin';
 
 export default defineConfig(({ command }) => {
   // Cloudflare Workers plugin only on build (produces the worker output);
@@ -24,20 +25,16 @@ export default defineConfig(({ command }) => {
       },
     },
     plugins: [
+      // Writes src/.generated/mockup-components.ts before routes resolve it.
+      mockupPreviewPlugin(),
       tsConfigPaths({ projects: ['./tsconfig.json'] }),
       ...(useCloudflare ? [cloudflare({ viteEnvironment: { name: 'ssr' } })] : []),
       tanstackStart({
-        pages: [
-          { path: '/' },
-          { path: '/menu' },
-          { path: '/catering' },
-          { path: '/events/request' },
-          { path: '/unsubscribed' },
-        ],
+        // Static prerender is off until TanStack Start can load the Cloudflare
+        // Vite SSR entry (cloudflare: scheme / server.js vs index.js). Pages
+        // still SSR on the Worker at request time.
         prerender: {
-          enabled: true,
-          crawlLinks: false,
-          failOnError: true,
+          enabled: false,
         },
       }),
       viteReact(),
