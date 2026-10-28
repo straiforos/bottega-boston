@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { createLink, useNavigate } from '@tanstack/react-router';
 import { Button, Marquee, MenuSubmenu, SiteHeader } from '@/design-system/bottega-f5161c';
+import { ComingSoonBanner } from '@/components/ComingSoonBanner';
 import { useStaffSession } from '@/hooks/useStaffSession';
 import { staffContent } from '@/content/en/staff';
 import { restaurantContent } from '@/content/en/restaurant';
@@ -25,6 +26,7 @@ export function BottegaHeader() {
   const nav = restaurantContent.navigation;
   return (
     <div className="shared-header-stack">
+      <ComingSoonBanner />
       {isAdmin && <Marquee text={staffContent.editing} variant="terracotta" role="status" />}
       <SiteHeader
         variant={scrolled ? 'forest' : 'cream'}
