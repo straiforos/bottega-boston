@@ -2,6 +2,9 @@
 /**
  * Deletes apex A / AAAA / CNAME records that block Workers custom domains
  * (Cloudflare API 100117). Leaves other record types alone.
+ *
+ * Prefer scripts/ensure-workers-apex.mjs in CI: it no-ops when the Workers
+ * custom domain is already attached, so deploys do not flap the apex.
  */
 const accountToken = process.env.CLOUDFLARE_API_TOKEN?.trim();
 const zoneName = (process.env.ZONE_NAME ?? 'bottega.boston').trim();

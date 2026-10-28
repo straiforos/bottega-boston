@@ -34,8 +34,14 @@ cp terraform.tfvars.example terraform.tfvars   # set cloudflare_account_id
 tofu init -reconfigure \
   -backend-config="endpoints={s3=\"$AWS_ENDPOINT_URL_S3\"}" \
   -backend-config="use_path_style=true"
-tofu apply -var='manage_dns=false'
-# After wrangler deploy:
+# Account resources only (never flip manage_dns=false on a full apply — that
+# destroys the Workers custom domain and drops the apex for the whole deploy).
+tofu apply -var='manage_dns=false' \
+  -target=cloudflare_zone_setting.always_use_https \
+  -target=cloudflare_d1_database.bottega \
+  -target=cloudflare_r2_bucket.media
+# After wrangler deploy (idempotent once the domain exists):
+node ../../scripts/ensure-workers-apex.mjs
 tofu apply -var='manage_dns=true'
 ```
 

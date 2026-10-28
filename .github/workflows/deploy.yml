@@ -100,11 +100,16 @@ jobs:
             -backend-config="endpoints={s3=\"${R2_S3_ENDPOINT}\"}" \
             -backend-config="use_path_style=true"
 
+      # Target only account resources. A full apply with manage_dns=false destroys the
+      # Workers custom domain mid-deploy (count=0) and takes bottega.boston down.
       - name: Provision D1 and R2
         working-directory: infra/cloudflare
         run: |
           export AWS_ENDPOINT_URL_S3="${R2_S3_ENDPOINT}"
-          tofu apply -input=false -auto-approve -var='manage_dns=false'
+          tofu apply -input=false -auto-approve -var='manage_dns=false' \
+            -target=cloudflare_zone_setting.always_use_https \
+            -target=cloudflare_d1_database.bottega \
+            -target=cloudflare_r2_bucket.media
 
       - name: Render Wrangler config
         working-directory: infra/cloudflare
@@ -169,10 +174,12 @@ jobs:
           bunx wrangler secret bulk /tmp/bottega-secrets.json --config dist/server/wrangler.json
           rm -f /tmp/bottega-secrets.json
 
-      - name: Clear conflicting apex DNS
-        run: node scripts/clear-apex-dns-for-workers.mjs
+      # Skip DNS deletes when the apex is already a Workers custom domain (avoids flap).
+      - name: Ensure apex Workers domain
+        run: node scripts/ensure-workers-apex.mjs
         env:
           ZONE_NAME: bottega.boston
+          WORKER_NAME: bottega-boston
 
       - name: Attach custom domain
         working-directory: infra/cloudflare
