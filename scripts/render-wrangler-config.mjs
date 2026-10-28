@@ -37,6 +37,16 @@ if (mode === 'dist') {
   }
   const config = JSON.parse(readFileSync(outPath, 'utf8'));
   setDatabaseId(config, outPath);
+  // Vite Cloudflare plugin copies diagnostic fields Wrangler 4 rejects as config.
+  for (const key of [
+    'legacy_env',
+    'configPath',
+    'userConfigPath',
+    'topLevelName',
+    'definedEnvironments',
+  ]) {
+    delete config[key];
+  }
   writeFileSync(outPath, `${JSON.stringify(config, null, 2)}\n`);
   console.log(`Patched ${outPath} with database_id=${databaseId}`);
   process.exit(0);
