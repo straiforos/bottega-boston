@@ -17,10 +17,27 @@ The public site for [Bottega](https://bottega.boston): menu, locations, Pasta Cl
 
 ## Develop
 
+### One-time setup
+
+1. Copy the Worker block from [`.env.example`](.env.example) into `.dev.vars`. Set `SITE_ORIGIN=http://localhost:8080` for local OAuth and email links. Optionally copy the Vite Maps keys into `.env`.
+2. Install and seed local D1 + media:
+
 ```sh
 bun install
+bun run setup:local
+```
+
+`setup:local` applies D1 migrations and downloads every `/media/...` key the repo references into `export/local-media` (gitignored), then puts those objects into Miniflare R2 for `vite preview`.
+
+Or open the repo in a **Dev Container** (`.devcontainer/`). `postCreateCommand` runs `bun install && bun run setup:local`. Still create `.dev.vars` yourself — secrets are not baked into the image.
+
+### Day to day
+
+```sh
 bun run dev
 ```
+
+Open http://localhost:8080. Vite serves `/media/*` from `export/local-media` first; Miniflare still backs D1 and the Worker for everything else. If Miniflare dies on `_cf_ALARM`, run `bun run runtime:reset:local` and retry.
 
 Useful scripts:
 
@@ -29,7 +46,15 @@ bun run test
 bun run typecheck
 bun run quality
 bun run db:migrate:local
+bun run media:seed:local
+bun run runtime:reset:local   # if Miniflare dies on _cf_ALARM
 ```
+
+### Staff tooling notes
+
+- Google OAuth: add `http://localhost:8080/api/auth/callback` in the Google Cloud console; keep your email in the staff allowlist seed.
+- Maps / Turnstile: allow `localhost:8080` (and preview origin) on the browser key / widget hostnames.
+- Staff media **uploads** still need real Cloudflare `S3_*` credentials in `.dev.vars`. Guest browse works offline after `media:seed:local`.
 
 ## Deploy
 

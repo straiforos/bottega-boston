@@ -5,11 +5,14 @@ import { cloudflare } from '@cloudflare/vite-plugin';
 import { tanstackStart } from '@tanstack/react-start/plugin/vite';
 import viteReact from '@vitejs/plugin-react';
 import { mockupPreviewPlugin } from './mockupPreviewPlugin';
+import { localMediaPlugin } from './scripts/vite-local-media-plugin.mjs';
 
 export default defineConfig(({ command, isPreview }) => {
-  // Build emits the Worker; preview (including TanStack prerender) needs the
-  // same plugin so Miniflare serves HTML. Plain `vite dev` stays without it.
-  const useCloudflare = command === 'build' || !!isPreview;
+  // Cloudflare/Miniflare for build, preview, and vite dev so server routes can
+  // import cloudflare:workers (D1, MEDIA, secrets). Filesystem /media middleware
+  // still short-circuits guest media in vite dev from export/local-media.
+  const useCloudflare = command === 'build' || command === 'serve' || !!isPreview;
+  const useLocalMedia = command === 'serve' && !isPreview;
 
   return {
     server: {
@@ -28,6 +31,7 @@ export default defineConfig(({ command, isPreview }) => {
       // Writes src/.generated/mockup-components.ts before routes resolve it.
       mockupPreviewPlugin(),
       tsConfigPaths({ projects: ['./tsconfig.json'] }),
+      ...(useLocalMedia ? [localMediaPlugin()] : []),
       ...(useCloudflare ? [cloudflare({ viteEnvironment: { name: 'ssr' } })] : []),
       tanstackStart({
         // Static HTML shells for guest pages (served as assets; Worker still SSR
