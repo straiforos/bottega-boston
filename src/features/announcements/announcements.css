@@ -1,8 +1,10 @@
 /* Guest announcement card: fixed, dismissible, never traps the page. */
-.announcement-card {
+/* Beat .bt-card { position: relative } so the promo stays pinned to the viewport. */
+.bt-card.announcement-card {
   position: fixed;
   z-index: 5;
-  right: var(--bt-space-4);
+  left: var(--bt-space-4);
+  right: auto;
   bottom: var(--bt-space-4);
   align-items: stretch;
   text-align: left;
@@ -13,7 +15,7 @@
 }
 
 @media (prefers-reduced-motion: no-preference) {
-  .announcement-card {
+  .bt-card.announcement-card {
     animation: announcement-in var(--bt-duration-snackbar, 200ms) ease-out;
   }
 }
@@ -66,7 +68,7 @@
 }
 
 @media (max-width: 599px) {
-  .announcement-card {
+  .bt-card.announcement-card {
     left: var(--bt-space-3);
     right: var(--bt-space-3);
     bottom: var(--bt-space-3);
