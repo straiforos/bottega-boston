@@ -1,0 +1,75 @@
+/* Guest announcement card: fixed, dismissible, never traps the page. */
+.announcement-card {
+  position: fixed;
+  z-index: 5;
+  right: var(--bt-space-4);
+  bottom: var(--bt-space-4);
+  align-items: stretch;
+  text-align: left;
+  width: min(22rem, calc(100vw - 2 * var(--bt-space-4)));
+  padding: var(--bt-space-4);
+  gap: var(--bt-space-3);
+  pointer-events: auto;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .announcement-card {
+    animation: announcement-in var(--bt-duration-snackbar, 200ms) ease-out;
+  }
+}
+
+@keyframes announcement-in {
+  from {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.announcement-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--bt-space-2);
+}
+
+.announcement-card__title {
+  margin: 0;
+  flex: 1;
+}
+
+.announcement-card__close {
+  flex-shrink: 0;
+  margin: calc(-1 * var(--bt-space-2)) calc(-1 * var(--bt-space-2)) 0 0;
+}
+
+.announcement-card__body {
+  margin: 0;
+  font-family: var(--bt-font-sans);
+  font-size: var(--bt-text-sm);
+  line-height: 1.45;
+}
+
+.announcement-card__media {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  border: var(--bt-border-width) solid var(--bt-tomato);
+}
+
+.announcement-card__link {
+  align-self: flex-start;
+}
+
+@media (max-width: 599px) {
+  .announcement-card {
+    left: var(--bt-space-3);
+    right: var(--bt-space-3);
+    bottom: var(--bt-space-3);
+    width: auto;
+  }
+}

@@ -80,6 +80,9 @@ export function BottegaHeader() {
             <HeaderLink className="bt-menu-overlay__link" to="/admin/events">
               {nav.adminEvents}
             </HeaderLink>
+            <HeaderLink className="bt-menu-overlay__link" to="/admin/announcements">
+              {nav.adminAnnouncements}
+            </HeaderLink>
             <HeaderLink className="bt-menu-overlay__link" to="/admin/requests">
               {nav.adminRequests}
             </HeaderLink>

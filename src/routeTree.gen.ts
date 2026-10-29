@@ -18,6 +18,7 @@ import { Route as SiteUnsubscribedRouteImport } from './routes/_site/unsubscribe
 import { Route as MediaSplatRouteImport } from './routes/media.$'
 import { Route as Char91__componentChar93PreviewSplatRouteImport } from './routes/[__component].preview.$'
 import { Route as Char91__mockupChar93PreviewSplatRouteImport } from './routes/[__mockup].preview.$'
+import { Route as SiteAdminAnnouncementsRouteImport } from './routes/_site/admin.announcements'
 import { Route as SiteAdminEventsRouteImport } from './routes/_site/admin.events'
 import { Route as SiteAdminRequestsRouteImport } from './routes/_site/admin.requests'
 import { Route as SiteEmailsComposeRouteImport } from './routes/_site/emails_.compose'
@@ -30,6 +31,7 @@ import { Route as ApiAuthMeRouteImport } from './routes/api/auth/me'
 import { Route as ApiPublicResendWebhookRouteImport } from './routes/api/public/resend-webhook'
 import { Route as ApiPublicSendScheduledRouteImport } from './routes/api/public/send-scheduled'
 import { Route as ApiPublicUnsubscribeRouteImport } from './routes/api/public/unsubscribe'
+import { Route as SiteAdminAnnouncementsAnnouncementIdRouteImport } from './routes/_site/admin.announcements_.$announcementId'
 import { Route as SiteAdminEventsEventIdRouteImport } from './routes/_site/admin.events_.$eventId'
 import { Route as SiteEmailsTemplateKeyRouteImport } from './routes/_site/emails_.template.$key'
 
@@ -79,6 +81,11 @@ const Char91__mockupChar93PreviewSplatRoute =
     path: '/__mockup/preview/$',
     getParentRoute: () => rootRouteImport,
   } as any)
+const SiteAdminAnnouncementsRoute = SiteAdminAnnouncementsRouteImport.update({
+  id: '/admin/announcements',
+  path: '/admin/announcements',
+  getParentRoute: () => SiteRoute,
+} as any)
 const SiteAdminEventsRoute = SiteAdminEventsRouteImport.update({
   id: '/admin/events',
   path: '/admin/events',
@@ -139,6 +146,12 @@ const ApiPublicUnsubscribeRoute = ApiPublicUnsubscribeRouteImport.update({
   path: '/api/public/unsubscribe',
   getParentRoute: () => rootRouteImport,
 } as any)
+const SiteAdminAnnouncementsAnnouncementIdRoute =
+  SiteAdminAnnouncementsAnnouncementIdRouteImport.update({
+    id: '/admin/announcements_/$announcementId',
+    path: '/admin/announcements/$announcementId',
+    getParentRoute: () => SiteRoute,
+  } as any)
 const SiteAdminEventsEventIdRoute = SiteAdminEventsEventIdRouteImport.update({
   id: '/admin/events_/$eventId',
   path: '/admin/events/$eventId',
@@ -159,6 +172,7 @@ export interface FileRoutesByFullPath {
   '/media/$': typeof MediaSplatRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
+  '/admin/announcements': typeof SiteAdminAnnouncementsRoute
   '/admin/events': typeof SiteAdminEventsRoute
   '/admin/requests': typeof SiteAdminRequestsRoute
   '/emails/compose': typeof SiteEmailsComposeRoute
@@ -171,6 +185,7 @@ export interface FileRoutesByFullPath {
   '/api/public/resend-webhook': typeof ApiPublicResendWebhookRoute
   '/api/public/send-scheduled': typeof ApiPublicSendScheduledRoute
   '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
+  '/admin/announcements/$announcementId': typeof SiteAdminAnnouncementsAnnouncementIdRoute
   '/admin/events/$eventId': typeof SiteAdminEventsEventIdRoute
   '/emails/template/$key': typeof SiteEmailsTemplateKeyRoute
 }
@@ -183,6 +198,7 @@ export interface FileRoutesByTo {
   '/': typeof SiteIndexRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
+  '/admin/announcements': typeof SiteAdminAnnouncementsRoute
   '/admin/events': typeof SiteAdminEventsRoute
   '/admin/requests': typeof SiteAdminRequestsRoute
   '/emails/compose': typeof SiteEmailsComposeRoute
@@ -195,6 +211,7 @@ export interface FileRoutesByTo {
   '/api/public/resend-webhook': typeof ApiPublicResendWebhookRoute
   '/api/public/send-scheduled': typeof ApiPublicSendScheduledRoute
   '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
+  '/admin/announcements/$announcementId': typeof SiteAdminAnnouncementsAnnouncementIdRoute
   '/admin/events/$eventId': typeof SiteAdminEventsEventIdRoute
   '/emails/template/$key': typeof SiteEmailsTemplateKeyRoute
 }
@@ -209,6 +226,7 @@ export interface FileRoutesById {
   '/_site/': typeof SiteIndexRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
   '/__mockup/preview/$': typeof Char91__mockupChar93PreviewSplatRoute
+  '/_site/admin/announcements': typeof SiteAdminAnnouncementsRoute
   '/_site/admin/events': typeof SiteAdminEventsRoute
   '/_site/admin/requests': typeof SiteAdminRequestsRoute
   '/_site/emails_/compose': typeof SiteEmailsComposeRoute
@@ -221,6 +239,7 @@ export interface FileRoutesById {
   '/api/public/resend-webhook': typeof ApiPublicResendWebhookRoute
   '/api/public/send-scheduled': typeof ApiPublicSendScheduledRoute
   '/api/public/unsubscribe': typeof ApiPublicUnsubscribeRoute
+  '/_site/admin/announcements_/$announcementId': typeof SiteAdminAnnouncementsAnnouncementIdRoute
   '/_site/admin/events_/$eventId': typeof SiteAdminEventsEventIdRoute
   '/_site/emails_/template/$key': typeof SiteEmailsTemplateKeyRoute
 }
@@ -235,6 +254,7 @@ export interface FileRouteTypes {
     | '/media/$'
     | '/__component/preview/$'
     | '/__mockup/preview/$'
+    | '/admin/announcements'
     | '/admin/events'
     | '/admin/requests'
     | '/emails/compose'
@@ -247,6 +267,7 @@ export interface FileRouteTypes {
     | '/api/public/resend-webhook'
     | '/api/public/send-scheduled'
     | '/api/public/unsubscribe'
+    | '/admin/announcements/$announcementId'
     | '/admin/events/$eventId'
     | '/emails/template/$key'
   fileRoutesByTo: FileRoutesByTo
@@ -259,6 +280,7 @@ export interface FileRouteTypes {
     | '/'
     | '/__component/preview/$'
     | '/__mockup/preview/$'
+    | '/admin/announcements'
     | '/admin/events'
     | '/admin/requests'
     | '/emails/compose'
@@ -271,6 +293,7 @@ export interface FileRouteTypes {
     | '/api/public/resend-webhook'
     | '/api/public/send-scheduled'
     | '/api/public/unsubscribe'
+    | '/admin/announcements/$announcementId'
     | '/admin/events/$eventId'
     | '/emails/template/$key'
   id:
@@ -284,6 +307,7 @@ export interface FileRouteTypes {
     | '/_site/'
     | '/__component/preview/$'
     | '/__mockup/preview/$'
+    | '/_site/admin/announcements'
     | '/_site/admin/events'
     | '/_site/admin/requests'
     | '/_site/emails_/compose'
@@ -296,6 +320,7 @@ export interface FileRouteTypes {
     | '/api/public/resend-webhook'
     | '/api/public/send-scheduled'
     | '/api/public/unsubscribe'
+    | '/_site/admin/announcements_/$announcementId'
     | '/_site/admin/events_/$eventId'
     | '/_site/emails_/template/$key'
   fileRoutesById: FileRoutesById
@@ -378,6 +403,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/__mockup/preview/$'
       preLoaderRoute: typeof Char91__mockupChar93PreviewSplatRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/_site/admin/announcements': {
+      id: '/_site/admin/announcements'
+      path: '/admin/announcements'
+      fullPath: '/admin/announcements'
+      preLoaderRoute: typeof SiteAdminAnnouncementsRouteImport
+      parentRoute: typeof SiteRoute
     }
     '/_site/admin/events': {
       id: '/_site/admin/events'
@@ -463,6 +495,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ApiPublicUnsubscribeRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_site/admin/announcements_/$announcementId': {
+      id: '/_site/admin/announcements_/$announcementId'
+      path: '/admin/announcements/$announcementId'
+      fullPath: '/admin/announcements/$announcementId'
+      preLoaderRoute: typeof SiteAdminAnnouncementsAnnouncementIdRouteImport
+      parentRoute: typeof SiteRoute
+    }
     '/_site/admin/events_/$eventId': {
       id: '/_site/admin/events_/$eventId'
       path: '/admin/events/$eventId'
@@ -486,11 +525,13 @@ interface SiteRouteChildren {
   SiteMenuRoute: typeof SiteMenuRoute
   SiteUnsubscribedRoute: typeof SiteUnsubscribedRoute
   SiteIndexRoute: typeof SiteIndexRoute
+  SiteAdminAnnouncementsRoute: typeof SiteAdminAnnouncementsRoute
   SiteAdminEventsRoute: typeof SiteAdminEventsRoute
   SiteAdminRequestsRoute: typeof SiteAdminRequestsRoute
   SiteEmailsComposeRoute: typeof SiteEmailsComposeRoute
   SiteEmailsWelcomeRoute: typeof SiteEmailsWelcomeRoute
   SiteEventsRequestRoute: typeof SiteEventsRequestRoute
+  SiteAdminAnnouncementsAnnouncementIdRoute: typeof SiteAdminAnnouncementsAnnouncementIdRoute
   SiteAdminEventsEventIdRoute: typeof SiteAdminEventsEventIdRoute
   SiteEmailsTemplateKeyRoute: typeof SiteEmailsTemplateKeyRoute
 }
@@ -501,11 +542,14 @@ const SiteRouteChildren: SiteRouteChildren = {
   SiteMenuRoute: SiteMenuRoute,
   SiteUnsubscribedRoute: SiteUnsubscribedRoute,
   SiteIndexRoute: SiteIndexRoute,
+  SiteAdminAnnouncementsRoute: SiteAdminAnnouncementsRoute,
   SiteAdminEventsRoute: SiteAdminEventsRoute,
   SiteAdminRequestsRoute: SiteAdminRequestsRoute,
   SiteEmailsComposeRoute: SiteEmailsComposeRoute,
   SiteEmailsWelcomeRoute: SiteEmailsWelcomeRoute,
   SiteEventsRequestRoute: SiteEventsRequestRoute,
+  SiteAdminAnnouncementsAnnouncementIdRoute:
+    SiteAdminAnnouncementsAnnouncementIdRoute,
   SiteAdminEventsEventIdRoute: SiteAdminEventsEventIdRoute,
   SiteEmailsTemplateKeyRoute: SiteEmailsTemplateKeyRoute,
 }

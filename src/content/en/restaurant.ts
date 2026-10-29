@@ -23,6 +23,7 @@ export const restaurantContent = {
     siteAdmin: 'Site Admin',
     emails: 'Emails',
     adminEvents: 'Events',
+    adminAnnouncements: 'Announcements',
     adminRequests: 'Requests',
   },
   metadata: {

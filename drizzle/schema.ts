@@ -176,3 +176,17 @@ export const eventRequests = sqliteTable(
   },
   (t) => [index('event_requests_email_created_idx').on(t.email, t.createdAt)],
 );
+
+export const announcements = sqliteTable('announcements', {
+  id: text('id').primaryKey(),
+  title: text('title').notNull(),
+  body: text('body').notNull().default(''),
+  imageUrl: text('image_url'),
+  href: text('href'),
+  linkLabel: text('link_label'),
+  startsAt: text('starts_at').notNull(),
+  endsAt: text('ends_at').notNull(),
+  published: integer('published', { mode: 'boolean' }).notNull().default(true),
+  createdAt: text('created_at').notNull().default(now),
+  updatedAt: text('updated_at').notNull().default(now),
+});
