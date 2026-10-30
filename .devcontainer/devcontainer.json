@@ -12,7 +12,7 @@
       "onAutoForward": "notify"
     }
   },
-  "postCreateCommand": "bun install && bun run db:migrate:local && bun run media:seed:local",
+  "postCreateCommand": "bash .devcontainer/post-create.sh",
   "customizations": {
     "vscode": {
       "extensions": [
