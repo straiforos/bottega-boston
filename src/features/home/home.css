@@ -413,30 +413,50 @@
   position: absolute;
   inset-inline: 0;
   top: calc(-1 * var(--bt-space-8));
+  /* Behind the grid stacking context that holds her photo. */
+  z-index: 0;
   pointer-events: none;
 }
 .club-grid {
+  /* Own stacking context above the ribbon so her z-index can win. */
+  position: relative;
+  z-index: 1;
   display: grid;
   grid-template-columns: 4fr 6fr;
-  align-items: end;
+  align-items: stretch;
   gap: var(--bt-space-lg);
 }
 .club-media {
+  /* Right column, section top-to-bottom; shift left so the elbow just enters the form. */
+  grid-column: 2;
   position: relative;
+  z-index: 2;
   align-self: stretch;
+  width: calc(100% + var(--bt-space-8) * 2);
+  margin-left: calc(-2 * var(--bt-space-8));
+  /* Lift into section padding only — do not spill past the section bottom. */
   margin-top: calc(-2 * var(--bt-space-8));
+  margin-bottom: 0;
+  min-width: 0;
+  min-height: 100%;
+  pointer-events: none;
 }
 .club-photo {
   display: block;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center top;
+  /* Keep the left of the frame (elbow) — cover was clipping it at center. */
+  object-position: left top;
 }
 .club-copy {
+  grid-column: 1;
   position: relative;
+  /* Above her overlapping elbow so fields stay usable. */
+  z-index: 3;
+  background: transparent;
   padding-top: 0;
-  padding-right: 0;
+  padding-right: var(--bt-space-md);
   padding-bottom: var(--bt-space-xl);
   padding-left: var(--bt-margin);
 }
@@ -447,6 +467,7 @@
   display: grid;
   gap: var(--bt-space-md);
   margin-top: var(--bt-space-lg);
+  background: transparent;
 }
 .club-hp {
   position: absolute;
@@ -517,17 +538,24 @@
     top: calc(-1 * var(--bt-space-lg));
   }
   .club-copy {
+    grid-column: auto;
     padding-block: 0;
     padding-inline: var(--bt-margin);
   }
   .club-media {
+    grid-column: auto;
     order: -1;
+    width: 100%;
+    margin-left: 0;
+    margin-bottom: 0;
     /* Lift the photo to the section top so the wave passes behind her head. */
     margin-top: calc(-1 * var(--bt-space-8));
+    pointer-events: auto;
   }
   .club-photo {
     height: auto;
     object-fit: contain;
+    object-position: center top;
   }
 }
 @media (prefers-reduced-motion: reduce) {
