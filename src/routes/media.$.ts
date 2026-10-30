@@ -15,7 +15,9 @@ export const Route = createFileRoute('/media/$')({
         const headers = new Headers();
         object.writeHttpMetadata(headers);
         headers.set('etag', object.httpEtag);
-        headers.set('Cache-Control', 'public, max-age=31536000, immutable');
+        // Bundled keys are occasionally overwritten in place (e.g. pasta-club.png),
+        // so avoid year-long immutable caching that traps browsers on stale bytes.
+        headers.set('Cache-Control', 'public, max-age=86400, must-revalidate');
         return new Response(object.body, { headers });
       },
     },
