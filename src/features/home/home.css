@@ -173,6 +173,20 @@
   padding-bottom: var(--bt-space-xl);
   pointer-events: none;
 }
+/* Hang the unfinished wave ends off-screen. Margin percentages resolve
+   against the wrapper, so -5% + 110% width lands 5% past each edge.
+   The menu ribbon is in normal flow, so the same width would grow its
+   dip onto "Menu". Scale it from the bottom instead: letters stay in
+   proportion, the sides still hang 5% off, and the heading does not move. */
+.events-ribbon .bt-wave,
+.club-ribbon .bt-wave {
+  width: 110%;
+  margin-inline: -5%;
+}
+.offerings-ribbon .bt-wave {
+  transform: scale(1.1);
+  transform-origin: center bottom;
+}
 .offerings-layout {
   display: grid;
   gap: var(--bt-space-lg);
