@@ -72,21 +72,14 @@ export function MenuPage() {
       <main className="real-menu">
         <header className="menu-page-heading section-inner">
           <div className="menu-page-title">
-            <div className="menu-page-stamp" aria-hidden="true">
-              <span className="desktop-only">
-                <Stamp size="md" variant="light">
-                  <StampLines text={restaurantContent.menuPage.stamp} />
-                </Stamp>
-              </span>
-              <span className="mobile-only">
-                <Stamp size="sm" variant="light">
-                  <StampLines text={restaurantContent.menuPage.stamp} />
-                </Stamp>
-              </span>
-            </div>
             <Display as="h1" size="hero" tone="forest" className="menu-page-headline">
               {restaurantContent.menuPage.title}
             </Display>
+            <div className="menu-page-stamp" aria-hidden="true">
+              <Stamp size="sm" variant="light">
+                <StampLines text={restaurantContent.menuPage.stamp} />
+              </Stamp>
+            </div>
           </div>
           <Serif as="p" size="md" tone="forest">
             {restaurantContent.menuPage.lead}
