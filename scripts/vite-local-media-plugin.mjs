@@ -51,7 +51,8 @@ export function localMediaPlugin() {
 
         res.statusCode = 200;
         res.setHeader('Content-Type', contentType(file));
-        res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+        // Dev media changes often during polish; avoid sticky immutable browser caches.
+        res.setHeader('Cache-Control', 'no-cache');
         createReadStream(file).pipe(res);
       });
     },

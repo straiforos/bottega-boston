@@ -4,6 +4,7 @@
  * tmp/chownow-photos/. Reads GEMINI_API_KEY from the environment (Bun loads .env).
  *
  * Usage: bun scripts/import-chownow-photos.ts
+ *        bun scripts/import-chownow-photos.ts --force --only=dish-5
  */
 import { mkdir, readFile, writeFile, access } from 'node:fs/promises';
 import path from 'node:path';
@@ -15,6 +16,7 @@ import {
   resolveChowNowPhotos,
   type ChowNowMenuItem,
 } from '../src/lib/menu/chownow-photo-map';
+import { diningStudioSceneLines } from '../src/lib/menu/studio-scene';
 
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const outDir = path.join(root, 'tmp/chownow-photos');
@@ -120,13 +122,17 @@ function polishPrompt(dishName: string, description: string): string {
   const detail = description.trim()
     ? ` Menu description: ${description.trim()}`
     : '';
+  const coffee =
+    /latte|cappuccino|macchiato|espresso|americano|caff|coffee|tea/i.test(dishName)
+      ? ' For coffee drinks: plain milk foam or crema only—no latte art, hearts, leaves, rosettes, or poured designs. This cafe does not do latte art.'
+      : '';
+  const requirePlate = /cake|tiramisu|pudding|cookie|cannol|nuvole|dolci|dessert/i.test(
+    `${dishName} ${description}`,
+  );
   return [
-    `Polish this restaurant food photo of "${dishName}" into a clean studio product shot.${detail}`,
-    'Keep the same dish, plate or vessel, ingredients, portion size, and sauce colors so it still looks like what the kitchen serves.',
-    'Replace the background and table with one uniform matte warm-stone countertop and a soft seamless backdrop in the same tone across every dish.',
-    'Use soft even studio lighting with a gentle shadow under the plate. Crop to a clean square 1:1 frame centered on the food.',
-    'Remove any store interior, people, clutter, napkins with logos, menus, and reflections of the room.',
-    'Do not add garnish, props, text, logos, watermarks, or UI chrome. Do not invent a different plate.',
+    `Polish this restaurant food photo of "${dishName}" into a clean studio product shot.${detail}${coffee}`,
+    'Keep the same dish identity, ingredients, portion size, and sauce colors so it still looks like what the kitchen serves.',
+    ...diningStudioSceneLines({ requirePlate }),
   ].join(' ');
 }
 
@@ -195,11 +201,29 @@ async function main() {
     [...dishCopy.entries()].map(([id, d]) => ({ id, name: d.name, sectionName: d.sectionName })),
   );
 
+  const force = process.argv.includes('--force');
+  const onlyArg = process.argv.find((a) => a.startsWith('--only='));
+  const onlyIds = onlyArg
+    ? new Set(
+        onlyArg
+          .slice('--only='.length)
+          .split(',')
+          .map((s) => s.trim())
+          .filter(Boolean),
+      )
+    : null;
+
   const items = await loadChowNowItems();
-  const resolved = resolveChowNowPhotos(CHOWNOW_PHOTO_MAP, items);
+  let resolved = resolveChowNowPhotos(CHOWNOW_PHOTO_MAP, items);
+  if (onlyIds) {
+    for (const id of onlyIds) {
+      if (!(id in CHOWNOW_PHOTO_MAP)) throw new Error(`Unknown dining dish for --only: ${id}`);
+    }
+    resolved = resolved.filter((row) => onlyIds.has(row.dishId));
+  }
   await mkdir(outDir, { recursive: true });
 
-  console.log(`Writing ${resolved.length} dishes to ${outDir}`);
+  console.log(`Writing ${resolved.length} dishes to ${outDir}${force ? ' (force)' : ''}`);
 
   for (const row of resolved) {
     const sourcePath = path.join(outDir, `${row.dishId}-source.jpg`);
@@ -221,7 +245,7 @@ async function main() {
     const sourcePath = path.join(outDir, `${row.dishId}-source.jpg`);
     const polishedPath = path.join(outDir, `${row.dishId}.jpg`);
 
-    if (await exists(polishedPath)) {
+    if (!force && (await exists(polishedPath))) {
       console.log(`skip polish ${row.dishId} (already exists)`);
       polishedCount += 1;
       continue;
