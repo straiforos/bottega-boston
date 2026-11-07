@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { describeRecurrence, nthWeekdayOfMonth, upcomingOccurrences, zonedToUtc, type EventSchedule } from './occurrences';
-import { isTicketTailorUrl, maskPhone, orderTotal, parsePriceOptions, priceOrder, requestDateBounds, requestSchema } from './requests';
+import { isValidTicketUrl, maskPhone, orderTotal, parsePriceOptions, priceOrder, requestDateBounds, requestSchema } from './requests';
 import { upcomingEvents, validateEvent, type BottegaEvent, type EventDraft } from './events-shared';
 
 const tz = 'America/New_York';
@@ -97,10 +97,11 @@ describe('catering orders', () => {
 });
 
 describe('ticket links', () => {
-  it('accepts only https Ticket Tailor addresses', () => {
-    expect(isTicketTailorUrl('https://www.tickettailor.com/events/bottega/123')).toBe(true);
-    expect(isTicketTailorUrl('http://www.tickettailor.com/events/x')).toBe(false);
-    expect(isTicketTailorUrl('https://tickettailor.com.evil.io/x')).toBe(false);
+  it('accepts https addresses with a real domain', () => {
+    expect(isValidTicketUrl('https://www.tickettailor.com/events/bottega/123')).toBe(true);
+    expect(isValidTicketUrl('https://example.com/tickets')).toBe(true);
+    expect(isValidTicketUrl('http://example.com/tickets')).toBe(false);
+    expect(isValidTicketUrl('https://localhost/tickets')).toBe(false);
   });
 });
 

@@ -1,5 +1,5 @@
 import { z } from 'zod';
-import { isTicketTailorUrl } from './requests';
+import { isValidTicketUrl } from './requests';
 import {
   describeRecurrence,
   upcomingOccurrences,
@@ -75,7 +75,7 @@ export function validateEvent(d: EventDraft): string | null {
   if (d.description.length > 2000) return 'Keep the description under 2000 characters.';
   if (Number.isNaN(new Date(d.startsAt).getTime())) return 'Pick a start date and time.';
   if (d.durationMinutes < 15 || d.durationMinutes > 24 * 60) return 'Length must be between 15 minutes and 24 hours.';
-  if (d.ticketUrl.trim() && !isTicketTailorUrl(d.ticketUrl)) return 'Ticket links must be https://…tickettailor.com addresses.';
+  if (d.ticketUrl.trim() && !isValidTicketUrl(d.ticketUrl)) return 'Ticket links must be https web addresses.';
   if (d.recurrence && !recurrenceSchema.safeParse(d.recurrence).success) return 'Pick at least one day for the repeat.';
   return null;
 }

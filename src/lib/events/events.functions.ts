@@ -7,7 +7,7 @@ import { staffFromRequest } from '@/lib/auth/staff';
 import { db, schema } from '@/lib/db';
 import type { Json } from '@/lib/json';
 import { parseRecurrence, type BottegaEvent, type EventDraft } from './events-shared';
-import { isTicketTailorUrl } from './requests';
+import { isValidTicketUrl } from './requests';
 import type { EventException, Recurrence } from './occurrences';
 
 const recurrenceSchema = z
@@ -81,8 +81,8 @@ export const saveEvent = createServerFn({ method: 'POST' })
   .handler(async ({ data }) => {
     const d = data.draft as EventDraft;
     if (!d.title.trim()) throw new Error('Add a title.');
-    if (d.ticketUrl.trim() && !isTicketTailorUrl(d.ticketUrl)) {
-      throw new Error('Ticket links must be https://…tickettailor.com addresses.');
+    if (d.ticketUrl.trim() && !isValidTicketUrl(d.ticketUrl)) {
+      throw new Error('Ticket links must be https web addresses.');
     }
     const row = {
       title: d.title.trim(),

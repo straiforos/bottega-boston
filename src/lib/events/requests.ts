@@ -134,11 +134,11 @@ export function describeLines(lines: readonly OrderLine[]) {
     .join('\n');
 }
 
-/** Ticket Tailor checkout links: secure and on tickettailor.com. */
-export function isTicketTailorUrl(url: string) {
+/** Ticket links must be secure web addresses with a real domain. */
+export function isValidTicketUrl(url: string) {
   try {
     const u = new URL(url.trim());
-    return u.protocol === 'https:' && (u.hostname === 'tickettailor.com' || u.hostname.endsWith('.tickettailor.com'));
+    return u.protocol === 'https:' && u.hostname.includes('.');
   } catch {
     return false;
   }
