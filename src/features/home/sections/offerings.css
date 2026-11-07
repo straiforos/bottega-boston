@@ -47,7 +47,7 @@
     grid-template-rows: auto;
   }
   .offerings-section {
-    padding-top: var(--bt-space-8);
+    padding-top: var(--bt-space-md);
     padding-bottom: var(--bt-space-xl);
   }
 }

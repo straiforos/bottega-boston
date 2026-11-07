@@ -67,7 +67,7 @@
   .menu-ribbon.home-editable,
   .menu-ribbon {
     margin-top: calc(-1 * var(--bt-space-lg));
-    padding-bottom: var(--bt-space-lg);
+    padding-bottom: var(--bt-space-sm);
   }
   .menu-ribbon .bt-wave {
     transform: none;

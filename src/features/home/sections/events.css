@@ -29,7 +29,7 @@
 }
 @media (max-width: 900px) {
   .events {
-    padding-top: var(--bt-space-8);
+    padding-top: var(--bt-space-md);
   }
   .events-ribbon {
     margin-top: calc(-1 * var(--bt-space-lg));
