@@ -3,7 +3,7 @@ import { links } from '@/content/links';
 import { restaurantContent } from '@/content/en/restaurant';
 import hero from '@/assets/hero.asset.json';
 import coffee from '@/assets/coffee.asset.json';
-import pasta from '@/assets/pasta-club.asset.json';
+import pastaFood from '@/assets/the-food.asset.json';
 import mercatino from '@/assets/mercatino.jpg.asset.json';
 
 export const CARD_VARIANTS = ['cream', 'mustard', 'cobalt', 'forest', 'white'] as const;
@@ -69,7 +69,7 @@ export const defaultHomeContent: HomeContent = {
       title: 'The food',
       badge: '',
       subtitle: 'Breakfast, lunch, dinner\n& everything in between.',
-      imageUrl: pasta.url,
+      imageUrl: pastaFood.url,
       imageAlt: 'A woman holding a plate of Bottega pesto pasta',
       linkLabel: 'Food menu',
       linkHref: '/menu',

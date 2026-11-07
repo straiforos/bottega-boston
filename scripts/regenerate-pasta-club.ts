@@ -20,10 +20,11 @@ const SOURCE = path.join(
 );
 
 const PROMPT = [
-  'Edit this restaurant marketing photo of a woman eating pasta for Bottega Pasta Club.',
-  'Keep the same woman, face, hair, clothing, pose, plate of pasta, and photographic style — same person, not a redesign.',
-  'Widen the frame so her left elbow and full left arm are fully visible with comfortable padding. Nothing clipped at the edges; outpaint the clipped side as needed.',
-  'Return a clean cutout of the subject on a fully transparent background (RGBA PNG). Soft natural edges — no checkerboard, no gray fringe, no color halo, no leftover backdrop.',
+  'Edit this restaurant marketing photo of a woman eating pasta for Bottega Pasta Club / “The food” card.',
+  'Keep the same woman, face, hair, clothing, pose, plate of pasta, sunglasses, jewelry, and photographic style — same person, not a redesign.',
+  'CRITICAL framing fix: the top of her head is cut off. Scale the subject slightly smaller in frame and extend the canvas so the COMPLETE crown of her hair is fully inside the image with clear empty padding above (at least ~8% of frame height). Do not crop forehead, hairline, or crown.',
+  'Keep her left elbow and full left arm fully visible with padding; outpaint clipped sides as needed. Do not clip at any edge.',
+  'Return a clean cutout on a fully TRANSPARENT background as PNG (RGBA). Soft natural edges — no white fill, no black fill, no checkerboard, no gray fringe, no color halo.',
   'Do not add text, logos, captions, or UI chrome. Do not invent new props or change the pasta.',
 ].join(' ');
 
@@ -50,8 +51,8 @@ async function editWithGemini(apiKey: string, sourceBytes: Uint8Array, prompt: s
         ],
         generationConfig: {
           responseModalities: ['TEXT', 'IMAGE'],
-          // Match current asset (~1264×843); leave horizontal room for the elbow.
-          imageConfig: { aspectRatio: '3:2', imageSize: '2K' },
+          // Slightly taller than 3:2 so headroom fits without crushing the subject.
+          imageConfig: { aspectRatio: '4:3', imageSize: '2K' },
         },
       }),
     },
