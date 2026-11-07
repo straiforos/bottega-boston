@@ -21,7 +21,8 @@ import { diningStudioSceneLines } from '../src/lib/menu/studio-scene';
 const root = path.join(path.dirname(fileURLToPath(import.meta.url)), '..');
 const outDir = path.join(root, 'tmp/chownow-photos');
 const CHOWNOW_LOCATION = 27186;
-const GEMINI_MODEL = 'gemini-3.1-flash-image';
+/** Successor to gemini-3.1-flash-image (deprecated / shutting down). */
+const GEMINI_MODEL = 'gemini-nano-banana-2.1';
 const ORDER_PAGE = `https://order.chownow.com/order/18964/locations/${CHOWNOW_LOCATION}`;
 const MENU_API = `https://api.chownow.com/api/restaurant/${CHOWNOW_LOCATION}/menu`;
 
@@ -126,11 +127,15 @@ function polishPrompt(dishName: string, description: string): string {
     /latte|cappuccino|macchiato|espresso|americano|caff|coffee|tea/i.test(dishName)
       ? ' For coffee drinks: plain milk foam or crema only—no latte art, hearts, leaves, rosettes, or poured designs. This cafe does not do latte art.'
       : '';
+  const isCake = /cake/i.test(`${dishName} ${description}`);
   const requirePlate = /cake|tiramisu|pudding|cookie|cannol|nuvole|dolci|dessert/i.test(
     `${dishName} ${description}`,
   );
+  const cakeSlice = isCake
+    ? ' For cake: show ONE single triangular dining slice on the plate—never the whole cake, never a cake with a missing wedge, never a slice leaning against the rest. Keep the exact sponge layer count and fillings visible in the source cut face—do not invent extra layers.'
+    : '';
   return [
-    `Polish this restaurant food photo of "${dishName}" into a clean studio product shot.${detail}${coffee}`,
+    `Polish this restaurant food photo of "${dishName}" into a clean studio product shot.${detail}${coffee}${cakeSlice}`,
     'Keep the same dish identity, ingredients, portion size, and sauce colors so it still looks like what the kitchen serves.',
     ...diningStudioSceneLines({ requirePlate }),
   ].join(' ');
