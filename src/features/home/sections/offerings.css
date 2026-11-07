@@ -1,0 +1,67 @@
+/* Sticky pin shell under the in-flow menu ribbon. */
+.offerings-section {
+  background: var(--bt-forest);
+  padding-top: var(--bt-space-lg);
+  padding-bottom: var(--bt-space-lg);
+  padding-inline: var(--bt-margin);
+}
+.offerings-track {
+  position: relative;
+  /* Above #about so the ribbon bleed is not cut off under the story surface. */
+  z-index: 2;
+  overflow: visible;
+  background: var(--bt-forest);
+  height: calc(100vh * 2.2);
+}
+.offerings-track > .offerings-section {
+  position: sticky;
+  top: 0;
+  /* Menu pane stacks above the in-flow ribbon. */
+  z-index: 2;
+  box-sizing: border-box;
+  height: 100vh;
+  display: grid;
+  align-content: stretch;
+  overflow: visible;
+}
+.offerings-layout {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  gap: var(--bt-space-lg);
+  justify-items: center;
+  align-content: stretch;
+  height: 100%;
+  min-height: 0;
+}
+
+@media (max-width: 900px) {
+  .offerings-track {
+    height: auto;
+  }
+  .offerings-track > .offerings-section {
+    position: static;
+    height: auto;
+  }
+  .offerings-layout {
+    height: auto;
+    grid-template-rows: auto;
+  }
+  .offerings-section {
+    padding-top: var(--bt-space-8);
+    padding-bottom: var(--bt-space-xl);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .offerings-track {
+    height: auto;
+  }
+  .offerings-track > .offerings-section {
+    position: static;
+    height: auto;
+  }
+  .offerings-layout {
+    height: auto;
+    grid-template-rows: auto;
+  }
+}

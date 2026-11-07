@@ -7,7 +7,7 @@ export function MenuHeading() {
   return (
     <div className="menu-heading">
       <PastaPotIcon />
-      <Display size="lg" tone="mustard">
+      <Display size="hero" tone="mustard">
         {restaurantContent.home.menu.title}
       </Display>
     </div>

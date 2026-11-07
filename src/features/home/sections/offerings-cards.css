@@ -1,0 +1,156 @@
+/* Offering card band + scroll-driven reveals. */
+.offerings {
+  position: relative;
+  z-index: 3;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--bt-space-xl);
+  align-items: stretch;
+  justify-items: center;
+  align-self: stretch;
+  min-height: 0;
+  width: 100%;
+  /* Clip rising cards, but leave room for the stamp that hangs above. */
+  overflow: hidden;
+  padding-top: var(--bt-space-xl);
+  box-sizing: border-box;
+  container-type: size;
+  container-name: offerings-band;
+}
+.offering {
+  position: relative;
+  display: flex;
+  width: calc(var(--bt-space-8) * 3.5);
+  max-width: 100%;
+  min-height: 0;
+  max-height: 100%;
+  --offerings-tilt: 6deg;
+  --offerings-rise: 70cqh;
+}
+.offering:nth-child(even) {
+  --offerings-tilt: -6deg;
+}
+.offering > .bt-card {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+/* Pin CTAs to the card footer so all three buttons share one baseline. */
+.offering > .bt-card > .offering-cta {
+  margin-top: auto;
+  align-self: stretch;
+}
+.catering-stamp {
+  position: absolute;
+  z-index: 1;
+  top: calc(-1 * var(--bt-space-xl));
+  right: calc(-1 * var(--bt-space-lg));
+}
+.offering-image {
+  width: 100%;
+  height: auto;
+  max-height: min(calc(var(--bt-space-8) * 2.5), 42cqh);
+  object-fit: contain;
+  display: block;
+}
+.market-art {
+  display: grid;
+  place-items: center;
+  height: calc(var(--bt-space-8) * 3);
+}
+.market-art .sketch {
+  width: calc(var(--bt-space-8) * 2);
+  height: calc(var(--bt-space-8) * 2);
+}
+
+/* Desktop: scrub while the tall track exits (pin starts at exit 0%).
+   Mobile: each card rises on its own view entry. */
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    @keyframes offerings-card-in {
+      0% {
+        opacity: 0;
+        transform: translateY(var(--offerings-rise)) rotate(var(--offerings-tilt));
+      }
+      /* Opacity ramps ahead of the settle, matching the old raw*1.6 feel. */
+      55% {
+        opacity: 1;
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0) rotate(0deg);
+      }
+    }
+    @keyframes offerings-card-in-mobile {
+      from {
+        opacity: 0;
+        transform: translateY(var(--bt-space-xl));
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (min-width: 901px) {
+      .offerings-track {
+        view-timeline-name: --offerings-pin;
+        view-timeline-axis: block;
+      }
+      .offering {
+        animation: offerings-card-in linear both;
+        animation-timeline: --offerings-pin;
+      }
+      /* Cover timeline: pin ≈ 31%–69% for a 2.2vh track. Keep all three
+         landings inside the pin (stagger mirrors 0.4 window / 0.3 delay). */
+      .offering:nth-child(1) {
+        animation-range: 32% 46%;
+      }
+      .offering:nth-child(2) {
+        animation-range: 42% 56%;
+      }
+      .offering:nth-child(3) {
+        animation-range: 52% 66%;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .offering {
+        --offerings-rise: var(--bt-space-xl);
+        animation: offerings-card-in-mobile linear both;
+        animation-timeline: view();
+        animation-range: entry 0% cover 35%;
+      }
+      .offering:nth-child(2) {
+        animation-range: entry 8% cover 40%;
+      }
+      .offering:nth-child(3) {
+        animation-range: entry 16% cover 45%;
+      }
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  .offerings {
+    grid-template-columns: 1fr;
+    gap: var(--bt-space-lg);
+    container-type: normal;
+  }
+  .offering {
+    width: 100%;
+    max-height: none;
+  }
+  .offering-image {
+    height: calc(var(--bt-space-8) * 2.5);
+    max-height: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .offering {
+    opacity: 1;
+    transform: none;
+    max-height: none;
+  }
+}

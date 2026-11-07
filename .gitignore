@@ -59,3 +59,4 @@ infra/cloudflare/override.tf.json
 
 # Local exports (Supabase storage dumps, etc.)
 export/
+tmp/

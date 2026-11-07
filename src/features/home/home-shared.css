@@ -1,0 +1,32 @@
+/* Shared home utilities — imported before section sheets so section padding can override. */
+.sketch {
+  width: var(--bt-space-xl);
+  height: var(--bt-space-xl);
+  display: inline-block;
+  vertical-align: middle;
+}
+.sketch-small {
+  width: var(--bt-space-lg);
+  height: var(--bt-space-lg);
+}
+.sketch-marquee .bt-marquee__item:nth-child(odd) .sketch:last-child,
+.sketch-marquee .bt-marquee__item:nth-child(even) .sketch:first-child {
+  display: none;
+}
+.section {
+  padding: var(--bt-space-8) var(--bt-margin);
+}
+.section-inner {
+  max-width: calc(var(--bt-space-8) * 12);
+  margin-inline: auto;
+}
+.eyebrow {
+  font-size: var(--bt-text-sm);
+  text-transform: uppercase;
+  margin-bottom: var(--bt-space-md);
+}
+@media (max-width: 900px) {
+  .section {
+    padding-block: var(--bt-space-xl);
+  }
+}

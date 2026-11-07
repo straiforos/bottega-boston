@@ -1,0 +1,38 @@
+.hero {
+  position: relative;
+  background: var(--bt-forest);
+}
+.hero-photo {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+.hero-copy {
+  position: absolute;
+  inset-inline: var(--bt-margin);
+  bottom: calc(var(--bt-space-8) * 2);
+}
+.hero-headline {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  margin-inline: auto;
+}
+.hero-stamp {
+  position: absolute;
+  left: calc(-1 * var(--bt-space-lg));
+  top: calc(-1 * (var(--bt-space-8) + var(--bt-space-lg)));
+}
+.hero-hashtag {
+  position: relative;
+  margin: 0;
+}
+@media (max-width: 900px) {
+  .hero-copy {
+    bottom: var(--bt-space-lg);
+  }
+  .hero-stamp {
+    left: 0;
+    top: calc(-1 * var(--bt-space-8));
+  }
+}

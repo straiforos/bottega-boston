@@ -1,0 +1,78 @@
+/* Home menu stage heading + CTA.
+   Must be one grid item (not display:contents) so offerings-layout's
+   auto/1fr rows stay heading → cards. */
+.menu-section {
+  position: relative;
+  z-index: 2;
+  display: grid;
+  justify-items: center;
+  width: 100%;
+}
+
+/*
+  Ribbon in flow above the sticky menu pane. Bleeds into #about; track
+  stacks above story so the wave is not cut off under the about surface.
+  Menu pane (z-index 2) still paints over the ribbon where they meet.
+*/
+.menu-ribbon.home-editable,
+.menu-ribbon {
+  position: relative;
+  z-index: 1;
+  overflow: visible;
+  margin-top: calc(-1 * var(--bt-space-8));
+  padding-bottom: var(--bt-space-xl);
+  pointer-events: none;
+}
+/* Full-bleed hang like events/club. Scale from the bottom so the dip
+   does not drop onto the Menu heading below. */
+.menu-ribbon .bt-wave {
+  width: 110%;
+  margin-inline: -5%;
+  transform: scale(1.1);
+  transform-origin: center bottom;
+  overflow: visible;
+}
+
+.menu-section-heading {
+  display: grid;
+  gap: var(--bt-space-md);
+  text-align: center;
+}
+.menu-heading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--bt-space-md);
+}
+/* Default display margins under the hero size push cards out of the pin. */
+.menu-heading > * {
+  margin-block: 0;
+}
+.pasta-pot-icon svg {
+  height: var(--bt-text-hero);
+  width: auto;
+  display: block;
+}
+.pasta-pot-icon [data-color='1'] {
+  fill: var(--bt-mustard);
+}
+/* Larger than card actions (library lg). Design-system sheet loads again after
+   this file, so both classes are required. */
+.menu-view-cta.bt-button {
+  font-size: var(--bt-text-xl);
+  padding: var(--bt-space-5) var(--bt-space-8);
+}
+
+@media (max-width: 900px) {
+  .menu-ribbon.home-editable,
+  .menu-ribbon {
+    margin-top: calc(-1 * var(--bt-space-lg));
+    padding-bottom: var(--bt-space-lg);
+  }
+  .menu-ribbon .bt-wave {
+    transform: none;
+  }
+  .menu-view-cta.bt-button {
+    padding-inline: var(--bt-space-7);
+  }
+}

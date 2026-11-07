@@ -1,0 +1,37 @@
+.events {
+  position: relative;
+  isolation: isolate;
+  /* Above offerings-track so the ribbon bleed is not cut off under the pin. */
+  z-index: 3;
+  text-align: center;
+  background: var(--bt-cobalt);
+  color: var(--bt-cream);
+  /* Ribbon height scales with width; % padding tracks width so the heading clears its dip. */
+  padding-top: max(calc(var(--bt-space-8) + var(--bt-space-xl)), calc(26% - var(--bt-space-8) - var(--bt-space-xl)));
+  padding-bottom: var(--bt-space-8);
+}
+.events-ribbon {
+  position: absolute;
+  inset-inline: 0;
+  top: 0;
+  z-index: 1;
+  overflow: visible;
+  /* Pull the wave above the title so it bleeds into the offerings section. */
+  margin-top: -9rem;
+  pointer-events: none;
+}
+/* Hang the unfinished wave ends off-screen. Margin percentages resolve
+   against the wrapper, so -5% + 110% width lands 5% past each edge. */
+.events-ribbon .bt-wave {
+  width: 110%;
+  margin-inline: -5%;
+  overflow: visible;
+}
+@media (max-width: 900px) {
+  .events {
+    padding-top: var(--bt-space-8);
+  }
+  .events-ribbon {
+    margin-top: calc(-1 * var(--bt-space-lg));
+  }
+}
