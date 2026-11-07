@@ -6,6 +6,34 @@
   padding-block: var(--bt-space-xl);
   padding-inline: var(--bt-margin);
 }
+.menu-page-title {
+  position: relative;
+  width: fit-content;
+  max-width: 100%;
+  /* Room for the stamp sitting low beside the title like a subtext. */
+  padding-inline-end: calc(var(--bt-space-8) + var(--bt-space-lg));
+  padding-bottom: var(--bt-space-xl);
+}
+/* Stamp to the right, low on the line — reads like a subtext flourish. */
+.menu-page-stamp {
+  position: absolute;
+  right: 0;
+  left: auto;
+  bottom: 0;
+  top: auto;
+  z-index: 1;
+  pointer-events: none;
+}
+.menu-page-headline {
+  position: relative;
+  margin: 0;
+}
+@media (max-width: 900px) {
+  .menu-page-title {
+    padding-inline-end: calc(var(--bt-space-8) + var(--bt-space-sm));
+    padding-bottom: var(--bt-space-lg);
+  }
+}
 .menu-legend,
 .menu-dietary-tags {
   display: flex;

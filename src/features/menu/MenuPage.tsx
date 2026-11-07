@@ -1,8 +1,10 @@
-import { Button, Display, Marquee, PillLabel, Serif } from '@/design-system/bottega-f5161c';
+import { Button, Display, Marquee, PillLabel, Serif, Stamp } from '@/design-system/bottega-f5161c';
 import { BottegaHeader } from '@/components/BottegaHeader';
-import { useEffect } from 'react';
+import { Fragment, useEffect } from 'react';
 import { useLocation } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
+import { restaurantContent } from '@/content/en/restaurant';
+import { lines } from '@/lib/home/home-shared';
 import { menuSections as fallbackMenu } from '@/lib/menu-data';
 import { menuQueryOptions } from '@/lib/menu/menu-api';
 import { scrollToSection } from '@/lib/scroll-to-section';
@@ -13,6 +15,15 @@ import { MenuDishCard } from './components/MenuDishCard';
 import { MenuFilter } from './components/MenuFilter';
 import { useMenuFilterRail } from './hooks/useMenuFilterRail';
 import { useMenuFilters } from './hooks/useMenuFilters';
+
+function StampLines({ text }: { text: string }) {
+  return lines(text).map((line, i) => (
+    <Fragment key={i}>
+      {i > 0 && <br />}
+      {line}
+    </Fragment>
+  ));
+}
 
 /** After a filter change, bring the top of the results into view below the sticky header. */
 function scrollToResults() {
@@ -60,12 +71,25 @@ export function MenuPage() {
       <BottegaHeader />
       <main className="real-menu">
         <header className="menu-page-heading section-inner">
-          <p className="eyebrow">Buon appetito</p>
-          <Display as="h1" size="xl" tone="forest">
-            Bottega menu
-          </Display>
+          <div className="menu-page-title">
+            <div className="menu-page-stamp" aria-hidden="true">
+              <span className="desktop-only">
+                <Stamp size="md" variant="light">
+                  <StampLines text={restaurantContent.menuPage.stamp} />
+                </Stamp>
+              </span>
+              <span className="mobile-only">
+                <Stamp size="sm" variant="light">
+                  <StampLines text={restaurantContent.menuPage.stamp} />
+                </Stamp>
+              </span>
+            </div>
+            <Display as="h1" size="hero" tone="forest" className="menu-page-headline">
+              {restaurantContent.menuPage.title}
+            </Display>
+          </div>
           <Serif as="p" size="md" tone="forest">
-            Pasta, panini & a little dolce vita.
+            {restaurantContent.menuPage.lead}
           </Serif>
           <div className="menu-legend">
             <PillLabel variant="chip-forest">GF · Gluten free</PillLabel>

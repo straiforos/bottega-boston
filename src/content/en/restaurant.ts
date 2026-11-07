@@ -13,6 +13,11 @@ export const restaurantContent = {
       action: 'View menu',
     },
   },
+  menuPage: {
+    stamp: 'Buon\nappetito',
+    title: 'Bottega menu',
+    lead: 'Pasta, panini & a little dolce vita.',
+  },
   navigation: {
     homeLabel: 'Bottega home',
     menuLabel: 'Main navigation',
