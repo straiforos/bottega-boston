@@ -6,8 +6,10 @@
   text-align: center;
   background: var(--bt-cobalt);
   color: var(--bt-cream);
-  /* Ribbon height scales with width; % padding tracks width so the heading clears its dip. */
-  padding-top: max(calc(var(--bt-space-8) + var(--bt-space-xl)), calc(26% - var(--bt-space-8) - var(--bt-space-xl)));
+  /* Wide: deeper crest into offerings; pad clears the wave left in this section. */
+  --events-ribbon-bleed: var(--bt-space-8);
+  /* 110% × 260/1200 viewBox ≈ 24% of width; gap keeps the heading under the dip. */
+  padding-top: calc(24% - var(--events-ribbon-bleed) + var(--bt-space-xl));
   padding-bottom: var(--bt-space-8);
 }
 .events-ribbon {
@@ -16,8 +18,7 @@
   top: 0;
   z-index: 1;
   overflow: visible;
-  /* Pull the wave above the title so it bleeds into the offerings section. */
-  margin-top: -9rem;
+  margin-top: calc(-1 * var(--events-ribbon-bleed));
   pointer-events: none;
 }
 /* Hang the unfinished wave ends off-screen. Margin percentages resolve
@@ -27,11 +28,20 @@
   margin-inline: -5%;
   overflow: visible;
 }
+
+/* Step the pull-up down as the pin gets tighter so CTAs stay clear. */
+@media (max-width: 1400px) {
+  .events {
+    --events-ribbon-bleed: var(--bt-space-xl);
+  }
+}
+@media (max-width: 1100px) {
+  .events {
+    --events-ribbon-bleed: var(--bt-space-lg);
+  }
+}
 @media (max-width: 900px) {
   .events {
-    padding-top: var(--bt-space-md);
-  }
-  .events-ribbon {
-    margin-top: calc(-1 * var(--bt-space-lg));
+    --events-ribbon-bleed: var(--bt-space-md);
   }
 }
