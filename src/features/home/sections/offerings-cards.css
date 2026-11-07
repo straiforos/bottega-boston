@@ -10,9 +10,9 @@
   align-self: stretch;
   min-height: 0;
   width: 100%;
-  /* Clip rising cards; light pad for the stamp hang / rotation bleed. */
+  /* Clip rising cards; pad matches .catering-stamp hang so it isn’t cut off. */
   overflow: hidden;
-  padding-top: var(--bt-space-md);
+  padding-top: var(--bt-space-xl);
   padding-inline: var(--bt-space-sm);
   box-sizing: border-box;
   container-type: size;
