@@ -35,20 +35,22 @@
   flex: 1;
   min-height: 0;
   overflow: hidden;
+  gap: var(--bt-space-2);
 }
-/* Footer CTA — equal card heights keep a shared baseline without margin-top:auto
-   (auto margins would steal free space from the media slot). */
+/* Chrome + CTA never shrink — media yields first so the footer stays visible. */
+.offering > .bt-card > :not(.offering-media) {
+  flex-shrink: 0;
+}
 .offering > .bt-card > .offering-cta {
   align-self: stretch;
-  flex-shrink: 0;
 }
 /*
   Card width caps at ~21rem even on ultrawide, so lg horizontal padding wraps
   “Explore the market” and the taller Mercatino stack clips under overflow.
 */
 .offerings .offering-cta.bt-button {
-  font-size: var(--bt-text-lg);
-  padding: var(--bt-space-3) var(--bt-space-5);
+  font-size: var(--bt-text-base);
+  padding: var(--bt-space-3) var(--bt-space-4);
 }
 .catering-stamp {
   position: absolute;
@@ -56,13 +58,13 @@
   top: calc(-1 * var(--bt-space-xl));
   right: calc(-1 * var(--bt-space-lg));
 }
-/* Media fills leftover pin height; image paints the slot (no max-height). */
+/* Media fills leftover pin height; min-height:0 so short pins don’t clip the CTA. */
 .offering-media {
   position: relative;
   flex: 1 1 auto;
   align-self: stretch;
   width: 100%;
-  min-height: calc(var(--bt-space-8) * 2);
+  min-height: 0;
   min-width: 0;
 }
 .offering-image {
