@@ -12,7 +12,7 @@
   width: 100%;
   /* Clip rising cards; light pad for the stamp hang / rotation bleed. */
   overflow: hidden;
-  padding-top: var(--bt-space-xl);
+  padding-top: var(--bt-space-md);
   padding-inline: var(--bt-space-sm);
   box-sizing: border-box;
   container-type: size;
@@ -36,10 +36,19 @@
   min-height: 0;
   overflow: hidden;
 }
-/* Pin CTAs to the card footer so all three buttons share one baseline. */
+/* Footer CTA — equal card heights keep a shared baseline without margin-top:auto
+   (auto margins would steal free space from the media slot). */
 .offering > .bt-card > .offering-cta {
-  margin-top: auto;
   align-self: stretch;
+  flex-shrink: 0;
+}
+/*
+  Card width caps at ~21rem even on ultrawide, so lg horizontal padding wraps
+  “Explore the market” and the taller Mercatino stack clips under overflow.
+*/
+.offerings .offering-cta.bt-button {
+  font-size: var(--bt-text-lg);
+  padding: var(--bt-space-3) var(--bt-space-5);
 }
 .catering-stamp {
   position: absolute;
@@ -47,10 +56,20 @@
   top: calc(-1 * var(--bt-space-xl));
   right: calc(-1 * var(--bt-space-lg));
 }
-.offering-image {
+/* Media fills leftover pin height; image paints the slot (no max-height). */
+.offering-media {
+  position: relative;
+  flex: 1 1 auto;
+  align-self: stretch;
   width: 100%;
-  height: auto;
-  max-height: min(calc(var(--bt-space-8) * 2.5), 42cqh);
+  min-height: calc(var(--bt-space-8) * 2);
+  min-width: 0;
+}
+.offering-image {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
   object-fit: contain;
   display: block;
 }
@@ -134,6 +153,21 @@
   }
 }
 
+/* Mid pin: three narrow columns — tighten further so labels stay one line. */
+@media (max-width: 1200px) and (min-width: 901px) {
+  .offerings {
+    gap: var(--bt-space-lg);
+  }
+  .offering > .bt-card {
+    padding: var(--bt-space-4);
+    gap: var(--bt-space-2);
+  }
+  .offerings .offering-cta.bt-button {
+    font-size: var(--bt-text-base);
+    padding: var(--bt-space-2) var(--bt-space-4);
+  }
+}
+
 @media (max-width: 900px) {
   .offerings {
     grid-template-columns: 1fr;
@@ -146,9 +180,15 @@
     width: 100%;
     max-height: none;
   }
+  .offering-media {
+    position: static;
+    flex: 0 0 auto;
+    min-height: 0;
+  }
   .offering-image {
-    height: calc(var(--bt-space-8) * 2.5);
-    max-height: none;
+    position: static;
+    width: 100%;
+    height: auto;
   }
   /* Full-bleed cards leave no side gutter — keep the hang inside the band. */
   .catering-stamp {

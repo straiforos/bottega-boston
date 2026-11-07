@@ -35,7 +35,7 @@
 
 .menu-section-heading {
   display: grid;
-  gap: var(--bt-space-md);
+  gap: var(--bt-space-sm);
   text-align: center;
 }
 .menu-heading {
@@ -44,12 +44,15 @@
   justify-content: center;
   gap: var(--bt-space-md);
 }
-/* Default display margins under the hero size push cards out of the pin. */
+/* Hero clamp (up to 11rem) starves the pinned cards — hold at display size. */
 .menu-heading > * {
   margin-block: 0;
 }
+.menu-heading .bt-display--hero {
+  font-size: var(--bt-text-display);
+}
 .pasta-pot-icon svg {
-  height: var(--bt-text-hero);
+  height: var(--bt-text-display);
   width: auto;
   display: block;
 }
@@ -60,7 +63,7 @@
    this file, so both classes are required. */
 .menu-view-cta.bt-button {
   font-size: var(--bt-text-xl);
-  padding: var(--bt-space-5) var(--bt-space-8);
+  padding: var(--bt-space-3) var(--bt-space-6);
 }
 
 @media (max-width: 900px) {

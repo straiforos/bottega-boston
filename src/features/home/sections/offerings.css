@@ -27,7 +27,7 @@
 .offerings-layout {
   display: grid;
   grid-template-rows: auto 1fr;
-  gap: var(--bt-space-lg);
+  gap: var(--bt-space-md);
   justify-items: center;
   align-content: stretch;
   height: 100%;

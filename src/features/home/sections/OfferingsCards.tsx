@@ -35,7 +35,11 @@ function OfferingLink({ card }: { card: OfferingCard }) {
 
 function Offering({ card, index, isAdmin }: { card: OfferingCard; index: number; isAdmin: boolean }) {
   const ink = cardInk(card.variant).text;
-  const image = <img className="offering-image" src={card.imageUrl} alt={card.imageAlt} loading="lazy" />;
+  const image = (
+    <div className="offering-media">
+      <img className="offering-image" src={card.imageUrl} alt={card.imageAlt} loading="lazy" />
+    </div>
+  );
   const title =
     card.titleStyle === 'serif' ? (
       <Serif as="h3" size="lg" tone={ink}>
