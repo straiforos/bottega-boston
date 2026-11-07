@@ -119,6 +119,9 @@ async function loadChowNowItems(): Promise<ChowNowMenuItem[]> {
   return fromPage;
 }
 
+/** Polished Limoncello slice — composition reference for other plated cakes. */
+const CAKE_LAYOUT_REF_DISH = 'dish-50';
+
 function polishPrompt(dishName: string, description: string): string {
   const detail = description.trim()
     ? ` Menu description: ${description.trim()}`
@@ -141,7 +144,22 @@ function polishPrompt(dishName: string, description: string): string {
   ].join(' ');
 }
 
-async function editWithGemini(apiKey: string, sourceBytes: Uint8Array, prompt: string): Promise<Uint8Array> {
+/** Second pass: keep polished cake identity, match Limoncello slice/camera only. */
+function cakeLayoutAlignPrompt(): string {
+  return [
+    'Image 1 is the finished cake studio shot. Image 2 is layout-only (Limoncello cake)—use image 2 ONLY as the composition template.',
+    'Rebuild so camera height, crop, plate position, plate size, lighting direction, and cake-slice silhouette/placement on the plate match image 2 exactly (same tip direction, same lean, same scale in the plate).',
+    'Keep image 1 food identity exactly: same frosting, crumb, and sponge layer count—do not add or remove layers.',
+    'Do not copy image 2 flavor, sponge color, frosting color, garnish, or layer count.',
+    ...diningStudioSceneLines({ requirePlate: true }),
+  ].join(' ');
+}
+
+async function editWithGemini(
+  apiKey: string,
+  sourceImages: readonly Uint8Array[],
+  prompt: string,
+): Promise<Uint8Array> {
   const response = await fetch(
     `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent?key=${encodeURIComponent(apiKey)}`,
     {
@@ -153,12 +171,12 @@ async function editWithGemini(apiKey: string, sourceBytes: Uint8Array, prompt: s
             role: 'user',
             parts: [
               { text: prompt },
-              {
+              ...sourceImages.map((bytes) => ({
                 inline_data: {
                   mime_type: 'image/jpeg',
-                  data: Buffer.from(sourceBytes).toString('base64'),
+                  data: Buffer.from(bytes).toString('base64'),
                 },
-              },
+              })),
             ],
           },
         ],
@@ -257,8 +275,23 @@ async function main() {
     }
 
     try {
-      const sourceBytes = await readFile(sourcePath);
-      const polished = await editWithGemini(apiKey, sourceBytes, polishPrompt(site.name, site.description));
+      let polished = await editWithGemini(
+        apiKey,
+        [await readFile(sourcePath)],
+        polishPrompt(site.name, site.description),
+      );
+      const isCake = /cake/i.test(`${site.name} ${site.description}`);
+      const layoutRefPath = path.join(outDir, `${CAKE_LAYOUT_REF_DISH}.jpg`);
+      const useCakeLayout =
+        isCake && row.dishId !== CAKE_LAYOUT_REF_DISH && (await exists(layoutRefPath));
+      if (useCakeLayout) {
+        console.log(`layout align ${row.dishId} ← ${CAKE_LAYOUT_REF_DISH}`);
+        polished = await editWithGemini(
+          apiKey,
+          [polished, await readFile(layoutRefPath)],
+          cakeLayoutAlignPrompt(),
+        );
+      }
       await writeFile(polishedPath, polished);
       polishedCount += 1;
       console.log(`polished ${row.dishId} (${site.name})`);
