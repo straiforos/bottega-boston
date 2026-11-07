@@ -117,6 +117,9 @@ export const requestSchema = z
     if (r.kind === 'catering' && !r.fulfillment) ctx.addIssue({ code: 'custom', path: ['fulfillment'], message: 'Choose pickup or delivery.' });
     if (r.fulfillment === 'delivery' && !r.address) ctx.addIssue({ code: 'custom', path: ['address'], message: 'Add the delivery address.' });
     if (r.kind === 'space' && !r.guests) ctx.addIssue({ code: 'custom', path: ['guests'], message: 'How many guests?' });
+    if (r.kind === 'space' && r.locationId !== 'boston') {
+      ctx.addIssue({ code: 'custom', path: ['locationId'], message: 'Event space is only at Bottega Del Sud in Boston.' });
+    }
   });
 export type RequestInput = z.infer<typeof requestSchema>;
 

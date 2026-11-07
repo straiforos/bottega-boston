@@ -138,6 +138,31 @@ describe('request date window', () => {
       expect(result.error.issues[0].message).toBe('Pick a date within the next two years.');
     }
   });
+  it('rejects event-space bookings outside Bottega Del Sud in Boston', () => {
+    const result = requestSchema.safeParse({
+      ...baseRequest(new Date(Date.now() + 3600_000).toISOString()),
+      kind: 'space',
+      locationId: 'brookline',
+      guests: 20,
+      fulfillment: '',
+      lines: [],
+    });
+    expect(result.success).toBe(false);
+    if (!result.success) {
+      expect(result.error.issues.some((i) => i.path[0] === 'locationId')).toBe(true);
+    }
+  });
+  it('accepts event-space bookings at Bottega Del Sud in Boston', () => {
+    const result = requestSchema.safeParse({
+      ...baseRequest(new Date(Date.now() + 3600_000).toISOString()),
+      kind: 'space',
+      locationId: 'boston',
+      guests: 20,
+      fulfillment: '',
+      lines: [],
+    });
+    expect(result.success).toBe(true);
+  });
 });
 
 function baseRequest(requestedFor: string) {

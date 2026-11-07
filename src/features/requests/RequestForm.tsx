@@ -22,7 +22,7 @@ export function RequestForm({ kind }: { kind: RequestKind }) {
     name: '',
     email: '',
     phone: '',
-    locationId: 'brookline' as 'brookline' | 'boston',
+    locationId: (kind === 'space' ? 'boston' : 'brookline') as 'brookline' | 'boston',
     when: '',
     guests: '',
     eventType: '',
@@ -43,7 +43,15 @@ export function RequestForm({ kind }: { kind: RequestKind }) {
   const set = (patch: Partial<typeof form>) => setForm((f) => ({ ...f, ...patch }));
   const draft = useMemo(() => ({ form: { ...form, website: '' }, lines, withCatering }), [form, lines, withCatering]);
   const clearDraft = useFormDraft(draftKey(kind), draft, (saved) => {
-    if (saved.form) setForm((f) => ({ ...f, ...saved.form, website: '' }));
+    if (saved.form) {
+      setForm((f) => ({
+        ...f,
+        ...saved.form,
+        website: '',
+        // Event space is only at Bottega Del Sud in Boston.
+        locationId: kind === 'space' ? 'boston' : saved.form.locationId ?? f.locationId,
+      }));
+    }
     if (Array.isArray(saved.lines)) setLines(saved.lines);
     if (typeof saved.withCatering === 'boolean' && kind === 'space') setWithCatering(saved.withCatering);
   });
@@ -56,7 +64,7 @@ export function RequestForm({ kind }: { kind: RequestKind }) {
       name: form.name,
       email: form.email,
       phone: form.phone,
-      locationId: form.locationId,
+      locationId: kind === 'space' ? 'boston' : form.locationId,
       requestedFor: date && time ? zonedToUtc(date, time, 'America/New_York').toISOString() : '',
       guests: form.guests ? Number(form.guests) : null,
       eventType: form.eventType,
@@ -127,14 +135,21 @@ export function RequestForm({ kind }: { kind: RequestKind }) {
         )}
       </div>
 
-      <fieldset className="request-choice">
-        <legend className="bt-field__label">{t.location}</legend>
-        {orderLocations.map((l) => (
-          <Radio key={l.id} name={`${kind}-location`} checked={form.locationId === l.id} onChange={() => set({ locationId: l.id })}>
-            {`${l.name} · ${l.area}`}
-          </Radio>
-        ))}
-      </fieldset>
+      {kind === 'catering' ? (
+        <fieldset className="request-choice">
+          <legend className="bt-field__label">{t.location}</legend>
+          {orderLocations.map((l) => (
+            <Radio key={l.id} name={`${kind}-location`} checked={form.locationId === l.id} onChange={() => set({ locationId: l.id })}>
+              {`${l.name} · ${l.area}`}
+            </Radio>
+          ))}
+        </fieldset>
+      ) : (
+        <p className="request-space-location">
+          <span className="bt-field__label">{t.location}</span>
+          <span>{t.spaceLocation}</span>
+        </p>
+      )}
 
       {kind === 'space' && (
         <Checkbox checked={withCatering} onChange={(e) => setWithCatering(e.target.checked)}>
