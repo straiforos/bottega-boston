@@ -43,14 +43,6 @@ export function BottegaHeader() {
           </Button>
         }
       >
-        <HeaderLink
-          className="bt-menu-overlay__link"
-          activeOptions={{ exact: true, includeHash: true }}
-          to="/"
-          hash="about"
-        >
-          {nav.story}
-        </HeaderLink>
         <HeaderLink className="bt-menu-overlay__link" activeOptions={{ exact: true, includeHash: true }} to="/menu">
           {nav.menu}
         </HeaderLink>
