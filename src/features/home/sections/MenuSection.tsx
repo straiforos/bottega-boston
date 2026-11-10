@@ -10,7 +10,6 @@ export function MenuSection() {
   return (
     <div className="menu-section">
       <div className="menu-section-heading">
-        <MenuHeading />
         <MenuButton className="menu-view-cta" to="/menu" variant="ghost" size="lg">
           {restaurantContent.home.menu.action}
         </MenuButton>

@@ -12,10 +12,6 @@ export function OfferingsSection() {
   const { isAdmin } = useStaffSession();
   return (
     <div className="offerings-track">
-      <div className="menu-ribbon home-editable">
-        <MovingRibbon text={data.ribbon} />
-        {isAdmin && <RibbonEditor text={data.ribbon} />}
-      </div>
       <section id="menu" className="offerings-section bt-surface-dark" aria-label="Discover Bottega">
         <div className="offerings-layout">
           <MenuSection />
