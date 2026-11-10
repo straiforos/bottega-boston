@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { variantsForConnection } from '@/lib/media/process-image';
 import type { MenuItem } from '@/lib/menu/types';
-import { menuImages } from '@/lib/menu-images';
 
 type NetworkInformationLike = { saveData?: boolean; effectiveType?: string };
 
@@ -50,7 +49,7 @@ export function DishImage({ item }: { item: MenuItem }) {
   }, []);
 
   const variants = item.imageVariants?.filter((v) => allowed.includes(v.key)) ?? [];
-  const fallback = item.imageUrl ?? menuImages[item.id];
+  const fallback = item.imageUrl;
   if (!fallback && variants.length === 0) return null;
   const smallest = variants[0]?.url ?? fallback;
 
