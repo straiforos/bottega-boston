@@ -4,7 +4,7 @@
   /* Above offerings-track so the ribbon bleed is not cut off under the pin. */
   z-index: 3;
   text-align: center;
-  background: var(--bt-cobalt);
+  background: var(--bt-forest);
   color: var(--bt-cream);
   /* Wide: deeper crest into offerings; pad clears the wave left in this section. */
   --events-ribbon-bleed: var(--bt-space-8);

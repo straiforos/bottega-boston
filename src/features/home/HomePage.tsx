@@ -17,7 +17,6 @@ export function HomePage() {
       <main>
         <HeroSection />
         <SketchMarquee text={restaurantContent.home.pastaIsLife} />
-        <StorySection />
         <OfferingsSection />
         <EventsSection />
         <SketchMarquee text={restaurantContent.home.pastaIsLife} variant="forest" />
