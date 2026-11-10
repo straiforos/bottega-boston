@@ -1,9 +1,9 @@
 /* Sticky pin shell under the in-flow menu ribbon. */
 .offerings-section {
   background: var(--bt-forest);
-  padding-top: var(--bt-space-lg);
+  padding-top: calc(var(--bt-space-lg) * 2.5);
   padding-bottom: var(--bt-space-lg);
-  padding-inline: var(--bt-margin);
+  padding-inline: 1rem;
 }
 .offerings-track {
   position: relative;
@@ -47,8 +47,8 @@
     grid-template-rows: auto;
   }
   .offerings-section {
-    padding-top: var(--bt-space-md);
-    padding-bottom: var(--bt-space-xl);
+    padding-top: var(--bt-space-sm);
+    padding-bottom: var(--bt-space-sm);
   }
 }
 

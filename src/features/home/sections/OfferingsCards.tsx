@@ -79,7 +79,7 @@ function Offering({ card, index, isAdmin }: { card: OfferingCard; index: number;
 /** Pinned/home offering cards; scroll motion lives in offerings-cards.css. */
 export function OfferingsCards({ cards, isAdmin }: { cards: readonly OfferingCard[]; isAdmin: boolean }) {
   return (
-    <div className="section-inner offerings">
+    <div className="offerings">
       {cards.map((card, i) => (
         <Offering key={i} card={card} index={i} isAdmin={isAdmin} />
       ))}

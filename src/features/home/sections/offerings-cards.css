@@ -21,7 +21,7 @@
 .offering {
   position: relative;
   display: flex;
-  width: calc(var(--bt-space-8) * 3.5);
+  width: 30rem;
   max-width: 100%;
   min-height: 0;
   max-height: 100%;
