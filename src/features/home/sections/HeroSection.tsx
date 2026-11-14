@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import { Fragment, useCallback, useEffect, useState } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Display, Stamp } from '@/design-system/bottega-f5161c';
 import { useStaffSession } from '@/hooks/useStaffSession';
@@ -15,12 +15,38 @@ export function Broken({ text }: { text: string }) {
 }
 
 export function HeroSection() {
-  const { data = defaultHomeContent } = useQuery(homeContentQueryOptions);
+  const { data, isSuccess, isError } = useQuery(homeContentQueryOptions);
   const { isAdmin } = useStaffSession();
-  const hero = data.hero;
+  // Never paint bundled defaults as a stand-in for a staff-configured photo.
+  // Wait until home_content resolves (or errors), then fade that URL in.
+  const hero = data?.hero ?? defaultHomeContent.hero;
+  const imageUrl = isSuccess || isError ? hero.imageUrl : null;
+  const [photoReady, setPhotoReady] = useState(false);
+
+  useEffect(() => {
+    setPhotoReady(false);
+  }, [imageUrl]);
+
+  const imgRef = useCallback((node: HTMLImageElement | null) => {
+    if (node?.complete && node.naturalWidth > 0) setPhotoReady(true);
+  }, []);
+
   return (
     <section className="hero home-editable" aria-label="Welcome to Bottega">
-      <img className="hero-photo" src={hero.imageUrl} alt={hero.imageAlt} fetchPriority="high" />
+      <div className="hero-photo-frame">
+        {imageUrl ? (
+          <img
+            ref={imgRef}
+            className={`hero-photo${photoReady ? ' is-ready' : ''}`}
+            src={imageUrl}
+            alt={hero.imageAlt}
+            fetchPriority="high"
+            decoding="async"
+            onLoad={() => setPhotoReady(true)}
+            onError={() => setPhotoReady(true)}
+          />
+        ) : null}
+      </div>
       <div className="hero-copy bt-surface-light">
         <div className="hero-headline">
           {hero.showStamp && (

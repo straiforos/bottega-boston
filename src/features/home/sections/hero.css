@@ -2,10 +2,31 @@
   position: relative;
   background: var(--bt-forest);
 }
+/* Hold layout while home_content loads so we never flash the bundled default. */
+.hero-photo-frame {
+  position: relative;
+  aspect-ratio: 3 / 2;
+  width: 100%;
+  overflow: hidden;
+  background: var(--bt-forest);
+}
 .hero-photo {
+  position: absolute;
+  inset: 0;
   display: block;
   width: 100%;
-  height: auto;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0;
+  transition: opacity calc(var(--bt-duration) * 3) ease-out;
+}
+.hero-photo.is-ready {
+  opacity: 1;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-photo {
+    transition: none;
+  }
 }
 .hero-copy {
   position: absolute;

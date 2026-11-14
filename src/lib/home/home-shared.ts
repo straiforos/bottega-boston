@@ -45,7 +45,7 @@ export const defaultHomeContent: HomeContent = {
     showStamp: true,
     stamp: 'Buona\nSemplice\nItalian.',
     imageUrl: hero.url,
-    imageAlt: 'A woman in sunglasses enjoying Bottega fettuccine bolognese',
+    imageAlt: 'A woman in sunglasses eating Bottega pasta at a marble table under the #PASTA IS LIFE neon',
   },
   ribbon: restaurantContent.home.familyIsLife,
   cards: [

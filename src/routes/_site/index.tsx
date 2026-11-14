@@ -1,8 +1,10 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { restaurantContent } from '@/content/en/restaurant';
 import { HomePage } from '@/features/home/HomePage';
+import { homeContentQueryOptions } from '@/lib/home/home-content';
 
 export const Route = createFileRoute('/_site/')({
+  loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(homeContentQueryOptions),
   head: () => ({
     meta: [
       { title: restaurantContent.metadata.home.title },
