@@ -103,8 +103,15 @@
 .menu-dish-image img.is-loaded {
   opacity: 1;
 }
+/* No JS / reduced motion: show the photo as soon as the browser paints it. */
+@media (scripting: none) {
+  .menu-dish-image img {
+    opacity: 1;
+  }
+}
 @media (prefers-reduced-motion: reduce) {
   .menu-dish-image img {
+    opacity: 1;
     transition: none;
   }
 }

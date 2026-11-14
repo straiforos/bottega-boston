@@ -3,10 +3,19 @@ import { Card, Display, PillLabel, Serif } from '@/design-system/bottega-f5161c'
 import { DishImage } from './DishImage';
 import type { MenuItem } from '@/lib/menu/types';
 
-export function MenuDishCard({ item, actions }: { item: MenuItem; actions?: ReactNode }) {
+export function MenuDishCard({
+  item,
+  actions,
+  priority,
+}: {
+  item: MenuItem;
+  actions?: ReactNode;
+  /** Eager-load above-the-fold photos so HTML can start them immediately. */
+  priority?: boolean;
+}) {
   return (
     <article className="menu-dish-item">
-      <DishImage item={item} />
+      <DishImage item={item} priority={priority} />
       <Card variant="cream" shape="rect">
         <div className="menu-dish-heading">
           <Display as="h3" size="sm" tone="forest">

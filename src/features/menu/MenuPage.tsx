@@ -123,9 +123,15 @@ export function MenuPage() {
                   {section.note && <p>{section.note}</p>}
                 </div>
                 <div className="menu-dish-grid">
-                  {section.items.map((item) =>
-                    isAdmin ? <EditableDish key={item.id} item={item} /> : <MenuDishCard key={item.id} item={item} />,
-                  )}
+                  {section.items.map((item, index) => {
+                    // First row of the first section is usually above the fold.
+                    const priority = section.id === filters.sections[0]?.id && index < 4;
+                    return isAdmin ? (
+                      <EditableDish key={item.id} item={item} priority={priority} />
+                    ) : (
+                      <MenuDishCard key={item.id} item={item} priority={priority} />
+                    );
+                  })}
                 </div>
                 {isAdmin && (
                   <AddDish

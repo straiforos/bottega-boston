@@ -4,7 +4,7 @@ export interface MenuItem {
   readonly price: string;
   readonly description: string;
   readonly tags: readonly string[];
-  /** Uploaded photo; when absent the bundled illustrative image for the id is used. */
+  /** Staff/DB photo URL; omit or null when the dish has no image. */
   readonly imageUrl?: string | null;
   readonly imageVariants?: readonly ImageVariant[] | null;
 }

@@ -7,7 +7,7 @@ import { DishEditor } from './DishEditor';
 import { useMenuAdmin } from './useMenuAdmin';
 
 /** Dish card with in-place Edit/Delete for signed-in staff. */
-export function EditableDish({ item }: { item: MenuItem }) {
+export function EditableDish({ item, priority }: { item: MenuItem; priority?: boolean }) {
   const [editing, setEditing] = useState(false);
   const [busy, setBusy] = useState(false);
   const [confirming, setConfirming] = useState(false);
@@ -44,6 +44,7 @@ export function EditableDish({ item }: { item: MenuItem }) {
   return (
     <MenuDishCard
       item={item}
+      priority={priority}
       actions={
         <div className="dish-admin-actions">
           <Button
