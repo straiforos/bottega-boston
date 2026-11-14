@@ -2,21 +2,16 @@ import { createFileRoute, createLink } from '@tanstack/react-router';
 import { Display, LinkAction, Serif } from '@/design-system/bottega-f5161c';
 import { BottegaHeader } from '@/components/BottegaHeader';
 import { clubContent } from '@/content/en/club';
+import { staffPageHead } from '@/lib/seo/page-head';
 
 const HomeLink = createLink(LinkAction);
 
 export const Route = createFileRoute('/_site/unsubscribed')({
-  head: () => ({
-    meta: [
-      { title: 'Unsubscribed | Bottega Pasta Club' },
-      { name: 'description', content: 'You have left the Bottega Pasta Club email list.' },
-      { property: 'og:title', content: 'Unsubscribed | Bottega Pasta Club' },
-      { property: 'og:description', content: 'You have left the Bottega Pasta Club email list.' },
-      { property: 'og:type', content: 'website' },
-      { name: 'twitter:card', content: 'summary' },
-      { name: 'robots', content: 'noindex' },
-    ],
-  }),
+  head: () =>
+    staffPageHead({
+      title: 'Unsubscribed | Bottega Pasta Club',
+      description: 'You have left the Bottega Pasta Club email list.',
+    }),
   component: UnsubscribedPage,
 });
 

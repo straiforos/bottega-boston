@@ -1,9 +1,10 @@
 import { useState, type FormEvent } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { BottegaMap, BottegaMapCard, Button, Display, TextField } from '@/design-system/bottega-f5161c';
+import { BottegaMap, BottegaMapCard, Button, Display, Serif, TextField } from '@/design-system/bottega-f5161c';
 import { restaurantContent } from '@/content/en/restaurant';
-import { links, orderLocations } from '@/content/links';
+import { orderLocations } from '@/content/links';
 import { useStaffSession } from '@/hooks/useStaffSession';
+import { defaultHomeContent, homeContentQueryOptions } from '@/lib/home/home-content';
 import {
   defaultOrderUrls,
   isValidOrderUrl,
@@ -11,6 +12,7 @@ import {
   saveOrderUrls,
   type OrderUrls,
 } from '@/lib/home/order-locations';
+import { buildRestaurantJsonLd } from '@/lib/seo/restaurant-json-ld';
 
 /** Staff-only form to change each shop's ordering link. */
 function OrderUrlsEditor({ urls, onDone }: { urls: OrderUrls; onDone: () => void }) {
@@ -62,29 +64,33 @@ function OrderUrlsEditor({ urls, onDone }: { urls: OrderUrls; onDone: () => void
   );
 }
 
-/** Home-page section listing both shops with a map pin and their ordering link. */
-export function LocationsSection() {
+type LocationsSectionProps = {
+  /** Override the section heading (defaults to “Our locations”). */
+  title?: string;
+  lead?: string;
+  headingAs?: 'h1' | 'h2';
+};
+
+/** Section listing both shops with a map pin and their ordering link. */
+export function LocationsSection({ title, lead, headingAs = 'h2' }: LocationsSectionProps = {}) {
   const copy = restaurantContent.ordering;
   const { isAdmin } = useStaffSession();
   const [editing, setEditing] = useState(false);
   const { data: urls = defaultOrderUrls } = useQuery(orderUrlsQueryOptions);
+  const { data: homeContent } = useQuery(homeContentQueryOptions);
+  const heroImageUrl = homeContent?.hero.imageUrl ?? defaultHomeContent.hero.imageUrl;
 
-  const structuredData = orderLocations.map((location) => ({
-    '@context': 'https://schema.org',
-    '@type': 'Restaurant',
-    name: location.name,
-    servesCuisine: 'Italian',
-    email: links.email,
-    address: { '@type': 'PostalAddress', streetAddress: location.lines[0], addressLocality: location.area },
-    potentialAction: { '@type': 'OrderAction', target: urls[location.id] ?? location.orderUrl },
-  }));
+  const structuredData = buildRestaurantJsonLd(urls, heroImageUrl);
 
   return (
     <section id="locations" className="locations-section bt-surface-light" aria-labelledby="locations-title">
       <div className="locations-head">
-        <Display as="h2" size="lg" tone="forest" id="locations-title">
-          {copy.title}
-        </Display>
+        <div className="locations-head-copy">
+          <Display as={headingAs} size="lg" tone="forest" id="locations-title">
+            {title ?? copy.title}
+          </Display>
+          {lead ? <Serif tone="ink">{lead}</Serif> : null}
+        </div>
         {isAdmin && !editing && (
           <Button size="sm" variant="primary" onClick={() => setEditing(true)}>
             Edit links

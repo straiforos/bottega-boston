@@ -10,10 +10,13 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SiteRouteImport } from './routes/_site'
+import { Route as RobotsDottxtRouteImport } from './routes/robots[.]txt'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SiteIndexRouteImport } from './routes/_site/index'
 import { Route as SiteCateringRouteImport } from './routes/_site/catering'
 import { Route as SiteEmailsRouteImport } from './routes/_site/emails'
 import { Route as SiteMenuRouteImport } from './routes/_site/menu'
+import { Route as SiteOrderRouteImport } from './routes/_site/order'
 import { Route as SiteUnsubscribedRouteImport } from './routes/_site/unsubscribed'
 import { Route as MediaSplatRouteImport } from './routes/media.$'
 import { Route as Char91__componentChar93PreviewSplatRouteImport } from './routes/[__component].preview.$'
@@ -39,6 +42,16 @@ const SiteRoute = SiteRouteImport.update({
   id: '/_site',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RobotsDottxtRoute = RobotsDottxtRouteImport.update({
+  id: '/robots.txt',
+  path: '/robots.txt',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SiteIndexRoute = SiteIndexRouteImport.update({
   id: '/',
   path: '/',
@@ -57,6 +70,11 @@ const SiteEmailsRoute = SiteEmailsRouteImport.update({
 const SiteMenuRoute = SiteMenuRouteImport.update({
   id: '/menu',
   path: '/menu',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteOrderRoute = SiteOrderRouteImport.update({
+  id: '/order',
+  path: '/order',
   getParentRoute: () => SiteRoute,
 } as any)
 const SiteUnsubscribedRoute = SiteUnsubscribedRouteImport.update({
@@ -165,9 +183,12 @@ const SiteEmailsTemplateKeyRoute = SiteEmailsTemplateKeyRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof SiteIndexRoute
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/catering': typeof SiteCateringRoute
   '/emails': typeof SiteEmailsRoute
   '/menu': typeof SiteMenuRoute
+  '/order': typeof SiteOrderRoute
   '/unsubscribed': typeof SiteUnsubscribedRoute
   '/media/$': typeof MediaSplatRoute
   '/__component/preview/$': typeof Char91__componentChar93PreviewSplatRoute
@@ -190,9 +211,12 @@ export interface FileRoutesByFullPath {
   '/emails/template/$key': typeof SiteEmailsTemplateKeyRoute
 }
 export interface FileRoutesByTo {
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/catering': typeof SiteCateringRoute
   '/emails': typeof SiteEmailsRoute
   '/menu': typeof SiteMenuRoute
+  '/order': typeof SiteOrderRoute
   '/unsubscribed': typeof SiteUnsubscribedRoute
   '/media/$': typeof MediaSplatRoute
   '/': typeof SiteIndexRoute
@@ -218,9 +242,12 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/_site': typeof SiteRouteWithChildren
+  '/robots.txt': typeof RobotsDottxtRoute
+  '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_site/catering': typeof SiteCateringRoute
   '/_site/emails': typeof SiteEmailsRoute
   '/_site/menu': typeof SiteMenuRoute
+  '/_site/order': typeof SiteOrderRoute
   '/_site/unsubscribed': typeof SiteUnsubscribedRoute
   '/media/$': typeof MediaSplatRoute
   '/_site/': typeof SiteIndexRoute
@@ -247,9 +274,12 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/catering'
     | '/emails'
     | '/menu'
+    | '/order'
     | '/unsubscribed'
     | '/media/$'
     | '/__component/preview/$'
@@ -272,9 +302,12 @@ export interface FileRouteTypes {
     | '/emails/template/$key'
   fileRoutesByTo: FileRoutesByTo
   to:
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/catering'
     | '/emails'
     | '/menu'
+    | '/order'
     | '/unsubscribed'
     | '/media/$'
     | '/'
@@ -299,9 +332,12 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/_site'
+    | '/robots.txt'
+    | '/sitemap.xml'
     | '/_site/catering'
     | '/_site/emails'
     | '/_site/menu'
+    | '/_site/order'
     | '/_site/unsubscribed'
     | '/media/$'
     | '/_site/'
@@ -327,6 +363,8 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   SiteRoute: typeof SiteRouteWithChildren
+  RobotsDottxtRoute: typeof RobotsDottxtRoute
+  SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   MediaSplatRoute: typeof MediaSplatRoute
   Char91__componentChar93PreviewSplatRoute: typeof Char91__componentChar93PreviewSplatRoute
   Char91__mockupChar93PreviewSplatRoute: typeof Char91__mockupChar93PreviewSplatRoute
@@ -346,6 +384,20 @@ declare module '@tanstack/react-router' {
       path: ''
       fullPath: '/'
       preLoaderRoute: typeof SiteRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/robots.txt': {
+      id: '/robots.txt'
+      path: '/robots.txt'
+      fullPath: '/robots.txt'
+      preLoaderRoute: typeof RobotsDottxtRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_site/': {
@@ -374,6 +426,13 @@ declare module '@tanstack/react-router' {
       path: '/menu'
       fullPath: '/menu'
       preLoaderRoute: typeof SiteMenuRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/order': {
+      id: '/_site/order'
+      path: '/order'
+      fullPath: '/order'
+      preLoaderRoute: typeof SiteOrderRouteImport
       parentRoute: typeof SiteRoute
     }
     '/_site/unsubscribed': {
@@ -523,6 +582,7 @@ interface SiteRouteChildren {
   SiteCateringRoute: typeof SiteCateringRoute
   SiteEmailsRoute: typeof SiteEmailsRoute
   SiteMenuRoute: typeof SiteMenuRoute
+  SiteOrderRoute: typeof SiteOrderRoute
   SiteUnsubscribedRoute: typeof SiteUnsubscribedRoute
   SiteIndexRoute: typeof SiteIndexRoute
   SiteAdminAnnouncementsRoute: typeof SiteAdminAnnouncementsRoute
@@ -540,6 +600,7 @@ const SiteRouteChildren: SiteRouteChildren = {
   SiteCateringRoute: SiteCateringRoute,
   SiteEmailsRoute: SiteEmailsRoute,
   SiteMenuRoute: SiteMenuRoute,
+  SiteOrderRoute: SiteOrderRoute,
   SiteUnsubscribedRoute: SiteUnsubscribedRoute,
   SiteIndexRoute: SiteIndexRoute,
   SiteAdminAnnouncementsRoute: SiteAdminAnnouncementsRoute,
@@ -558,6 +619,8 @@ const SiteRouteWithChildren = SiteRoute._addFileChildren(SiteRouteChildren)
 
 const rootRouteChildren: RootRouteChildren = {
   SiteRoute: SiteRouteWithChildren,
+  RobotsDottxtRoute: RobotsDottxtRoute,
+  SitemapDotxmlRoute: SitemapDotxmlRoute,
   MediaSplatRoute: MediaSplatRoute,
   Char91__componentChar93PreviewSplatRoute:
     Char91__componentChar93PreviewSplatRoute,
@@ -573,13 +636,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

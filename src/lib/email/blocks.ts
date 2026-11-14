@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 /** Where "Order now" buttons point by default. Relative; send path prefixes the request host. */
-export const ORDER_NOW_URL = '/#locations';
+export const ORDER_NOW_URL = '/order';
 
 export function isSafeLink(url: string) {
   const value = url.trim();

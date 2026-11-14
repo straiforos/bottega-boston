@@ -37,7 +37,7 @@ export function BottegaHeader() {
           <Button
             size="sm"
             variant={scrolled ? 'cream' : 'primary'}
-            onClick={() => navigate({ to: '/', hash: 'locations' })}
+            onClick={() => navigate({ to: '/order' })}
           >
             {nav.order}
           </Button>

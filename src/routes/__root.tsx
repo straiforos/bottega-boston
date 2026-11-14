@@ -16,6 +16,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: 'og:title', content: 'Bottega | Pasta is life' },
       { property: 'og:description', content: 'Meet, eat, and celebrate life at Bottega.' },
       { property: 'og:type', content: 'website' },
+      { property: 'og:site_name', content: 'Bottega' },
       { name: 'twitter:card', content: 'summary_large_image' },
     ],
     links: [

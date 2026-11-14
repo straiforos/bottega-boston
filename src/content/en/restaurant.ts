@@ -45,6 +45,28 @@ export const restaurantContent = {
       socialDescription:
         'Find your next Bottega favorite. Browse the complete Italian menu and catering selection with illustrative dish images.',
     },
+    order: {
+      title: 'Order now | Bottega Brookline & Boston',
+      description:
+        'Order Bottega online for pickup or delivery from Bottega Fiorentina in Brookline or Bottega Del Sud in South Boston.',
+      socialDescription: 'Pick your Bottega shop and order pasta, panini, and more for pickup or delivery.',
+    },
+    catering: {
+      title: 'Catering | Bottega Italian trays for your crowd',
+      description:
+        'Order Bottega catering: pasta, al forno, panini, salads and dolci trays for pickup or delivery in Brookline and Boston.',
+      socialDescription: 'Build your Bottega catering order and we’ll confirm the details.',
+    },
+    eventsRequest: {
+      title: 'Host your event at Bottega | private parties',
+      description:
+        'Request Bottega’s space for birthdays, showers and team dinners, with optional Italian catering.',
+      socialDescription: 'Tell us about your party and we’ll check availability.',
+    },
+  },
+  orderPage: {
+    title: 'Order now',
+    lead: 'Pickup or delivery from Brookline or South Boston.',
   },
   ordering: {
     title: 'Our locations',

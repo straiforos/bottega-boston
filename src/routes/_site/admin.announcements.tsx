@@ -1,17 +1,12 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { AnnouncementsAdminPage } from '@/features/announcements/AnnouncementsAdminPage';
+import { staffPageHead } from '@/lib/seo/page-head';
 
 export const Route = createFileRoute('/_site/admin/announcements')({
-  head: () => ({
-    meta: [
-      { title: 'Announcements | Bottega staff' },
-      { name: 'description', content: 'Staff tools for Bottega guest announcements.' },
-      { property: 'og:title', content: 'Announcements | Bottega staff' },
-      { property: 'og:description', content: 'Staff tools for Bottega guest announcements.' },
-      { property: 'og:type', content: 'website' },
-      { name: 'twitter:card', content: 'summary' },
-      { name: 'robots', content: 'noindex' },
-    ],
-  }),
+  head: () =>
+    staffPageHead({
+      title: 'Announcements | Bottega staff',
+      description: 'Staff tools for Bottega guest announcements.',
+    }),
   component: AnnouncementsAdminPage,
 });

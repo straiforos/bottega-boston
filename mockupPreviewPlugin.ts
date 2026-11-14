@@ -82,6 +82,9 @@ import { createElement, Suspense, useEffect, useState, type ComponentType, type 
 import { mockups } from "@/.generated/mockup-components";
 
 export const Route = createFileRoute("/__mockup/preview/$")({
+  head: () => ({
+    meta: [{ name: "robots", content: "noindex, nofollow" }],
+  }),
   component: MockupPreview,
 });
 
@@ -212,6 +215,9 @@ type SpecimenProps = Record<string, string | number | boolean>;
 type SchemaProp = { name: string; type?: string; values?: string[] };
 
 export const Route = createFileRoute("/__component/preview/$")({
+  head: () => ({
+    meta: [{ name: "robots", content: "noindex, nofollow" }],
+  }),
   component: ComponentPreview,
 });
 

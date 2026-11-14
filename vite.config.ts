@@ -46,12 +46,15 @@ export default defineConfig(({ command, isPreview }) => {
             !path.startsWith('/emails') &&
             !path.startsWith('/api') &&
             !path.startsWith('/media') &&
+            path !== '/sitemap.xml' &&
+            path !== '/robots.txt' &&
             !path.includes('__mockup') &&
             !path.includes('__component'),
         },
         pages: [
           { path: '/' },
           { path: '/menu' },
+          { path: '/order' },
           { path: '/catering' },
           { path: '/events/request' },
           { path: '/unsubscribed' },
