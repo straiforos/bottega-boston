@@ -15,12 +15,13 @@ export function Broken({ text }: { text: string }) {
 }
 
 export function HeroSection() {
-  const { data, isSuccess, isError } = useQuery(homeContentQueryOptions);
+  const { data, isSuccess } = useQuery(homeContentQueryOptions);
   const { isAdmin } = useStaffSession();
   // Never paint bundled defaults as a stand-in for a staff-configured photo.
-  // Wait until home_content resolves (or errors), then fade that URL in.
+  // Only mount the image after a successful home_content fetch (CI prerender
+  // has no D1 — keep the forest frame; the client fades the real URL in).
   const hero = data?.hero ?? defaultHomeContent.hero;
-  const imageUrl = isSuccess || isError ? hero.imageUrl : null;
+  const imageUrl = isSuccess ? data.hero.imageUrl : null;
   const [photoReady, setPhotoReady] = useState(false);
 
   useEffect(() => {

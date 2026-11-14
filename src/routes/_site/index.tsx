@@ -4,7 +4,15 @@ import { HomePage } from '@/features/home/HomePage';
 import { homeContentQueryOptions } from '@/lib/home/home-content';
 
 export const Route = createFileRoute('/_site/')({
-  loader: ({ context: { queryClient } }) => queryClient.ensureQueryData(homeContentQueryOptions),
+  // Prefetch when D1 is available. CI prerender has no DB — swallow so the
+  // shell still builds; HeroSection waits/fades and never paints a stale default.
+  loader: async ({ context: { queryClient } }) => {
+    try {
+      await queryClient.ensureQueryData(homeContentQueryOptions);
+    } catch {
+      /* client refetch / live SSR will populate */
+    }
+  },
   head: () => ({
     meta: [
       { title: restaurantContent.metadata.home.title },
