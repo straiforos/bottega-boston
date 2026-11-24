@@ -25,4 +25,21 @@ describe('home content', () => {
   it('stores editable ribbon text', () => {
     expect(mergeHomeContent([{ key: 'ribbon', data: { text: 'Ciao' } }]).ribbon).toBe('Ciao');
   });
+  it('merges story media kind and urls', () => {
+    const story = mergeHomeContent([
+      {
+        key: 'story',
+        data: {
+          mediaKind: 'image',
+          videoUrl: defaultHomeContent.story.videoUrl,
+          posterUrl: defaultHomeContent.story.posterUrl,
+          imageUrl: '/media/story.jpg',
+          imageAlt: 'Our dining room',
+        },
+      },
+    ]).story;
+    expect(story.mediaKind).toBe('image');
+    expect(story.imageUrl).toBe('/media/story.jpg');
+    expect(story.imageAlt).toBe('Our dining room');
+  });
 });

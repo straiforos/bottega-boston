@@ -6,6 +6,7 @@ import { useQuery } from '@tanstack/react-query';
 import { restaurantContent } from '@/content/en/restaurant';
 import { lines } from '@/lib/home/home-shared';
 import { menuSections as fallbackMenu } from '@/lib/menu-data';
+import { scrollTargetForMenuHash } from '@/lib/menu/filter-menu';
 import { menuQueryOptions } from '@/lib/menu/menu-api';
 import { scrollToSection } from '@/lib/scroll-to-section';
 import { useStaffSession } from '@/hooks/useStaffSession';
@@ -32,11 +33,11 @@ function scrollToResults() {
     if (!content) return;
     const header = document.querySelector<HTMLElement>('.shared-header-stack');
     const headerH = header?.offsetHeight ?? 0;
-    const top = content.getBoundingClientRect().top + window.scrollY - headerH;
-    if (window.scrollY > top) {
-      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-      window.scrollTo({ top, behavior: reduce ? 'auto' : 'smooth' });
-    }
+    const stickyFilter = document.querySelector<HTMLElement>('.menu-filter-sticky');
+    const filterStick = stickyFilter && getComputedStyle(stickyFilter).position === 'sticky' ? stickyFilter.offsetHeight : 0;
+    const top = content.getBoundingClientRect().top + window.scrollY - headerH - filterStick;
+    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top: Math.max(0, top), behavior: reduce ? 'auto' : 'smooth' });
   });
 }
 
@@ -61,10 +62,12 @@ export function MenuPage() {
   // though the filter that reveals it only settles once the page is live.
   useEffect(() => {
     if (!baseFilters.appliedHash) return;
+    const target = scrollTargetForMenuHash(baseFilters.appliedHash, menuSections);
+    if (!target) return;
     for (const delay of [0, 200]) {
-      window.setTimeout(() => scrollToSection(baseFilters.appliedHash), delay);
+      window.setTimeout(() => scrollToSection(target), delay);
     }
-  }, [baseFilters.appliedHash]);
+  }, [baseFilters.appliedHash, menuSections]);
   const rail = useMenuFilterRail();
   return (
     <>

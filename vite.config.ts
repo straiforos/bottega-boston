@@ -56,6 +56,7 @@ export default defineConfig(({ command, isPreview }) => {
           { path: '/menu' },
           { path: '/order' },
           { path: '/catering' },
+          { path: '/events' },
           { path: '/events/request' },
           { path: '/unsubscribed' },
         ],

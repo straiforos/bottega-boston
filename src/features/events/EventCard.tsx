@@ -46,9 +46,6 @@ export function EventCard({ upcoming, children }: { upcoming: UpcomingEvent; chi
           <div className="event-tickets">
             <iframe className="event-tickets-frame" src={ticketEmbedUrl(ticketUrl)} title={t.ticketsDialog(event.title)} loading="lazy" />
             <div className="event-editor-actions">
-              <Button variant="ghost" href={ticketUrl} target="_blank" aria-label={`${t.ticketsNewTab} (opens in a new tab)`}>
-                {t.ticketsNewTab}
-              </Button>
               <Button variant="ghost" onClick={() => setTicketsOpen(false)}>{t.close}</Button>
             </div>
           </div>

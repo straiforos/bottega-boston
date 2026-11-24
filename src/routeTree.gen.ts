@@ -15,6 +15,7 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SiteIndexRouteImport } from './routes/_site/index'
 import { Route as SiteCateringRouteImport } from './routes/_site/catering'
 import { Route as SiteEmailsRouteImport } from './routes/_site/emails'
+import { Route as SiteEventsRouteImport } from './routes/_site/events'
 import { Route as SiteMenuRouteImport } from './routes/_site/menu'
 import { Route as SiteOrderRouteImport } from './routes/_site/order'
 import { Route as SiteUnsubscribedRouteImport } from './routes/_site/unsubscribed'
@@ -26,7 +27,7 @@ import { Route as SiteAdminEventsRouteImport } from './routes/_site/admin.events
 import { Route as SiteAdminRequestsRouteImport } from './routes/_site/admin.requests'
 import { Route as SiteEmailsComposeRouteImport } from './routes/_site/emails_.compose'
 import { Route as SiteEmailsWelcomeRouteImport } from './routes/_site/emails_.welcome'
-import { Route as SiteEventsRequestRouteImport } from './routes/_site/events.request'
+import { Route as SiteEventsRequestRouteImport } from './routes/_site/events_.request'
 import { Route as ApiAuthCallbackRouteImport } from './routes/api/auth/callback'
 import { Route as ApiAuthGoogleRouteImport } from './routes/api/auth/google'
 import { Route as ApiAuthLogoutRouteImport } from './routes/api/auth/logout'
@@ -65,6 +66,11 @@ const SiteCateringRoute = SiteCateringRouteImport.update({
 const SiteEmailsRoute = SiteEmailsRouteImport.update({
   id: '/emails',
   path: '/emails',
+  getParentRoute: () => SiteRoute,
+} as any)
+const SiteEventsRoute = SiteEventsRouteImport.update({
+  id: '/events',
+  path: '/events',
   getParentRoute: () => SiteRoute,
 } as any)
 const SiteMenuRoute = SiteMenuRouteImport.update({
@@ -125,7 +131,7 @@ const SiteEmailsWelcomeRoute = SiteEmailsWelcomeRouteImport.update({
   getParentRoute: () => SiteRoute,
 } as any)
 const SiteEventsRequestRoute = SiteEventsRequestRouteImport.update({
-  id: '/events/request',
+  id: '/events_/request',
   path: '/events/request',
   getParentRoute: () => SiteRoute,
 } as any)
@@ -187,6 +193,7 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/catering': typeof SiteCateringRoute
   '/emails': typeof SiteEmailsRoute
+  '/events': typeof SiteEventsRoute
   '/menu': typeof SiteMenuRoute
   '/order': typeof SiteOrderRoute
   '/unsubscribed': typeof SiteUnsubscribedRoute
@@ -215,6 +222,7 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/catering': typeof SiteCateringRoute
   '/emails': typeof SiteEmailsRoute
+  '/events': typeof SiteEventsRoute
   '/menu': typeof SiteMenuRoute
   '/order': typeof SiteOrderRoute
   '/unsubscribed': typeof SiteUnsubscribedRoute
@@ -246,6 +254,7 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/_site/catering': typeof SiteCateringRoute
   '/_site/emails': typeof SiteEmailsRoute
+  '/_site/events': typeof SiteEventsRoute
   '/_site/menu': typeof SiteMenuRoute
   '/_site/order': typeof SiteOrderRoute
   '/_site/unsubscribed': typeof SiteUnsubscribedRoute
@@ -258,7 +267,7 @@ export interface FileRoutesById {
   '/_site/admin/requests': typeof SiteAdminRequestsRoute
   '/_site/emails_/compose': typeof SiteEmailsComposeRoute
   '/_site/emails_/welcome': typeof SiteEmailsWelcomeRoute
-  '/_site/events/request': typeof SiteEventsRequestRoute
+  '/_site/events_/request': typeof SiteEventsRequestRoute
   '/api/auth/callback': typeof ApiAuthCallbackRoute
   '/api/auth/google': typeof ApiAuthGoogleRoute
   '/api/auth/logout': typeof ApiAuthLogoutRoute
@@ -278,6 +287,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/catering'
     | '/emails'
+    | '/events'
     | '/menu'
     | '/order'
     | '/unsubscribed'
@@ -306,6 +316,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/catering'
     | '/emails'
+    | '/events'
     | '/menu'
     | '/order'
     | '/unsubscribed'
@@ -336,6 +347,7 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/_site/catering'
     | '/_site/emails'
+    | '/_site/events'
     | '/_site/menu'
     | '/_site/order'
     | '/_site/unsubscribed'
@@ -348,7 +360,7 @@ export interface FileRouteTypes {
     | '/_site/admin/requests'
     | '/_site/emails_/compose'
     | '/_site/emails_/welcome'
-    | '/_site/events/request'
+    | '/_site/events_/request'
     | '/api/auth/callback'
     | '/api/auth/google'
     | '/api/auth/logout'
@@ -419,6 +431,13 @@ declare module '@tanstack/react-router' {
       path: '/emails'
       fullPath: '/emails'
       preLoaderRoute: typeof SiteEmailsRouteImport
+      parentRoute: typeof SiteRoute
+    }
+    '/_site/events': {
+      id: '/_site/events'
+      path: '/events'
+      fullPath: '/events'
+      preLoaderRoute: typeof SiteEventsRouteImport
       parentRoute: typeof SiteRoute
     }
     '/_site/menu': {
@@ -498,8 +517,8 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof SiteEmailsWelcomeRouteImport
       parentRoute: typeof SiteRoute
     }
-    '/_site/events/request': {
-      id: '/_site/events/request'
+    '/_site/events_/request': {
+      id: '/_site/events_/request'
       path: '/events/request'
       fullPath: '/events/request'
       preLoaderRoute: typeof SiteEventsRequestRouteImport
@@ -581,6 +600,7 @@ declare module '@tanstack/react-router' {
 interface SiteRouteChildren {
   SiteCateringRoute: typeof SiteCateringRoute
   SiteEmailsRoute: typeof SiteEmailsRoute
+  SiteEventsRoute: typeof SiteEventsRoute
   SiteMenuRoute: typeof SiteMenuRoute
   SiteOrderRoute: typeof SiteOrderRoute
   SiteUnsubscribedRoute: typeof SiteUnsubscribedRoute
@@ -599,6 +619,7 @@ interface SiteRouteChildren {
 const SiteRouteChildren: SiteRouteChildren = {
   SiteCateringRoute: SiteCateringRoute,
   SiteEmailsRoute: SiteEmailsRoute,
+  SiteEventsRoute: SiteEventsRoute,
   SiteMenuRoute: SiteMenuRoute,
   SiteOrderRoute: SiteOrderRoute,
   SiteUnsubscribedRoute: SiteUnsubscribedRoute,
@@ -636,3 +657,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}

@@ -11,11 +11,11 @@ import type { MenuSection } from '@/lib/menu/types';
 /**
  * Menu search, category and dietary state.
  *
- * `hash` is the current URL hash: opening `/menu#category-8` (the catering
- * links) arrives with the Catering filter already selected. The server never
- * sees a hash, so the page renders the full menu first and follows the hash
- * only once it is live in the browser, which keeps hydration consistent. A
- * click in the rail wins over the hash until the guest navigates again.
+ * `hash` is the current URL hash: opening `/menu#catering` arrives with the
+ * Catering filter already selected. The server never sees a hash, so the page
+ * renders the full menu first and follows the hash only once it is live in the
+ * browser, which keeps hydration consistent. A click in the rail wins over the
+ * hash until the guest navigates again.
  */
 export function useMenuFilters(menuSections: readonly MenuSection[], hash = '') {
   const [query, setQuery] = useState('');

@@ -2,7 +2,7 @@
  * Scrolls a section into view *below* the sticky site header.
  *
  * Plain `scrollIntoView()` parks the section's heading underneath the header
- * bar, so every hash target (`#locations`, `#events`, `#category-8`) aims a
+ * bar, so every hash target (`#locations`, `#catering`, `#pasta`) aims a
  * header-height lower instead.
  */
 export function scrollToSection(hashOrId: string) {

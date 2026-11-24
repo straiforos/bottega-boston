@@ -3,7 +3,7 @@ import { restaurantContent } from '@/content/en/restaurant';
 import { RequestPage } from '@/features/requests/RequestPage';
 import { pageHead } from '@/lib/seo/page-head';
 
-export const Route = createFileRoute('/_site/events/request')({
+export const Route = createFileRoute('/_site/events_/request')({
   head: () =>
     pageHead({
       ...restaurantContent.metadata.eventsRequest,

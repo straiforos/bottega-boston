@@ -4,7 +4,7 @@ import { restaurantContent } from './restaurant';
 describe('route metadata', () => {
   it('covers every indexable guest route', () => {
     expect(Object.keys(restaurantContent.metadata).sort()).toEqual(
-      ['catering', 'eventsRequest', 'home', 'menu', 'order'].sort(),
+      ['catering', 'events', 'eventsRequest', 'home', 'menu', 'order'].sort(),
     );
   });
 

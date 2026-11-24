@@ -45,11 +45,15 @@
    vertical center while scrolling (useMenuFilterRail drives the offset). */
 .menu-filter-rail {
   height: 100%;
+  min-height: 0;
 }
 .menu-filter-sticky {
   position: sticky;
   top: 0;
-  height: 100vh;
+  max-height: 100dvh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 .menu-filter {
   min-width: 0;
@@ -70,7 +74,8 @@
 }
 .menu-category-section {
   margin-bottom: var(--bt-space-xl);
-  scroll-margin-top: var(--bt-space-lg);
+  /* Clear sticky header (and mobile sticky filter strip) on hash landings. */
+  scroll-margin-top: var(--bt-space-8);
 }
 .menu-category-heading {
   margin-bottom: var(--bt-space-lg);
@@ -145,18 +150,45 @@
   .menu-browse {
     grid-template-columns: minmax(0, 1fr);
   }
-  .menu-filter-rail,
-  .menu-filter-sticky {
-    position: static;
+  .menu-filter-rail {
+    position: sticky;
+    /* Below the sticky site header (set by useMenuFilterRail). */
+    top: var(--menu-sticky-top, 0px);
+    z-index: 2;
     height: auto;
     display: block;
   }
+  .menu-filter-sticky {
+    position: static;
+    max-height: none;
+    overflow: visible;
+    background: var(--bt-cream);
+    padding-block: var(--bt-space-sm);
+    box-shadow: 0 1px 0 color-mix(in srgb, var(--bt-forest) 12%, transparent);
+  }
   .menu-category-list {
     flex-direction: row;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    scroll-padding-inline: var(--bt-space-sm);
+    gap: var(--bt-space-xs);
+    padding-bottom: var(--bt-space-2xs, 0.25rem);
+  }
+  .menu-category-list > * {
+    flex: 0 0 auto;
   }
   .menu-dish-grid {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Short / landscape viewports that still use the desktop column: keep every
+   category (including Catering) reachable inside the sticky rail. */
+@media (min-width: 901px) and (max-height: 720px) {
+  .menu-filter-sticky {
+    max-height: calc(100dvh - 0.5rem);
   }
 }
 .dish-admin-actions,

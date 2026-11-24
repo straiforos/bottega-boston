@@ -2,7 +2,6 @@ import { BottegaHeader } from '@/components/BottegaHeader';
 import { SketchMarquee } from '@/components/media/SketchMarquee';
 import { restaurantContent } from '@/content/en/restaurant';
 import { ClubSection } from './sections/ClubSection';
-import { EventsSection } from './sections/EventsSection';
 import { HeroSection } from './sections/HeroSection';
 import { LocationsSection } from './sections/LocationsSection';
 import { OfferingsSection } from './sections/OfferingsSection';
@@ -18,7 +17,7 @@ export function HomePage() {
         <HeroSection />
         <SketchMarquee text={restaurantContent.home.pastaIsLife} />
         <OfferingsSection />
-        <EventsSection />
+        <StorySection />
         <SketchMarquee text={restaurantContent.home.pastaIsLife} variant="forest" />
         <SocialSection />
         <ClubSection />

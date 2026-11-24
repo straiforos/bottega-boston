@@ -57,6 +57,12 @@ export const restaurantContent = {
         'Order Bottega catering: pasta, al forno, panini, salads and dolci trays for pickup or delivery in Brookline and Boston.',
       socialDescription: 'Build your Bottega catering order and we’ll confirm the details.',
     },
+    events: {
+      title: 'Events | Come hang out at Bottega',
+      description:
+        'See upcoming Bottega events in Brookline and Boston—pasta nights, parties, and community gatherings. Get tickets without leaving the site.',
+      socialDescription: 'Come hang out with us. Browse Bottega’s upcoming events and get tickets.',
+    },
     eventsRequest: {
       title: 'Host your event at Bottega | private parties',
       description:

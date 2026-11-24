@@ -1,13 +1,33 @@
-import { Display, LinkAction, Serif } from '@/design-system/bottega-f5161c';
+import { useQuery } from '@tanstack/react-query';
+import { Display, LinkAction, PillLabel, Serif } from '@/design-system/bottega-f5161c';
+import { MovingRibbon } from '@/components/media/MovingRibbon';
 import { StoryVideo } from '@/components/media/StoryVideo';
-import clubVideo from '@/assets/club-video.asset.json';
-import poster from '@/assets/video-poster.asset.json';
+import { useStaffSession } from '@/hooks/useStaffSession';
+import { defaultHomeContent, homeContentQueryOptions } from '@/lib/home/home-content';
+import { RibbonEditor, StoryEditor } from '../admin/HomeContentEditors';
 
 export function StorySection() {
+  const { data = defaultHomeContent } = useQuery(homeContentQueryOptions);
+  const { isAdmin } = useStaffSession();
+  const story = data.story;
+
   return (
-    <section id="about" className="section story bt-surface-dark">
+    <section id="about" className="section story bt-surface-dark home-editable">
+      <div className="story-ribbon home-editable">
+        <MovingRibbon text={data.ribbon} />
+        {isAdmin && <RibbonEditor text={data.ribbon} />}
+      </div>
       <div className="section-inner story-grid">
-        <StoryVideo src={clubVideo.url} poster={poster.url} />
+        {story.mediaKind === 'video' ? (
+          <StoryVideo src={story.videoUrl} poster={story.posterUrl} />
+        ) : (
+          <div className="arch-video story-player">
+            <img src={story.imageUrl} alt={story.imageAlt} loading="lazy" decoding="async" />
+            <div className="video-caption">
+              <PillLabel variant="mustard">About us</PillLabel>
+            </div>
+          </div>
+        )}
         <div>
           <div className="story-heading">
             <Display size="xl" tone="mustard">
@@ -30,6 +50,7 @@ export function StorySection() {
           </LinkAction>
         </div>
       </div>
+      {isAdmin && <StoryEditor story={story} />}
     </section>
   );
 }

@@ -4,7 +4,7 @@ import { absoluteUrl } from './absolute-url';
 export const sitemapRouteInventoryVersion = 1;
 
 /** Guest pages Google may index — never admin, emails, API, media, or previews. */
-export const INDEXABLE_PATHS = ['/', '/menu', '/order', '/catering', '/events/request'] as const;
+export const INDEXABLE_PATHS = ['/', '/menu', '/order', '/catering', '/events', '/events/request'] as const;
 
 export type IndexablePath = (typeof INDEXABLE_PATHS)[number];
 

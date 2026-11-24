@@ -9,8 +9,7 @@ export type RemainingPresentation =
   | 'focaccia-tray'
   | 'coffee-catering'
   | 'soup'
-  | 'pasta-bowl'
-  | 'sauce-pints';
+  | 'pasta-bowl';
 
 export interface RemainingPhotoSpec {
   /** Exact ChowNow item name used to download the source photo. */
@@ -38,12 +37,7 @@ export const CHOWNOW_REMAINING_MAP: Readonly<Record<string, RemainingPhotoSpec>>
     adaptHint:
       'Single build-your-own pasta bowl with penne in a bright pomodoro (tomato-basil) sauce, lightly finished with cheese.',
   },
-  'dish-40': {
-    chowNowName: 'Mini Pasta ( Only Tomato, Fedora, Bolognese)',
-    presentation: 'sauce-pints',
-    adaptHint:
-      'Show several clear plastic takeout pints of different house pasta sauces (red, creamy pink, cream, pesto green) on the counter—not a plated pasta.',
-  },
+  // dish-40 (Sauces by The Pint) stays text-only on /menu — no sauce-pint regen.
 
   // Pasta catering trays — Penne base; sauce restyle per house recipe
   'dish-57': {
@@ -119,18 +113,7 @@ export const CHOWNOW_REMAINING_MAP: Readonly<Record<string, RemainingPhotoSpec>>
   },
 
   // Toppings / sides / coffee catering
-  'dish-80': {
-    chowNowName: 'Polpetti/meatballs',
-    presentation: 'topping-tray',
-    adaptHint:
-      'Large catering tray of Italian meatballs with grilled chicken pieces and roasted sausage for a toppings tray.',
-  },
-  'dish-81': {
-    chowNowName: 'Vegetable Panino',
-    presentation: 'topping-tray',
-    adaptHint:
-      'Full metal hotel pan of pasta toppings only: roasted broccoli florets, sautéed mushrooms, and roasted red peppers—abundant mixed vegetable tray. No sandwich bread, no greens salad, no cheese plate.',
-  },
+  // dish-80 (Chicken, sausage & meatballs) and dish-81 (Veggies) stay text-only on /menu.
   'dish-82': {
     chowNowName: 'Focaccia Olives',
     presentation: 'focaccia-tray',
@@ -156,8 +139,6 @@ export function remainingPresentationHint(presentation: RemainingPresentation): 
       return 'Show a ceramic bowl of soup on the warm-stone countertop, studio lit.';
     case 'pasta-bowl':
       return 'Show one composed pasta bowl, single serving, studio product shot.';
-    case 'sauce-pints':
-      return 'Show multiple takeout pint containers of sauces—bulk sauce retail, not plated pasta.';
     case 'pasta-tray':
       return 'Show a FULL-SIZE catering hotel pan heaped with pasta for 12–15 people—never a single bowl or plate. Pasta should look naturally tossed in sauce (loose tubes or strands), not stylized swirls, nests, or CGI twirls.';
     case 'topping-tray':

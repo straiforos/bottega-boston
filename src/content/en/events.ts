@@ -3,7 +3,6 @@ export const eventsContent = {
   bookSpace: 'Book our space',
   tickets: 'Get tickets',
   ticketsDialog: (title: string) => `Tickets for ${title}`,
-  ticketsNewTab: 'Open tickets in a new tab',
   close: 'Close',
   scrollPrev: 'Previous events',
   scrollNext: 'More events',

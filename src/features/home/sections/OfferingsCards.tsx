@@ -9,19 +9,38 @@ const slotClass = ['offering-coffee', 'offering-food', 'offering-market'];
 
 function OfferingLink({ card }: { card: OfferingCard }) {
   const variant = cardInk(card.variant).text === 'cream' ? 'cream' : 'primary';
-  if (card.linkHref.startsWith('/menu')) {
-    const hash = card.linkHref.split('#')[1];
+  const href = card.linkHref.trim();
+
+  if (href.startsWith('/') && !href.startsWith('//')) {
+    const [pathPart, hash] = href.split('#');
     return (
-      <OfferingButton className="offering-cta" to="/menu" hash={hash} variant={variant} size="lg" width="full">
+      <OfferingButton
+        className="offering-cta"
+        // Dynamic staff-authored in-site paths (e.g. /menu#pasta, /events).
+        to={(pathPart || '/') as '/'}
+        hash={hash}
+        variant={variant}
+        size="lg"
+        width="full"
+      >
         {card.linkLabel}
       </OfferingButton>
     );
   }
-  const external = !card.linkHref.startsWith('mailto:') && !card.linkHref.startsWith('tel:');
+
+  if (href.startsWith('#')) {
+    return (
+      <OfferingButton className="offering-cta" to="/" hash={href.slice(1)} variant={variant} size="lg" width="full">
+        {card.linkLabel}
+      </OfferingButton>
+    );
+  }
+
+  const external = href.startsWith('https://');
   return (
     <Button
       className="offering-cta"
-      href={card.linkHref}
+      href={href}
       target={external ? '_blank' : undefined}
       rel={external ? 'noopener noreferrer' : undefined}
       variant={variant}

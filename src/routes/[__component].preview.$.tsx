@@ -23,7 +23,6 @@ export const Route = createFileRoute("/__component/preview/$")({
   head: () => ({
     meta: [{ name: "robots", content: "noindex, nofollow" }],
   }),
-  staticData: { sitemap: false },
   component: ComponentPreview,
 });
 

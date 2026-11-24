@@ -5,16 +5,27 @@ import hero from '@/assets/hero.asset.json';
 import coffee from '@/assets/coffee.asset.json';
 import pastaFood from '@/assets/the-food.asset.json';
 import mercatino from '@/assets/mercatino.jpg.asset.json';
+import clubVideo from '@/assets/club-video.asset.json';
+import videoPoster from '@/assets/video-poster.asset.json';
 
 export const CARD_VARIANTS = ['cream', 'mustard', 'cobalt', 'forest', 'white'] as const;
 export const CARD_SHAPES = ['rect', 'arch'] as const;
 export type CardVariant = (typeof CARD_VARIANTS)[number];
 export type CardShape = (typeof CARD_SHAPES)[number];
+export type StoryMediaKind = 'video' | 'image';
 
 export interface HeroContent {
   headline: string;
   showStamp: boolean;
   stamp: string;
+  imageUrl: string;
+  imageAlt: string;
+}
+
+export interface StoryContent {
+  mediaKind: StoryMediaKind;
+  videoUrl: string;
+  posterUrl: string;
   imageUrl: string;
   imageAlt: string;
 }
@@ -36,6 +47,7 @@ export interface OfferingCard {
 export interface HomeContent {
   hero: HeroContent;
   ribbon: string;
+  story: StoryContent;
   cards: [OfferingCard, OfferingCard, OfferingCard];
 }
 
@@ -48,6 +60,13 @@ export const defaultHomeContent: HomeContent = {
     imageAlt: 'A woman in sunglasses eating Bottega pasta at a marble table under the #PASTA IS LIFE neon',
   },
   ribbon: restaurantContent.home.familyIsLife,
+  story: {
+    mediaKind: 'video',
+    videoUrl: clubVideo.url,
+    posterUrl: videoPoster.url,
+    imageUrl: videoPoster.url,
+    imageAlt: 'Bottega Pasta Club — meet, eat, and celebrate life',
+  },
   cards: [
     {
       shape: 'rect',
@@ -59,7 +78,7 @@ export const defaultHomeContent: HomeContent = {
       imageUrl: coffee.url,
       imageAlt: 'A Bottega guest holding a cappuccino and iced coffee',
       linkLabel: 'Catering menu',
-      linkHref: '/menu#category-8',
+      linkHref: '/menu#catering',
       stamp: 'Catering\nmenu',
     },
     {
@@ -125,6 +144,17 @@ export function validateRibbon(text: string): string | null {
   return null;
 }
 
+export function validateStory(story: StoryContent): string | null {
+  if (story.mediaKind !== 'video' && story.mediaKind !== 'image') return 'Pick video or image.';
+  if (story.mediaKind === 'video') {
+    if (!story.videoUrl.trim()) return 'Add a video.';
+  } else {
+    if (!story.imageUrl.trim()) return 'Add a photo.';
+    if (!story.imageAlt.trim()) return 'Describe the photo for people using screen readers.';
+  }
+  return null;
+}
+
 const isObject = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v);
 
 /** Pure: overlay stored rows on the defaults, ignoring unknown or malformed values. */
@@ -137,6 +167,11 @@ export function mergeHomeContent(rows: { key: string; data: Json }[]): HomeConte
     return out as T;
   };
   const ribbon = byKey.get('ribbon');
+  const storyMerged = pick(defaultHomeContent.story, byKey.get('story'));
+  const story =
+    storyMerged.mediaKind === 'video' || storyMerged.mediaKind === 'image'
+      ? storyMerged
+      : defaultHomeContent.story;
   const cards = defaultHomeContent.cards.map((card, i) => {
     const merged = pick(card, byKey.get(`card-${i + 1}`));
     return validateCard(merged) ? card : merged;
@@ -144,6 +179,7 @@ export function mergeHomeContent(rows: { key: string; data: Json }[]): HomeConte
   return {
     hero: pick(defaultHomeContent.hero, byKey.get('hero')),
     ribbon: isObject(ribbon) && typeof ribbon.text === 'string' && ribbon.text.trim() ? ribbon.text : defaultHomeContent.ribbon,
+    story: validateStory(story) ? defaultHomeContent.story : story,
     cards,
   };
 }

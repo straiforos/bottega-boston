@@ -44,7 +44,7 @@ export const getRouter = () => {
   router.subscribe('onRendered', () => {
     if (!scrollToTopOnRender) return;
     scrollToTopOnRender = false;
-    // Links to a section (#locations, #events) land on that section; others at the top.
+    // Links to a section (#locations, #catering) land on that section; others at the top.
     const hash = router.state.location.hash;
     window.scrollTo(0, 0);
     if (!hash) return;

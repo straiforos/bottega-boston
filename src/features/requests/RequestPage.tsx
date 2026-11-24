@@ -8,8 +8,8 @@ import { RequestForm } from './RequestForm';
 const ActionLink = createLink(LinkAction);
 const t = eventsContent.requests;
 
-/** First catering section on the menu page. */
-export const CATERING_MENU_HASH = 'category-8';
+/** Semantic catering filter on the menu page. */
+export const CATERING_MENU_HASH = 'catering';
 
 export function RequestPage({ kind }: { kind: RequestKind }) {
   return (

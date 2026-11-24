@@ -18,8 +18,14 @@ export function useMenuFilterRail() {
     const desktop = window.matchMedia('(min-width: 901px)');
     let frame = 0;
 
+    const syncStickyTop = () => {
+      const header = document.querySelector<HTMLElement>('.shared-header-stack');
+      document.documentElement.style.setProperty('--menu-sticky-top', `${header?.offsetHeight ?? 0}px`);
+    };
+
     const update = () => {
       frame = 0;
+      syncStickyTop();
       const rail = railRef.current;
       const filter = filterRef.current;
       if (!rail || !filter) return;
@@ -51,6 +57,7 @@ export function useMenuFilterRail() {
       window.removeEventListener('scroll', schedule);
       window.removeEventListener('resize', schedule);
       desktop.removeEventListener('change', schedule);
+      document.documentElement.style.removeProperty('--menu-sticky-top');
       if (frame) cancelAnimationFrame(frame);
     };
   }, []);

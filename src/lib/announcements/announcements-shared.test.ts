@@ -39,6 +39,7 @@ describe('isAnnouncementHref', () => {
   it('allows relative paths and https', () => {
     expect(isAnnouncementHref('/menu')).toBe(true);
     expect(isAnnouncementHref('/#events')).toBe(true);
+    expect(isAnnouncementHref('/events')).toBe(true);
     expect(isAnnouncementHref('https://toasttab.com/bottega')).toBe(true);
   });
 

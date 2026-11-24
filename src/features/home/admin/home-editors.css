@@ -17,3 +17,15 @@
   padding: 0;
   border: 0;
 }
+.home-edit-choices + .bt-field,
+.gallery-editor .bt-field select {
+  width: 100%;
+}
+.gallery-editor .bt-field select {
+  font: inherit;
+  padding: var(--bt-space-sm) var(--bt-space-md);
+  border: var(--bt-border-thin) solid var(--bt-outline);
+  border-radius: var(--bt-radius-sm, 0.25rem);
+  background: var(--bt-cream);
+  color: var(--bt-forest);
+}

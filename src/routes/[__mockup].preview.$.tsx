@@ -9,7 +9,6 @@ export const Route = createFileRoute("/__mockup/preview/$")({
   head: () => ({
     meta: [{ name: "robots", content: "noindex, nofollow" }],
   }),
-  staticData: { sitemap: false },
   component: MockupPreview,
 });
 

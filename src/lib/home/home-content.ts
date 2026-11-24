@@ -12,11 +12,14 @@ export {
   validateCard,
   validateHero,
   validateRibbon,
+  validateStory,
   type CardShape,
   type CardVariant,
   type HeroContent,
   type HomeContent,
   type OfferingCard,
+  type StoryContent,
+  type StoryMediaKind,
 } from './home-shared';
 
 export const homeContentQueryOptions = queryOptions({

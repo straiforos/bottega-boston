@@ -10,7 +10,7 @@ describe('sitemap inventory', () => {
   });
 
   it('lists exactly the five indexable guest paths', () => {
-    expect([...INDEXABLE_PATHS]).toEqual(['/', '/menu', '/order', '/catering', '/events/request']);
+    expect([...INDEXABLE_PATHS]).toEqual(['/', '/menu', '/order', '/catering', '/events', '/events/request']);
   });
 
   it('never includes staff, API, media, or preview paths', () => {

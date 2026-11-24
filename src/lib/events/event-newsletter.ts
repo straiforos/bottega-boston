@@ -11,7 +11,7 @@ export function buildEventNewsletter(event: BottegaEvent, dates: readonly string
     id: 'e4',
     type: 'button',
     label: event.ticketUrl ? 'Get tickets' : 'See our events',
-    url: event.ticketUrl ?? '/#events',
+    url: event.ticketUrl ?? '/events',
   });
   blocks.push({ id: 'e5', type: 'marquee', text: 'Come hang out with us' });
   return { subject: event.title.slice(0, 150), preheader: (repeats ?? dates[0] ?? '').slice(0, 200), blocks };
