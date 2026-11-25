@@ -5,7 +5,7 @@ import { usePrefersReducedMotion } from '@/hooks/usePrefersReducedMotion';
 import { PlayPauseIcon } from './PlayPauseIcon';
 import storyCaptions from '@/content/en/story-captions.vtt?url';
 
-export function StoryVideo({ src, poster }: { src: string; poster: string }) {
+export function StoryVideo({ src, poster, label = '' }: { src: string; poster: string; label?: string }) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [muted, setMuted] = useState(true);
   const [captionsOn, setCaptionsOn] = useState(true);
@@ -121,9 +121,11 @@ export function StoryVideo({ src, poster }: { src: string; poster: string }) {
             </svg>
           </Button>
         </div>
-        <div className="video-caption">
-          <PillLabel variant="mustard">About us</PillLabel>
-        </div>
+        {label.trim() ? (
+          <div className="video-caption">
+            <PillLabel variant="mustard">{label.trim()}</PillLabel>
+          </div>
+        ) : null}
       </div>
     </div>
   );

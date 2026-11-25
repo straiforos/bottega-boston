@@ -35,11 +35,16 @@ describe('home content', () => {
           posterUrl: defaultHomeContent.story.posterUrl,
           imageUrl: '/media/story.jpg',
           imageAlt: 'Our dining room',
+          caption: 'About us',
         },
       },
     ]).story;
     expect(story.mediaKind).toBe('image');
     expect(story.imageUrl).toBe('/media/story.jpg');
     expect(story.imageAlt).toBe('Our dining room');
+    expect(story.caption).toBe('About us');
+  });
+  it('hides the arch pill when caption is empty', () => {
+    expect(defaultHomeContent.story.caption).toBe('');
   });
 });

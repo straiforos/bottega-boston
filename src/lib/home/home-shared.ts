@@ -28,6 +28,8 @@ export interface StoryContent {
   posterUrl: string;
   imageUrl: string;
   imageAlt: string;
+  /** Pill on the arch; empty hides it. */
+  caption: string;
 }
 
 export interface OfferingCard {
@@ -66,6 +68,7 @@ export const defaultHomeContent: HomeContent = {
     posterUrl: videoPoster.url,
     imageUrl: videoPoster.url,
     imageAlt: 'Bottega Pasta Club — meet, eat, and celebrate life',
+    caption: '',
   },
   cards: [
     {
@@ -146,6 +149,7 @@ export function validateRibbon(text: string): string | null {
 
 export function validateStory(story: StoryContent): string | null {
   if (story.mediaKind !== 'video' && story.mediaKind !== 'image') return 'Pick video or image.';
+  if (story.caption.length > 40) return 'Keep the caption under 40 characters.';
   if (story.mediaKind === 'video') {
     if (!story.videoUrl.trim()) return 'Add a video.';
   } else {

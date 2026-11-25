@@ -20,13 +20,15 @@ export function StorySection() {
       <div className="section-inner story-grid">
         <div className="story-media home-editable">
           {story.mediaKind === 'video' ? (
-            <StoryVideo src={story.videoUrl} poster={story.posterUrl} />
+            <StoryVideo src={story.videoUrl} poster={story.posterUrl} label={story.caption} />
           ) : (
             <div className="arch-video story-player">
               <img src={story.imageUrl} alt={story.imageAlt} loading="lazy" decoding="async" />
-              <div className="video-caption">
-                <PillLabel variant="mustard">About us</PillLabel>
-              </div>
+              {story.caption.trim() ? (
+                <div className="video-caption">
+                  <PillLabel variant="mustard">{story.caption.trim()}</PillLabel>
+                </div>
+              ) : null}
             </div>
           )}
           {isAdmin && <StoryEditor story={story} />}

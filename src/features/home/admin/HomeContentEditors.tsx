@@ -294,6 +294,13 @@ export function StoryEditor({ story }: { story: StoryContent }) {
                 onChange={(e) => setDraft({ ...draft, imageAlt: e.target.value })}
               />
             )}
+            <TextField
+              label="Media label (optional)"
+              hint="Pill on the photo or video. Leave empty to hide."
+              value={draft.caption ?? ''}
+              disabled={saving}
+              onChange={(e) => setDraft({ ...draft, caption: e.target.value })}
+            />
             {error && (
               <p className="bt-field__hint bt-field__hint--error" role="alert">
                 {error}
