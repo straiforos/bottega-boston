@@ -141,6 +141,12 @@
   --bt-snackbar-width: 26rem;
   --bt-shadow-danger: 6px 6px 0 var(--bt-ink);
   --bt-duration-snackbar: 240ms;
+
+  /* Scrollbars — thin brand rail for overflow panels (see .bt-scrollbar) */
+  --bt-scrollbar-size: 0.5rem;
+  --bt-scrollbar-track: transparent;
+  --bt-scrollbar-thumb: var(--bt-outline-variant);
+  --bt-scrollbar-thumb-hover: var(--bt-forest);
 }
 
 /* Dark scope: the dark theme AND fixed dark surfaces (forest/cobalt cards, forest header & marquee)
@@ -166,6 +172,8 @@
   --bt-ink-highlight: #a9c7ff;
   --bt-shadow-ink: var(--bt-ink);
   --bt-logo-filter: invert(1);
+  --bt-scrollbar-thumb: color-mix(in srgb, var(--bt-cream) 35%, transparent);
+  --bt-scrollbar-thumb-hover: var(--bt-mustard);
 }
 :root[data-theme="dark"] {
   --bt-background: var(--bt-forest);

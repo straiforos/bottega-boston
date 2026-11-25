@@ -28,7 +28,7 @@ export function MenuFilter({
       <TextField
         label="Search the menu"
         type="search"
-        placeholder="Pasta, cappuccino, cannoli…"
+        placeholder="Pasta, coffee…"
         value={query}
         onChange={(event) => onQueryChange(event.target.value)}
       />
@@ -44,7 +44,7 @@ export function MenuFilter({
           </Checkbox>
         ))}
       </fieldset>
-      <nav className="menu-category-list" aria-label="Menu categories">
+      <nav className="menu-category-list bt-scrollbar" aria-label="Menu categories">
         <Button
           variant={selection === 'all' ? 'primary' : 'ghost'}
           size="sm"

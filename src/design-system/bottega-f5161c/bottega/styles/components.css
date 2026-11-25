@@ -1,4 +1,34 @@
 /* Component styles — every value comes from theme.css tokens. */
+
+/* Styled overflow scrollbars (Firefox + WebKit). Opt in with .bt-scrollbar on
+   the scrollport. End padding matches --bt-scrollbar-size so inputs never
+   sit under the thumb (classic or overlay). */
+.bt-scrollbar {
+  box-sizing: border-box;
+  scrollbar-width: thin;
+  scrollbar-color: var(--bt-scrollbar-thumb) var(--bt-scrollbar-track);
+  padding-inline-end: var(--bt-scrollbar-size);
+}
+.bt-scrollbar::-webkit-scrollbar {
+  width: var(--bt-scrollbar-size);
+  height: var(--bt-scrollbar-size);
+}
+.bt-scrollbar::-webkit-scrollbar-track {
+  background: var(--bt-scrollbar-track);
+}
+.bt-scrollbar::-webkit-scrollbar-thumb {
+  background: var(--bt-scrollbar-thumb);
+  border-radius: var(--bt-radius-pill);
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+.bt-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: var(--bt-scrollbar-thumb-hover);
+  background-clip: padding-box;
+}
+.bt-scrollbar::-webkit-scrollbar-corner {
+  background: transparent;
+}
 .bt-button {
   box-sizing: border-box;
   display: inline-flex; align-items: center; justify-content: center; gap: var(--bt-space-2);

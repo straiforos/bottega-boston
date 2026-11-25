@@ -40,23 +40,26 @@
   padding-block: var(--bt-space-xl);
   padding-inline: var(--bt-margin);
 }
-/* Desktop rail: static grid column; the inner sticky wrapper spans the
-   viewport. The filter starts top-aligned at the page top and glides to
-   vertical center while scrolling (useMenuFilterRail drives the offset). */
+/* Desktop rail: sticky under the header. max-height + overflow-y:auto only
+   shows a scrollbar when the filter stack is taller than the viewport
+   (e.g. ~870px-tall windows); short filters stay uncluttered. useMenuFilterRail
+   still glides short filters toward vertical center while the page scrolls. */
 .menu-filter-rail {
   height: 100%;
-  min-height: 0;
 }
 .menu-filter-sticky {
   position: sticky;
-  top: 0;
-  max-height: 100dvh;
+  top: var(--menu-sticky-top, 0px);
+  max-height: calc(100dvh - var(--menu-sticky-top, 0px));
+  overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
 }
 .menu-filter {
   min-width: 0;
+  /* Room for .bt-button hover lift (−2px) + hard offset shadow (3px)
+     so overflow on the sticky rail does not clip the border. */
+  padding: var(--bt-space-xs);
 }
 .menu-category-list {
   display: flex;
@@ -162,6 +165,8 @@
     position: static;
     max-height: none;
     overflow: visible;
+    /* Horizontal category row scrolls; no vertical thumb — drop end pad. */
+    padding-inline-end: 0;
     background: var(--bt-cream);
     padding-block: var(--bt-space-sm);
     box-shadow: 0 1px 0 color-mix(in srgb, var(--bt-forest) 12%, transparent);
@@ -174,7 +179,10 @@
     -webkit-overflow-scrolling: touch;
     scroll-padding-inline: var(--bt-space-sm);
     gap: var(--bt-space-xs);
-    padding-bottom: var(--bt-space-2xs, 0.25rem);
+    /* overflow-x creates a clip box on both axes — pad so button borders,
+       focus rings, and hover lift are not cut off at the top/sides. */
+    padding-block: var(--bt-space-xs);
+    padding-inline: var(--bt-space-xs);
   }
   .menu-category-list > * {
     flex: 0 0 auto;
@@ -184,13 +192,6 @@
   }
 }
 
-/* Short / landscape viewports that still use the desktop column: keep every
-   category (including Catering) reachable inside the sticky rail. */
-@media (min-width: 901px) and (max-height: 720px) {
-  .menu-filter-sticky {
-    max-height: calc(100dvh - 0.5rem);
-  }
-}
 .dish-admin-actions,
 .dish-editor-actions {
   display: flex;

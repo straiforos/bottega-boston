@@ -96,7 +96,7 @@ export function MenuPage() {
         <Marquee text="#pastaislife · #familyislife" variant="forest" />
         <div className="menu-browse section-inner">
           <div className="menu-filter-rail" ref={rail.railRef}>
-            <div className="menu-filter-sticky">
+            <div className="menu-filter-sticky bt-scrollbar" ref={rail.stickyRef}>
               <div ref={rail.filterRef}>
                 <MenuFilter
                   menuSections={menuSections}
