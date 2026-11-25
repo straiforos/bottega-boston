@@ -46,9 +46,17 @@ export function BottegaHeader() {
         <HeaderLink className="bt-menu-overlay__link" activeOptions={{ exact: true, includeHash: true }} to="/menu">
           {nav.menu}
         </HeaderLink>
-        <HeaderLink className="bt-menu-overlay__link" activeOptions={{ exact: true }} to="/events">
-          {nav.events}
-        </HeaderLink>
+        <MenuSubmenu label={nav.events}>
+          <HeaderLink className="bt-menu-overlay__link" activeOptions={{ exact: true }} to="/events">
+            {nav.eventsUpcoming}
+          </HeaderLink>
+          <HeaderLink className="bt-menu-overlay__link" activeOptions={{ exact: true }} to="/catering">
+            {nav.requestCatering}
+          </HeaderLink>
+          <HeaderLink className="bt-menu-overlay__link" activeOptions={{ exact: true }} to="/events/request">
+            {nav.bookSpace}
+          </HeaderLink>
+        </MenuSubmenu>
         {isAdmin && (
           <MenuSubmenu label={nav.siteAdmin}>
             <MenuSubmenu label={nav.emails}>
