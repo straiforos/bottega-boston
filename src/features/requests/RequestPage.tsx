@@ -8,9 +8,6 @@ import { RequestForm } from './RequestForm';
 const ActionLink = createLink(LinkAction);
 const t = eventsContent.requests;
 
-/** Semantic catering filter on the menu page. */
-export const CATERING_MENU_HASH = 'catering';
-
 export function RequestPage({ kind }: { kind: RequestKind }) {
   return (
     <>
@@ -24,7 +21,7 @@ export function RequestPage({ kind }: { kind: RequestKind }) {
             {kind === 'catering' ? t.cateringIntro : t.spaceIntro}
           </Serif>
           <div>
-            <ActionLink to="/menu" hash={CATERING_MENU_HASH}>
+            <ActionLink to="/menu" search={{ section: 'catering' }}>
               {t.cateringMenu}
             </ActionLink>
           </div>

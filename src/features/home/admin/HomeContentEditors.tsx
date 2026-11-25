@@ -21,7 +21,7 @@ import {
 } from '@/lib/home/home-content';
 import { menuSections as fallbackMenu } from '@/lib/menu-data';
 import { menuQueryOptions } from '@/lib/menu/menu-api';
-import { menuHrefForSelection, selectionForMenuHash } from '@/lib/menu/filter-menu';
+import { menuHrefForSelection, selectionFromMenuHref } from '@/lib/menu/filter-menu';
 import { GalleryEditorDialog } from './GalleryEditorDialog';
 import { GalleryActionIcon } from './GalleryActionIcon';
 
@@ -332,8 +332,12 @@ const variantLabels: Record<(typeof CARD_VARIANTS)[number], string> = {
 };
 
 function isMenuHref(href: string) {
-  const path = href.trim().split('#')[0] || '';
-  return path === '/menu' || href.trim().startsWith('/menu#');
+  try {
+    const url = new URL(href.trim(), 'http://bottega.local');
+    return url.pathname === '/menu';
+  } catch {
+    return href.trim() === '/menu' || href.trim().startsWith('/menu?') || href.trim().startsWith('/menu#');
+  }
 }
 
 export function CardEditor({ index, card }: { index: number; card: OfferingCard }) {
@@ -351,7 +355,7 @@ export function CardEditor({ index, card }: { index: number; card: OfferingCard 
       toData={(d, url) => ({ ...d, imageUrl: url ?? d.imageUrl, linkHref: d.linkHref.trim() })}
       fields={(d, set, disabled) => {
         const menuLink = isMenuHref(d.linkHref);
-        const selection = menuLink ? selectionForMenuHash(d.linkHref.split('#')[1] ?? '', menuSections) : 'all';
+        const selection = menuLink ? selectionFromMenuHref(d.linkHref, menuSections) : 'all';
         return (
           <>
             <fieldset className="home-edit-choices" disabled={disabled}>

@@ -44,11 +44,14 @@ export const getRouter = () => {
   router.subscribe('onRendered', () => {
     if (!scrollToTopOnRender) return;
     scrollToTopOnRender = false;
-    const { pathname, hash } = router.state.location;
+    const { pathname, search, hash } = router.state.location;
+    // `/menu?section=` lands via MenuPage useLayoutEffect — scrolling to top first is the flicker.
+    if (pathname === '/menu' || pathname.startsWith('/menu/')) {
+      if (!search.section) window.scrollTo(0, 0);
+      return;
+    }
     window.scrollTo(0, 0);
     if (!hash) return;
-    // /menu owns hash → filter + scroll (semantic ids like #catering ≠ DOM ids).
-    if (pathname === '/menu' || pathname.startsWith('/menu/')) return;
     // Other in-page targets (#locations, #club, …) settle over a moment.
     for (const delay of [100, 400, 900]) {
       window.setTimeout(() => scrollToSection(hash), delay);

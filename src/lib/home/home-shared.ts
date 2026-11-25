@@ -78,7 +78,7 @@ export const defaultHomeContent: HomeContent = {
       imageUrl: coffee.url,
       imageAlt: 'A Bottega guest holding a cappuccino and iced coffee',
       linkLabel: 'Catering menu',
-      linkHref: '/menu#catering',
+      linkHref: '/menu?section=catering',
       stamp: 'Catering\nmenu',
     },
     {

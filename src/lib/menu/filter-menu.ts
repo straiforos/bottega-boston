@@ -48,11 +48,11 @@ export function menuSectionSlug(name: string): string {
 }
 
 /**
- * The filter a URL hash should leave selected when the menu page opens.
+ * Resolve a section token (query `section`, or legacy hash) to the filter selection.
  *
- * Semantic hashes (`#catering`, `#pasta`) are preferred; legacy `#category-N`
- * still resolves. Dining section hashes filter to that section; catering
- * hashes select the Catering group.
+ * Semantic slugs (`catering`, `pasta`) are preferred; legacy `category-N`
+ * still resolves. Dining tokens filter to that section; catering tokens
+ * select the Catering group.
  */
 export function selectionForMenuHash(hash: string, sections: readonly MenuSection[]): MenuSelection {
   const id = hash.replace(/^#/, '');
@@ -80,11 +80,25 @@ export function scrollTargetForMenuHash(hash: string, sections: readonly MenuSec
   return sections.find((item) => menuSectionSlug(item.name) === id)?.id ?? '';
 }
 
-/** Build `/menu` or `/menu#slug` for offering / CTA links. */
+/** Build `/menu` or `/menu?section=slug` for offering / CTA links. */
 export function menuHrefForSelection(selection: MenuSelection, sections: readonly MenuSection[]): string {
   if (selection === 'all') return '/menu';
-  if (selection === 'catering') return '/menu#catering';
+  if (selection === 'catering') return '/menu?section=catering';
   const section = sections.find((item) => item.id === selection);
-  if (!section || section.name.startsWith('Catering')) return '/menu#catering';
-  return `/menu#${menuSectionSlug(section.name)}`;
+  if (!section || section.name.startsWith('Catering')) return '/menu?section=catering';
+  return `/menu?section=${menuSectionSlug(section.name)}`;
+}
+
+/** Read filter selection from a stored offering href (`?section=` or legacy `#`). */
+export function selectionFromMenuHref(href: string, sections: readonly MenuSection[]): MenuSelection {
+  try {
+    const url = new URL(href.trim(), 'http://bottega.local');
+    if (url.pathname !== '/menu') return 'all';
+    const section = url.searchParams.get('section');
+    if (section) return selectionForMenuHash(section, sections);
+    if (url.hash) return selectionForMenuHash(url.hash, sections);
+  } catch {
+    /* fall through */
+  }
+  return 'all';
 }

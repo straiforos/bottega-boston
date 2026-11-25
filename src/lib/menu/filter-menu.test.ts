@@ -6,6 +6,7 @@ import {
   menuSectionSlug,
   scrollTargetForMenuHash,
   selectionForMenuHash,
+  selectionFromMenuHref,
 } from './filter-menu';
 import type { MenuSection } from './types';
 
@@ -80,9 +81,18 @@ describe('scrollTargetForMenuHash', () => {
 });
 
 describe('menuHrefForSelection', () => {
-  it('builds semantic hrefs', () => {
+  it('builds semantic query hrefs', () => {
     expect(menuHrefForSelection('all', sections)).toBe('/menu');
-    expect(menuHrefForSelection('catering', sections)).toBe('/menu#catering');
-    expect(menuHrefForSelection('category-6', sections)).toBe('/menu#pasta');
+    expect(menuHrefForSelection('catering', sections)).toBe('/menu?section=catering');
+    expect(menuHrefForSelection('category-6', sections)).toBe('/menu?section=pasta');
+  });
+});
+
+describe('selectionFromMenuHref', () => {
+  it('reads ?section= and legacy hashes', () => {
+    expect(selectionFromMenuHref('/menu?section=pasta', sections)).toBe('category-6');
+    expect(selectionFromMenuHref('/menu?section=catering', sections)).toBe('catering');
+    expect(selectionFromMenuHref('/menu#pasta', sections)).toBe('category-6');
+    expect(selectionFromMenuHref('/menu', sections)).toBe('all');
   });
 });

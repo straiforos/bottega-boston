@@ -2,8 +2,8 @@
  * Scrolls a section into view *below* the sticky site header.
  *
  * Plain `scrollIntoView()` parks the section's heading underneath the header
- * bar, so every hash target (`#locations`, `#catering`, `#pasta`) aims a
- * header-height lower instead.
+ * bar, so in-page targets (`#locations`, `#club`, …) aim a header-height lower
+ * instead. Menu filters use `?section=` on `/menu`, not hashes.
  */
 export function scrollToSection(hashOrId: string) {
   const id = hashOrId.replace(/^#/, '');

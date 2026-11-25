@@ -1,12 +1,11 @@
 import { Button, Display, Marquee, PillLabel, Serif, Stamp } from '@/design-system/bottega-f5161c';
 import { BottegaHeader } from '@/components/BottegaHeader';
-import { Fragment, useEffect } from 'react';
-import { useLocation } from '@tanstack/react-router';
+import { Fragment, useLayoutEffect } from 'react';
+import { getRouteApi } from '@tanstack/react-router';
 import { useQuery } from '@tanstack/react-query';
 import { restaurantContent } from '@/content/en/restaurant';
 import { lines } from '@/lib/home/home-shared';
 import { menuSections as fallbackMenu } from '@/lib/menu-data';
-import { scrollTargetForMenuHash } from '@/lib/menu/filter-menu';
 import { menuQueryOptions } from '@/lib/menu/menu-api';
 import { useStaffSession } from '@/hooks/useStaffSession';
 import { AddDish } from './admin/AddDish';
@@ -15,6 +14,8 @@ import { MenuDishCard } from './components/MenuDishCard';
 import { MenuFilter } from './components/MenuFilter';
 import { useMenuFilterRail } from './hooks/useMenuFilterRail';
 import { useMenuFilters } from './hooks/useMenuFilters';
+
+const menuRoute = getRouteApi('/_site/menu');
 
 function StampLines({ text }: { text: string }) {
   return lines(text).map((line, i) => (
@@ -25,58 +26,55 @@ function StampLines({ text }: { text: string }) {
   ));
 }
 
-/** After a filter change, bring the top of the results into view below the sticky header. */
-function scrollToResults() {
-  requestAnimationFrame(() => {
-    const content = document.querySelector<HTMLElement>('.menu-content');
-    if (!content) return;
-    const header = document.querySelector<HTMLElement>('.shared-header-stack');
-    const headerH = header?.offsetHeight ?? 0;
-    const stickyFilter = document.querySelector<HTMLElement>('.menu-filter-sticky');
-    const filterStick = stickyFilter && getComputedStyle(stickyFilter).position === 'sticky' ? stickyFilter.offsetHeight : 0;
-    const top = content.getBoundingClientRect().top + window.scrollY - headerH - filterStick;
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    window.scrollTo({ top: Math.max(0, top), behavior: reduce ? 'auto' : 'smooth' });
-  });
+/** Land on a deep-linked section below the sticky header before the browser paints. */
+function scrollToSectionTarget(targetId: string) {
+  const el = document.getElementById(targetId);
+  if (!el) return;
+  const header = document.querySelector<HTMLElement>('.shared-header-stack');
+  const top = el.getBoundingClientRect().top + window.scrollY - (header?.offsetHeight ?? 0);
+  window.scrollTo({ top: Math.max(0, top), behavior: 'auto' });
+}
+
+/**
+ * Mobile only: if the guest scrolled deep into dishes, bring results back under
+ * the sticky filter strip. Desktop side-rail needs no scroll on filter clicks.
+ */
+function scrollToResultsIfNeeded() {
+  if (window.matchMedia('(min-width: 901px)').matches) return;
+  const content = document.querySelector<HTMLElement>('.menu-content');
+  if (!content) return;
+  const header = document.querySelector<HTMLElement>('.shared-header-stack');
+  const headerH = header?.offsetHeight ?? 0;
+  const rail = document.querySelector<HTMLElement>('.menu-filter-rail');
+  const filterH = rail?.offsetHeight ?? 0;
+  if (content.getBoundingClientRect().top >= headerH + filterH - 1) return;
+  const top = content.getBoundingClientRect().top + window.scrollY - headerH - filterH;
+  window.scrollTo({ top: Math.max(0, top), behavior: 'auto' });
 }
 
 export function MenuPage() {
   const { data: menuSections = fallbackMenu } = useQuery(menuQueryOptions);
+  const { scrollTarget } = menuRoute.useLoaderData();
   const { isAdmin } = useStaffSession();
-  const { hash } = useLocation();
-  const baseFilters = useMenuFilters(menuSections, hash);
+  const baseFilters = useMenuFilters();
   const filters = {
     ...baseFilters,
     setSelection: (value: string) => {
       baseFilters.setSelection(value);
-      scrollToResults();
+      requestAnimationFrame(() => scrollToResultsIfNeeded());
     },
     setDietary: (value: Parameters<typeof baseFilters.setDietary>[0]) => {
       baseFilters.setDietary(value);
-      scrollToResults();
+      requestAnimationFrame(() => scrollToResultsIfNeeded());
     },
   };
 
-  // Offering / deep links: filter is already correct on first client paint.
-  // Instant (non-smooth) scroll — smooth + router top-reset was the flicker.
-  useEffect(() => {
-    if (!baseFilters.appliedHash) return;
-    const target = scrollTargetForMenuHash(baseFilters.appliedHash, menuSections);
-    if (!target) return;
-    const run = () => {
-      const el = document.getElementById(target);
-      if (!el) return;
-      const header = document.querySelector<HTMLElement>('.shared-header-stack');
-      const top = el.getBoundingClientRect().top + window.scrollY - (header?.offsetHeight ?? 0);
-      window.scrollTo({ top: Math.max(0, top), behavior: 'auto' });
-    };
-    const id0 = window.requestAnimationFrame(run);
-    const id1 = window.setTimeout(run, 50);
-    return () => {
-      window.cancelAnimationFrame(id0);
-      window.clearTimeout(id1);
-    };
-  }, [baseFilters.appliedHash, menuSections]);
+  // Deep-link land before paint; rail hook only syncs --menu-sticky-top.
+  useLayoutEffect(() => {
+    if (!scrollTarget) return;
+    scrollToSectionTarget(scrollTarget);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const rail = useMenuFilterRail();
   return (
     <>
@@ -136,7 +134,6 @@ export function MenuPage() {
                 </div>
                 <div className="menu-dish-grid">
                   {section.items.map((item, index) => {
-                    // First row of the first section is usually above the fold.
                     const priority = section.id === filters.sections[0]?.id && index < 4;
                     return isAdmin ? (
                       <EditableDish key={item.id} item={item} priority={priority} />

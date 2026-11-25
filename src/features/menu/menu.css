@@ -40,10 +40,10 @@
   padding-block: var(--bt-space-xl);
   padding-inline: var(--bt-margin);
 }
-/* Desktop rail: sticky under the header. max-height + overflow-y:auto only
-   shows a scrollbar when the filter stack is taller than the viewport
-   (e.g. ~870px-tall windows); short filters stay uncluttered. useMenuFilterRail
-   still glides short filters toward vertical center while the page scrolls. */
+/* Desktop rail: full grid-row height so sticky works while dishes scroll.
+   max-height + overflow-y:auto only when the filter stack exceeds the viewport
+   (e.g. ~870px-tall windows). No translateY centering — that jumped whenever
+   a category change shrank the rail. */
 .menu-filter-rail {
   height: 100%;
 }

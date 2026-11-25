@@ -7,18 +7,41 @@ import { Broken } from './HeroSection';
 const OfferingButton = createLink(Button);
 const slotClass = ['offering-coffee', 'offering-food', 'offering-market'];
 
+/** Parse a staff-authored in-site href into router `to` / `search` / `hash`. */
+function parseInSiteHref(href: string): {
+  to: '/';
+  search?: Record<string, string>;
+  hash?: string;
+} {
+  const url = new URL(href, 'http://bottega.local');
+  const search = Object.fromEntries(url.searchParams.entries());
+  // Legacy `/menu#pasta` → `?section=pasta` so the menu route resolver owns the filter.
+  if (url.pathname === '/menu' && url.hash && !search.section) {
+    search.section = url.hash.replace(/^#/, '');
+  }
+  const isMenu = url.pathname === '/menu';
+  return {
+    to: (url.pathname || '/') as '/',
+    search: Object.keys(search).length ? search : undefined,
+    hash: isMenu ? undefined : url.hash ? url.hash.slice(1) : undefined,
+  };
+}
+
 function OfferingLink({ card }: { card: OfferingCard }) {
   const variant = cardInk(card.variant).text === 'cream' ? 'cream' : 'primary';
   const href = card.linkHref.trim();
 
   if (href.startsWith('/') && !href.startsWith('//')) {
-    const [pathPart, hash] = href.split('#');
+    const { to, search, hash } = parseInSiteHref(href);
     return (
       <OfferingButton
         className="offering-cta"
-        // Dynamic staff-authored in-site paths (e.g. /menu#pasta, /events).
-        to={(pathPart || '/') as '/'}
+        // Dynamic staff-authored in-site paths (e.g. /menu?section=pasta, /events).
+        to={to}
+        search={search}
         hash={hash}
+        // MenuPage positions ?section= in useLayoutEffect; router skip + this avoid top flash.
+        resetScroll={to === '/menu' && Boolean(search?.section) ? false : undefined}
         variant={variant}
         size="lg"
         width="full"

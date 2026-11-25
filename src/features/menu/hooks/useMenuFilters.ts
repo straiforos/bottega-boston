@@ -1,59 +1,94 @@
-import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { getRouteApi } from '@tanstack/react-router';
+import { useQuery } from '@tanstack/react-query';
 import {
   countMenuItems,
   filterMenu,
-  selectionForMenuHash,
   type MenuSelection,
 } from '@/lib/menu/filter-menu';
 import type { DietaryTag } from '@/lib/menu/dietary';
-import type { MenuSection } from '@/lib/menu/types';
+import { menuSections as fallbackMenu } from '@/lib/menu-data';
+import { menuQueryOptions } from '@/lib/menu/menu-api';
+import {
+  patchMenuSearch,
+  sectionParamForSelection,
+  selectionFromMenuSearch,
+  type MenuSearch,
+} from '@/lib/menu/menu-search';
+
+const menuRoute = getRouteApi('/_site/menu');
 
 /**
- * Menu search, category and dietary state.
- *
- * `hash` is the current URL hash: opening `/menu#catering` arrives with the
- * Catering filter already selected. The server never sees a hash, so SSR and
- * the hydration pass render the full menu; `useLayoutEffect` applies the hash
- * before the browser paints so offering → /menu#… links do not flash "all".
- * A click in the rail wins over the hash until the guest navigates again.
+ * Menu filters driven by `/menu` search params (`section`, `q`, `diet`).
+ * Selection resolves synchronously from search so the rail never waits on the loader.
  */
-export function useMenuFilters(menuSections: readonly MenuSection[], hash = '') {
-  const [query, setQuery] = useState('');
-  const [manualSelection, setManualSelection] = useState<string | null>(null);
-  const [dietary, setDietary] = useState<DietaryTag[]>([]);
-  const [hashReady, setHashReady] = useState(false);
+export function useMenuFilters() {
+  const search = menuRoute.useSearch();
+  const navigate = menuRoute.useNavigate();
+  const { data: menuSections = fallbackMenu } = useQuery(menuQueryOptions);
 
-  useLayoutEffect(() => {
-    setHashReady(true);
-  }, []);
+  const [qDraft, setQDraft] = useState(search.q ?? '');
+  useEffect(() => {
+    setQDraft(search.q ?? '');
+  }, [search.q]);
 
   useEffect(() => {
-    setManualSelection(null);
-  }, [hash]);
+    const trimmed = qDraft.trim();
+    if (trimmed === (search.q ?? '')) return;
+    const id = window.setTimeout(() => {
+      void navigate({
+        search: (prev) => patchMenuSearch(prev, { q: trimmed || undefined }),
+        replace: true,
+        resetScroll: false,
+      });
+    }, 200);
+    return () => window.clearTimeout(id);
+  }, [qDraft, search.q, navigate]);
 
-  const liveHash = hashReady ? hash : '';
-  const selection: MenuSelection = manualSelection ?? selectionForMenuHash(liveHash, menuSections);
+  // Resolve from the URL immediately — loader selection lags a frame on navigate and flashes "all".
+  const selection = useMemo(
+    () => selectionFromMenuSearch({ section: search.section }, menuSections),
+    [search.section, menuSections],
+  );
+
+  const dietary = search.diet ?? [];
+  const query = search.q ?? '';
   const sections = useMemo(
     () => filterMenu(menuSections, query, selection, dietary),
     [menuSections, query, selection, dietary],
   );
   const count = useMemo(() => countMenuItems(sections), [sections]);
-  const reset = () => {
-    setQuery('');
-    setManualSelection('all');
-    setDietary([]);
+
+  const updateSearch = (patch: Partial<MenuSearch>) => {
+    void navigate({
+      search: (prev) => patchMenuSearch(prev, patch),
+      replace: true,
+      resetScroll: false,
+    });
   };
+
+  const setSelection = (value: MenuSelection) => {
+    updateSearch({ section: sectionParamForSelection(value, menuSections) });
+  };
+
+  const setDietary = (value: DietaryTag[]) => {
+    updateSearch({ diet: value });
+  };
+
+  const reset = () => {
+    setQDraft('');
+    void navigate({ search: {}, replace: true, resetScroll: false });
+  };
+
   return {
     dietary,
     setDietary,
-    query,
-    setQuery,
+    query: qDraft,
+    setQuery: setQDraft,
     selection,
-    setSelection: setManualSelection,
+    setSelection,
     sections,
     count,
     reset,
-    /** Hash driving the filter; empty until layout effect (before paint). */
-    appliedHash: liveHash,
   };
 }
