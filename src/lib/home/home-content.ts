@@ -29,6 +29,12 @@ export {
 export const homeContentQueryOptions = queryOptions({
   queryKey: ['home-content'],
   queryFn: () => fetchHomeContent(),
+  // Home page reads via loader + cache subscription; skip mount/focus refetches
+  // that replace the tree and flash bundled About/offerings defaults.
+  staleTime: Infinity,
+  refetchOnMount: false,
+  refetchOnWindowFocus: false,
+  refetchOnReconnect: false,
 });
 
 export async function saveHomeContent(key: string, data: object) {

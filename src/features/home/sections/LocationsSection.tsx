@@ -77,8 +77,14 @@ export function LocationsSection({ title, lead, headingAs = 'h2' }: LocationsSec
   const { isAdmin } = useStaffSession();
   const [editing, setEditing] = useState(false);
   const { data: urls = defaultOrderUrls } = useQuery(orderUrlsQueryOptions);
-  // Prefer live query; fall back to bundled hero when this section is on /order (no home loader).
-  const { data: homeContent } = useQuery(homeContentQueryOptions);
+  const queryClient = useQueryClient();
+  // Home seeds this from the loader; /order fetches once. Never flash defaults over SSR.
+  const cachedHome = queryClient.getQueryData<typeof defaultHomeContent>(homeContentQueryOptions.queryKey);
+  const { data: homeContent } = useQuery({
+    ...homeContentQueryOptions,
+    enabled: cachedHome === undefined,
+    initialData: cachedHome,
+  });
   const heroImageUrl = homeContent?.hero.imageUrl ?? defaultHomeContent.hero.imageUrl;
 
   const structuredData = buildRestaurantJsonLd(urls, heroImageUrl);

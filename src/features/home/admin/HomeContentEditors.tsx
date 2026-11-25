@@ -19,6 +19,7 @@ import {
   validateRibbon,
   validateStory,
   type HeroContent,
+  type HomeContent,
   type OfferingCard,
   type StoryContent,
   type StoryTone,
@@ -83,8 +84,24 @@ function EditShell<T>({ label, contentKey, initial, withImage, validate, toData,
     setError(null);
     try {
       const url = file ? await uploadImage(contentKey, file, (f) => setProgress(Math.round(f * 100))) : null;
-      await saveHomeContent(contentKey, toData(draft, url));
-      await queryClient.invalidateQueries({ queryKey: homeContentQueryOptions.queryKey });
+      const saved = toData(draft, url);
+      await saveHomeContent(contentKey, saved);
+      // Patch only — do not invalidate/refetch (that remounts with bundled defaults
+      // for a frame when the QueryClient was empty or D1 read lags the write).
+      queryClient.setQueryData<HomeContent>(homeContentQueryOptions.queryKey, (prev) => {
+        const base = prev ?? defaultHomeContent;
+        if (contentKey === 'ribbon') return { ...base, ribbon: String((saved as { text?: string }).text ?? base.ribbon) };
+        if (contentKey === 'hero') return { ...base, hero: saved as HeroContent };
+        if (contentKey === 'story') return { ...base, story: saved as StoryContent };
+        const cardMatch = /^card-([1-3])$/.exec(contentKey);
+        if (cardMatch) {
+          const i = Number(cardMatch[1]) - 1;
+          const cards = [...base.cards] as HomeContent['cards'];
+          cards[i] = saved as HomeContent['cards'][number];
+          return { ...base, cards };
+        }
+        return base;
+      });
       clearStoredDraft(key);
       if (withImage) await clearMedia();
       show({ message: staffContent.changesSaved, variant: 'success' });
@@ -257,7 +274,10 @@ export function StoryEditor({ story }: { story: StoryContent }) {
         }
       }
       await saveHomeContent('story', next);
-      await queryClient.invalidateQueries({ queryKey: homeContentQueryOptions.queryKey });
+      queryClient.setQueryData<HomeContent>(homeContentQueryOptions.queryKey, (prev) => ({
+        ...(prev ?? defaultHomeContent),
+        story: next,
+      }));
       clearStoredDraft(key);
       await clearMedia();
       show({ message: staffContent.changesSaved, variant: 'success' });

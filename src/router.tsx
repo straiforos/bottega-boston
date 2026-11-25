@@ -6,7 +6,11 @@ import { scrollToSection } from './lib/scroll-to-section';
 type HistoryState = { __TSR_index?: number } | null;
 
 export const getRouter = () => {
-  const queryClient = new QueryClient();
+  // Per-request client (Start calls getRouter on each SSR request). A short
+  // staleTime keeps loader-seeded home content from immediately refetching.
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { staleTime: 30_000 } },
+  });
 
   // TanStack re-anchors the window (usually to the top) every time a route
   // load settles, including the *initial* page load, which yanked the menu
