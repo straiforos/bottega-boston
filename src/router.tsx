@@ -44,11 +44,12 @@ export const getRouter = () => {
   router.subscribe('onRendered', () => {
     if (!scrollToTopOnRender) return;
     scrollToTopOnRender = false;
-    // Links to a section (#locations, #catering) land on that section; others at the top.
-    const hash = router.state.location.hash;
+    const { pathname, hash } = router.state.location;
     window.scrollTo(0, 0);
     if (!hash) return;
-    // The new page's sections settle over a moment; re-aim a few times.
+    // /menu owns hash → filter + scroll (semantic ids like #catering ≠ DOM ids).
+    if (pathname === '/menu' || pathname.startsWith('/menu/')) return;
+    // Other in-page targets (#locations, #club, …) settle over a moment.
     for (const delay of [100, 400, 900]) {
       window.setTimeout(() => scrollToSection(hash), delay);
     }

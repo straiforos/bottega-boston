@@ -8,7 +8,6 @@ import { lines } from '@/lib/home/home-shared';
 import { menuSections as fallbackMenu } from '@/lib/menu-data';
 import { scrollTargetForMenuHash } from '@/lib/menu/filter-menu';
 import { menuQueryOptions } from '@/lib/menu/menu-api';
-import { scrollToSection } from '@/lib/scroll-to-section';
 import { useStaffSession } from '@/hooks/useStaffSession';
 import { AddDish } from './admin/AddDish';
 import { EditableDish } from './admin/EditableDish';
@@ -58,15 +57,25 @@ export function MenuPage() {
     },
   };
 
-  // A link into a section (the catering trays) has to land on that section, even
-  // though the filter that reveals it only settles once the page is live.
+  // Offering / deep links: filter is already correct on first client paint.
+  // Instant (non-smooth) scroll — smooth + router top-reset was the flicker.
   useEffect(() => {
     if (!baseFilters.appliedHash) return;
     const target = scrollTargetForMenuHash(baseFilters.appliedHash, menuSections);
     if (!target) return;
-    for (const delay of [0, 200]) {
-      window.setTimeout(() => scrollToSection(target), delay);
-    }
+    const run = () => {
+      const el = document.getElementById(target);
+      if (!el) return;
+      const header = document.querySelector<HTMLElement>('.shared-header-stack');
+      const top = el.getBoundingClientRect().top + window.scrollY - (header?.offsetHeight ?? 0);
+      window.scrollTo({ top: Math.max(0, top), behavior: 'auto' });
+    };
+    const id0 = window.requestAnimationFrame(run);
+    const id1 = window.setTimeout(run, 50);
+    return () => {
+      window.cancelAnimationFrame(id0);
+      window.clearTimeout(id1);
+    };
   }, [baseFilters.appliedHash, menuSections]);
   const rail = useMenuFilterRail();
   return (

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useLayoutEffect, useMemo, useState } from 'react';
 import {
   countMenuItems,
   filterMenu,
@@ -12,23 +12,27 @@ import type { MenuSection } from '@/lib/menu/types';
  * Menu search, category and dietary state.
  *
  * `hash` is the current URL hash: opening `/menu#catering` arrives with the
- * Catering filter already selected. The server never sees a hash, so the page
- * renders the full menu first and follows the hash only once it is live in the
- * browser, which keeps hydration consistent. A click in the rail wins over the
- * hash until the guest navigates again.
+ * Catering filter already selected. The server never sees a hash, so SSR and
+ * the hydration pass render the full menu; `useLayoutEffect` applies the hash
+ * before the browser paints so offering → /menu#… links do not flash "all".
+ * A click in the rail wins over the hash until the guest navigates again.
  */
 export function useMenuFilters(menuSections: readonly MenuSection[], hash = '') {
   const [query, setQuery] = useState('');
   const [manualSelection, setManualSelection] = useState<string | null>(null);
   const [dietary, setDietary] = useState<DietaryTag[]>([]);
-  const [activeHash, setActiveHash] = useState('');
+  const [hashReady, setHashReady] = useState(false);
+
+  useLayoutEffect(() => {
+    setHashReady(true);
+  }, []);
 
   useEffect(() => {
-    setActiveHash(hash);
     setManualSelection(null);
   }, [hash]);
 
-  const selection: MenuSelection = manualSelection ?? selectionForMenuHash(activeHash, menuSections);
+  const liveHash = hashReady ? hash : '';
+  const selection: MenuSelection = manualSelection ?? selectionForMenuHash(liveHash, menuSections);
   const sections = useMemo(
     () => filterMenu(menuSections, query, selection, dietary),
     [menuSections, query, selection, dietary],
@@ -49,7 +53,7 @@ export function useMenuFilters(menuSections: readonly MenuSection[], hash = '') 
     sections,
     count,
     reset,
-    /** The hash the filter is currently following; empty until the page is live. */
-    appliedHash: activeHash,
+    /** Hash driving the filter; empty until layout effect (before paint). */
+    appliedHash: liveHash,
   };
 }
