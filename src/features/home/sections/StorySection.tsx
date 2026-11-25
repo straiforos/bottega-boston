@@ -12,22 +12,25 @@ export function StorySection() {
   const story = data.story;
 
   return (
-    <section id="about" className="section story bt-surface-dark home-editable">
+    <section id="about" className="section story bt-surface-dark">
       <div className="story-ribbon home-editable">
         <MovingRibbon text={data.ribbon} />
         {isAdmin && <RibbonEditor text={data.ribbon} />}
       </div>
       <div className="section-inner story-grid">
-        {story.mediaKind === 'video' ? (
-          <StoryVideo src={story.videoUrl} poster={story.posterUrl} />
-        ) : (
-          <div className="arch-video story-player">
-            <img src={story.imageUrl} alt={story.imageAlt} loading="lazy" decoding="async" />
-            <div className="video-caption">
-              <PillLabel variant="mustard">About us</PillLabel>
+        <div className="story-media home-editable">
+          {story.mediaKind === 'video' ? (
+            <StoryVideo src={story.videoUrl} poster={story.posterUrl} />
+          ) : (
+            <div className="arch-video story-player">
+              <img src={story.imageUrl} alt={story.imageAlt} loading="lazy" decoding="async" />
+              <div className="video-caption">
+                <PillLabel variant="mustard">About us</PillLabel>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+          {isAdmin && <StoryEditor story={story} />}
+        </div>
         <div>
           <div className="story-heading">
             <Display size="xl" tone="mustard">
@@ -50,7 +53,6 @@ export function StorySection() {
           </LinkAction>
         </div>
       </div>
-      {isAdmin && <StoryEditor story={story} />}
     </section>
   );
 }

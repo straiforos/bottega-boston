@@ -26,8 +26,13 @@
   margin-inline: -5%;
   overflow: visible;
 }
+/* Bottom-right of the crest — top-left sat on the offering cards behind the bleed. */
 .story-ribbon .home-edit-trigger {
   pointer-events: auto;
+  top: auto;
+  left: auto;
+  right: var(--bt-space-sm);
+  bottom: var(--bt-space-sm);
 }
 .story-grid {
   position: relative;
@@ -36,6 +41,17 @@
   grid-template-columns: 1fr 1fr;
   align-items: center;
   gap: var(--bt-space-8);
+}
+/* Park the About editor on the arch (not the whole section / copy column). */
+.story-media {
+  position: relative;
+  min-width: 0;
+}
+.story-media .home-edit-trigger {
+  top: var(--bt-space-sm);
+  right: var(--bt-space-sm);
+  left: auto;
+  z-index: 2;
 }
 .story-heading {
   margin-bottom: var(--bt-space-lg);
