@@ -1,8 +1,8 @@
 import { Fragment, useCallback, useEffect, useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { Display, Stamp } from '@/design-system/bottega-f5161c';
 import { useStaffSession } from '@/hooks/useStaffSession';
-import { defaultHomeContent, homeContentQueryOptions, lines } from '@/lib/home/home-content';
+import { lines } from '@/lib/home/home-content';
+import { useHomeContent } from '../hooks/useHomeContent';
 import { HeroEditor } from '../admin/HomeContentEditors';
 
 export function Broken({ text }: { text: string }) {
@@ -15,13 +15,13 @@ export function Broken({ text }: { text: string }) {
 }
 
 export function HeroSection() {
-  const { data, isSuccess } = useQuery(homeContentQueryOptions);
+  const { data: home, homeFromServer, isFetchedAfterMount } = useHomeContent();
   const { isAdmin } = useStaffSession();
   // Never paint bundled defaults as a stand-in for a staff-configured photo.
-  // Only mount the image after a successful home_content fetch (CI prerender
-  // has no D1 — keep the forest frame; the client fades the real URL in).
-  const hero = data?.hero ?? defaultHomeContent.hero;
-  const imageUrl = isSuccess ? data.hero.imageUrl : null;
+  // CI prerender has no D1 (`homeFromServer` false) — keep the forest frame;
+  // live SSR and post-fetch client paint the real URL (and fade it in).
+  const hero = home.hero;
+  const imageUrl = homeFromServer || isFetchedAfterMount ? hero.imageUrl : null;
   const [photoReady, setPhotoReady] = useState(false);
 
   useEffect(() => {

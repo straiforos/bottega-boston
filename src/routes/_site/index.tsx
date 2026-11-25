@@ -1,22 +1,28 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { restaurantContent } from '@/content/en/restaurant';
 import { HomePage } from '@/features/home/HomePage';
-import { defaultHomeContent, homeContentQueryOptions } from '@/lib/home/home-content';
+import { defaultHomeContent, homeContentQueryOptions, type HomeContent } from '@/lib/home/home-content';
 import { pageHead } from '@/lib/seo/page-head';
+
+export type HomeLoaderData = {
+  home: HomeContent;
+  /** True when D1 answered; false on CI prerender fallback (hero withholds the photo). */
+  homeFromServer: boolean;
+};
 
 export const Route = createFileRoute('/_site/')({
   // Prefetch when D1 is available. CI prerender has no DB — swallow so the
   // shell still builds; HeroSection waits/fades and never paints a stale default.
-  loader: async ({ context: { queryClient } }) => {
+  loader: async ({ context: { queryClient } }): Promise<HomeLoaderData> => {
     try {
-      const content = await queryClient.ensureQueryData(homeContentQueryOptions);
-      return { heroImageUrl: content.hero.imageUrl };
+      const home = await queryClient.ensureQueryData(homeContentQueryOptions);
+      return { home, homeFromServer: true };
     } catch {
-      return { heroImageUrl: defaultHomeContent.hero.imageUrl };
+      return { home: defaultHomeContent, homeFromServer: false };
     }
   },
   head: ({ loaderData }) => {
-    const heroImageUrl = loaderData?.heroImageUrl ?? defaultHomeContent.hero.imageUrl;
+    const heroImageUrl = loaderData?.home.hero.imageUrl ?? defaultHomeContent.hero.imageUrl;
     const head = pageHead({
       ...restaurantContent.metadata.home,
       path: '/',

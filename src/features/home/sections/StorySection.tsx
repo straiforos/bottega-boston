@@ -1,10 +1,10 @@
 import { Fragment } from 'react';
-import { useQuery } from '@tanstack/react-query';
 import { Display, LinkAction, PillLabel, Serif } from '@/design-system/bottega-f5161c';
 import { MovingRibbon } from '@/components/media/MovingRibbon';
 import { StoryVideo } from '@/components/media/StoryVideo';
 import { useStaffSession } from '@/hooks/useStaffSession';
-import { defaultHomeContent, homeContentQueryOptions, lines } from '@/lib/home/home-content';
+import { lines } from '@/lib/home/home-content';
+import { useHomeContent } from '../hooks/useHomeContent';
 import { Broken } from './HeroSection';
 import { RibbonEditor, StoryEditor } from '../admin/HomeContentEditors';
 
@@ -26,7 +26,7 @@ function StoryBody({ text }: { text: string }) {
 }
 
 export function StorySection() {
-  const { data = defaultHomeContent } = useQuery(homeContentQueryOptions);
+  const { data } = useHomeContent();
   const { isAdmin } = useStaffSession();
   const story = data.story;
 

@@ -77,6 +77,7 @@ export function LocationsSection({ title, lead, headingAs = 'h2' }: LocationsSec
   const { isAdmin } = useStaffSession();
   const [editing, setEditing] = useState(false);
   const { data: urls = defaultOrderUrls } = useQuery(orderUrlsQueryOptions);
+  // Prefer live query; fall back to bundled hero when this section is on /order (no home loader).
   const { data: homeContent } = useQuery(homeContentQueryOptions);
   const heroImageUrl = homeContent?.hero.imageUrl ?? defaultHomeContent.hero.imageUrl;
 
