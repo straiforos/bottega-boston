@@ -162,7 +162,6 @@ const bodyFromBar = (text: string) =>
 const storyToneLabel: Record<StoryTone, string> = {
   mustard: 'Mustard',
   cream: 'Cream',
-  forest: 'Forest',
 };
 
 export function HeroEditor({ hero }: { hero: HeroContent }) {

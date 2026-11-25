@@ -14,7 +14,7 @@ export type CardVariant = (typeof CARD_VARIANTS)[number];
 export type CardShape = (typeof CARD_SHAPES)[number];
 export type StoryMediaKind = 'video' | 'image';
 /** Ink tones that stay legible on the forest About surface. */
-export const STORY_TONES = ['mustard', 'cream', 'forest'] as const;
+export const STORY_TONES = ['mustard', 'cream'] as const;
 export type StoryTone = (typeof STORY_TONES)[number];
 export const STORY_TITLE_STYLES = ['display', 'serif'] as const;
 export type StoryTitleStyle = (typeof STORY_TITLE_STYLES)[number];
@@ -178,7 +178,7 @@ export function validateStory(story: StoryContent): string | null {
   if (story.title.length > 60) return 'Keep the title under 60 characters.';
   if (!STORY_TITLE_STYLES.includes(story.titleStyle)) return 'Pick a title style.';
   if (!STORY_TONES.includes(story.titleTone) || !STORY_TONES.includes(story.subtitleTone) || !STORY_TONES.includes(story.linkTone)) {
-    return 'Pick a story color.';
+    return 'Pick mustard or cream.';
   }
   if (story.subtitle.length > 120) return 'Keep the subtitle under 120 characters.';
   if (!story.body.trim()) return 'Add body text.';
@@ -208,10 +208,19 @@ export function mergeHomeContent(rows: { key: string; data: Json }[]): HomeConte
   };
   const ribbon = byKey.get('ribbon');
   const storyMerged = pick(defaultHomeContent.story, byKey.get('story'));
-  const story =
+  // Legacy rows may still store forest ink — coerce to cream on the forest surface.
+  const coerceTone = (tone: StoryTone | string): StoryTone =>
+    STORY_TONES.includes(tone as StoryTone) ? (tone as StoryTone) : 'cream';
+  const storyNormalized =
     storyMerged.mediaKind === 'video' || storyMerged.mediaKind === 'image'
-      ? storyMerged
+      ? {
+          ...storyMerged,
+          titleTone: coerceTone(storyMerged.titleTone),
+          subtitleTone: coerceTone(storyMerged.subtitleTone),
+          linkTone: coerceTone(storyMerged.linkTone),
+        }
       : defaultHomeContent.story;
+  const story = storyNormalized;
   const cards = defaultHomeContent.cards.map((card, i) => {
     const merged = pick(card, byKey.get(`card-${i + 1}`));
     return validateCard(merged) ? card : merged;
