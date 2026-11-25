@@ -18,8 +18,12 @@ export {
   type HeroContent,
   type HomeContent,
   type OfferingCard,
+  STORY_TONES,
+  STORY_TITLE_STYLES,
   type StoryContent,
   type StoryMediaKind,
+  type StoryTitleStyle,
+  type StoryTone,
 } from './home-shared';
 
 export const homeContentQueryOptions = queryOptions({

@@ -25,7 +25,7 @@ describe('home content', () => {
   it('stores editable ribbon text', () => {
     expect(mergeHomeContent([{ key: 'ribbon', data: { text: 'Ciao' } }]).ribbon).toBe('Ciao');
   });
-  it('merges story media kind and urls', () => {
+  it('merges story media kind, copy and tones', () => {
     const story = mergeHomeContent([
       {
         key: 'story',
@@ -36,15 +36,40 @@ describe('home content', () => {
           imageUrl: '/media/story.jpg',
           imageAlt: 'Our dining room',
           caption: 'About us',
+          title: 'Ciao\nBottega.',
+          titleStyle: 'serif',
+          titleTone: 'cream',
+          subtitle: 'Come sit with us.',
+          subtitleTone: 'mustard',
+          body: 'First paragraph.\n\nSecond.',
+          linkLabel: 'Join',
+          linkHref: '#club',
+          linkTone: 'cream',
         },
       },
     ]).story;
     expect(story.mediaKind).toBe('image');
     expect(story.imageUrl).toBe('/media/story.jpg');
-    expect(story.imageAlt).toBe('Our dining room');
     expect(story.caption).toBe('About us');
+    expect(story.titleStyle).toBe('serif');
+    expect(story.titleTone).toBe('cream');
+    expect(story.linkLabel).toBe('Join');
   });
-  it('hides the arch pill when caption is empty', () => {
-    expect(defaultHomeContent.story.caption).toBe('');
+  it('fills missing story copy from defaults', () => {
+    const story = mergeHomeContent([
+      {
+        key: 'story',
+        data: {
+          mediaKind: 'video',
+          videoUrl: defaultHomeContent.story.videoUrl,
+          posterUrl: defaultHomeContent.story.posterUrl,
+          imageUrl: defaultHomeContent.story.imageUrl,
+          imageAlt: defaultHomeContent.story.imageAlt,
+          caption: '',
+        },
+      },
+    ]).story;
+    expect(story.title).toBe(defaultHomeContent.story.title);
+    expect(story.body).toContain('Judgment-free');
   });
 });

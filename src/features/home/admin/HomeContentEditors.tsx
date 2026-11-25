@@ -9,8 +9,11 @@ import { uploadTileMedia } from '@/lib/gallery/gallery-api';
 import {
   CARD_SHAPES,
   CARD_VARIANTS,
+  defaultHomeContent,
   homeContentQueryOptions,
   saveHomeContent,
+  STORY_TITLE_STYLES,
+  STORY_TONES,
   validateCard,
   validateHero,
   validateRibbon,
@@ -18,6 +21,7 @@ import {
   type HeroContent,
   type OfferingCard,
   type StoryContent,
+  type StoryTone,
 } from '@/lib/home/home-content';
 import { menuSections as fallbackMenu } from '@/lib/menu-data';
 import { menuQueryOptions } from '@/lib/menu/menu-api';
@@ -141,8 +145,25 @@ function EditShell<T>({ label, contentKey, initial, withImage, validate, toData,
 }
 
 const multiline = 'Use | where the text should break onto a new line.';
+const bodyHint = 'Use | for a line break. Use || between paragraphs.';
 const toBar = (text: string) => text.replace(/\n/g, ' | ');
 const fromBar = (text: string) => text.replace(/\s*\|\s*/g, '\n');
+const bodyToBar = (text: string) =>
+  text
+    .split(/\n\n+/)
+    .map((p) => p.replace(/\n/g, ' | '))
+    .join(' || ');
+const bodyFromBar = (text: string) =>
+  text
+    .split(/\s*\|\|\s*/)
+    .map((p) => p.replace(/\s*\|\s*/g, '\n').trim())
+    .filter(Boolean)
+    .join('\n\n');
+const storyToneLabel: Record<StoryTone, string> = {
+  mustard: 'Mustard',
+  cream: 'Cream',
+  forest: 'Forest',
+};
 
 export function HeroEditor({ hero }: { hero: HeroContent }) {
   return (
@@ -203,14 +224,16 @@ export function StoryEditor({ story }: { story: StoryContent }) {
 
   const start = () => {
     const saved = readDraft<StoryContent>(key);
-    setDraft(saved && isDirty(saved, story) ? saved : story);
+    // Fill any new story fields missing from older drafts / D1 rows.
+    const base: StoryContent = { ...defaultHomeContent.story, ...story };
+    setDraft(saved && isDirty(saved, base) ? { ...base, ...saved } : base);
     setError(null);
     setOpen(true);
   };
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
-    const next: StoryContent = { ...draft };
+    const next: StoryContent = { ...defaultHomeContent.story, ...draft };
     if (file) {
       next.mediaKind = file.type.startsWith('video/') ? 'video' : 'image';
     }
@@ -301,6 +324,92 @@ export function StoryEditor({ story }: { story: StoryContent }) {
               disabled={saving}
               onChange={(e) => setDraft({ ...draft, caption: e.target.value })}
             />
+            <TextField
+              label="Title"
+              hint={multiline}
+              value={toBar(draft.title ?? '')}
+              disabled={saving}
+              onChange={(e) => setDraft({ ...draft, title: fromBar(e.target.value) })}
+            />
+            <fieldset className="home-edit-choices" disabled={saving}>
+              <legend className="bt-field__label">Title style</legend>
+              {STORY_TITLE_STYLES.map((style) => (
+                <Radio
+                  key={style}
+                  name="story-title-style"
+                  checked={draft.titleStyle === style}
+                  onChange={() => setDraft({ ...draft, titleStyle: style })}
+                >
+                  {style === 'display' ? 'Bold poster' : 'Elegant serif'}
+                </Radio>
+              ))}
+            </fieldset>
+            <fieldset className="home-edit-choices" disabled={saving}>
+              <legend className="bt-field__label">Title color</legend>
+              {STORY_TONES.map((tone) => (
+                <Radio
+                  key={tone}
+                  name="story-title-tone"
+                  checked={draft.titleTone === tone}
+                  onChange={() => setDraft({ ...draft, titleTone: tone })}
+                >
+                  {storyToneLabel[tone]}
+                </Radio>
+              ))}
+            </fieldset>
+            <TextField
+              label="Subtitle"
+              hint={multiline}
+              value={toBar(draft.subtitle ?? '')}
+              disabled={saving}
+              onChange={(e) => setDraft({ ...draft, subtitle: fromBar(e.target.value) })}
+            />
+            <fieldset className="home-edit-choices" disabled={saving}>
+              <legend className="bt-field__label">Subtitle color</legend>
+              {STORY_TONES.map((tone) => (
+                <Radio
+                  key={tone}
+                  name="story-subtitle-tone"
+                  checked={draft.subtitleTone === tone}
+                  onChange={() => setDraft({ ...draft, subtitleTone: tone })}
+                >
+                  {storyToneLabel[tone]}
+                </Radio>
+              ))}
+            </fieldset>
+            <TextField
+              label="Body"
+              hint={bodyHint}
+              value={bodyToBar(draft.body ?? '')}
+              disabled={saving}
+              onChange={(e) => setDraft({ ...draft, body: bodyFromBar(e.target.value) })}
+            />
+            <TextField
+              label="Link label"
+              value={draft.linkLabel ?? ''}
+              disabled={saving}
+              onChange={(e) => setDraft({ ...draft, linkLabel: e.target.value })}
+            />
+            <TextField
+              label="Link URL"
+              hint="e.g. #club, /menu, https://… or mailto:…"
+              value={draft.linkHref ?? ''}
+              disabled={saving}
+              onChange={(e) => setDraft({ ...draft, linkHref: e.target.value })}
+            />
+            <fieldset className="home-edit-choices" disabled={saving}>
+              <legend className="bt-field__label">Link color</legend>
+              {STORY_TONES.map((tone) => (
+                <Radio
+                  key={tone}
+                  name="story-link-tone"
+                  checked={draft.linkTone === tone}
+                  onChange={() => setDraft({ ...draft, linkTone: tone })}
+                >
+                  {storyToneLabel[tone]}
+                </Radio>
+              ))}
+            </fieldset>
             {error && (
               <p className="bt-field__hint bt-field__hint--error" role="alert">
                 {error}

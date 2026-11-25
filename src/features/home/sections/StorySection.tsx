@@ -1,10 +1,29 @@
+import { Fragment } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { Display, LinkAction, PillLabel, Serif } from '@/design-system/bottega-f5161c';
 import { MovingRibbon } from '@/components/media/MovingRibbon';
 import { StoryVideo } from '@/components/media/StoryVideo';
 import { useStaffSession } from '@/hooks/useStaffSession';
-import { defaultHomeContent, homeContentQueryOptions } from '@/lib/home/home-content';
+import { defaultHomeContent, homeContentQueryOptions, lines } from '@/lib/home/home-content';
+import { Broken } from './HeroSection';
 import { RibbonEditor, StoryEditor } from '../admin/HomeContentEditors';
+
+function StoryBody({ text }: { text: string }) {
+  return text
+    .split(/\n\n+/)
+    .map((para) => para.trim())
+    .filter(Boolean)
+    .map((para, i) => (
+      <p key={i}>
+        {lines(para).map((line, j) => (
+          <Fragment key={j}>
+            {j > 0 && <br />}
+            {line}
+          </Fragment>
+        ))}
+      </p>
+    ));
+}
 
 export function StorySection() {
   const { data = defaultHomeContent } = useQuery(homeContentQueryOptions);
@@ -33,26 +52,31 @@ export function StorySection() {
           )}
           {isAdmin && <StoryEditor story={story} />}
         </div>
-        <div>
+        <div className="story-copy-block">
           <div className="story-heading">
-            <Display size="xl" tone="mustard">
-              Bottega
-              <br />
-              Pasta Club.
-            </Display>
+            {story.titleStyle === 'serif' ? (
+              <Serif as="h2" size="lg" tone={story.titleTone}>
+                <Broken text={story.title} />
+              </Serif>
+            ) : (
+              <Display as="h2" size="xl" tone={story.titleTone}>
+                <Broken text={story.title} />
+              </Display>
+            )}
           </div>
-          <Serif size="lg" tone="cream">
-            The place to meet, eat,
-            <br />
-            and celebrate life.
-          </Serif>
+          {story.subtitle.trim() ? (
+            <Serif size="lg" tone={story.subtitleTone}>
+              <Broken text={story.subtitle} />
+            </Serif>
+          ) : null}
           <div className="story-copy">
-            <p>Judgment-free and full of carbs. A haven where joy is served on a plate alongside a slice of bread.</p>
-            <p>With a cannolo in hand and an espresso in the other, we cin cin for a place that feels like home.</p>
+            <StoryBody text={story.body} />
           </div>
-          <LinkAction href="#club" tone="mustard">
-            Come join the club
-          </LinkAction>
+          {story.linkLabel.trim() ? (
+            <LinkAction href={story.linkHref.trim()} tone={story.linkTone}>
+              {story.linkLabel.trim()}
+            </LinkAction>
+          ) : null}
         </div>
       </div>
     </section>

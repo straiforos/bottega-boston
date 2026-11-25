@@ -13,6 +13,11 @@ export const CARD_SHAPES = ['rect', 'arch'] as const;
 export type CardVariant = (typeof CARD_VARIANTS)[number];
 export type CardShape = (typeof CARD_SHAPES)[number];
 export type StoryMediaKind = 'video' | 'image';
+/** Ink tones that stay legible on the forest About surface. */
+export const STORY_TONES = ['mustard', 'cream', 'forest'] as const;
+export type StoryTone = (typeof STORY_TONES)[number];
+export const STORY_TITLE_STYLES = ['display', 'serif'] as const;
+export type StoryTitleStyle = (typeof STORY_TITLE_STYLES)[number];
 
 export interface HeroContent {
   headline: string;
@@ -30,6 +35,16 @@ export interface StoryContent {
   imageAlt: string;
   /** Pill on the arch; empty hides it. */
   caption: string;
+  title: string;
+  titleStyle: StoryTitleStyle;
+  titleTone: StoryTone;
+  subtitle: string;
+  subtitleTone: StoryTone;
+  /** Body copy; paragraphs separated by blank lines. */
+  body: string;
+  linkLabel: string;
+  linkHref: string;
+  linkTone: StoryTone;
 }
 
 export interface OfferingCard {
@@ -69,6 +84,15 @@ export const defaultHomeContent: HomeContent = {
     imageUrl: videoPoster.url,
     imageAlt: 'Bottega Pasta Club — meet, eat, and celebrate life',
     caption: '',
+    title: 'Bottega\nPasta Club.',
+    titleStyle: 'display',
+    titleTone: 'mustard',
+    subtitle: 'The place to meet, eat,\nand celebrate life.',
+    subtitleTone: 'cream',
+    body: 'Judgment-free and full of carbs. A haven where joy is served on a plate alongside a slice of bread.\n\nWith a cannolo in hand and an espresso in the other, we cin cin for a place that feels like home.',
+    linkLabel: 'Come join the club',
+    linkHref: '#club',
+    linkTone: 'mustard',
   },
   cards: [
     {
@@ -149,7 +173,19 @@ export function validateRibbon(text: string): string | null {
 
 export function validateStory(story: StoryContent): string | null {
   if (story.mediaKind !== 'video' && story.mediaKind !== 'image') return 'Pick video or image.';
-  if (story.caption.length > 40) return 'Keep the caption under 40 characters.';
+  if (story.caption.length > 40) return 'Keep the media label under 40 characters.';
+  if (!story.title.trim()) return 'Add a title.';
+  if (story.title.length > 60) return 'Keep the title under 60 characters.';
+  if (!STORY_TITLE_STYLES.includes(story.titleStyle)) return 'Pick a title style.';
+  if (!STORY_TONES.includes(story.titleTone) || !STORY_TONES.includes(story.subtitleTone) || !STORY_TONES.includes(story.linkTone)) {
+    return 'Pick a story color.';
+  }
+  if (story.subtitle.length > 120) return 'Keep the subtitle under 120 characters.';
+  if (!story.body.trim()) return 'Add body text.';
+  if (story.body.length > 600) return 'Keep the body under 600 characters.';
+  if (story.linkLabel.trim() && !isSafeHref(story.linkHref)) {
+    return 'Links must start with /, #, https://, mailto: or tel:.';
+  }
   if (story.mediaKind === 'video') {
     if (!story.videoUrl.trim()) return 'Add a video.';
   } else {
