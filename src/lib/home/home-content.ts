@@ -25,7 +25,6 @@ export {
   type StoryTitleStyle,
   type StoryTone,
 } from './home-shared';
-
 export const homeContentQueryOptions = queryOptions({
   queryKey: ['home-content'],
   queryFn: () => fetchHomeContent(),

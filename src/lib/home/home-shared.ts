@@ -72,7 +72,7 @@ export const defaultHomeContent: HomeContent = {
     headline: '#PASTAISLIFE',
     showStamp: true,
     stamp: 'Buona\nSemplice\nItalian.',
-    // Photo URL comes from D1 `home_content` (SSR); never a bundled asset JSON.
+    // Photo URL is D1-only (`home_content` via SSR). Empty until the row is present.
     imageUrl: '',
     imageAlt: 'A woman in sunglasses eating Bottega pasta at a marble table under the #PASTA IS LIFE neon',
   },
@@ -198,13 +198,28 @@ export function validateStory(story: StoryContent): string | null {
 
 const isObject = (v: unknown): v is Record<string, unknown> => typeof v === 'object' && v !== null && !Array.isArray(v);
 
+/** D1/SQL migrations may leave `data` as a JSON string; normalize before merge. */
+function rowData(data: unknown): unknown {
+  if (typeof data !== 'string') return data;
+  try {
+    return JSON.parse(data) as unknown;
+  } catch {
+    return null;
+  }
+}
+
 /** Pure: overlay stored rows on the defaults, ignoring unknown or malformed values. */
 export function mergeHomeContent(rows: { key: string; data: Json }[]): HomeContent {
-  const byKey = new Map(rows.map((r) => [r.key, r.data as unknown]));
+  const byKey = new Map(rows.map((r) => [r.key, rowData(r.data)]));
   const pick = <T extends object>(base: T, raw: unknown): T => {
     if (!isObject(raw)) return base;
     const out = { ...base } as Record<string, unknown>;
-    for (const [k, v] of Object.entries(base)) if (typeof raw[k] === typeof v) out[k] = raw[k];
+    for (const [k, v] of Object.entries(base)) {
+      if (typeof raw[k] !== typeof v) continue;
+      // Ignore blank strings so a partial D1 row cannot wipe a real photo URL.
+      if (typeof v === 'string' && typeof raw[k] === 'string' && !raw[k].trim()) continue;
+      out[k] = raw[k];
+    }
     return out as T;
   };
   const ribbon = byKey.get('ribbon');

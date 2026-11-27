@@ -1,6 +1,5 @@
 import { links, orderLocations } from '@/content/links';
 import { restaurantContent } from '@/content/en/restaurant';
-import { DEFAULT_OG_IMAGE } from './page-head';
 import { absoluteUrl } from './absolute-url';
 
 type Location = (typeof orderLocations)[number];
@@ -13,7 +12,7 @@ const HOURS_BY_LABEL: Record<string, string[]> = {
 
 /** Schema.org Restaurant graph for both shops (NAP, hours, geo, OrderAction). */
 export function buildRestaurantJsonLd(orderUrls: OrderUrlMap = {}, imageUrl?: string) {
-  const image = absoluteUrl(imageUrl?.trim() || DEFAULT_OG_IMAGE);
+  const image = imageUrl?.trim() ? absoluteUrl(imageUrl.trim()) : undefined;
   const graph = orderLocations.map((location) =>
     restaurantNode(location, orderUrls[location.id], image),
   );
@@ -23,7 +22,7 @@ export function buildRestaurantJsonLd(orderUrls: OrderUrlMap = {}, imageUrl?: st
   };
 }
 
-function restaurantNode(location: Location, orderUrl: string | undefined, image: string) {
+function restaurantNode(location: Location, orderUrl: string | undefined, image: string | undefined) {
   const { streetAddress, addressLocality, addressRegion, postalCode } = parseAddress(location);
   return {
     '@type': 'Restaurant',
@@ -33,7 +32,7 @@ function restaurantNode(location: Location, orderUrl: string | undefined, image:
     servesCuisine: 'Italian',
     telephone: links.phone,
     email: links.email,
-    image,
+    ...(image ? { image } : {}),
     sameAs: [links.instagram, links.facebook],
     address: {
       '@type': 'PostalAddress',

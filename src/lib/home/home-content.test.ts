@@ -30,12 +30,18 @@ describe('home content', () => {
     expect(h.showStamp).toBe(false);
     expect(validateHero({ ...h, stamp: '' })).toBeNull();
   });
-  it('takes hero photo URL from D1 only (no bundled asset default)', () => {
+  it('takes hero photo from D1 only (including JSON-string rows)', () => {
     expect(defaultHomeContent.hero.imageUrl).toBe('');
-    const h = mergeHomeContent([
-      { key: 'hero', data: { imageUrl: '/media/gallery-media/home-hero/1794657982060-hq.webp' } },
-    ]).hero;
-    expect(h.imageUrl).toBe('/media/gallery-media/home-hero/1794657982060-hq.webp');
+    expect(mergeHomeContent([]).hero.imageUrl).toBe('');
+    expect(
+      mergeHomeContent([
+        {
+          key: 'hero',
+          // SQL migrations may persist `data` as text; merge must parse it.
+          data: '{"imageUrl":"/media/gallery-media/home-hero/1794657982060-hq.webp"}',
+        },
+      ]).hero.imageUrl,
+    ).toBe('/media/gallery-media/home-hero/1794657982060-hq.webp');
   });
   it('stores editable ribbon text', () => {
     expect(mergeHomeContent([{ key: 'ribbon', data: { text: 'Ciao' } }]).ribbon).toBe('Ciao');

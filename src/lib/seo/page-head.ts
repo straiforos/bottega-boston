@@ -1,16 +1,11 @@
 import { absoluteUrl } from './absolute-url';
 
-/**
- * Social fallback when a route does not pass an image from the home_content SSR
- * query. Same object as D1 migration 0014 (not a bundled asset JSON).
- */
-export const DEFAULT_OG_IMAGE = '/media/gallery-media/home-hero/1794657982060-hq.webp';
-
 export type GuestPageMeta = {
   title: string;
   description: string;
   socialDescription: string;
   path: string;
+  /** From SSR `home_content` (or another loader). Omit when unknown — no hardcoded hero fallback. */
   image?: string;
   robots?: string;
   twitterCard?: 'summary' | 'summary_large_image';
@@ -25,8 +20,8 @@ export type StaffPageMeta = {
 /** Canonical + Open Graph + Twitter tags for indexable guest pages. */
 export function pageHead(meta: GuestPageMeta) {
   const url = absoluteUrl(meta.path);
-  const image = absoluteUrl(meta.image?.trim() || DEFAULT_OG_IMAGE);
-  const card = meta.twitterCard ?? 'summary_large_image';
+  const image = meta.image?.trim() ? absoluteUrl(meta.image.trim()) : null;
+  const card = meta.twitterCard ?? (image ? 'summary_large_image' : 'summary');
 
   return {
     meta: [
@@ -36,12 +31,16 @@ export function pageHead(meta: GuestPageMeta) {
       { property: 'og:description', content: meta.socialDescription },
       { property: 'og:type', content: 'website' },
       { property: 'og:url', content: url },
-      { property: 'og:image', content: image },
       { property: 'og:site_name', content: 'Bottega' },
       { name: 'twitter:card', content: card },
       { name: 'twitter:title', content: meta.title },
       { name: 'twitter:description', content: meta.socialDescription },
-      { name: 'twitter:image', content: image },
+      ...(image
+        ? [
+            { property: 'og:image' as const, content: image },
+            { name: 'twitter:image' as const, content: image },
+          ]
+        : []),
       ...(meta.robots ? [{ name: 'robots' as const, content: meta.robots }] : []),
     ],
     links: [{ rel: 'canonical' as const, href: url }],
