@@ -1,7 +1,6 @@
 import type { Json } from '@/lib/json';
 import { links } from '@/content/links';
 import { restaurantContent } from '@/content/en/restaurant';
-import hero from '@/assets/hero.asset.json';
 import coffee from '@/assets/coffee.asset.json';
 import pastaFood from '@/assets/the-food.asset.json';
 import mercatino from '@/assets/mercatino.jpg.asset.json';
@@ -73,7 +72,8 @@ export const defaultHomeContent: HomeContent = {
     headline: '#PASTAISLIFE',
     showStamp: true,
     stamp: 'Buona\nSemplice\nItalian.',
-    imageUrl: hero.url,
+    // Photo URL comes from D1 `home_content` (SSR); never a bundled asset JSON.
+    imageUrl: '',
     imageAlt: 'A woman in sunglasses eating Bottega pasta at a marble table under the #PASTA IS LIFE neon',
   },
   ribbon: restaurantContent.home.familyIsLife,
@@ -160,6 +160,7 @@ export function validateCard(card: OfferingCard): string | null {
 export function validateHero(hero: HeroContent): string | null {
   if (!hero.headline.trim()) return 'Add a headline.';
   if (hero.headline.length > 24) return 'Keep the headline under 24 characters.';
+  if (!hero.imageUrl.trim()) return 'Add a photo.';
   if (!hero.imageAlt.trim()) return 'Describe the photo for people using screen readers.';
   if (hero.showStamp && !hero.stamp.trim()) return 'Add stamp text or hide the stamp.';
   return null;

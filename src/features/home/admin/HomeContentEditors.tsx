@@ -74,20 +74,21 @@ function EditShell<T>({ label, contentKey, initial, withImage, validate, toData,
 
   const submit = async (event: FormEvent) => {
     event.preventDefault();
-    const problem = validate(draft);
-    if (problem) {
-      setError(problem);
-      show({ message: problem, variant: 'danger' });
-      return;
-    }
     setSaving(true);
     setError(null);
     try {
+      // Upload first so validate sees the final imageUrl (hero is DB-backed, no asset default).
       const url = file ? await uploadImage(contentKey, file, (f) => setProgress(Math.round(f * 100))) : null;
       const saved = toData(draft, url);
+      const problem = validate(saved as T);
+      if (problem) {
+        setError(problem);
+        show({ message: problem, variant: 'danger' });
+        return;
+      }
       await saveHomeContent(contentKey, saved);
-      // Patch only — do not invalidate/refetch (that remounts with bundled defaults
-      // for a frame when the QueryClient was empty or D1 read lags the write).
+      // Patch only — do not invalidate/refetch (avoids a frame of empty hero when
+      // the QueryClient was empty or D1 read lags the write).
       queryClient.setQueryData<HomeContent>(homeContentQueryOptions.queryKey, (prev) => {
         const base = prev ?? defaultHomeContent;
         if (contentKey === 'ribbon') return { ...base, ribbon: String((saved as { text?: string }).text ?? base.ribbon) };

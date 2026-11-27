@@ -1,8 +1,10 @@
-import { defaultHomeContent } from '@/lib/home/home-shared';
 import { absoluteUrl } from './absolute-url';
 
-/** Same photo the home hero loads (bundled default; live URL comes from home_content). */
-export const DEFAULT_OG_IMAGE = defaultHomeContent.hero.imageUrl;
+/**
+ * Social fallback when a route does not pass an image from the home_content SSR
+ * query. Same object as D1 migration 0014 (not a bundled asset JSON).
+ */
+export const DEFAULT_OG_IMAGE = '/media/gallery-media/home-hero/1794657982060-hq.webp';
 
 export type GuestPageMeta = {
   title: string;
@@ -23,7 +25,7 @@ export type StaffPageMeta = {
 /** Canonical + Open Graph + Twitter tags for indexable guest pages. */
 export function pageHead(meta: GuestPageMeta) {
   const url = absoluteUrl(meta.path);
-  const image = absoluteUrl(meta.image ?? DEFAULT_OG_IMAGE);
+  const image = absoluteUrl(meta.image?.trim() || DEFAULT_OG_IMAGE);
   const card = meta.twitterCard ?? 'summary_large_image';
 
   return {

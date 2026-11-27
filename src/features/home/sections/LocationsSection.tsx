@@ -85,9 +85,12 @@ export function LocationsSection({ title, lead, headingAs = 'h2' }: LocationsSec
     enabled: cachedHome === undefined,
     initialData: cachedHome,
   });
-  const heroImageUrl = homeContent?.hero.imageUrl ?? defaultHomeContent.hero.imageUrl;
+  const heroImageUrl = homeContent?.hero.imageUrl?.trim();
 
-  const structuredData = buildRestaurantJsonLd(urls, heroImageUrl);
+  const structuredData = buildRestaurantJsonLd(
+    urls,
+    heroImageUrl || undefined,
+  );
 
   return (
     <section id="locations" className="locations-section bt-surface-light" aria-labelledby="locations-title">

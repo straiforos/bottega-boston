@@ -18,9 +18,24 @@ describe('home content', () => {
     expect(validateCard({ ...defaultHomeContent.cards[0], linkHref: 'javascript:alert(1)' })).not.toBeNull();
   });
   it('allows hiding the hero stamp', () => {
-    const h = mergeHomeContent([{ key: 'hero', data: { showStamp: false } }]).hero;
+    const h = mergeHomeContent([
+      {
+        key: 'hero',
+        data: {
+          showStamp: false,
+          imageUrl: '/media/gallery-media/home-hero/1794657982060-hq.webp',
+        },
+      },
+    ]).hero;
     expect(h.showStamp).toBe(false);
     expect(validateHero({ ...h, stamp: '' })).toBeNull();
+  });
+  it('takes hero photo URL from D1 only (no bundled asset default)', () => {
+    expect(defaultHomeContent.hero.imageUrl).toBe('');
+    const h = mergeHomeContent([
+      { key: 'hero', data: { imageUrl: '/media/gallery-media/home-hero/1794657982060-hq.webp' } },
+    ]).hero;
+    expect(h.imageUrl).toBe('/media/gallery-media/home-hero/1794657982060-hq.webp');
   });
   it('stores editable ribbon text', () => {
     expect(mergeHomeContent([{ key: 'ribbon', data: { text: 'Ciao' } }]).ribbon).toBe('Ciao');

@@ -21,7 +21,9 @@ export function HeroSection() {
   // CI prerender has no D1 (`homeFromServer` false) — keep the forest frame;
   // live SSR and post-fetch client paint the real URL (and fade it in).
   const hero = home.hero;
-  const imageUrl = homeFromServer || isFetchedAfterMount ? hero.imageUrl : null;
+  // Photo only from D1 via SSR/loader — never paint an empty or bundled stand-in.
+  const imageUrl =
+    (homeFromServer || isFetchedAfterMount) && hero.imageUrl.trim() ? hero.imageUrl : null;
   const [photoReady, setPhotoReady] = useState(false);
 
   useEffect(() => {

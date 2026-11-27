@@ -1,6 +1,6 @@
 import { links, orderLocations } from '@/content/links';
 import { restaurantContent } from '@/content/en/restaurant';
-import { defaultHomeContent } from '@/lib/home/home-shared';
+import { DEFAULT_OG_IMAGE } from './page-head';
 import { absoluteUrl } from './absolute-url';
 
 type Location = (typeof orderLocations)[number];
@@ -12,11 +12,8 @@ const HOURS_BY_LABEL: Record<string, string[]> = {
 };
 
 /** Schema.org Restaurant graph for both shops (NAP, hours, geo, OrderAction). */
-export function buildRestaurantJsonLd(
-  orderUrls: OrderUrlMap = {},
-  imageUrl: string = defaultHomeContent.hero.imageUrl,
-) {
-  const image = absoluteUrl(imageUrl);
+export function buildRestaurantJsonLd(orderUrls: OrderUrlMap = {}, imageUrl?: string) {
+  const image = absoluteUrl(imageUrl?.trim() || DEFAULT_OG_IMAGE);
   const graph = orderLocations.map((location) =>
     restaurantNode(location, orderUrls[location.id], image),
   );
