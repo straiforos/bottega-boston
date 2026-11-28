@@ -28,8 +28,8 @@ export {
 export const homeContentQueryOptions = queryOptions({
   queryKey: ['home-content'],
   queryFn: () => fetchHomeContent(),
-  // Home page reads via loader + cache subscription; skip mount/focus refetches
-  // that replace the tree and flash bundled About/offerings defaults.
+  // Loader seeds the cache; skip focus refetches that flash empty hero/About defaults.
+  // Mount refetch is gated in useHomeContent when hero.imageUrl is still empty.
   staleTime: Infinity,
   refetchOnMount: false,
   refetchOnWindowFocus: false,

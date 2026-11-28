@@ -7,19 +7,19 @@ const siteRoute = getRouteApi('/_site');
 const HOME_KEY0 = homeContentQueryOptions.queryKey[0];
 
 /**
- * Home `home_content` from the `/_site` loader (SSR D1 query, dehydrated).
+ * Home `home_content` from the `/_site` loader (SSR D1 query).
  *
  * Browser QueryClient starts empty — `getServerSnapshot` always returns loader
  * `home` so hydration matches SSR HTML. Staff saves patch the cache; we
  * subscribe so the page updates without a remount refetch flash.
+ *
+ * If the loader had no photo (prerender/CI without D1), fetch once on the client.
  */
 export function useHomeContent() {
   const { home, homeFromServer } = siteRoute.useLoaderData();
   const queryClient = useQueryClient();
   const [mounted, setMounted] = useState(false);
 
-  // Lazy-prime during render (before siblings like LocationsSection subscribe)
-  // so nothing kicks a client fetch of empty hero defaults over SSR HTML.
   if (queryClient.getQueryData(homeContentQueryOptions.queryKey) === undefined) {
     queryClient.setQueryData(homeContentQueryOptions.queryKey, home);
   }
@@ -27,6 +27,12 @@ export function useHomeContent() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  useEffect(() => {
+    const cached = queryClient.getQueryData<HomeContent>(homeContentQueryOptions.queryKey) ?? home;
+    if (homeFromServer && cached.hero.imageUrl.trim()) return;
+    void queryClient.fetchQuery(homeContentQueryOptions);
+  }, [home, homeFromServer, queryClient]);
 
   const data = useSyncExternalStore(
     (onStoreChange) =>
@@ -40,7 +46,6 @@ export function useHomeContent() {
   return {
     data,
     homeFromServer,
-    /** True after client mount — hero may paint once hydrated if SSR had no D1. */
     isFetchedAfterMount: mounted,
   };
 }

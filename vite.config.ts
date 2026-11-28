@@ -40,7 +40,10 @@ export default defineConfig(({ command, isPreview }) => {
           enabled: true,
           crawlLinks: true,
           failOnError: true,
+          // Home needs a live D1 read for hero.imageUrl — prerender has no DB, so
+          // leave `/` to the Worker SSR on each request (see `/_site` loader).
           filter: ({ path }) =>
+            path !== '/' &&
             !path.includes('#') &&
             !path.startsWith('/admin') &&
             !path.startsWith('/emails') &&
@@ -52,7 +55,6 @@ export default defineConfig(({ command, isPreview }) => {
             !path.includes('__component'),
         },
         pages: [
-          { path: '/' },
           { path: '/menu' },
           { path: '/order' },
           { path: '/catering' },
